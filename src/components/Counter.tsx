@@ -2,54 +2,64 @@
 import { motion } from "framer-motion";
 import { AnimatedCounter } from "./ui/animated-counter";
 import { cn } from "@/utils/cn";
+import { 
+  FaYoutube, 
+  FaVideo, 
+  FaCommentAlt, 
+  FaInstagram, 
+  FaGlobeEurope, 
+  FaDiscord, 
+  FaClock, 
+  FaUsers 
+} from "react-icons/fa";
 
 const stats = [
   {
     value: 8444,
     label: "YouTube Abonnenten",
-    icon: "👥",
+    icon: FaUsers,
     gradient: "from-red-500 via-red-400 to-red-500"
   },
   {
-    value: 3335000,
+    value: 3500000,
     label: "YouTube Views",
-    icon: "👁️",
+    icon: FaYoutube,
     gradient: "from-blue-500 via-blue-400 to-blue-500"
   },
   {
-    value: 520,
+    value: 420,
     label: "Videos",
-    icon: "🎥",
+    icon: FaVideo,
     gradient: "from-purple-500 via-purple-400 to-purple-500"
   },
   {
-    value: 78000,
+    value: 88000,
     label: "YouTube Kommentare",
-    icon: "💬",
+    icon: FaCommentAlt,
     gradient: "from-green-500 via-green-400 to-green-500"
   },
   {
     value: 198500,
     label: "Watch Time (Stunden)",
-    icon: "⏰",
+    icon: FaClock,
     gradient: "from-yellow-500 via-yellow-400 to-yellow-500"
   },
   {
-    value: 1900,
+    value: 1850,
     label: "Instagram Follower",
-    icon: "📸",
+    icon: FaInstagram,
     gradient: "from-pink-500 via-pink-400 to-pink-500"
   },
   {
-    value: 7400,
+    value: 8200,
     label: "Forum Mitglieder",
-    icon: "🌐",
+    icon: FaGlobeEurope,
     gradient: "from-indigo-500 via-indigo-400 to-indigo-500"
   },
   {
     value: 3700,
     label: "Discord Mitglieder",
-    icon: "🎮",
+    icon: FaDiscord,
     gradient: "from-violet-500 via-violet-400 to-violet-500"
   }
 ];
@@ -85,9 +95,9 @@ export default function Counter() {
                 <div className="relative rounded-2xl p-8">
                   {/* Icon with glow */}
                   <div className="mb-4 inline-block relative">
-                    <span className="text-4xl relative z-10">{stat.icon}</span>
+                    <stat.icon className="text-4xl relative z-10" />
                     <div className="absolute inset-0 blur-sm opacity-50">
-                      <span className="text-4xl">{stat.icon}</span>
+                      <stat.icon className="text-4xl" />
                     </div>
                   </div>
                   
@@ -96,7 +106,10 @@ export default function Counter() {
                     "font-bold text-4xl bg-gradient-to-r bg-clip-text text-transparent",
                     stat.gradient
                   )}>
-                    <AnimatedCounter value={stat.value} />
+                    <AnimatedCounter 
+                      value={stat.value} 
+                      duration={2000} 
+                    />
                   </div>
                   
                   {/* Label */}

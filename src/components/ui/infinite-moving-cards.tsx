@@ -2,6 +2,7 @@
 
 import { cn } from "@/utils/cn";
 import React, { useEffect, useState } from "react";
+import { IconType } from "react-icons";
 
 export const InfiniteMovingCards = ({
   items,
@@ -12,7 +13,7 @@ export const InfiniteMovingCards = ({
 }: {
   items: {
     name: string;
-    icon: string;
+    icon: string | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
     color: string;
   }[];
   direction?: "left" | "right";
@@ -74,6 +75,13 @@ export const InfiniteMovingCards = ({
     }
   };
 
+  const renderIcon = (icon: string | React.ReactElement) => {
+    if (typeof icon === 'string') {
+      return <span className="text-4xl">{icon}</span>;
+    }
+    return icon;
+  };
+
   return (
     <div
       ref={containerRef}
@@ -107,8 +115,8 @@ export const InfiniteMovingCards = ({
               
               <div className="relative flex flex-col items-center justify-center gap-3">
                 <span className="text-4xl relative">
-                  {item.icon}
-                  <div className="absolute inset-0 blur-sm opacity-50">{item.icon}</div>
+                  {renderIcon(item.icon)}
+                  <div className="absolute inset-0 blur-sm opacity-50">{renderIcon(item.icon)}</div>
                 </span>
                 
                 <div className="relative">
