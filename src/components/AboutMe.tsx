@@ -12,6 +12,7 @@ interface GitHubStats {
   stars?: number;
   repos?: number;
   mainLanguages?: { [key: string]: number };
+  error?: string;
 }
 
 interface WakaTimeStats {
@@ -30,6 +31,29 @@ export default function AboutMe() {
   const [githubStats, setGithubStats] = useState<GitHubStats>({});
   const [wakaStats, setWakaStats] = useState<WakaTimeStats>({});
   const terminalRef = useRef<HTMLDivElement>(null);
+
+  // GitHub Stats Fetching
+  const fetchGitHubStats = async () => {
+    try {
+      const response = await fetch('/api/github');
+      const data = await response.json();
+      
+      if (data.error) {
+        throw new Error(data.message || 'Error fetching GitHub stats');
+      }
+
+      setGithubStats(data);
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      setGithubStats({
+        contributions: 0,
+        stars: 0,
+        repos: 0,
+        mainLanguages: {},
+        error: errorMessage
+      });
+    }
+  };
 
   const commands: Record<string, TerminalCommand> = {
     help: {
@@ -51,11 +75,19 @@ Focus: TypeScript, React, FiveM Development`
     },
     github: {
       description: 'Show GitHub statistics',
-      action: () => `GitHub Statistics:
-Contributions: ${githubStats.contributions || 'Loading...'}
-Stars: ${githubStats.stars || 'Loading...'}
-Repositories: ${githubStats.repos || 'Loading...'}
-Top Languages: ${Object.entries(githubStats.mainLanguages || {}).map(([lang, count]) => `${lang}: ${count}`).join(', ')}`
+      action: () => {
+        // Trigger a fresh fetch when the command is run
+        fetchGitHubStats();
+        
+        return `GitHub Statistics:
+Contributions: ${githubStats.contributions ?? 'Loading...'}
+Stars: ${githubStats.stars ?? 'Loading...'}
+Repositories: ${githubStats.repos ?? 'Loading...'}
+Top Languages: ${Object.entries(githubStats.mainLanguages || {})
+  .sort(([,a], [,b]) => (b as number) - (a as number))
+  .map(([lang, count]) => `${lang}: ${count}`)
+  .join(', ') || 'None found'}`
+      }
     },
     wakatime: {
       description: 'Display coding statistics',
@@ -98,41 +130,9 @@ Languages: Python, JavaScript, Lua`
   };
 
   useEffect(() => {
-    // GitHub Stats Fetching
-    const fetchGitHubStats = async () => {
-      const octokit = new Octokit({
-        auth: process.env.NEXT_PUBLIC_GITHUB_TOKEN
-      });
-      try {
-        const { data: user } = await octokit.users.getByUsername({
-          username: 'AchimSommer'
-        });
-        
-        const { data: repos } = await octokit.repos.listForUser({
-          username: 'AchimSommer'
-        });
-        
-        const languages: { [key: string]: number } = {};
-        for (const repo of repos) {
-          if (repo.language) {
-            languages[repo.language] = (languages[repo.language] || 0) + 1;
-          }
-        }
-
-        setGithubStats({
-          repos: user.public_repos,
-          stars: repos.reduce((acc, repo) => acc + repo.stargazers_count, 0),
-          mainLanguages: languages
-        });
-      } catch (error) {
-        console.error('Error fetching GitHub stats:', error);
-      }
-    };
-
     // WakaTime Stats Fetching
     const fetchWakaTimeStats = async () => {
       try {
-        console.log('Fetching WakaTime stats...');
         const response = await fetch('/api/wakatime');
         
         if (!response.ok) {
@@ -140,7 +140,6 @@ Languages: Python, JavaScript, Lua`
         }
 
         const data = await response.json();
-        console.log('WakaTime response:', data);
         
         if (data && data.data) {
           setWakaStats({
@@ -154,7 +153,6 @@ Languages: Python, JavaScript, Lua`
           throw new Error('Invalid WakaTime API response format');
         }
       } catch (error) {
-        console.error('Error fetching WakaTime stats:', error);
         setWakaStats({
           totalHours: 0,
           languages: []
