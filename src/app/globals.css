@@ -309,18 +309,25 @@ body {
 
 @keyframes scroll-marquee {
   from {
-    -webkit-transform: translateX(0);
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
   to {
-    -webkit-transform: translateX(calc(-50% - 1rem));
-    transform: translateX(calc(-50% - 1rem));
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
 .animate-scroll-marquee {
-  -webkit-animation: scroll-marquee var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite;
-  animation: scroll-marquee var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite;
+  animation: scroll-marquee 30s linear infinite;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+
+.animate-scroll-marquee:hover {
+  animation-play-state: paused;
 }
 
 .text-gradient {
@@ -337,4 +344,42 @@ body {
 
 .border-gradient {
   border-image: linear-gradient(to right, #3b82f6, #8b5cf6) 1;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee linear infinite;
+  animation-fill-mode: forwards;
+  animation-timing-function: linear;
+  transform: translateX(0);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@keyframes infinite-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-50% - 0.5rem));
+  }
+}
+
+.animate-infinite-scroll {
+  animation: infinite-scroll linear infinite;
+  animation-fill-mode: forwards;
+  transform: translateX(0);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }

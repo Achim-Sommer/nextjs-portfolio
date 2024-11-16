@@ -52,33 +52,124 @@ const iconMap: Record<string, IconType> = {
 };
 
 const skillsData = [
-  { name: "TypeScript", icon: SiTypescript, color: "from-blue-500 to-blue-600" },
-  { name: "React", icon: FaReact, color: "from-cyan-500 to-cyan-600" },
-  { name: "Next.js", icon: SiNextdotjs, color: "from-white to-gray-200" },
-  { name: "Django", icon: SiDjango, color: "from-green-500 to-green-600" },
-  { name: "Tailwind CSS", icon: SiTailwindcss, color: "from-teal-500 to-teal-600" },
-  { name: "Node.js", icon: FaNodeJs, color: "from-green-400 to-green-500" },
-  { name: "Lua", icon: SiLua, color: "from-blue-400 to-blue-500" },
-  { name: "JavaScript", icon: SiJavascript, color: "from-yellow-400 to-yellow-500" },
-  { name: "Git", icon: FaGitAlt, color: "from-orange-500 to-orange-600" },
-  { name: "HTML5", icon: FaHtml5, color: "from-red-500 to-red-600" },
-  { name: "CSS3", icon: FaCss3Alt, color: "from-blue-600 to-blue-700" },
-  { name: "SQL", icon: SiPostgresql, color: "from-purple-500 to-purple-600" },
+  { 
+    name: "TypeScript", 
+    icon: <SiTypescript className="text-3xl text-blue-500" />, 
+    color: "from-blue-500/20 via-blue-500/10 to-transparent"
+  },
+  { 
+    name: "React", 
+    icon: <FaReact className="text-3xl text-cyan-500" />, 
+    color: "from-cyan-500/20 via-cyan-500/10 to-transparent"
+  },
+  { 
+    name: "Next.js", 
+    icon: <SiNextdotjs className="text-3xl text-white" />, 
+    color: "from-white/20 via-white/10 to-transparent"
+  },
+  { 
+    name: "Django", 
+    icon: <SiDjango className="text-3xl text-green-500" />, 
+    color: "from-green-500/20 via-green-500/10 to-transparent"
+  },
+  { 
+    name: "Tailwind CSS", 
+    icon: <SiTailwindcss className="text-3xl text-teal-500" />, 
+    color: "from-teal-500/20 via-teal-500/10 to-transparent"
+  },
+  { 
+    name: "Node.js", 
+    icon: <FaNodeJs className="text-3xl text-green-500" />, 
+    color: "from-green-500/20 via-green-500/10 to-transparent"
+  },
+  { 
+    name: "Lua", 
+    icon: <SiLua className="text-3xl text-blue-500" />, 
+    color: "from-blue-500/20 via-blue-500/10 to-transparent"
+  },
+  { 
+    name: "JavaScript", 
+    icon: <SiJavascript className="text-3xl text-yellow-500" />, 
+    color: "from-yellow-500/20 via-yellow-500/10 to-transparent"
+  },
+  { 
+    name: "Git", 
+    icon: <FaGitAlt className="text-3xl text-orange-500" />, 
+    color: "from-orange-500/20 via-orange-500/10 to-transparent"
+  },
+  { 
+    name: "HTML5", 
+    icon: <FaHtml5 className="text-3xl text-orange-600" />, 
+    color: "from-orange-600/20 via-orange-600/10 to-transparent"
+  },
+  { 
+    name: "CSS3", 
+    icon: <FaCss3Alt className="text-3xl text-blue-600" />, 
+    color: "from-blue-600/20 via-blue-600/10 to-transparent"
+  },
+  { 
+    name: "SQL", 
+    icon: <SiPostgresql className="text-3xl text-blue-400" />, 
+    color: "from-blue-400/20 via-blue-400/10 to-transparent"
+  },
 ];
 
 const backendSkills = [
-  { name: "Node.js", icon: FaNodeJs, color: "from-green-500 to-green-600" },
-  { name: "Express", icon: SiExpress, color: "from-gray-400 to-gray-500" },
-  { name: "Django", icon: SiDjango, color: "from-green-600 to-green-700" },
-  { name: "PostgreSQL", icon: SiPostgresql, color: "from-blue-400 to-blue-500" },
-  { name: "MySQL", icon: SiMysql, color: "from-orange-400 to-orange-500" },
-  { name: "MongoDB", icon: SiMongodb, color: "from-green-400 to-green-500" },
-  { name: "REST APIs", icon: SiNextdotjs, color: "from-purple-400 to-purple-500" },
-  { name: "Git", icon: FaGitAlt, color: "from-orange-500 to-orange-600" },
-  { name: "Docker", icon: SiDocker, color: "from-blue-500 to-blue-600" },
-  { name: "Linux", icon: FaLinux, color: "from-yellow-600 to-yellow-700" },
-  { name: "Windows", icon: FaWindows, color: "from-blue-600 to-blue-700" },
-  { name: "MacOS", icon: FaApple, color: "from-gray-600 to-gray-700" },
+  { 
+    name: "Express", 
+    icon: <SiExpress className="text-3xl text-white" />, 
+    color: "from-white/20 via-white/10 to-transparent"
+  },
+  { 
+    name: "PostgreSQL", 
+    icon: <SiPostgresql className="text-3xl text-blue-400" />, 
+    color: "from-blue-400/20 via-blue-400/10 to-transparent"
+  },
+  { 
+    name: "MongoDB", 
+    icon: <SiMongodb className="text-3xl text-green-500" />, 
+    color: "from-green-500/20 via-green-500/10 to-transparent"
+  },
+  { 
+    name: "Docker", 
+    icon: <SiDocker className="text-3xl text-blue-500" />, 
+    color: "from-blue-500/20 via-blue-500/10 to-transparent"
+  },
+  { 
+    name: "Git", 
+    icon: <FaGitAlt className="text-3xl text-orange-500" />, 
+    color: "from-orange-500/20 via-orange-500/10 to-transparent"
+  },
+  { 
+    name: "Linux", 
+    icon: <FaLinux className="text-3xl text-yellow-500" />, 
+    color: "from-yellow-500/20 via-yellow-500/10 to-transparent"
+  },
+  { 
+    name: "Django", 
+    icon: <SiDjango className="text-3xl text-green-500" />, 
+    color: "from-green-500/20 via-green-500/10 to-transparent"
+  },
+  { 
+    name: "MySQL", 
+    icon: <SiMysql className="text-3xl text-blue-500" />, 
+    color: "from-blue-500/20 via-blue-500/10 to-transparent"
+  },
+  { 
+    name: "REST APIs", 
+    icon: <SiNextdotjs className="text-3xl text-gray-500" />, 
+    color: "from-gray-500/20 via-gray-500/10 to-transparent"
+  },
+  { 
+    name: "Windows", 
+    icon: <FaWindows className="text-3xl text-blue-500" />, 
+    color: "from-blue-500/20 via-blue-500/10 to-transparent"
+  },
+  { 
+    name: "MacOS", 
+    icon: <FaApple className="text-3xl text-gray-500" />, 
+    color: "from-gray-500/20 via-gray-500/10 to-transparent"
+  },
 ];
 
 export default function Skills() {
@@ -107,12 +198,12 @@ export default function Skills() {
           </motion.div>
         </div>
 
-        <div className="flex flex-col gap-24">
+        <div className="flex flex-col gap-1">
           <div className="w-full overflow-hidden">
             <InfiniteMovingCards
               items={skillsData.map(skill => ({
                 ...skill,
-                icon: <skill.icon className="text-4xl" />
+                icon: <div className="flex items-center">{skill.icon}</div>
               }))}
               direction="left"
               speed="slow"
@@ -124,7 +215,7 @@ export default function Skills() {
             <InfiniteMovingCards
               items={backendSkills.map(skill => ({
                 ...skill,
-                icon: <skill.icon className="text-4xl" />
+                icon: <div className="flex items-center">{skill.icon}</div>
               }))}
               direction="right"
               speed="normal"

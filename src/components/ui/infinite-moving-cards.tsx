@@ -2,7 +2,6 @@
 
 import { cn } from "@/utils/cn";
 import React, { useEffect, useState } from "react";
-import { IconType } from "react-icons";
 
 export const InfiniteMovingCards = ({
   items,
@@ -10,139 +9,97 @@ export const InfiniteMovingCards = ({
   speed = "fast",
   pauseOnHover = true,
   className,
+  cardClassName = "",
 }: {
   items: {
     name: string;
-    icon: string | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
+    icon: React.ReactNode;
     color: string;
+    description?: React.ReactNode;
   }[];
   direction?: "left" | "right";
   speed?: "fast" | "normal" | "slow";
   pauseOnHover?: boolean;
   className?: string;
+  cardClassName?: string;
 }) => {
-  const containerRef = React.useRef<HTMLDivElement>(null);
-  const scrollerRef = React.useRef<HTMLUListElement>(null);
-
-  useEffect(() => {
-    addAnimation();
-  }, []);
-
+  const [duplicatedItems] = useState(() => [...items, ...items]);
   const [start, setStart] = useState(false);
 
-  function addAnimation() {
-    if (containerRef.current && scrollerRef.current) {
-      const scrollerContent = Array.from(scrollerRef.current.children);
-
-      scrollerContent.forEach((item) => {
-        const duplicatedItem = item.cloneNode(true);
-        if (scrollerRef.current) {
-          scrollerRef.current.appendChild(duplicatedItem);
-        }
-      });
-
-      getDirection();
-      getSpeed();
-      setStart(true);
-    }
-  }
-
-  const getDirection = () => {
-    if (containerRef.current) {
-      if (direction === "left") {
-        containerRef.current.style.setProperty(
-          "--animation-direction",
-          "forwards"
-        );
-      } else {
-        containerRef.current.style.setProperty(
-          "--animation-direction",
-          "reverse"
-        );
-      }
-    }
-  };
+  useEffect(() => {
+    setStart(true);
+  }, []);
 
   const getSpeed = () => {
-    if (containerRef.current) {
-      if (speed === "fast") {
-        containerRef.current.style.setProperty("--animation-duration", "20s");
-      } else if (speed === "normal") {
-        containerRef.current.style.setProperty("--animation-duration", "40s");
-      } else {
-        containerRef.current.style.setProperty("--animation-duration", "80s");
-      }
+    switch (speed) {
+      case "fast":
+        return "20s";
+      case "normal":
+        return "30s";
+      case "slow":
+        return "40s";
+      default:
+        return "30s";
     }
   };
 
-  const renderIcon = (icon: string | React.ReactElement) => {
-    if (typeof icon === 'string') {
-      return <span className="text-4xl">{icon}</span>;
-    }
-    return icon;
-  };
+  const renderCard = (item: (typeof items)[0], index: number) => (
+    <div
+      key={item.name + index}
+      className={cn("relative shrink-0 group", cardClassName)}
+      style={{
+        width: cardClassName ? "auto" : "200px",
+        marginRight: "1rem",
+      }}
+    >
+      <div className={cn(
+        "relative h-full w-full rounded-2xl border border-slate-700/40 p-4 transition-all duration-300 hover:scale-[1.02] hover:border-slate-600/50",
+        "bg-gradient-to-br from-slate-800 to-slate-900/90"
+      )}>
+        <div className={cn(
+          "absolute inset-0 rounded-2xl bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity",
+          item.color
+        )} />
+        <div className="relative z-10 flex flex-col gap-3">
+          <div className="flex items-center gap-4">
+            <div className="text-4xl">{item.icon}</div>
+            <h3 className="text-lg font-semibold text-slate-200">{item.name}</h3>
+          </div>
+          {item.description && (
+            <div className="text-sm text-slate-300">{item.description}</div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 
   return (
-    <div
-      ref={containerRef}
-      className={cn(
-        "scroller relative z-20 overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]",
-        className
-      )}
-    >
-      <ul
-        ref={scrollerRef}
-        className={cn(
-          "flex min-w-full shrink-0 gap-4 py-4 w-max flex-nowrap",
-          start && "animate-scroll-marquee",
-          pauseOnHover && "hover:[animation-play-state:paused]"
-        )}
-      >
-        {items.map((item) => (
-          <li
-            className="w-[200px] max-w-full relative flex-shrink-0 cursor-pointer"
-            key={item.name}
-          >
-            <div className={cn(
-              "relative h-full w-full rounded-2xl border border-slate-700/40 p-4 transition-all duration-300 hover:scale-[1.02] hover:border-slate-600/50 group",
-              "bg-gradient-to-br from-slate-800 to-slate-900/90"
-            )}>
-              <div className={cn(
-                "absolute inset-0 rounded-2xl bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity",
-                item.color
-              )} />
-              <div className="absolute inset-px rounded-[15px] bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur" />
-              
-              <div className="relative flex flex-col items-center justify-center gap-3">
-                <span className="text-4xl relative">
-                  {renderIcon(item.icon)}
-                  <div className="absolute inset-0 blur-sm opacity-50">{renderIcon(item.icon)}</div>
-                </span>
-                
-                <div className="relative">
-                  <p className="text-sm font-medium text-slate-200 text-center">
-                    {item.name}
-                  </p>
-                  <div className="absolute inset-0 blur-sm opacity-50">
-                    <p className="text-sm font-medium text-slate-200 text-center">
-                      {item.name}
-                    </p>
-                  </div>
-                </div>
-              </div>
+    <div className={cn("relative overflow-hidden", className)}>
+      {/* Gradient Overlays */}
+      <div className="absolute left-0 top-0 bottom-0 w-[100px] z-10 bg-gradient-to-r from-slate-900 to-transparent pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-[100px] z-10 bg-gradient-to-l from-slate-900 to-transparent pointer-events-none" />
 
-              <div className={cn(
-                "absolute inset-x-2 top-0 h-px bg-gradient-to-r from-transparent via-slate-500/20 to-transparent",
-                "group-hover:via-current group-hover:opacity-60"
-              )} />
-              <div className={cn(
-                "absolute inset-x-2 bottom-0 h-px bg-gradient-to-r from-transparent via-slate-500/20 to-transparent",
-                "group-hover:via-current group-hover:opacity-60"
-              )} />
-            </div>
-          </li>
-        ))}
-      </ul>
+      <div 
+        className="relative flex overflow-hidden" 
+        style={{ 
+          maskImage: 'none',
+          WebkitMaskImage: 'none'
+        }}
+      >
+        <div
+          className={cn(
+            "flex min-w-full shrink-0 gap-4 py-4 transition-transform duration-75",
+            start && "animate-infinite-scroll",
+            pauseOnHover && "hover:[animation-play-state:paused]"
+          )}
+          style={{ 
+            animationDirection: direction === 'right' ? 'reverse' : 'normal',
+            animationDuration: getSpeed()
+          }}
+        >
+          {duplicatedItems.map((item, idx) => renderCard(item, idx))}
+        </div>
+      </div>
     </div>
   );
 };
