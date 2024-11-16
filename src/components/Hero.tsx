@@ -141,19 +141,72 @@ const Hero: React.FC = () => {
             transition={{ duration: 0.5 }}
             className="text-center"
           >
-            <TypewriterEffectSmooth 
-              words={[
-                { text: "Hi,", className: "text-blue-500" },
-                { text: "I'm", className: "text-blue-500" },
-                { text: "Achim", className: "text-blue-500" },
-                { text: "Sommer", className: "text-blue-500" }
-              ]} 
-            />
+            <div className="inline-block">
+              <h1 className="mb-4 text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
+                <TypewriterEffectSmooth
+                  words={[
+                    { text: "Hey", className: "text-white" },
+                    { text: "ich", className: "text-white" },
+                    { text: "bin", className: "text-white" },
+                    { text: "Achim", className: "text-white" }
+                  ]}
+                  cursorClassName="h-[36px] w-[4px] md:h-[48px] lg:h-[56px] translate-x-8"
+                  className="min-h-[60px] md:min-h-[72px] lg:min-h-[84px]"
+                />
+              </h1>
+            </div>
+
             <HeroHighlight>
-              <Highlight>Full Stack Developer</Highlight>
-              <Highlight>UI/UX Designer</Highlight>
-              <Highlight>Tech Enthusiast</Highlight>
+              <motion.h2
+                initial={{
+                  opacity: 0,
+                  y: 20,
+                }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                transition={{
+                  duration: 0.5,
+                  ease: "easeOut",
+                }}
+                className="text-2xl px-4 md:text-4xl font-bold text-white leading-relaxed text-center mx-auto"
+              >
+                <Highlight>
+                  Dualer Student, Full Stack Developer und YouTuber
+                </Highlight>
+              </motion.h2>
             </HeroHighlight>
+
+            <div className="flex flex-col items-center mt-8">
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{
+                  opacity: 1,
+                  y: [0, 10, 0],
+                  transition: {
+                    y: {
+                      duration: 1.5,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }
+                  }
+                }}
+                className="animate-bounce"
+              >
+                <svg
+                  className="w-6 h-6 text-gray-400"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path d="M12 5v14M19 12l-7 7-7-7" />
+                </svg>
+              </motion.div>
+            </div>
           </motion.div>
         </div>
 
