@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Browser Reset und Optimierungen */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+}
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -14,36 +21,84 @@
   --background-end-rgb: 0, 0, 0;
 }
 
-@keyframes scroll {
+@-webkit-keyframes scroll {
   0% {
+    -webkit-transform: translateY(0);
     transform: translateY(0);
   }
   100% {
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes scroll {
+  0% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+  100% {
+    -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
   }
 }
 
 .animate-scroll {
+  -webkit-animation: scroll 20s linear infinite;
   animation: scroll 20s linear infinite;
 }
 
-@keyframes sparkle {
+@-webkit-keyframes sparkle {
   0% {
+    -webkit-transform: scale(0) rotate(0deg);
     transform: scale(0) rotate(0deg);
     opacity: 0;
   }
   50% {
+    -webkit-transform: scale(1) rotate(180deg);
     transform: scale(1) rotate(180deg);
     opacity: 1;
   }
   100% {
+    -webkit-transform: scale(0) rotate(360deg);
+    transform: scale(0) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes sparkle {
+  0% {
+    -webkit-transform: scale(0) rotate(0deg);
+    transform: scale(0) rotate(0deg);
+    opacity: 0;
+  }
+  50% {
+    -webkit-transform: scale(1) rotate(180deg);
+    transform: scale(1) rotate(180deg);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scale(0) rotate(360deg);
     transform: scale(0) rotate(360deg);
     opacity: 0;
   }
 }
 
 .animate-sparkle {
+  -webkit-animation: sparkle 1s linear infinite;
   animation: sparkle 1s linear infinite;
+}
+
+@-webkit-keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 @keyframes gradient {
@@ -59,45 +114,88 @@
 }
 
 .animate-gradient {
+  -webkit-animation: gradient 8s ease infinite;
   animation: gradient 8s ease infinite;
   background-size: 200% 200%;
 }
 
-@keyframes scroll {
+@-webkit-keyframes scroll {
   from {
+    -webkit-transform: translateX(0);
     transform: translateX(0);
   }
   to {
+    -webkit-transform: translateX(calc(-50% - 1rem));
+    transform: translateX(calc(-50% - 1rem));
+  }
+}
+
+@keyframes scroll {
+  from {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+  to {
+    -webkit-transform: translateX(calc(-50% - 1rem));
     transform: translateX(calc(-50% - 1rem));
   }
 }
 
 .animate-scroll-marquee {
+  -webkit-animation: scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite;
   animation: scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite;
+}
+
+@-webkit-keyframes scroll-reverse {
+  from {
+    -webkit-transform: translateX(calc(-50% - 1rem));
+    transform: translateX(calc(-50% - 1rem));
+  }
+  to {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
 }
 
 @keyframes scroll-reverse {
   from {
+    -webkit-transform: translateX(calc(-50% - 1rem));
     transform: translateX(calc(-50% - 1rem));
   }
   to {
+    -webkit-transform: translateX(0);
     transform: translateX(0);
   }
 }
 
 .animate-scroll-reverse {
+  -webkit-animation: scroll-reverse var(--animation-duration, 40s) linear infinite;
   animation: scroll-reverse var(--animation-duration, 40s) linear infinite;
 }
 
 .animate-scroll {
+  -webkit-animation: scroll var(--animation-duration, 40s) linear infinite;
   animation: scroll var(--animation-duration, 40s) linear infinite;
+}
+
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotateY(0deg) rotateX(0deg);
+    transform: rotateY(0deg) rotateX(0deg);
+  }
+  to {
+    -webkit-transform: rotateY(360deg) rotateX(360deg);
+    transform: rotateY(360deg) rotateX(360deg);
+  }
 }
 
 @keyframes spin {
   from {
+    -webkit-transform: rotateY(0deg) rotateX(0deg);
     transform: rotateY(0deg) rotateX(0deg);
   }
   to {
+    -webkit-transform: rotateY(360deg) rotateX(360deg);
     transform: rotateY(360deg) rotateX(360deg);
   }
 }
@@ -134,25 +232,30 @@ html {
   content: '';
   position: absolute;
   width: 100%;
+  -webkit-transform: scaleX(0);
   transform: scaleX(0);
   height: 2px;
   bottom: 0;
   left: 0;
   background-color: currentColor;
+  -webkit-transform-origin: bottom right;
   transform-origin: bottom right;
+  -webkit-transition: -webkit-transform 0.25s ease-out;
   transition: transform 0.25s ease-out;
 }
 
 .hover-underline-animation:hover::after {
+  -webkit-transform: scaleX(1);
   transform: scaleX(1);
+  -webkit-transform-origin: bottom left;
   transform-origin: bottom left;
 }
 
 /* Glass Effect */
 .glass {
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -168,6 +271,7 @@ body {
   }
 
   .preserve-3d {
+    -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
   }
 
@@ -192,16 +296,30 @@ body {
   }
 }
 
-@keyframes scroll-marquee {
+@-webkit-keyframes scroll-marquee {
   from {
+    -webkit-transform: translateX(0);
     transform: translateX(0);
   }
   to {
+    -webkit-transform: translateX(calc(-50% - 1rem));
+    transform: translateX(calc(-50% - 1rem));
+  }
+}
+
+@keyframes scroll-marquee {
+  from {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+  to {
+    -webkit-transform: translateX(calc(-50% - 1rem));
     transform: translateX(calc(-50% - 1rem));
   }
 }
 
 .animate-scroll-marquee {
+  -webkit-animation: scroll-marquee var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite;
   animation: scroll-marquee var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite;
 }
 

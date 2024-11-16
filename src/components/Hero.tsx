@@ -85,6 +85,46 @@ export default function Hero() {
               </motion.h2>
             </HeroHighlight>
           </motion.div>
+          
+          <div className="flex flex-col items-center mt-8">
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ 
+                opacity: 1, 
+                y: [0, 10, 0],
+                transition: {
+                  y: {
+                    duration: 1.5,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }
+                }
+              }}
+              onClick={() => {
+                window.scrollTo({
+                  top: window.innerHeight,
+                  behavior: 'smooth'
+                });
+              }}
+              className="cursor-pointer"
+              whileHover={{ scale: 1.1 }}
+            >
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                width="48" 
+                height="48" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+                className="text-white"
+              >
+                <path d="M12 5v14M19 12l-7 7-7-7"/>
+              </svg>
+            </motion.div>
+          </div>
         </div>
       </div>
     </GlowingStarsBackgroundCard>

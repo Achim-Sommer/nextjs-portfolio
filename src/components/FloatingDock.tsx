@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaShoppingCart, FaComments, FaGithub, FaLinkedin } from 'react-icons/fa';
 
@@ -35,7 +35,24 @@ const dockItems: DockItem[] = [
 
 export default function FloatingDock() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [isFooterVisible, setIsFooterVisible] = useState(false);
   const dockRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const footer = document.querySelector('footer');
+    if (!footer) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsFooterVisible(entry.isIntersecting);
+      },
+      { threshold: 0 }
+    );
+
+    observer.observe(footer);
+
+    return () => observer.disconnect();
+  }, []);
 
   const getScale = (index: number) => {
     if (hoveredIndex === null) return 1;
@@ -46,7 +63,13 @@ export default function FloatingDock() {
   };
 
   return (
-    <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50">
+    <div 
+      className={`${
+        isFooterVisible 
+          ? 'absolute bottom-full' 
+          : 'fixed bottom-8'
+      } left-1/2 transform -translate-x-1/2 z-50 transition-all duration-300`}
+    >
       <motion.div
         ref={dockRef}
         initial={{ y: 100, opacity: 0 }}

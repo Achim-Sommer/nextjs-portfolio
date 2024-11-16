@@ -1,8 +1,10 @@
+import Link from 'next/link';
+
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-900 text-gray-300">
+    <footer className="bg-gray-900 text-gray-300 relative z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Kontakt */}
@@ -11,11 +13,11 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <a
-                  href="mailto:kontakt@achimsommer.com"
-                  className="hover:text-blue-400 transition-colors duration-300 flex items-center"
+                  href="mailto:dev@achimsommer.com"
+                  className="hover:text-blue-400 transition-colors duration-300 flex items-center cursor-pointer"
                 >
                   <i className="fas fa-envelope mr-2"></i>
-                  kontakt@achimsommer.com
+                  dev@achimsommer.com
                 </a>
               </li>
               <li>
@@ -23,7 +25,7 @@ export default function Footer() {
                   href="https://discord.gg/yourserver"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-blue-400 transition-colors duration-300 flex items-center"
+                  className="hover:text-blue-400 transition-colors duration-300 flex items-center cursor-pointer"
                 >
                   <i className="fab fa-discord mr-2"></i>
                   Discord Server
@@ -41,7 +43,7 @@ export default function Footer() {
                   href="https://forum.achimsommer.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-blue-400 transition-colors duration-300"
+                  className="hover:text-blue-400 transition-colors duration-300 cursor-pointer"
                 >
                   Forum
                 </a>
@@ -51,7 +53,7 @@ export default function Footer() {
                   href="https://shop.achimsommer.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-blue-400 transition-colors duration-300"
+                  className="hover:text-blue-400 transition-colors duration-300 cursor-pointer"
                 >
                   Shop
                 </a>
@@ -61,7 +63,7 @@ export default function Footer() {
                   href="https://github.com/Achim-Sommer"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-blue-400 transition-colors duration-300"
+                  className="hover:text-blue-400 transition-colors duration-300 cursor-pointer"
                 >
                   GitHub
                 </a>
@@ -74,36 +76,36 @@ export default function Footer() {
             <h3 className="text-xl font-bold mb-4 text-white">Social Media</h3>
             <div className="flex space-x-4">
               <a
-                href="https://youtube.com"
+                href="https://www.linkedin.com/in/achim-sommer-b898a2185/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-2xl hover:text-red-500 transition-colors duration-300"
+                className="text-2xl hover:text-blue-500 transition-colors duration-300 cursor-pointer"
               >
-                <i className="fab fa-youtube"></i>
+                <i className="fab fa-linkedin"></i>
               </a>
               <a
-                href="https://twitch.tv"
+                href="https://twitch.tv/achim1337"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-2xl hover:text-purple-500 transition-colors duration-300"
+                className="text-2xl hover:text-purple-500 transition-colors duration-300 cursor-pointer"
               >
                 <i className="fab fa-twitch"></i>
               </a>
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/achim.sommer/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-2xl hover:text-pink-500 transition-colors duration-300"
+                className="text-2xl hover:text-pink-500 transition-colors duration-300 cursor-pointer"
               >
                 <i className="fab fa-instagram"></i>
               </a>
               <a
-                href="https://linkedin.com"
+                href="https://www.youtube.com/@achimsommer"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-2xl hover:text-blue-500 transition-colors duration-300"
+                className="text-2xl hover:text-red-500 transition-colors duration-300 cursor-pointer"
               >
-                <i className="fab fa-linkedin"></i>
+                <i className="fab fa-youtube"></i>
               </a>
             </div>
           </div>
@@ -111,21 +113,21 @@ export default function Footer() {
 
         <div className="mt-12 pt-8 border-t border-gray-800 text-center">
           <p className="text-sm">
-            © {currentYear} Achim Sommer. Alle Rechte vorbehalten.
+            {currentYear} Achim Sommer. Alle Rechte vorbehalten.
           </p>
           <div className="mt-2 space-x-4 text-sm">
-            <a
+            <Link
               href="/impressum"
-              className="hover:text-blue-400 transition-colors duration-300"
+              className="hover:text-blue-400 transition-colors duration-300 cursor-pointer"
             >
               Impressum
-            </a>
+            </Link>
             <span>•</span>
             <a
               href="https://forum.achimsommer.com/home/datenschutzerklaerung/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-blue-400 transition-colors duration-300"
+              className="hover:text-blue-400 transition-colors duration-300 cursor-pointer"
             >
               Datenschutzerklärung
             </a>
