@@ -50,8 +50,8 @@ const Hero: React.FC = () => {
       <div className="relative min-h-screen w-full bg-gradient-to-br from-black via-blue-950 to-black animate-gradient-xy overflow-hidden">
         {/* Line Numbers */}
         <div className="absolute left-0 top-0 h-full w-12 border-r border-blue-500/10 flex flex-col items-end pr-2 pt-4 text-xs text-blue-500/40 select-none">
-          {Array.from({ length: 30 }).map((_, i) => (
-            <div key={i} className="leading-6">
+          {Array.from({ length: 100 }).map((_, i) => (
+            <div key={i} className="leading-[1.65rem]">
               {(i + 1).toString().padStart(2, '0')}
             </div>
           ))}
