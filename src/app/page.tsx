@@ -7,6 +7,7 @@ import Counter from '@/components/Counter';
 import GitHubRepos from '@/components/GitHubRepos';
 import Footer from '@/components/Footer';
 import ProjectShowcase from '@/components/ProjectShowcase';
+import ZapHosting from '@/components/ZapHosting';
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <SocialMedia />
       <AboutMe />
       <Skills />
+      <ZapHosting />
       <Counter />
       <ProjectShowcase />
       <GitHubRepos />

@@ -109,7 +109,6 @@ export default function Skills() {
 
         <div className="flex flex-col gap-24">
           <div className="w-full overflow-hidden">
-            <h3 className="text-2xl font-semibold text-white mb-8 text-center">Frontend & Full-Stack</h3>
             <InfiniteMovingCards
               items={skillsData.map(skill => ({
                 ...skill,
@@ -122,7 +121,6 @@ export default function Skills() {
           </div>
           
           <div className="w-full overflow-hidden">
-            <h3 className="text-2xl font-semibold text-white mb-8 text-center">Backend & DevOps</h3>
             <InfiniteMovingCards
               items={backendSkills.map(skill => ({
                 ...skill,

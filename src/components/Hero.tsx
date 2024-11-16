@@ -7,10 +7,19 @@ import { GlowingStarsBackgroundCard } from './ui/glowing-stars';
 import { useState, useEffect } from 'react';
 
 export default function Hero() {
-  const [hasAnimated, setHasAnimated] = useState(false);
-
+  const [hasAnimated, setHasAnimated] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const animated = sessionStorage.getItem('hasAnimated');
+      return animated === 'true';
+    }
+    return false;
+  });
+  
   useEffect(() => {
-    setHasAnimated(true);
+    if (!hasAnimated) {
+      sessionStorage.setItem('hasAnimated', 'true');
+      setHasAnimated(true);
+    }
   }, []);
 
   return (
@@ -22,8 +31,8 @@ export default function Hero() {
         />
         <div className="relative z-10 flex h-screen w-full flex-col items-center justify-center">
           <motion.div
-            initial={!hasAnimated ? { opacity: 0, y: 20 } : false}
-            animate={!hasAnimated ? { opacity: 1, y: 0 } : false}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="text-center"
           >
@@ -55,23 +64,23 @@ export default function Hero() {
             </div>
             
             <HeroHighlight>
-              <motion.h2
-                initial={!hasAnimated ? {
-                  opacity: 0,
-                  y: 20,
-                } : false}
-                animate={!hasAnimated ? {
-                  opacity: 1,
-                  y: 0,
-                } : false}
-                transition={{
-                  duration: 0.5,
-                  ease: "easeOut",
-                }}
-                className="text-2xl px-4 md:text-4xl font-bold text-white leading-relaxed text-center mx-auto"
-              >
+            <motion.h2
+              initial={{
+                opacity: 0,
+                y: 20,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+              }}
+              transition={{
+                duration: 0.5,
+                ease: "easeOut",
+              }}
+              className="text-2xl px-4 md:text-4xl font-bold text-white leading-relaxed text-center mx-auto"
+            >
                 <Highlight>
-                  Full Stack Developer
+                  Dualer Student, Full Stack Developer und YouTuber
                 </Highlight>
               </motion.h2>
             </HeroHighlight>

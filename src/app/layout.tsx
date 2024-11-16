@@ -26,7 +26,7 @@ export default function RootLayout({
     <html lang="de" suppressHydrationWarning>
       <head>
         <title>Achim Sommer - Portfolio</title>
-        <meta name="description" content="Portfolio von Achim Sommer - Dualer Student, FiveM-Entwickler und YouTuber" />
+        <meta name="description" content="Portfolio von Achim Sommer - Dualer Student, Full Stack Developer und YouTuber" />
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"

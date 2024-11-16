@@ -19,9 +19,10 @@ export const TypewriterEffectSmooth = ({
   const [scope, animate] = useAnimate();
   const isInView = useInView(scope);
   const [displayedLetters, setDisplayedLetters] = useState(0);
+  const [hasPlayed, setHasPlayed] = useState(false);
   
   useEffect(() => {
-    if (isInView) {
+    if (isInView && !hasPlayed) {
       let currentLetterCount = 0;
       const interval = setInterval(() => {
         if (currentLetterCount < getTotalLetters()) {
@@ -38,12 +39,13 @@ export const TypewriterEffectSmooth = ({
           );
         } else {
           clearInterval(interval);
+          setHasPlayed(true);
         }
       }, 100);
 
       return () => clearInterval(interval);
     }
-  }, [isInView, animate]);
+  }, [isInView, animate, hasPlayed]);
 
   const getTotalLetters = () => {
     let total = 0;
@@ -89,9 +91,9 @@ export const TypewriterEffectSmooth = ({
   };
 
   const getLetterWidth = () => {
-    if (typeof window === 'undefined') return 0.55;
+    if (typeof window === 'undefined') return 0.45;
     const fontSize = window.getComputedStyle(scope.current || document.body).fontSize;
-    return parseFloat(fontSize) * 0.55;
+    return parseFloat(fontSize) * 0.45;
   };
 
   return (
@@ -111,9 +113,8 @@ export const TypewriterEffectSmooth = ({
           cursorClassName
         )}
         style={{
-          left: `${displayedLetters * getLetterWidth()}px`,
+          left: `${(displayedLetters * getLetterWidth()) + 50}px`,
           height: "100%",
-          transform: "translateX(-10px)",
         }}
       />
     </div>
