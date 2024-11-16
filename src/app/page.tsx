@@ -14,7 +14,6 @@ export default function Home() {
     <main className="min-h-screen bg-black">
       <Navbar />
       <Hero />
-      <SocialMedia />
       <AboutMe />
       <Skills />
       <ZapHosting />
