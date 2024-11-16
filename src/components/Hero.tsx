@@ -59,11 +59,37 @@ const Hero: React.FC = () => {
 
         {/* Code Comments */}
         <div className="absolute right-4 top-4 w-64 text-xs font-mono opacity-20">
-          <div className="text-green-500">// TODO: Optimize performance</div>
-          <div className="text-blue-500">interface Developer {'{'}</div>
-          <div className="text-purple-500 pl-4">name: string;</div>
-          <div className="text-purple-500 pl-4">skills: string[];</div>
+          <div className="text-blue-300/80">// portfolio.config.ts</div>
+          <div className="text-green-500/80">/** 
+           * @author Achim Sommer
+           * @version 1.0.0 
+           */</div>
+          <div className="mt-2 text-blue-500">interface Developer {'{'}</div>
+          <div className="pl-4">
+            <div className="text-purple-500">name: string;</div>
+            <div className="text-purple-500">role: string;</div>
+            <div className="text-purple-500">skills: string[];</div>
+            <div className="text-purple-500">location: string;</div>
+          </div>
           <div className="text-blue-500">{'}'}</div>
+          <div className="mt-2">
+            <div className="text-blue-500">const developer: Developer = {'{'}</div>
+            <div className="pl-4">
+              <div className="text-orange-400">name: <span className="text-green-400">"Achim Sommer"</span>,</div>
+              <div className="text-orange-400">role: <span className="text-green-400">"Full Stack Developer"</span>,</div>
+              <div className="text-orange-400">skills: [</div>
+              <div className="pl-4">
+                <div className="text-green-400">"TypeScript",</div>
+                <div className="text-green-400">"React",</div>
+                <div className="text-green-400">"Next.js",</div>
+                <div className="text-green-400">"Node.js"</div>
+              </div>
+              <div className="text-orange-400">],</div>
+              <div className="text-orange-400">location: <span className="text-green-400">"Köln, DE"</span></div>
+            </div>
+            <div className="text-blue-500">{'}'}</div>
+          </div>
+          <div className="mt-2 text-blue-300/80">// TODO: Add more awesome features</div>
         </div>
 
         {/* Status Bar */}
@@ -112,23 +138,65 @@ const Hero: React.FC = () => {
         <div className="absolute bottom-0 right-0 w-24 h-24 border-r-2 border-b-2 border-blue-500/30" />
 
         {/* Terminal Window */}
-        <div className="absolute top-4 left-16 w-72 bg-black/30 backdrop-blur-sm rounded border border-blue-500/20">
+        <div className="absolute top-4 left-16 w-80 bg-black/30 backdrop-blur-sm rounded border border-blue-500/20">
           <div className="h-6 bg-blue-950/30 border-b border-blue-500/20 flex items-center px-3">
             <div className="flex space-x-2">
               <div className="w-2.5 h-2.5 rounded-full bg-red-500/50"></div>
               <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/50"></div>
               <div className="w-2.5 h-2.5 rounded-full bg-green-500/50"></div>
             </div>
+            <div className="flex-1 text-center text-xs text-blue-300/50">terminal</div>
           </div>
-          <div className="p-3 text-xs text-blue-300/80 font-mono">
-            <div>$ whoami</div>
+          <div className="p-3 text-xs font-mono">
+            <div className="flex items-center text-blue-300/80">
+              <span className="text-green-400/80">➜</span>
+              <span className="text-blue-400/80 ml-2">~/portfolio</span>
+              <span className="text-blue-300/60 ml-2">git:(</span>
+              <span className="text-blue-400/80">main</span>
+              <span className="text-blue-300/60">)</span>
+            </div>
+            <div className="mt-2">
+              <span className="text-blue-300/80">$</span>
+              <span className="text-blue-300/80 ml-2">whoami</span>
+            </div>
             <div className="text-green-400/80">achim.sommer</div>
-            <div>$ ls -la skills/</div>
-            <div className="text-blue-400/80">
-              drwxr-xr-x typescript<br />
-              drwxr-xr-x react<br />
-              drwxr-xr-x nextjs<br />
-              drwxr-xr-x tailwind
+            <div className="mt-2">
+              <span className="text-blue-300/80">$</span>
+              <span className="text-blue-300/80 ml-2">cat about.md</span>
+            </div>
+            <div className="text-blue-300/80 mt-1">
+              <span className="text-yellow-500/80">### About Me</span>
+              <div className="pl-2 mt-1">
+                <div>• Dualer Student @ FOM Köln</div>
+                <div>• Full Stack Developer</div>
+                <div>• Tech Content Creator</div>
+              </div>
+            </div>
+            <div className="mt-2">
+              <span className="text-blue-300/80">$</span>
+              <span className="text-blue-300/80 ml-2">ls -la skills/</span>
+            </div>
+            <div className="text-blue-300/80 grid grid-cols-2 gap-x-4 pl-2 mt-1">
+              <div>
+                <span className="text-blue-400/80">drwxr-xr-x</span>
+                <span className="ml-2">typescript</span>
+              </div>
+              <div>
+                <span className="text-blue-400/80">drwxr-xr-x</span>
+                <span className="ml-2">react</span>
+              </div>
+              <div>
+                <span className="text-blue-400/80">drwxr-xr-x</span>
+                <span className="ml-2">nextjs</span>
+              </div>
+              <div>
+                <span className="text-blue-400/80">drwxr-xr-x</span>
+                <span className="ml-2">tailwind</span>
+              </div>
+            </div>
+            <div className="mt-2 flex items-center">
+              <span className="text-blue-300/80">$</span>
+              <span className="ml-2 w-2 h-4 bg-blue-500/50 animate-pulse"></span>
             </div>
           </div>
         </div>
@@ -179,7 +247,13 @@ const Hero: React.FC = () => {
             </HeroHighlight>
 
             <div className="flex flex-col items-center mt-8">
-              <motion.div
+              <motion.button
+                onClick={() => {
+                  const aboutSection = document.getElementById('about-me');
+                  if (aboutSection) {
+                    aboutSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{
                   opacity: 1,
@@ -192,10 +266,10 @@ const Hero: React.FC = () => {
                     }
                   }
                 }}
-                className="animate-bounce"
+                className="cursor-pointer hover:opacity-75 transition-opacity"
               >
                 <svg
-                  className="w-6 h-6 text-gray-400"
+                  className="w-8 h-8 text-gray-400"
                   fill="none"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -205,7 +279,7 @@ const Hero: React.FC = () => {
                 >
                   <path d="M12 5v14M19 12l-7 7-7-7" />
                 </svg>
-              </motion.div>
+              </motion.button>
             </div>
           </motion.div>
         </div>
