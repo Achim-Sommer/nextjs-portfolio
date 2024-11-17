@@ -20,7 +20,7 @@ export const MasonryGrid = ({
   className?: string;
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
-  const categories = ["all", ...new Set(videos.map(video => video.category))];
+  const categories = ["all", ...Array.from(new Set(videos.map(video => video.category)))];
 
   const filteredVideos = selectedCategory === "all"
     ? videos

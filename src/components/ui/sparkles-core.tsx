@@ -37,7 +37,7 @@ export const SparklesCore = ({
       newParticles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        size: Math.random() * (maxSize || 2 - minSize || 1) + (minSize || 1),
+        size: Math.random() * ((maxSize || 2) - (minSize || 1)) + (minSize || 1),
         duration: Math.random() * 2 + 1,
       });
     }
