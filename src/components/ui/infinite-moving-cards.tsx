@@ -10,6 +10,7 @@ export const InfiniteMovingCards = ({
   pauseOnHover = true,
   className,
   cardClassName = "",
+  showName = false,
 }: {
   items: {
     name: string;
@@ -22,6 +23,7 @@ export const InfiniteMovingCards = ({
   pauseOnHover?: boolean;
   className?: string;
   cardClassName?: string;
+  showName?: boolean;
 }) => {
   const [duplicatedItems] = useState(() => [...items, ...items]);
   const [start, setStart] = useState(false);
@@ -60,13 +62,26 @@ export const InfiniteMovingCards = ({
           "absolute inset-0 rounded-2xl bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity",
           item.color
         )} />
-        <div className="relative z-10 flex flex-col gap-3">
-          <div className="flex items-center gap-4">
-            <div className="text-4xl">{item.icon}</div>
-            <h3 className="text-lg font-semibold text-slate-200">{item.name}</h3>
-          </div>
-          {item.description && (
-            <div className="text-sm text-slate-300">{item.description}</div>
+        <div className="relative z-10 flex justify-between items-center gap-4">
+          {showName ? (
+            <>
+              <div className="text-4xl">{item.icon}</div>
+              <div className="flex flex-col gap-2">
+                <h3 className="text-lg font-semibold text-slate-200">{item.name}</h3>
+                {item.description && (
+                  <div className="text-sm text-slate-300">{item.description}</div>
+                )}
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="flex flex-col gap-2">
+                {item.description && (
+                  <div className="text-sm text-slate-300">{item.description}</div>
+                )}
+              </div>
+              <div className="text-4xl">{item.icon}</div>
+            </>
           )}
         </div>
       </div>

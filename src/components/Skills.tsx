@@ -178,14 +178,14 @@ export default function Skills() {
       <div className="absolute inset-0 bg-slate-900/90" />
       <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/80 to-slate-900/40" />
       
-      <div className="relative">
-        <div className="text-center mb-16">
+      {/* Header mit max-w-7xl für Text-Content */}
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 mb-16">
+        <div className="text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="mx-auto max-w-7xl px-4 sm:px-6"
           >
             <AnimatedText
               text="Technologien & Skills"
@@ -197,9 +197,15 @@ export default function Skills() {
             </p>
           </motion.div>
         </div>
+      </div>
 
-        <div className="flex flex-col gap-1">
-          <div className="w-full overflow-hidden">
+      {/* Cards Container ohne max-width für volle Breite */}
+      <div className="relative w-full">
+        <div className="flex flex-col gap-8">
+          <div 
+            className="w-full relative" 
+            style={{ position: 'relative' }}
+          >
             <InfiniteMovingCards
               items={skillsData.map(skill => ({
                 ...skill,
@@ -208,10 +214,14 @@ export default function Skills() {
               direction="left"
               speed="slow"
               className="py-4"
+              showName={true}
             />
           </div>
           
-          <div className="w-full overflow-hidden">
+          <div 
+            className="w-full relative" 
+            style={{ position: 'relative' }}
+          >
             <InfiniteMovingCards
               items={backendSkills.map(skill => ({
                 ...skill,
@@ -220,6 +230,7 @@ export default function Skills() {
               direction="right"
               speed="normal"
               className="py-4"
+              showName={true}
             />
           </div>
         </div>

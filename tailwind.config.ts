@@ -25,6 +25,7 @@ const config: Config = {
         'cursor-blink': 'cursor-blink 1s step-end infinite',
         'typing': 'typing 3.5s steps(40, end)',
         'status-pulse': 'status-pulse 2s ease-in-out infinite',
+        'infinite-scroll': 'infinite-scroll 25s linear infinite',
       },
       keyframes: {
         'gradient-xy': {
@@ -65,6 +66,10 @@ const config: Config = {
         'status-pulse': {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0.5' }
+        },
+        'infinite-scroll': {
+          from: { transform: 'translateX(0)' },
+          to: { transform: 'translateX(-50%)' }
         }
       }
     },
