@@ -17,6 +17,7 @@ import typescript from 'react-syntax-highlighter/dist/cjs/languages/prism/typesc
 import javascript from 'react-syntax-highlighter/dist/cjs/languages/prism/javascript';
 import json from 'react-syntax-highlighter/dist/cjs/languages/prism/json';
 import markdown from 'react-syntax-highlighter/dist/cjs/languages/prism/markdown';
+import { AboutNetworkBackground } from './ui/about-network-background';
 
 // Register languages
 SyntaxHighlighter.registerLanguage('typescript', typescript);
@@ -377,140 +378,143 @@ Sprachen: Python, JavaScript, Lua`
   ];
 
   return (
-    <div className="w-full h-full bg-[#1E1E1E] text-white rounded-lg overflow-hidden border border-gray-800 shadow-2xl">
-      <section id="about-me" className="relative py-10 sm:py-16">
-        <div className="mx-auto max-w-[90%] xl:max-w-[1400px] px-4">
-          <div className="text-center mb-8">
+    <div className="relative w-full h-screen overflow-hidden">
+      <AboutNetworkBackground />
+      <div className="relative">
+        <section id="about-me" className="relative py-10 sm:py-16">
+          <div className="mx-auto max-w-[90%] xl:max-w-[1400px] px-4">
+            <div className="text-center mb-8">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <AnimatedText
+                  text="Entwickler-Terminal"
+                  className="text-4xl font-bold mb-4"
+                  gradient
+                />
+              </motion.div>
+            </div>
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="bg-gray-900 rounded-lg overflow-hidden relative shadow-[0_0_15px_rgba(0,0,0,0.2),0_0_5px_rgba(255,255,255,0.05)]"
             >
-              <AnimatedText
-                text="Entwickler-Terminal"
-                className="text-4xl font-bold mb-4"
-                gradient
-              />
-            </motion.div>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="bg-gray-900 rounded-lg shadow-2xl overflow-hidden"
-          >
-            {/* MacOS Titlebar */}
-            <div className="h-7 bg-[#2D2D2D] flex items-center px-4 select-none border-b border-[#3c3c3c]">
-              <div className="flex space-x-2">
-                <div className="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
-                <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
-                <div className="w-3 h-3 rounded-full bg-[#27C93F]"></div>
-              </div>
-              <div className="flex-1 text-center text-sm text-gray-400">portfolio.app</div>
-            </div>
-            <div className="flex h-[800px]">
-              {/* Activity Bar */}
-              <div className="w-12 bg-[#333333] flex flex-col items-center py-2 space-y-4">
-                {sidebarItems.map((item) => (
-                  <button
-                    key={item.id}
-                    className="w-10 h-10 flex items-center justify-center hover:bg-[#2a2a2a] rounded"
-                    title={item.label}
-                  >
-                    {item.icon}
-                  </button>
-                ))}
-              </div>
-
-              {/* Sidebar */}
-              {sidebarOpen && (
-                <div className="w-64 bg-[#252526] border-r border-[#3c3c3c]">
-                  <div className="p-2">
-                    <h2 className="text-sm uppercase text-gray-400 px-2 py-1">Explorer</h2>
-                    <div className="space-y-1">
-                      {tabs.map((tab) => (
-                        <button
-                          key={tab.id}
-                          className={`w-full text-left px-2 py-1 rounded flex items-center space-x-2 ${
-                            activeTab === tab.id ? 'bg-[#37373d]' : 'hover:bg-[#2a2a2a]'
-                          }`}
-                          onClick={() => setActiveTab(tab.id)}
-                        >
-                          {tab.icon}
-                          <span>{tab.title}</span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
+              {/* MacOS Titlebar */}
+              <div className="h-7 bg-[#2D2D2D]/95 backdrop-blur-sm flex items-center px-4 select-none border-b border-[#3c3c3c] relative">
+                <div className="flex space-x-2">
+                  <div className="w-3 h-3 rounded-full bg-[#FF5F56] hover:bg-[#FF4343] transition-colors duration-150 cursor-pointer"></div>
+                  <div className="w-3 h-3 rounded-full bg-[#FFBD2E] hover:bg-[#FFAB1E] transition-colors duration-150 cursor-pointer"></div>
+                  <div className="w-3 h-3 rounded-full bg-[#27C93F] hover:bg-[#1AAB32] transition-colors duration-150 cursor-pointer"></div>
                 </div>
-              )}
-
-              {/* Main Content */}
-              <div className="flex-1 flex flex-col">
-                {/* Tabs */}
-                <div className="h-9 bg-[#2d2d2d] flex items-center">
-                  {tabs.map((tab) => (
+                <div className="flex-1 text-center text-sm text-gray-400">portfolio.app</div>
+              </div>
+              <div className="flex h-[800px] relative">
+                {/* Activity Bar */}
+                <div className="w-12 bg-[#333333] flex flex-col items-center py-2 space-y-4">
+                  {sidebarItems.map((item) => (
                     <button
-                      key={tab.id}
-                      className={`px-3 h-full flex items-center space-x-2 ${
-                        activeTab === tab.id
-                          ? 'bg-[#1e1e1e] border-t border-[#007acc]'
-                          : 'hover:bg-[#2a2a2a]'
-                      }`}
-                      onClick={() => setActiveTab(tab.id)}
+                      key={item.id}
+                      className="w-10 h-10 flex items-center justify-center hover:bg-[#2a2a2a] rounded"
+                      title={item.label}
                     >
-                      {tab.icon}
-                      <span>{tab.title}</span>
+                      {item.icon}
                     </button>
                   ))}
                 </div>
 
-                {/* Content Area */}
-                <div className="flex-1 overflow-auto bg-[#1e1e1e]">
-                  {tabs.find((tab) => tab.id === activeTab)?.content}
-                </div>
-
-                {/* Terminal */}
-                <div className="h-1/3 border-t border-[#3c3c3c] bg-[#1e1e1e]">
-                  <div className="h-8 bg-[#2d2d2d] px-4 flex items-center">
-                    <span className="text-sm">Terminal</span>
-                  </div>
-                  <div
-                    ref={terminalRef}
-                    className="h-[calc(100%-2rem)] overflow-auto p-2 font-mono text-sm"
-                  >
-                    {output.map((line, i) => (
-                      <div key={i} className="whitespace-pre-wrap">
-                        {line}
+                {/* Sidebar */}
+                {sidebarOpen && (
+                  <div className="w-64 bg-[#252526] border-r border-[#3c3c3c]">
+                    <div className="p-2">
+                      <h2 className="text-sm uppercase text-gray-400 px-2 py-1">Explorer</h2>
+                      <div className="space-y-1">
+                        {tabs.map((tab) => (
+                          <button
+                            key={tab.id}
+                            className={`w-full text-left px-2 py-1 rounded flex items-center space-x-2 ${
+                              activeTab === tab.id ? 'bg-[#37373d]' : 'hover:bg-[#2a2a2a]'
+                            }`}
+                            onClick={() => setActiveTab(tab.id)}
+                          >
+                            {tab.icon}
+                            <span>{tab.title}</span>
+                          </button>
+                        ))}
                       </div>
-                    ))}
-                    <div className="flex items-center">
-                      <span className="text-green-500">➜</span>
-                      <input
-                        ref={inputRef}
-                        type="text"
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                        className="flex-1 bg-transparent outline-none border-none ml-2"
-                        spellCheck={false}
-                      />
                     </div>
                   </div>
-                </div>
+                )}
 
-                {/* Status Bar */}
-                <div className="h-6 bg-[#007acc] text-white flex items-center px-2 text-sm">
-                  <span className="mr-4">🌿 main</span>
-                  <span className="mr-4">📡 Verbunden</span>
-                  <span>CPU: {systemStats.cpu}% SPEICHER: {systemStats.memory}%</span>
+                {/* Main Content */}
+                <div className="flex-1 flex flex-col">
+                  {/* Tabs */}
+                  <div className="h-9 bg-[#2d2d2d] flex items-center">
+                    {tabs.map((tab) => (
+                      <button
+                        key={tab.id}
+                        className={`px-3 h-full flex items-center space-x-2 ${
+                          activeTab === tab.id
+                            ? 'bg-[#1e1e1e] border-t border-[#007acc]'
+                            : 'hover:bg-[#2a2a2a]'
+                        }`}
+                        onClick={() => setActiveTab(tab.id)}
+                      >
+                        {tab.icon}
+                        <span>{tab.title}</span>
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Content Area */}
+                  <div className="flex-1 overflow-auto bg-[#1e1e1e]">
+                    {tabs.find((tab) => tab.id === activeTab)?.content}
+                  </div>
+
+                  {/* Terminal */}
+                  <div className="h-1/3 border-t border-[#3c3c3c] bg-[#1e1e1e]">
+                    <div className="h-8 bg-[#2d2d2d] px-4 flex items-center">
+                      <span className="text-sm">Terminal</span>
+                    </div>
+                    <div
+                      ref={terminalRef}
+                      className="h-[calc(100%-2rem)] overflow-auto p-2 font-mono text-sm"
+                    >
+                      {output.map((line, i) => (
+                        <div key={i} className="whitespace-pre-wrap">
+                          {line}
+                        </div>
+                      ))}
+                      <div className="flex items-center">
+                        <span className="text-green-500">➜</span>
+                        <input
+                          ref={inputRef}
+                          type="text"
+                          value={input}
+                          onChange={(e) => setInput(e.target.value)}
+                          onKeyDown={handleKeyDown}
+                          className="flex-1 bg-transparent outline-none border-none ml-2"
+                          spellCheck={false}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Status Bar */}
+                  <div className="h-6 bg-[#007acc] text-white flex items-center px-2 text-sm">
+                    <span className="mr-4">🌿 main</span>
+                    <span className="mr-4">📡 Verbunden</span>
+                    <span>CPU: {systemStats.cpu}% SPEICHER: {systemStats.memory}%</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+            </motion.div>
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
