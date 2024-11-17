@@ -1,14 +1,11 @@
 'use client';
 
-import { useTheme } from 'next-themes';
 import { useState, useEffect } from 'react';
 import { FloatingNav } from './ui/floating-navbar';
-import { FiSun, FiMoon } from 'react-icons/fi';
 import { AiOutlineUser, AiOutlineTool, AiOutlineProject } from 'react-icons/ai';
 
 export default function Navbar() {
   const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     setMounted(true);
@@ -34,21 +31,12 @@ export default function Navbar() {
       link: '#github-section',
       icon: <AiOutlineProject className="w-4 h-4" />,
     },
-    {
-      name: theme === 'dark' ? 'Light Mode' : 'Dark Mode',
-      link: '#',
-      icon: theme === 'dark' ? <FiSun className="w-4 h-4" /> : <FiMoon className="w-4 h-4" />,
-      onClick: () => setTheme(theme === 'dark' ? 'light' : 'dark'),
-    },
   ];
 
   return (
     <FloatingNav 
-      navItems={navItems.map(item => ({
-        ...item,
-        link: item.onClick ? 'javascript:void(0)' : item.link,
-      }))} 
-      className="top-4"
+      navItems={navItems} 
+      className="top-4 bg-[#0f0f0f]/80 text-[#3b82f6] hover:text-[#6366f1]"
     />
   );
 }

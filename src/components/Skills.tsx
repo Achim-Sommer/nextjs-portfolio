@@ -27,30 +27,6 @@ import {
 } from 'react-icons/si';
 import { IconType } from 'react-icons';
 
-const iconMap: Record<string, IconType> = {
-  "TypeScript": SiTypescript,
-  "React": FaReact,
-  "Next.js": SiNextdotjs,
-  "Django": SiDjango,
-  "Tailwind CSS": SiTailwindcss,
-  "Node.js": FaNodeJs,
-  "Lua": SiLua,
-  "JavaScript": SiJavascript,
-  "Git": FaGitAlt,
-  "HTML5": FaHtml5,
-  "CSS3": FaCss3Alt,
-  "SQL": SiPostgresql,
-  "Express": SiExpress,
-  "PostgreSQL": SiPostgresql,
-  "MySQL": SiMysql,
-  "MongoDB": SiMongodb,
-  "REST APIs": SiNextdotjs,
-  "Docker": SiDocker,
-  "Linux": FaLinux,
-  "Windows": FaWindows,
-  "MacOS": FaApple
-};
-
 const skillsData = [
   { 
     name: "TypeScript", 

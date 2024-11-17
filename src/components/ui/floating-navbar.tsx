@@ -1,18 +1,20 @@
 'use client';
+
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "@/utils/cn";
+import { cn } from "@/lib/utils";
+
+interface NavItem {
+  name: string;
+  link: string;
+  icon?: React.ReactNode;
+}
 
 export const FloatingNav = ({
   navItems,
   className,
 }: {
-  navItems: {
-    name: string;
-    link: string;
-    icon?: JSX.Element;
-    onClick?: () => void;
-  }[];
+  navItems: NavItem[];
   className?: string;
 }) => {
   const [isVisible, setIsVisible] = useState(true);
@@ -30,12 +32,7 @@ export const FloatingNav = ({
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  const handleItemClick = (item: typeof navItems[0], index: number) => {
-    if (item.onClick) {
-      item.onClick();
-      return;
-    }
-
+  const handleItemClick = (item: NavItem, index: number) => {
     const element = document.querySelector(item.link);
     if (element) {
       element.scrollIntoView({
@@ -53,23 +50,19 @@ export const FloatingNav = ({
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className={cn(
-            "fixed top-10 inset-x-0 max-w-2xl mx-auto z-50",
-            className
-          )}
+          className={cn("fixed top-10 inset-x-0 max-w-2xl mx-auto z-50 rounded-full overflow-hidden", className)}
         >
-          <div className="relative">
             <motion.div
               layout
-              className="w-full backdrop-blur-sm bg-white/[0.8] dark:bg-gray-900/[0.8] rounded-full h-16 flex items-center justify-around px-8 border border-white/40 dark:border-gray-800/40 shadow-lg"
+              className="w-full backdrop-blur-md bg-[#0f0f0f]/30 rounded-full h-16 flex items-center justify-around px-8 border border-[#1f1f1f]/40 shadow-lg shadow-black/[0.15]"
             >
               {navItems.map((item, index) => (
                 <button
                   key={item.name}
                   onClick={() => handleItemClick(item, index)}
                   className={cn(
-                    "relative flex items-center gap-2 text-sm font-medium text-neutral-600 dark:text-neutral-300 hover:text-neutral-500 dark:hover:text-neutral-400 transition-colors",
-                    activeIndex === index && "text-black dark:text-white"
+                    "relative flex items-center gap-2 text-sm font-medium text-white/90 hover:text-white transition-colors",
+                    activeIndex === index && "text-white"
                   )}
                 >
                   {item.icon}
@@ -77,7 +70,6 @@ export const FloatingNav = ({
                 </button>
               ))}
             </motion.div>
-          </div>
         </motion.div>
       )}
     </AnimatePresence>

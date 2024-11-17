@@ -23,7 +23,6 @@ export const SparklesCore = ({
     Array<{ x: number; y: number; size: number; duration: number }>
   >([]);
   const containerRef = useRef<HTMLDivElement>(null);
-  const controls = useAnimation();
 
   useEffect(() => {
     const container = containerRef.current;

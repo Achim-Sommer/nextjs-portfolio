@@ -25,7 +25,7 @@ const config: Config = {
         'cursor-blink': 'cursor-blink 1s step-end infinite',
         'typing': 'typing 3.5s steps(40, end)',
         'status-pulse': 'status-pulse 2s ease-in-out infinite',
-        'infinite-scroll': 'infinite-scroll 25s linear infinite',
+        'infinite-scroll': 'infinite-scroll var(--animation-duration) linear infinite',
       },
       keyframes: {
         'gradient-xy': {
@@ -68,8 +68,8 @@ const config: Config = {
           '50%': { opacity: '0.5' }
         },
         'infinite-scroll': {
-          from: { transform: 'translateX(0)' },
-          to: { transform: 'translateX(-50%)' }
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' }
         }
       }
     },

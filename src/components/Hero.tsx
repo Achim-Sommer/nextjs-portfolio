@@ -4,8 +4,8 @@ import * as React from 'react';
 import { motion } from 'framer-motion';
 import { TypewriterEffectSmooth } from './ui/typewriter-effect';
 import { HeroHighlight, Highlight } from './ui/hero-highlight';
-import Particles from './ui/particles';
 import dynamic from 'next/dynamic';
+import Particles from './ui/particles';
 
 const BinaryBackground: React.FC = () => {
   return (
@@ -21,7 +21,7 @@ const BinaryBackground: React.FC = () => {
             animationDuration: `${15 + Math.random() * 10}s`
           }}
         >
-          {Array.from({ length: 20 }).map(() => Math.round(Math.random())).join('')}
+          {Math.random() > 0.5 ? '1' : '0'}
         </div>
       ))}
     </div>
@@ -46,65 +46,12 @@ const Hero: React.FC = () => {
   }, [hasAnimated]);
 
   return (
-    <section id="top" className="relative min-h-screen bg-black">
-      <div className="relative min-h-screen w-full bg-gradient-to-br from-black via-blue-950 to-black animate-gradient-xy overflow-hidden">
-        {/* Line Numbers */}
-        <div className="absolute left-0 top-0 h-full w-12 border-r border-blue-500/10 flex flex-col items-end pr-2 pt-4 text-xs text-blue-500/40 select-none">
-          {Array.from({ length: 100 }).map((_, i) => (
-            <div key={i} className="leading-[1.65rem]">
-              {(i + 1).toString().padStart(2, '0')}
-            </div>
-          ))}
-        </div>
-
-        {/* Code Comments */}
-        <div className="absolute right-4 top-4 w-64 text-xs font-mono opacity-20">
-          <div className="text-blue-300/80">// portfolio.config.ts</div>
-          <div className="text-green-500/80">/** 
-           * @author Achim Sommer
-           * @version 1.0.0 
-           */</div>
-          <div className="mt-2 text-blue-500">interface Developer {'{'}</div>
-          <div className="pl-4">
-            <div className="text-purple-500">name: string;</div>
-            <div className="text-purple-500">role: string;</div>
-            <div className="text-purple-500">skills: string[];</div>
-            <div className="text-purple-500">location: string;</div>
-          </div>
-          <div className="text-blue-500">{'}'}</div>
-          <div className="mt-2">
-            <div className="text-blue-500">const developer: Developer = {'{'}</div>
-            <div className="pl-4">
-              <div className="text-orange-400">name: <span className="text-green-400">"Achim Sommer"</span>,</div>
-              <div className="text-orange-400">role: <span className="text-green-400">"Full Stack Developer"</span>,</div>
-              <div className="text-orange-400">skills: [</div>
-              <div className="pl-4">
-                <div className="text-green-400">"TypeScript",</div>
-                <div className="text-green-400">"React",</div>
-                <div className="text-green-400">"Next.js",</div>
-                <div className="text-green-400">"Node.js"</div>
-              </div>
-              <div className="text-orange-400">],</div>
-              <div className="text-orange-400">location: <span className="text-green-400">"Köln, DE"</span></div>
-            </div>
-            <div className="text-blue-500">{'}'}</div>
-          </div>
-          <div className="mt-2 text-blue-300/80">// TODO: Add more awesome features</div>
-        </div>
-
-        {/* Status Bar */}
-        <div className="absolute bottom-0 left-0 right-0 h-6 bg-blue-950/30 border-t border-blue-500/20 flex items-center px-4 text-xs text-blue-400/60 justify-between">
-          <div className="flex items-center space-x-4">
-            <span>Ready</span>
-            <span>UTF-8</span>
-            <span>TypeScript React</span>
-          </div>
-          <div className="flex items-center space-x-4">
-            <span>Ln 1, Col 1</span>
-            <span>Spaces: 2</span>
-            <span>Portfolio</span>
-          </div>
-        </div>
+    <section id="top" className="relative min-h-screen bg-black overflow-hidden">
+      <div className="relative min-h-screen w-full bg-gradient-to-br from-black via-blue-950 to-black animate-gradient-xy">
+        <Particles className="absolute inset-0" />
+        
+        {/* Background Effects */}
+        <ClientBinaryBackground />
 
         {/* Tech Grid Background */}
         <div className="absolute inset-0">
@@ -136,6 +83,15 @@ const Hero: React.FC = () => {
         <div className="absolute top-0 right-0 w-24 h-24 border-r-2 border-t-2 border-blue-500/30" />
         <div className="absolute bottom-0 left-0 w-24 h-24 border-l-2 border-b-2 border-blue-500/30" />
         <div className="absolute bottom-0 right-0 w-24 h-24 border-r-2 border-b-2 border-blue-500/30" />
+
+        {/* Line Numbers - Only in Hero section */}
+        <div className="absolute left-0 top-0 bottom-0 w-12 border-r border-blue-500/10 flex flex-col items-end pr-2 pt-4 text-xs text-blue-500/40 select-none">
+          {Array.from({ length: 100 }).map((_, i) => (
+            <div key={i} className="leading-[1.65rem]">
+              {(i + 1).toString().padStart(2, '0')}
+            </div>
+          ))}
+        </div>
 
         {/* Terminal Window */}
         <div className="absolute top-4 left-16 w-80 bg-black/30 backdrop-blur-sm rounded border border-blue-500/20">
@@ -201,8 +157,43 @@ const Hero: React.FC = () => {
           </div>
         </div>
 
+        {/* Code Comments */}
+        <div className="absolute right-4 top-4 w-64 text-xs font-mono opacity-20">
+          <div className="text-blue-300/80">// portfolio.config.ts</div>
+          <div className="text-green-500/80">/** 
+           * @author Achim Sommer
+           * @version 1.0.0 
+           */</div>
+          <div className="mt-2 text-blue-500">interface Developer {'{'}</div>
+          <div className="pl-4">
+            <div className="text-purple-500">name: string;</div>
+            <div className="text-purple-500">role: string;</div>
+            <div className="text-purple-500">skills: string[];</div>
+            <div className="text-purple-500">location: string;</div>
+          </div>
+          <div className="text-blue-500">{'}'}</div>
+          <div className="mt-2">
+            <div className="text-blue-500">const developer: Developer = {'{'}</div>
+            <div className="pl-4">
+              <div className="text-orange-400">name: <span className="text-green-400">"Achim Sommer"</span>,</div>
+              <div className="text-orange-400">role: <span className="text-green-400">"Full Stack Developer"</span>,</div>
+              <div className="text-orange-400">skills: [</div>
+              <div className="pl-4">
+                <div className="text-green-400">"TypeScript",</div>
+                <div className="text-green-400">"React",</div>
+                <div className="text-green-400">"Next.js",</div>
+                <div className="text-green-400">"Node.js"</div>
+              </div>
+              <div className="text-orange-400">],</div>
+              <div className="text-orange-400">location: <span className="text-green-400">"Köln, DE"</span></div>
+            </div>
+            <div className="text-blue-500">{'}'}</div>
+          </div>
+          <div className="mt-2 text-blue-300/80">// TODO: Add more awesome features</div>
+        </div>
+
         {/* Main Content */}
-        <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
+        <div className="relative flex flex-col items-center justify-center min-h-screen px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -226,18 +217,9 @@ const Hero: React.FC = () => {
 
             <HeroHighlight>
               <motion.h2
-                initial={{
-                  opacity: 0,
-                  y: 20,
-                }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                transition={{
-                  duration: 0.5,
-                  ease: "easeOut",
-                }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
                 className="text-2xl px-4 md:text-4xl font-bold text-white leading-relaxed text-center mx-auto"
               >
                 <Highlight>
@@ -284,9 +266,19 @@ const Hero: React.FC = () => {
           </motion.div>
         </div>
 
-        {/* Background Effects */}
-        <Particles className="absolute inset-0" />
-        <ClientBinaryBackground />
+        {/* Status Bar */}
+        <div className="absolute bottom-0 left-0 right-0 h-6 bg-blue-950/30 border-t border-blue-500/20 flex items-center px-4 text-xs text-blue-400/60 justify-between">
+          <div className="flex items-center space-x-4">
+            <span>Ready</span>
+            <span>UTF-8</span>
+            <span>TypeScript React</span>
+          </div>
+          <div className="flex items-center space-x-4">
+            <span>Ln 1, Col 1</span>
+            <span>Spaces: 2</span>
+            <span>Portfolio</span>
+          </div>
+        </div>
       </div>
     </section>
   );

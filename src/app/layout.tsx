@@ -1,10 +1,8 @@
 'use client';
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { ThemeProvider } from 'next-themes';
 import BackToTop from '@/components/BackToTop'
 import FloatingDock from '@/components/FloatingDock'
-import { useEffect } from 'react';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -13,16 +11,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  // Initialize theme from localStorage
-  useEffect(() => {
-    const theme = localStorage.getItem('theme') || 'dark';
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    }
-  }, []);
-
   return (
-    <html lang="de" suppressHydrationWarning>
+    <html lang="de" className="dark" suppressHydrationWarning>
       <head>
         <title>Achim Sommer - Portfolio</title>
         <meta name="description" content="Portfolio von Achim Sommer - Dualer Student, Full Stack Developer und YouTuber" />
@@ -31,14 +21,12 @@ export default function RootLayout({
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         />
       </head>
-      <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
-            {children}
-            <BackToTop />
-            <FloatingDock />
-          </div>
-        </ThemeProvider>
+      <body className={`${inter.className} bg-gray-900 text-white`}>
+        <div className="min-h-screen">
+          {children}
+          <BackToTop />
+          <FloatingDock />
+        </div>
       </body>
     </html>
   )

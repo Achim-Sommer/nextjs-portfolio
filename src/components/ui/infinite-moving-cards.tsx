@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from "@/utils/cn";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 export const InfiniteMovingCards = ({
   items,
@@ -25,32 +25,14 @@ export const InfiniteMovingCards = ({
   cardClassName?: string;
   showName?: boolean;
 }) => {
-  const [duplicatedItems] = useState(() => [...items, ...items]);
-  const [start, setStart] = useState(false);
-
-  useEffect(() => {
-    setStart(true);
-  }, []);
-
-  const getSpeed = () => {
-    switch (speed) {
-      case "fast":
-        return "20s";
-      case "normal":
-        return "30s";
-      case "slow":
-        return "40s";
-      default:
-        return "30s";
-    }
-  };
+  const [duplicatedItems] = useState(() => [...items, ...items, ...items]);
 
   const renderCard = (item: (typeof items)[0], index: number) => (
     <div
       key={item.name + index}
       className={cn("relative shrink-0 group", cardClassName)}
       style={{
-        width: cardClassName ? "auto" : "200px",
+        width: cardClassName ? "auto" : "250px",
         marginRight: "1rem",
       }}
     >
@@ -94,23 +76,13 @@ export const InfiniteMovingCards = ({
       <div className="absolute left-0 top-0 bottom-0 w-[100px] z-10 bg-gradient-to-r from-slate-900 to-transparent pointer-events-none" />
       <div className="absolute right-0 top-0 bottom-0 w-[100px] z-10 bg-gradient-to-l from-slate-900 to-transparent pointer-events-none" />
 
-      <div 
-        className="relative flex overflow-hidden" 
-        style={{ 
-          maskImage: 'none',
-          WebkitMaskImage: 'none'
-        }}
-      >
+      <div className="relative flex overflow-hidden">
         <div
           className={cn(
-            "flex min-w-full shrink-0 gap-4 py-4 transition-transform duration-75",
-            start && "animate-infinite-scroll",
-            pauseOnHover && "hover:[animation-play-state:paused]"
+            "flex gap-4 py-4",
+            direction === "left" ? "animate-scroll" : "animate-scroll-reverse",
+            pauseOnHover && "hover-pause"
           )}
-          style={{ 
-            animationDirection: direction === 'right' ? 'reverse' : 'normal',
-            animationDuration: getSpeed()
-          }}
         >
           {duplicatedItems.map((item, idx) => renderCard(item, idx))}
         </div>

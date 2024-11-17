@@ -1,19 +1,42 @@
 'use client';
-import { useTheme } from 'next-themes';
-import React from 'react';
-import { motion } from 'framer-motion';
 
-export function GlowingStarsBackgroundCard({
+import { cn } from '@/lib/utils'
+import React from 'react'
+
+interface GlowingStarsProps {
+  children: React.ReactNode
+  containerClassName?: string
+}
+
+export const GlowingStars: React.FC<GlowingStarsProps> = ({
   children,
-  className = '',
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
+  containerClassName,
+}) => {
+  const [stars] = React.useState(() => {
+    return Array.from({ length: 20 }, () => ({
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 2,
+      alpha: Math.random(),
+    }))
+  })
+
   return (
-    <div className={`relative w-full ${className}`}>
-      <div className="pointer-events-none absolute inset-0 h-full w-full bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px]" />
-      <div className="z-10">{children}</div>
+    <div className={cn('relative', containerClassName)}>
+      {children}
+      {stars.map((star, i) => (
+        <div
+          key={i}
+          className="absolute animate-pulse rounded-full bg-white"
+          style={{
+            top: `${star.y}%`,
+            left: `${star.x}%`,
+            width: `${star.size}px`,
+            height: `${star.size}px`,
+            opacity: star.alpha,
+          }}
+        />
+      ))}
     </div>
-  );
+  )
 }

@@ -2,28 +2,14 @@
 import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { AnimatedText } from './ui/animated-text';
 import { motion } from 'framer-motion';
-import { SparklesCore } from './ui/sparkles-core';
-import Image from 'next/image';
-import { Octokit } from '@octokit/rest';
 import * as VscIcons from 'react-icons/vsc';
-import { FiCoffee } from 'react-icons/fi';
 import * as SiIcons from 'react-icons/si';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
-import {
-  vscDarkPlus,
-  prism as prismStyle
-} from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import typescript from 'react-syntax-highlighter/dist/cjs/languages/prism/typescript';
-import javascript from 'react-syntax-highlighter/dist/cjs/languages/prism/javascript';
-import json from 'react-syntax-highlighter/dist/cjs/languages/prism/json';
-import markdown from 'react-syntax-highlighter/dist/cjs/languages/prism/markdown';
 import { AboutNetworkBackground } from './ui/about-network-background';
 
 // Register languages
 SyntaxHighlighter.registerLanguage('typescript', typescript);
-SyntaxHighlighter.registerLanguage('javascript', javascript);
-SyntaxHighlighter.registerLanguage('json', json);
-SyntaxHighlighter.registerLanguage('markdown', markdown);
 
 // TypeScript Interfaces
 interface GitHubStats {
@@ -79,7 +65,6 @@ export default function AboutMe() {
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [githubStats, setGithubStats] = useState<GitHubStats>({});
-  const [wakaStats, setWakaStats] = useState<WakaTimeStats>({});
   const [systemStats, setSystemStats] = useState<SystemStats>({
     cpu: 0,
     memory: 0,
@@ -171,8 +156,8 @@ Haupt-Sprachen: ${Object.entries(githubStats.mainLanguages || {})
     wakatime: {
       description: 'Zeige Codier-Statistiken',
       action: () => `WakaTime-Statistiken (Letzte 7 Tage):
-Gesamt-Codier-Stunden: ${wakaStats.totalHours?.toFixed(1) || 'Lade...'}
-Haupt-Sprachen: ${wakaStats.languages?.map(l => `${l.name}: ${l.percent.toFixed(1)}%`).join(', ') || 'Lade...'}`
+Gesamt-Codier-Stunden: 0.0
+Haupt-Sprachen: Keine gefunden`
     },
     system: {
       description: 'Zeige System-Statistiken',
