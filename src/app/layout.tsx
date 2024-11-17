@@ -3,7 +3,6 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from 'next-themes';
 import BackToTop from '@/components/BackToTop'
-import ParticlesBackground from '@/components/Particles'
 import FloatingDock from '@/components/FloatingDock'
 import { useEffect } from 'react';
 
@@ -35,7 +34,6 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
-            <ParticlesBackground />
             {children}
             <BackToTop />
             <FloatingDock />
