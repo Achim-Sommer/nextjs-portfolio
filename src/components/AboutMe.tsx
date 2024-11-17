@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { AnimatedText } from './ui/animated-text';
 import { motion } from 'framer-motion';
 import { SparklesCore } from './ui/sparkles-core';
@@ -48,7 +48,7 @@ interface SystemStats {
 
 interface TerminalCommand {
   description: string;
-  action: () => string;
+  action: () => string | JSX.Element;
 }
 
 interface Tab {
@@ -64,11 +64,19 @@ interface SideBarItem {
   label: string;
 }
 
+// Lazy load tab contents
+const AboutTab = lazy(() => import('./tabs/AboutTab'));
+const SkillsTab = lazy(() => import('./tabs/SkillsTab'));
+const ProjectsTab = lazy(() => import('./tabs/ProjectsTab'));
+const ExperienceTab = lazy(() => import('./tabs/ExperienceTab'));
+
 export default function AboutMe() {
   const [activeTab, setActiveTab] = useState<string>('about.tsx');
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [input, setInput] = useState('');
   const [output, setOutput] = useState<string[]>(['Willkommen in meinem Portfolio-Terminal! Tippe "help" für verfügbare Befehle.']);
+  const [commandHistory, setCommandHistory] = useState<string[]>([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
   const [githubStats, setGithubStats] = useState<GitHubStats>({});
   const [wakaStats, setWakaStats] = useState<WakaTimeStats>({});
   const [systemStats, setSystemStats] = useState<SystemStats>({
@@ -131,7 +139,10 @@ export default function AboutMe() {
   wakatime - Zeige Codier-Statistiken
   system - Zeige System-Statistiken
   skills - Liste technische Fähigkeiten
-  clear - Leere Terminal`
+  clear - Leere Terminal
+  matrix - Zeige Matrix-Animation
+  neofetch - Zeige System-Information
+  coffee - Kaffee-Zeit!`
     },
     about: {
       description: 'Zeige persönliche Informationen',
@@ -185,11 +196,83 @@ Sprachen: Python, JavaScript, Lua`
         setOutput([]);
         return '';
       }
+    },
+    matrix: {
+      description: 'Zeige Matrix-Animation',
+      action: () => {
+        const matrixChars = '日ﾊﾐﾋｰｳｼﾅﾓﾆｻﾜﾂｵﾘｱﾎﾃﾏｹﾒｴｶｷﾑﾕﾗｾﾈｽﾀﾇﾍ';
+        let output = '';
+        for (let i = 0; i < 10; i++) {
+          output += Array.from(
+            { length: 40 }, 
+            () => matrixChars[Math.floor(Math.random() * matrixChars.length)]
+          ).join('') + '\n';
+        }
+        return <span className="text-green-400 font-matrix">{output}</span>;
+      }
+    },
+    neofetch: {
+      description: 'Zeige System-Information',
+      action: () => {
+        return (
+          <div className="flex gap-2">
+            <pre className="text-blue-400">
+              {`       _,met$$$$$gg.
+    ,g$$$$$$$$$$$$$$$P.
+  ,g$$P"     """Y$$.".
+ ,$$P'              \`$$$.
+,'$$P       ,ggs.     \`$$b:
+'d$$'     ,$P"'   .    $$$
+ $$P      d$'     ,    $$P
+ $$:      $$.   -    ,d$$'
+ $$;      Y$b._   _,d$P'
+ Y$$.    \`.\`"Y$$$$P"'
+ \`$$b      "-.__
+  \`Y$$
+   \`Y$$.
+     \`$$b.
+       \`Y$$b.
+          \`"Y$b._
+              \`""""\``}
+            </pre>
+            <div className="text-yellow-400">
+              <p>OS: macOS</p>
+              <p>Shell: Portfolio Terminal</p>
+              <p>Theme: VS Code Dark+</p>
+              <p>Languages: TypeScript, JavaScript, Lua</p>
+            </div>
+          </div>
+        );
+      }
+    },
+    coffee: {
+      description: 'Kaffee-Zeit!',
+      action: () => {
+        return (
+          <pre className="text-amber-600">
+            {`
+         )  (
+        (   ) )
+         ) ( (
+       _______)_
+    .-'---------|  
+    ( C|/\\/\\/\\/\\/|
+     '-./\\/\\/\\/\\/|
+       '_________'
+        '-------'
+      `}
+          </pre>
+        );
+      }
     }
   };
 
   const handleCommand = (cmd: string) => {
     const trimmedCmd = cmd.trim().toLowerCase();
+    // Füge Befehl zur Historie hinzu
+    setCommandHistory(prev => [cmd, ...prev]);
+    setHistoryIndex(-1);
+
     if (trimmedCmd in commands) {
       const result = commands[trimmedCmd].action();
       setOutput(prev => [...prev, `> ${cmd}`, result]);
@@ -200,52 +283,39 @@ Sprachen: Python, JavaScript, Lua`
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      const inputCommand = input.toLowerCase();
+      const availableCommands = Object.keys(commands);
+      const matches = availableCommands.filter(cmd => 
+        cmd.startsWith(inputCommand)
+      );
+      
+      if (matches.length === 1) {
+        setInput(matches[0]);
+      } else if (matches.length > 1) {
+        setOutput(prev => [...prev, '', ...matches]);
+      }
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (historyIndex < commandHistory.length - 1) {
+        setHistoryIndex(prev => prev + 1);
+        setInput(commandHistory[historyIndex + 1]);
+      }
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (historyIndex > 0) {
+        setHistoryIndex(prev => prev - 1);
+        setInput(commandHistory[historyIndex - 1]);
+      } else {
+        setHistoryIndex(-1);
+        setInput('');
+      }
+    } else 
     if (e.key === 'Enter') {
       handleCommand(input);
     }
   };
-
-  useEffect(() => {
-    // WakaTime Stats Fetching
-    const fetchWakaTimeStats = async () => {
-      try {
-        const response = await fetch('/api/wakatime');
-        
-        if (!response.ok) {
-          throw new Error(`WakaTime API-Anfrage fehlgeschlagen: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        
-        if (data && data.data) {
-          setWakaStats({
-            totalHours: Number((data.data.total_seconds_including_other_language / 3600).toFixed(1)),
-            languages: Array.isArray(data.data.languages) ? data.data.languages.map((lang: any) => ({
-              name: lang.name,
-              percent: Number(lang.percent.toFixed(1))
-            })) : []
-          });
-        } else {
-          throw new Error('Ungültiges WakaTime API-Antwort-Format');
-        }
-      } catch (error) {
-        setWakaStats({
-          totalHours: 0,
-          languages: []
-        });
-      }
-    };
-
-    fetchGitHubStats();
-    fetchWakaTimeStats();
-    
-    // Periodisch aktualisiere Statistiken
-    const interval = setInterval(() => {
-      fetchWakaTimeStats();
-    }, 60000); // Aktualisiere alle 60 Sekunden
-    
-    return () => clearInterval(interval);
-  }, []);
 
   useEffect(() => {
     if (terminalRef.current) {
@@ -260,59 +330,9 @@ Sprachen: Python, JavaScript, Lua`
       title: 'about.tsx',
       icon: <SiIcons.SiTypescript className="text-blue-400" />,
       content: (
-        <div className="p-4 prose prose-invert">
-          <SyntaxHighlighter
-            language="typescript"
-            style={vscDarkPlus}
-            customStyle={{ background: 'transparent' }}
-          >
-            {`// Persönliche Informationen
-const entwickler = {
-  name: "Achim Sommer",
-  rolle: "Dualer Wirtschaftsinformatik-Student & Full Stack Entwickler",
-  standort: "Aachen, Deutschland",
-  schwerpunkte: ["TypeScript", "React", "FiveM Development"],
-  
-  kontakt: {
-    email: "contact@achimsommer.com",
-    github: "@Achim-Sommer",
-  },
-
-  interessen: [
-    "Web Development",
-    "System Architektur",
-    "UI/UX Design",
-    "Open Source"
-  ],
-
-  // Hover über die Kaffeetasse für tägliche Statistiken 
-  kaffeeProTag: 3,
-  
-  // Klicke auf die Funktion um sie auszuführen
-  aktuellesProjekt: () => {
-    return "Entwicklung beeindruckender Web-Erfahrungen";
-  }
-};`}
-          </SyntaxHighlighter>
-          <div className="mt-4 flex items-center space-x-4">
-            <button 
-              className="px-3 py-1 bg-[#007acc] rounded-md hover:bg-[#1e8ed7] transition-colors"
-              onClick={() => alert('Funktion aufgerufen: Entwicklung beeindruckender Web-Erfahrungen')}
-            >
-              Führe aktuellesProjekt() aus
-            </button>
-            <div className="relative group">
-              <FiCoffee className="text-2xl text-yellow-500 cursor-help" />
-              <div className="absolute hidden group-hover:block bg-[#252526] p-2 rounded shadow-lg z-10 w-48 bottom-full mb-2">
-                Tägliche Kaffeestatistiken:
-                <div className="w-full bg-[#1e1e1e] h-2 rounded mt-1">
-                  <div className="bg-yellow-500 h-full rounded" style={{ width: '75%' }}></div>
-                </div>
-                <span className="text-sm text-gray-400">3/4 Tassen heute</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Suspense fallback={<div className="p-4 text-gray-400">Lade about.tsx...</div>}>
+          <AboutTab />
+        </Suspense>
       )
     },
     {
@@ -320,43 +340,9 @@ const entwickler = {
       title: 'skills.md',
       icon: <SiIcons.SiMarkdown className="text-[#519aba]" />,
       content: (
-        <div className="p-4 prose prose-invert">
-          <SyntaxHighlighter
-            language="markdown"
-            style={vscDarkPlus}
-            customStyle={{ background: 'transparent' }}
-          >
-            {`# Technische Fähigkeiten
-
-## Frontend-Entwicklung
-- React/Next.js
-- TypeScript
-- TailwindCSS
-- HTML5/CSS3
-- JavaScript
-
-## Backend-Entwicklung
-- Node.js
-- Express
-- Django
-
-## Datenbanken
-- MongoDB
-- MySQL
-- PostgreSQL
-
-## Weitere Technologien
-- Docker
-- Git
-- REST APIs
-- Lua
-
-## Betriebssysteme
-- Windows
-- MacOS
-- Linux`}
-          </SyntaxHighlighter>
-        </div>
+        <Suspense fallback={<div className="p-4 text-gray-400">Lade skills.md...</div>}>
+          <SkillsTab />
+        </Suspense>
       )
     },
     {
@@ -364,42 +350,9 @@ const entwickler = {
       title: 'projects.json',
       icon: <SiIcons.SiJson className="text-yellow-500" />,
       content: (
-        <div className="p-4 prose prose-invert">
-          <SyntaxHighlighter
-            language="json"
-            style={vscDarkPlus}
-            customStyle={{ background: 'transparent' }}
-          >
-            {`{
-  "projects": [
-    {
-      "name": "Portfolio Website",
-      "description": "Persönliche Portfolio-Website mit Next.js und TailwindCSS",
-      "technologies": ["Next.js", "TypeScript", "TailwindCSS"],
-      "status": "aktiv",
-      "github": "https://github.com/Achim-Sommer/nextjs-portfolio"
-    },
-    {
-      "name": "FiveM Development",
-      "description": "Benutzerdefinierte Spiel-Modifikationen und Server-Entwicklung",
-      "technologies": ["Lua", "JavaScript", "MySQL"],
-      "status": "aktiv"
-    }
-  ]
-}`}
-          </SyntaxHighlighter>
-          <div className="mt-4 flex items-center space-x-4">
-            <a
-              href="https://github.com/Achim-Sommer"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center space-x-2 px-3 py-1 bg-[#238636] rounded-md hover:bg-[#2ea043] transition-colors"
-            >
-              <SiIcons.SiGithub />
-              <span>Auf GitHub ansehen</span>
-            </a>
-          </div>
-        </div>
+        <Suspense fallback={<div className="p-4 text-gray-400">Lade projects.json...</div>}>
+          <ProjectsTab />
+        </Suspense>
       )
     },
     {
@@ -407,64 +360,9 @@ const entwickler = {
       title: 'experience.tsx',
       icon: <SiIcons.SiReact className="text-[#61dafb]" />,
       content: (
-        <div className="p-4 prose prose-invert">
-          <SyntaxHighlighter
-            language="typescript"
-            style={vscDarkPlus}
-            customStyle={{ background: 'transparent' }}
-          >
-            {`// Berufserfahrung
-interface Erfahrung {
-  position: string;
-  unternehmen: string;
-  zeitraum: string;
-  technologien: string[];
-  highlights: string[];
-}
-
-const erfahrungen: Erfahrung[] = [
-  {
-    position: "Selbstständiger Entwickler",
-    unternehmen: "Freiberuflich",
-    zeitraum: "2016 - Heute",
-    technologien: ["Lua", "JavaScript", "React", "Node.js"],
-    highlights: [
-      "Erfolgreicher YouTube-Kanal mit Fokus auf Entwicklung",
-      "Entwicklung von FiveM Scripts und Modifikationen",
-      "Erstellung maßgeschneiderter Websites für Kunden",
-      "Community Management und technischer Support"
-    ]
-  }
-];
-
-// Ausbildung
-interface Ausbildung {
-  abschluss: string;
-  institution: string;
-  zeitraum: string;
-  schwerpunkte?: string[];
-}
-
-const ausbildung: Ausbildung[] = [
-  {
-    abschluss: "Bachelor of Science - Wirtschaftsinformatik",
-    institution: "FOM Hochschule Köln",
-    zeitraum: "2023 - Heute"
-  },
-  {
-    abschluss: "Allgemeine Hochschulreife",
-    institution: "Wirtschaftsgymnasium",
-    zeitraum: "2019 - 2023",
-    schwerpunkte: [
-      "Leistungskurs Betriebswirtschaftslehre",
-      "Leistungskurs Mathematik",
-      "Abiturfach Deutsch",
-      "Abiturfach Wirtschaftsinformatik"
-    ]
-  }
-];`}
-          </SyntaxHighlighter>
-        </div>
+        <Suspense fallback={<div className="p-4 text-gray-400">Lade experience.tsx...</div>}>
+          <ExperienceTab />
+        </Suspense>
       )
     }
   ];
