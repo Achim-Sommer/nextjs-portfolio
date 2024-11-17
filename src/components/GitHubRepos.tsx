@@ -17,22 +17,35 @@ interface Repository {
   forks_count: number;
   fork: boolean;
   updated_at: string;
+  private: boolean;
 }
 
 export default function GitHubRepos() {
   const [repos, setRepos] = useState<Repository[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [stats, setStats] = useState({ total: 0, private: 0 });
 
   useEffect(() => {
     const fetchRepos = async () => {
       try {
-        // Fetch all repositories
-        const response = await fetch('https://api.github.com/users/Achim-Sommer/repos');
+        // Fetch all repositories including private ones
+        const response = await fetch('https://api.github.com/user/repos', {
+          headers: {
+            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
+            'Accept': 'application/vnd.github.v3+json',
+          }
+        });
         if (!response.ok) throw new Error('Failed to fetch repositories');
         const data = await response.json();
         
-        // Filter out forks
+        // Calculate stats
+        setStats({
+          total: data.length,
+          private: data.filter((repo: Repository) => repo.private).length
+        });
+
+        // Filter out forks if needed
         const ownRepos = data.filter((repo: Repository) => !repo.fork);
         
         // Get top starred repos (up to 3)
@@ -87,6 +100,24 @@ export default function GitHubRepos() {
             className="text-4xl font-bold mb-4"
             gradient
           />
+          <div className="flex justify-center gap-6 mt-4">
+            <div className="flex items-center gap-2">
+              <svg className="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+                <path fillRule="evenodd" d="M12.026 2c-5.509 0-9.974 4.465-9.974 9.974 0 4.406 2.857 8.145 6.821 9.465.499.09.679-.217.679-.481 0-.237-.008-.865-.011-1.696-2.775.602-3.361-1.338-3.361-1.338-.452-1.152-1.107-1.459-1.107-1.459-.905-.619.069-.605.069-.605 1.002.07 1.527 1.028 1.527 1.028.89 1.524 2.336 1.084 2.902.829.091-.645.351-1.085.635-1.334-2.214-.251-4.542-1.107-4.542-4.93 0-1.087.389-1.979 1.024-2.675-.101-.253-.446-1.268.099-2.64 0 0 .837-.269 2.742 1.021a9.582 9.582 0 0 1 2.496-.336 9.554 9.554 0 0 1 2.496.336c1.906-1.291 2.742-1.021 2.742-1.021.545 1.372.203 2.387.099 2.64.64.696 1.024 1.587 1.024 2.675 0 3.833-2.33 4.675-4.552 4.922.355.308.675.916.675 1.846 0 1.334-.012 2.41-.012 2.737 0 .267.178.577.687.479C19.146 20.115 22 16.379 22 11.974 22 6.465 17.535 2 12.026 2z" clipRule="evenodd"/>
+              </svg>
+              <span className="text-gray-300">
+                Gesamt: <span className="font-bold text-blue-400">{stats.total}</span>
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <svg className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+              </svg>
+              <span className="text-gray-300">
+                Private: <span className="font-bold text-yellow-400">{stats.private}</span>
+              </span>
+            </div>
+          </div>
         </div>
 
         <motion.div 
@@ -97,50 +128,62 @@ export default function GitHubRepos() {
           viewport={{ once: true }}
         >
           {repos.map((repo) => (
-            <AnimatedCard key={repo.id} className="relative">
-              <div className="p-6 h-full flex flex-col justify-between">
+            <AnimatedCard key={repo.id} className="relative group hover:shadow-xl transition-all duration-300 border border-gray-800 bg-gray-900/80 backdrop-blur-sm">
+              <div className="p-6 h-full flex flex-col justify-between space-y-4">
                 <div>
-                  <h3 className="text-xl font-semibold mb-2">{repo.name}</h3>
-                  <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                      {repo.name}
+                    </h3>
+                    {repo.private && (
+                      <span className="px-2 py-1 text-xs rounded-full bg-yellow-500/10 text-yellow-300 border border-yellow-500/20">
+                        Private
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-gray-300 mb-4 line-clamp-2">
                     {repo.description || 'No description available'}
+                  </p>
+                  <p className="text-sm text-gray-400">
+                    Last updated: {new Date(repo.updated_at).toLocaleDateString()}
                   </p>
                 </div>
                 
                 <div className="space-y-4">
-                  <div className="flex items-center gap-4">
+                  <div className="flex flex-wrap items-center gap-3">
                     {repo.language && (
-                      <span className="px-3 py-1 text-sm rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100">
+                      <span className="px-3 py-1 text-sm rounded-full bg-gradient-to-r from-blue-900 to-purple-900 text-blue-100 font-medium border border-blue-700/30">
                         {repo.language}
                       </span>
                     )}
                     <div className="flex items-center space-x-4">
-                      <span className="flex items-center space-x-1">
-                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <span className="flex items-center space-x-1 text-gray-300">
+                        <svg className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
-                        <span>{repo.stargazers_count}</span>
+                        <span className="font-medium">{repo.stargazers_count}</span>
                       </span>
-                      <span className="flex items-center space-x-1">
-                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <span className="flex items-center space-x-1 text-gray-300">
+                        <svg className="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1z" />
                         </svg>
-                        <span>{repo.forks_count}</span>
+                        <span className="font-medium">{repo.forks_count}</span>
                       </span>
                     </div>
                   </div>
                   
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center pt-2">
                     <MagneticButton>
-                      <ShimmerButton className="w-full" asChild>
+                      <ShimmerButton className="w-full transform transition-transform duration-300 hover:scale-105 hover:bg-gray-800" asChild>
                         <a
                           href={repo.html_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center justify-center gap-2"
+                          className="flex items-center justify-center gap-2 px-6 py-2"
                         >
                           View Project
                           <svg
-                            className="w-4 h-4"
+                            className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
