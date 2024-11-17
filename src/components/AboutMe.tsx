@@ -20,6 +20,14 @@ interface WakaTimeStats {
   languages?: { name: string; percent: number }[];
 }
 
+interface SystemStats {
+  cpu: number;
+  memory: number;
+  disk: number;
+  network: number;
+  uptime: string;
+}
+
 interface TerminalCommand {
   description: string;
   action: () => string;
@@ -30,6 +38,13 @@ export default function AboutMe() {
   const [output, setOutput] = useState<string[]>(['Welcome to my portfolio terminal! Type "help" for available commands.']);
   const [githubStats, setGithubStats] = useState<GitHubStats>({});
   const [wakaStats, setWakaStats] = useState<WakaTimeStats>({});
+  const [systemStats, setSystemStats] = useState<SystemStats>({
+    cpu: 0,
+    memory: 0,
+    disk: 0,
+    network: 0,
+    uptime: '0:00:00'
+  });
   const terminalRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -56,6 +71,23 @@ export default function AboutMe() {
     }
   };
 
+  // Simulate system stats updates
+  useEffect(() => {
+    const updateSystemStats = () => {
+      setSystemStats({
+        cpu: Math.floor(Math.random() * 100),
+        memory: Math.floor(Math.random() * 100),
+        disk: Math.floor(50 + Math.random() * 40), // Mehr realistische Disk-Nutzung
+        network: Math.floor(Math.random() * 1000),
+        uptime: new Date().toLocaleTimeString()
+      });
+    };
+
+    updateSystemStats();
+    const interval = setInterval(updateSystemStats, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
   const commands: Record<string, TerminalCommand> = {
     help: {
       description: 'List all available commands',
@@ -64,6 +96,7 @@ export default function AboutMe() {
   about - Display personal information
   github - Show GitHub statistics
   wakatime - Display coding statistics
+  system - Display system statistics
   skills - List technical skills
   clear - Clear terminal`
     },
@@ -95,6 +128,15 @@ Top Languages: ${Object.entries(githubStats.mainLanguages || {})
       action: () => `WakaTime Statistics (Last 7 Days):
 Total Coding Hours: ${wakaStats.totalHours?.toFixed(1) || 'Loading...'}
 Top Languages: ${wakaStats.languages?.map(l => `${l.name}: ${l.percent.toFixed(1)}%`).join(', ') || 'Loading...'}`
+    },
+    system: {
+      description: 'Display system statistics',
+      action: () => `System Statistics:
+CPU Usage: ${systemStats.cpu}%
+Memory Usage: ${systemStats.memory}%
+Disk Usage: ${systemStats.disk}%
+Network Traffic: ${systemStats.network} KB/s
+System Uptime: ${systemStats.uptime}`
     },
     skills: {
       description: 'List technical skills',
