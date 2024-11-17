@@ -29,6 +29,19 @@ const entwickler = {
     "Open Source"
   ],
 
+  wissenschaftlicheArbeiten: [
+    {
+      titel: "Chancen und Risiken von No-Code/Low-Code Plattformen für Unternehmen",
+      note: "1,3",
+      jahr: "2024"
+    },
+    {
+      titel: "Auswirkungen des Europäischen KI Act auf kleine und mittlere Unternehmen (KMU) in der EU",
+      note: "1,7",
+      jahr: "2024"
+    }
+  ],
+
   // Hover über die Kaffeetasse für tägliche Statistiken 
   kaffeeProTag: 3,
   

@@ -7,64 +7,99 @@ import Image from 'next/image';
 const hostingProducts = [
   {
     name: 'gameserver',
-    icon: <FaGamepad className="text-4xl text-[#57BB54]" />,
-    description: <div className="flex flex-col">
-      <p className="text-base font-medium">ab 2,76€/Monat</p>
-      <p className="text-sm text-[#57BB54]">oder 45,00€ Lifetime</p>
+    icon: <div className="flex flex-col items-start gap-3">
+      <p className="text-xl font-bold text-[#57BB54]">Gameserver</p>
+      <div className="flex items-center gap-6">
+        <FaGamepad className="text-4xl text-[#57BB54]" />
+        <div>
+          <p className="text-base font-medium">ab 2,76€/Monat</p>
+          <p className="text-sm text-[#57BB54]">oder 45,00€ Lifetime</p>
+        </div>
+      </div>
     </div>,
     color: 'from-[#57BB54]/20 via-[#57BB54]/10 to-transparent'
   },
   {
     name: 'linux-vserver',
-    icon: <FaLinux className="text-4xl text-[#57BB54]" />,
-    description: <div className="flex flex-col">
-      <p className="text-base font-medium">ab 7,90€/Monat</p>
-      <p className="text-sm text-[#57BB54]">oder 79,00€ Lifetime</p>
+    icon: <div className="flex flex-col items-start gap-3">
+      <p className="text-xl font-bold text-[#57BB54]">Linux vServer</p>
+      <div className="flex items-center gap-6">
+        <FaLinux className="text-4xl text-[#57BB54]" />
+        <div>
+          <p className="text-base font-medium">ab 7,90€/Monat</p>
+          <p className="text-sm text-[#57BB54]">oder 79,00€ Lifetime</p>
+        </div>
+      </div>
     </div>,
     color: 'from-[#57BB54]/20 via-[#57BB54]/10 to-transparent'
   },
   {
     name: 'windows-vserver',
-    icon: <FaWindows className="text-4xl text-[#57BB54]" />,
-    description: <div className="flex flex-col">
-      <p className="text-base font-medium">ab 9,90€/Monat</p>
-      <p className="text-sm text-[#57BB54]">oder 99,00€ Lifetime</p>
+    icon: <div className="flex flex-col items-start gap-3">
+      <p className="text-xl font-bold text-[#57BB54]">Windows vServer</p>
+      <div className="flex items-center gap-6">
+        <FaWindows className="text-4xl text-[#57BB54]" />
+        <div>
+          <p className="text-base font-medium">ab 9,90€/Monat</p>
+          <p className="text-sm text-[#57BB54]">oder 99,00€ Lifetime</p>
+        </div>
+      </div>
     </div>,
     color: 'from-[#57BB54]/20 via-[#57BB54]/10 to-transparent'
   },
   {
     name: 'linux-rootserver',
-    icon: <FaServer className="text-4xl text-[#57BB54]" />,
-    description: <div className="flex flex-col">
-      <p className="text-base font-medium">ab 12,90€/Monat</p>
-      <p className="text-sm text-[#57BB54]">oder 154,80€ Lifetime</p>
+    icon: <div className="flex flex-col items-start gap-3">
+      <p className="text-xl font-bold text-[#57BB54]">Linux Rootserver</p>
+      <div className="flex items-center gap-6">
+        <FaServer className="text-4xl text-[#57BB54]" />
+        <div>
+          <p className="text-base font-medium">ab 12,90€/Monat</p>
+          <p className="text-sm text-[#57BB54]">oder 154,80€ Lifetime</p>
+        </div>
+      </div>
     </div>,
     color: 'from-[#57BB54]/20 via-[#57BB54]/10 to-transparent'
   },
   {
     name: 'dedicated-server',
-    icon: <FaDatabase className="text-4xl text-[#57BB54]" />,
-    description: <div className="flex flex-col">
-      <p className="text-base font-medium">ab 41,53€/Monat</p>
-      <p className="text-sm text-[#57BB54]">oder 498,32€ Lifetime</p>
+    icon: <div className="flex flex-col items-start gap-3">
+      <p className="text-xl font-bold text-[#57BB54]">Dedicated Server</p>
+      <div className="flex items-center gap-6">
+        <FaDatabase className="text-4xl text-[#57BB54]" />
+        <div>
+          <p className="text-base font-medium">ab 41,53€/Monat</p>
+          <p className="text-sm text-[#57BB54]">oder 498,32€ Lifetime</p>
+        </div>
+      </div>
     </div>,
     color: 'from-[#57BB54]/20 via-[#57BB54]/10 to-transparent'
   },
   {
     name: 'webspace',
-    icon: <FaGlobe className="text-4xl text-[#57BB54]" />,
-    description: <div className="flex flex-col">
-      <p className="text-base font-medium">ab 3,90€/Monat</p>
-      <p className="text-sm text-[#57BB54]">oder 46,80€ Lifetime</p>
+    icon: <div className="flex flex-col items-start gap-3">
+      <p className="text-xl font-bold text-[#57BB54]">Webspace</p>
+      <div className="flex items-center gap-6">
+        <FaGlobe className="text-4xl text-[#57BB54]" />
+        <div>
+          <p className="text-base font-medium">ab 3,90€/Monat</p>
+          <p className="text-sm text-[#57BB54]">oder 46,80€ Lifetime</p>
+        </div>
+      </div>
     </div>,
     color: 'from-[#57BB54]/20 via-[#57BB54]/10 to-transparent'
   },
   {
     name: 'domains',
-    icon: <FaGlobeEurope className="text-4xl text-[#57BB54]" />,
-    description: <div className="flex flex-col">
-      <p className="text-base font-medium">ab 7,90€/Monat</p>
-      <p className="text-sm text-[#57BB54]">Verschiedene TLDs</p>
+    icon: <div className="flex flex-col items-start gap-3">
+      <p className="text-xl font-bold text-[#57BB54]">Domains</p>
+      <div className="flex items-center gap-6">
+        <FaGlobeEurope className="text-4xl text-[#57BB54]" />
+        <div>
+          <p className="text-base font-medium">ab 7,90€/Monat</p>
+          <p className="text-sm text-[#57BB54]">Verschiedene TLDs</p>
+        </div>
+      </div>
     </div>,
     color: 'from-[#57BB54]/20 via-[#57BB54]/10 to-transparent'
   },
