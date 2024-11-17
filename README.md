@@ -5,9 +5,9 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-38B2AC)](https://tailwindcss.com/)
 
-Ein modernes, performantes Portfolio entwickelt mit Next.js und TypeScript. Live Demo: [Portfolio Link]
+Ein modernes, performantes Portfolio entwickelt mit Next.js und TypeScript. Live Demo: [https://achimsommer.com](https://achimsommer.com)
 
-![Portfolio Preview](public/img/projekt-screenshot.png)
+![Portfolio Preview](public/img/website.png)
 
 ## ✨ Features
 
@@ -54,7 +54,7 @@ Ein modernes, performantes Portfolio entwickelt mit Next.js und TypeScript. Live
   - WakaTime API (Coding Stats)
 
 ### Deployment & Hosting
-- **Primäre Option:** [Zap-Hosting](https://zap-hosting.com/achim) mit [Coolify](https://coolify.io/)
+- **Primäre Option:** [Zap-Hosting](https://zap-hosting.com/) mit [Coolify](https://coolify.io/)
   - Selbst-gehostete Alternative zu Vercel
   - Volle Kontrolle über die Infrastruktur
   - Einfaches Deployment via Git
@@ -132,7 +132,7 @@ http://localhost:3000
 
 ## 🌐 Deployment mit Zap-Hosting & Coolify
 
-1. Server bei [Zap-Hosting](https://zap-hosting.com/achim) mieten oder Lifetime kaufen
+1. Server bei [Zap-Hosting](https://zap-hosting.com/) mieten
 2. Coolify auf dem Server installieren
 ```bash
 curl -fsSL https://cdn.coollabs.io/coolify/install.sh | bash
@@ -198,7 +198,5 @@ Bei Fragen oder Anregungen kannst du:
 
 Besonderer Dank geht an:
 - Next.js Team für das großartige Framework
-- Vercel für die Inspiration
 - Zap-Hosting für zuverlässiges Hosting
 - Coolify für die Self-Hosting Lösung
-- Die Open Source Community
