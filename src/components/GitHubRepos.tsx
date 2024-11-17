@@ -131,7 +131,7 @@ export default function GitHubRepos() {
                   
                   <div className="flex justify-between items-center">
                     <MagneticButton>
-                      <ShimmerButton className="w-full">
+                      <ShimmerButton className="w-full" asChild>
                         <a
                           href={repo.html_url}
                           target="_blank"

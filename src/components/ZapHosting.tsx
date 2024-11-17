@@ -6,6 +6,7 @@ import Image from 'next/image';
 
 const hostingProducts = [
   {
+    name: 'gameserver',
     icon: <div className="flex flex-col items-start gap-3">
       <p className="text-xl font-bold text-[#57BB54]">Gameserver</p>
       <div className="flex items-center gap-6">
@@ -19,6 +20,7 @@ const hostingProducts = [
     color: 'from-[#57BB54]/20 via-[#57BB54]/10 to-transparent'
   },
   {
+    name: 'linux-vserver',
     icon: <div className="flex flex-col items-start gap-3">
       <p className="text-xl font-bold text-[#57BB54]">Linux vServer</p>
       <div className="flex items-center gap-6">
@@ -32,6 +34,7 @@ const hostingProducts = [
     color: 'from-[#57BB54]/20 via-[#57BB54]/10 to-transparent'
   },
   {
+    name: 'windows-vserver',
     icon: <div className="flex flex-col items-start gap-3">
       <p className="text-xl font-bold text-[#57BB54]">Windows vServer</p>
       <div className="flex items-center gap-6">
@@ -45,6 +48,7 @@ const hostingProducts = [
     color: 'from-[#57BB54]/20 via-[#57BB54]/10 to-transparent'
   },
   {
+    name: 'linux-rootserver',
     icon: <div className="flex flex-col items-start gap-3">
       <p className="text-xl font-bold text-[#57BB54]">Linux Rootserver</p>
       <div className="flex items-center gap-6">
@@ -58,6 +62,7 @@ const hostingProducts = [
     color: 'from-[#57BB54]/20 via-[#57BB54]/10 to-transparent'
   },
   {
+    name: 'dedicated-server',
     icon: <div className="flex flex-col items-start gap-3">
       <p className="text-xl font-bold text-[#57BB54]">Dedicated Server</p>
       <div className="flex items-center gap-6">
@@ -71,6 +76,7 @@ const hostingProducts = [
     color: 'from-[#57BB54]/20 via-[#57BB54]/10 to-transparent'
   },
   {
+    name: 'webspace',
     icon: <div className="flex flex-col items-start gap-3">
       <p className="text-xl font-bold text-[#57BB54]">Webspace</p>
       <div className="flex items-center gap-6">
@@ -84,6 +90,7 @@ const hostingProducts = [
     color: 'from-[#57BB54]/20 via-[#57BB54]/10 to-transparent'
   },
   {
+    name: 'domains',
     icon: <div className="flex flex-col items-start gap-3">
       <p className="text-xl font-bold text-[#57BB54]">Domains</p>
       <div className="flex items-center gap-6">
@@ -97,6 +104,7 @@ const hostingProducts = [
     color: 'from-[#57BB54]/20 via-[#57BB54]/10 to-transparent'
   },
   {
+    name: 'plesk-lizenz',
     icon: <div className="flex flex-col items-start gap-3">
       <p className="text-xl font-bold text-[#57BB54]">Plesk Lizenz</p>
       <div className="flex items-center gap-6">

@@ -1,3 +1,5 @@
+'use client';
+
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import SocialMedia from '@/components/SocialMedia';
@@ -11,16 +13,18 @@ import ZapHosting from '@/components/ZapHosting';
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-black">
-      <Navbar />
-      <Hero />
-      <AboutMe />
-      <Skills />
-      <ZapHosting />
-      <Counter />
-      <ProjectShowcase />
-      <GitHubRepos />
-      <Footer />
-    </main>
+    <div style={{ position: 'relative' }}>
+      <main className="min-h-screen bg-black">
+        <Navbar />
+        <Hero />
+        <AboutMe />
+        <Skills />
+        <ZapHosting />
+        <Counter />
+        <ProjectShowcase />
+        <GitHubRepos />
+        <Footer />
+      </main>
+    </div>
   );
 }

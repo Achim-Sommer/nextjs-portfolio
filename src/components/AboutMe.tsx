@@ -31,6 +31,7 @@ export default function AboutMe() {
   const [githubStats, setGithubStats] = useState<GitHubStats>({});
   const [wakaStats, setWakaStats] = useState<WakaTimeStats>({});
   const terminalRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // GitHub Stats Fetching
   const fetchGitHubStats = async () => {
@@ -183,8 +184,7 @@ Languages: Python, JavaScript, Lua`
         <div className="text-center mb-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
             <AnimatedText
@@ -198,12 +198,14 @@ Languages: Python, JavaScript, Lua`
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
             className="relative"
           >
-            <div className="bg-gray-900 rounded-lg p-4 shadow-xl">
+            <div 
+              className="bg-gray-900 rounded-lg p-4 shadow-xl cursor-text"
+              onClick={() => inputRef.current?.focus()}
+            >
               <div className="flex items-center gap-2 mb-2">
                 <div className="w-3 h-3 rounded-full bg-red-500"></div>
                 <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
@@ -222,12 +224,12 @@ Languages: Python, JavaScript, Lua`
               <div className="flex items-center gap-2 font-mono text-sm">
                 <span className="text-green-400">portfolio$</span>
                 <input
+                  ref={inputRef}
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                   className="flex-1 bg-transparent border-none outline-none text-white"
-                  autoFocus
                 />
               </div>
             </div>
@@ -235,8 +237,7 @@ Languages: Python, JavaScript, Lua`
 
           <motion.div
             initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <div className="relative aspect-square">

@@ -46,7 +46,7 @@ const Hero: React.FC = () => {
   }, [hasAnimated]);
 
   return (
-    <div className="w-full min-h-screen bg-black">
+    <section id="top" className="relative min-h-screen bg-black">
       <div className="relative min-h-screen w-full bg-gradient-to-br from-black via-blue-950 to-black animate-gradient-xy overflow-hidden">
         {/* Line Numbers */}
         <div className="absolute left-0 top-0 h-full w-12 border-r border-blue-500/10 flex flex-col items-end pr-2 pt-4 text-xs text-blue-500/40 select-none">
@@ -288,7 +288,7 @@ const Hero: React.FC = () => {
         <Particles className="absolute inset-0" />
         <ClientBinaryBackground />
       </div>
-    </div>
+    </section>
   );
 };
 

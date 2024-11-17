@@ -1,10 +1,26 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'raw.githubusercontent.com',
+        port: '',
+        pathname: '/AchimSommer/github-readme-stats/master/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'github-readme-stats.vercel.app',
+        port: '',
+        pathname: '/api/**',
+      },
+    ],
+  },
   env: {
     NEXT_PUBLIC_YOUTUBE_API_KEY: process.env.NEXT_PUBLIC_YOUTUBE_API_KEY,
     GITHUB_TOKEN: process.env.GITHUB_TOKEN,
     WAKATIME_API_KEY: process.env.WAKATIME_API_KEY,
-  },
+  }
 }
 
 module.exports = nextConfig

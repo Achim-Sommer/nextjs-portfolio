@@ -6,12 +6,16 @@ import React from "react";
 export const ShimmerButton = ({
   children,
   className,
+  asChild = false,
 }: {
   children: React.ReactNode;
   className?: string;
+  asChild?: boolean;
 }) => {
+  const Component = asChild ? motion.div : motion.button;
+  
   return (
-    <motion.button
+    <Component
       whileHover={{
         scale: 1.05,
         transition: { duration: 0.2 },
@@ -26,6 +30,6 @@ export const ShimmerButton = ({
       <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-lg bg-slate-950/90 px-4 py-1 text-sm font-medium text-white backdrop-blur-3xl">
         {children}
       </span>
-    </motion.button>
+    </Component>
   );
 };
