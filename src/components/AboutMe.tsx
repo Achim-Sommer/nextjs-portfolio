@@ -75,7 +75,7 @@ export default function AboutMe() {
   const [activeTab, setActiveTab] = useState<string>('about.tsx');
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [input, setInput] = useState('');
-  const [output, setOutput] = useState<string[]>(['Willkommen in meinem Portfolio-Terminal! Tippe "help" für verfügbare Befehle.']);
+  const [output, setOutput] = useState<(string | JSX.Element)[]>(['Willkommen in meinem Portfolio-Terminal! Tippe "help" für verfügbare Befehle.']);
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [githubStats, setGithubStats] = useState<GitHubStats>({});
