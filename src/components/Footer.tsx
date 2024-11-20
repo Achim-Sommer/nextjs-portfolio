@@ -123,14 +123,12 @@ export default function Footer() {
               Impressum
             </Link>
             <span>•</span>
-            <a
-              href="https://forum.achimsommer.com/home/datenschutzerklaerung/"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/datenschutz"
               className="hover:text-blue-400 transition-colors duration-300 cursor-pointer"
             >
               Datenschutzerklärung
-            </a>
+            </Link>
           </div>
         </div>
       </div>

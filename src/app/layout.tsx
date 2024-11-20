@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import BackToTop from '@/components/BackToTop'
 import FloatingDock from '@/components/FloatingDock'
+import CookieBanner from '@/components/CookieBanner'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -26,6 +27,7 @@ export default function RootLayout({
           {children}
           <BackToTop />
           <FloatingDock />
+          <CookieBanner />
         </div>
       </body>
     </html>
