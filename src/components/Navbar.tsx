@@ -2,10 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { FloatingNav } from './ui/floating-navbar';
-import { AiOutlineUser, AiOutlineTool, AiOutlineProject } from 'react-icons/ai';
+import { AiOutlineUser, AiOutlineTool, AiOutlineProject, AiOutlineRead } from 'react-icons/ai';
+import BlogNavbar from './BlogNavbar';
+import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
   const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
+  const isBlogPage = pathname?.includes('/blog') ?? false;
 
   useEffect(() => {
     setMounted(true);
@@ -13,6 +17,10 @@ export default function Navbar() {
 
   if (!mounted) {
     return null;
+  }
+
+  if (isBlogPage) {
+    return <BlogNavbar />;
   }
 
   const navItems = [
@@ -30,6 +38,11 @@ export default function Navbar() {
       name: 'Projekte',
       link: '#github-section',
       icon: <AiOutlineProject className="w-4 h-4" />,
+    },
+    {
+      name: 'Blog',
+      link: '/blog',
+      icon: <AiOutlineRead className="w-4 h-4" />,
     },
   ];
 

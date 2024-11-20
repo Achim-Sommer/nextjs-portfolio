@@ -19,6 +19,7 @@ Ein modernes, performantes Portfolio entwickelt mit Next.js und TypeScript. Live
 - Moderne UI/UX mit Tailwind CSS
 - Interaktive 3D Komponenten
 - Particle Effekte & Animationen
+- PWA Support mit App-like Experience
 
 ### 🛠 Technische Features
 - Server-Side Rendering (SSR)
@@ -28,6 +29,9 @@ Ein modernes, performantes Portfolio entwickelt mit Next.js und TypeScript. Live
 - SEO optimiert mit Next.js Metadata
 - Progressive Web App (PWA) fähig
 - Datenschutzfreundliche Analytics mit Umami
+- Markdown-basiertes Blog-System
+- Automatische Sitemap-Generierung
+- Optimierte robots.txt
 
 ### 📱 Komponenten
 - Interaktive Projekt-Showcase
@@ -38,6 +42,12 @@ Ein modernes, performantes Portfolio entwickelt mit Next.js und TypeScript. Live
 - Social Media Integration
 - Floating Navigation
 - 3D Tech Stack Visualisierung
+- Blog System mit:
+  - Responsive Grid Layout
+  - Dynamische Suche & Filter
+  - Tag-Navigation
+  - Featured Posts
+  - Lesezeit-Berechnung
 
 ## 🛠 Technologie-Stack
 
@@ -48,6 +58,7 @@ Ein modernes, performantes Portfolio entwickelt mit Next.js und TypeScript. Live
 - **Animationen:** Framer Motion
 - **3D Effekte:** Custom 3D Komponenten
 - **Icons:** Tabler Icons, React Icons
+- **Blog:** Markdown mit gray-matter
 
 ### Backend & APIs
 - **API Routes:** Next.js API Routes
@@ -69,20 +80,32 @@ Ein modernes, performantes Portfolio entwickelt mit Next.js und TypeScript. Live
   - Edge Network
   - Analytik & Monitoring
 
-### 🔍 SEO-Konfiguration
+## 🔍 SEO-Optimierung
 
-Das Portfolio ist mit einer dynamischen XML-Sitemap und robots.txt für optimale Suchmaschinenindexierung ausgestattet.
+Das Portfolio ist mit umfassenden SEO-Optimierungen ausgestattet, einschließlich strukturierter Daten, dynamischer OG-Images und Meta-Tags.
 
-#### Sitemap
-- Automatisch generierte XML-Sitemap unter `/sitemap.xml`
-- Dynamische Aktualisierung der Seiten
-- Automatische `lastmod` Daten
+### Grundkonfiguration
+- Dynamische XML-Sitemap
+- Optimierte robots.txt
+- Meta-Tags & Open Graph
+- Canonical URLs
 
-#### robots.txt
-- Suchmaschinen-Crawler Konfiguration
-- Sitemap-Referenz für bessere Indexierung
+### Blog SEO
+- Strukturierte Daten (Schema.org)
+- Automatische Meta-Beschreibungen
+- Tag-basierte Keywords
+- Social Media Cards
+- Lesezeit & Datum-Markup
 
-#### Domain-Konfiguration
+### Wichtige SEO-Dateien
+- `pages/_app.tsx`: Zentrale App-Komponente mit SEO-Integration
+- `pages/api/og.tsx`: Dynamische Open Graph Image Generierung
+- `src/components/JsonLd.tsx`: Strukturierte Daten (Schema.org)
+- `src/config/seo.config.ts`: Zentrale SEO-Konfiguration
+- `public/robots.txt`: Crawler-Konfiguration
+- `pages/sitemap.xml.tsx`: Dynamische Sitemap
+
+### Domain-Konfiguration
 Um die SEO-Funktionen für deine Domain zu aktivieren:
 
 1. In `public/robots.txt` die Sitemap-URL anpassen:
@@ -95,22 +118,7 @@ Sitemap: https://deine-domain.com/sitemap.xml
 const EXTERNAL_DATA_URL = 'https://deine-domain.com'
 ```
 
-Diese SEO-Optimierungen verbessern die Sichtbarkeit deiner Portfolio-Website in Suchmaschinen.
-
-### 🔍 SEO-Konfiguration
-
-Das Portfolio ist mit umfassenden SEO-Optimierungen ausgestattet, einschließlich strukturierter Daten, dynamischer OG-Images und Meta-Tags.
-
-#### Wichtige SEO-Dateien
-
-- `pages/_app.tsx`: Zentrale App-Komponente mit SEO-Integration
-- `pages/api/og.tsx`: Dynamische Open Graph Image Generierung
-- `src/components/JsonLd.tsx`: Strukturierte Daten (Schema.org)
-- `src/config/seo.config.ts`: Zentrale SEO-Konfiguration
-- `public/robots.txt`: Crawler-Konfiguration
-- `pages/sitemap.xml.tsx`: Dynamische Sitemap
-
-#### Anpassung der SEO-Konfiguration
+### Anpassung der SEO-Konfiguration
 
 1. **Basis SEO-Konfiguration** (`src/config/seo.config.ts`):
 ```typescript
@@ -139,7 +147,6 @@ Das Portfolio ist mit umfassenden SEO-Optimierungen ausgestattet, einschließlic
     "https://github.com/dein-username",
     "https://linkedin.com/in/dein-username"
   ],
-  // Bildungseinrichtung anpassen
   alumniOf: {
     name: "Deine Universität",
     // ...
@@ -151,16 +158,14 @@ Das Portfolio ist mit umfassenden SEO-Optimierungen ausgestattet, einschließlic
 ```typescript
 // Passe das Design des OG-Images an
 {
-  // Ändere Text und Styling
   name: "Dein Name",
   role: "Deine Position",
-  // Passe Farben und Layout an
   background: "deine-farbe",
   // ...
 }
 ```
 
-#### SEO Best Practices
+### SEO Best Practices
 
 1. **Meta-Tags**:
    - Stelle sicher, dass alle Seiten eindeutige Titel haben
@@ -180,13 +185,43 @@ Das Portfolio ist mit umfassenden SEO-Optimierungen ausgestattet, einschließlic
    - Aktualisiere die Sitemap bei neuen Seiten
    - Überprüfe die robots.txt Konfiguration
 
-#### Validierung
+### SEO Validierung
 
 Nutze diese Tools zur Überprüfung deiner SEO-Implementierung:
 - [Google Rich Results Test](https://search.google.com/test/rich-results)
 - [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/)
 - [Twitter Card Validator](https://cards-dev.twitter.com/validator)
 - [LinkedIn Post Inspector](https://www.linkedin.com/post-inspector/)
+
+## 📝 Blog-System
+
+### Content Management
+- Markdown-basierte Blog-Posts
+- Frontmatter für Metadaten
+- Automatische Lesezeit-Berechnung
+- Tagging-System für Kategorisierung
+- Featured Posts Markierung
+
+### Blog Features
+- Responsive Blog Grid Layout
+- Dynamische Suche & Filterung
+- Tag-basierte Navigation
+- Sortierung nach Datum & Featured Status
+
+### Blog Post Erstellung
+1. Erstelle eine neue `.md` Datei in `/content/blog/`
+2. Füge Frontmatter mit folgender Struktur hinzu:
+```yaml
+---
+title: "Dein Blog Titel"
+description: "Eine kurze Beschreibung"
+date: "2024-01-01"
+tags: ["tag1", "tag2"]
+featured: false
+---
+```
+3. Schreibe deinen Content in Markdown
+4. Der Post wird automatisch in der Blog-Übersicht erscheinen
 
 ## 🚀 Schnellstart
 
@@ -395,3 +430,71 @@ Dies erstellt:
    - Teste die PWA-Installation auf verschiedenen Geräten
    - Überprüfe das Erscheinungsbild auf dem Homescreen
    - Validiere das Web App Manifest
+
+### 📝 Blog-Funktionalität
+
+Das Portfolio enthält ein voll funktionsfähiges Blog-System mit folgenden Features:
+
+#### Content Management
+- Markdown-basierte Blog-Posts
+- Frontmatter für Metadaten
+- Automatische Lesezeit-Berechnung
+- Tagging-System für Kategorisierung
+- Featured Posts Markierung
+
+#### Blog Features
+- Responsive Blog Grid Layout
+- Dynamische Suche & Filterung
+- Tag-basierte Navigation
+- Automatisch generierte Lesezeit
+- Sortierung nach Datum & Featured Status
+
+#### SEO-Optimierung
+- Strukturierte Daten (Schema.org)
+- Optimierte Meta-Tags
+- OpenGraph & Twitter Cards
+- Canonical URLs
+- Dynamische Sitemap Integration
+- Optimierte robots.txt
+
+#### TypeScript Integration
+- Strenge Typisierung für Blog-Posts
+- Zentrale Type-Definitionen
+- Interface-basierte Datenstruktur
+- Type-sichere Props & Komponenten
+
+#### Performance
+- Statische Generierung (SSG)
+- Optimierte Bildverarbeitung
+- Lazy Loading für Bilder
+- Effiziente Suche & Filterung
+- Optimierte Bundle-Größe
+
+#### Blog Post Erstellung
+1. Erstelle eine neue `.md` Datei in `/content/blog/`
+2. Füge Frontmatter mit folgender Struktur hinzu:
+```yaml
+---
+title: "Dein Blog Titel"
+description: "Eine kurze Beschreibung"
+date: "2024-01-01"
+tags: ["tag1", "tag2"]
+featured: false
+---
+```
+3. Schreibe deinen Content in Markdown
+4. Der Post wird automatisch in der Blog-Übersicht erscheinen
+
+## 🙏 Danksagung
+
+Dieses Projekt wurde durch die Unterstützung vieler Open-Source-Projekte ermöglicht. Besonderer Dank geht an:
+
+- Next.js Team für das großartige Framework
+- Vercel für die Deployment-Plattform
+- Tailwind CSS für das Styling-System
+- Framer Motion für die Animationen
+- Und alle anderen verwendeten Open-Source-Pakete
+
+## 📄 Lizenz
+
+Dieses Projekt ist unter der MIT-Lizenz lizenziert - siehe die [LICENSE](LICENSE) Datei für Details.

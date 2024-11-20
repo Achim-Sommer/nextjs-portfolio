@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import Link from 'next/link';
 
 interface NavItem {
   name: string;
@@ -33,14 +34,16 @@ export const FloatingNav = ({
   }, [lastScrollY]);
 
   const handleItemClick = (item: NavItem, index: number) => {
-    const element = document.querySelector(item.link);
-    if (element) {
-      element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
+    if (item.link.startsWith('#')) {
+      const element = document.querySelector(item.link);
+      if (element) {
+        element.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+      }
+      setActiveIndex(index);
     }
-    setActiveIndex(index);
   };
 
   return (
@@ -57,17 +60,28 @@ export const FloatingNav = ({
               className="w-full backdrop-blur-md bg-[#0f0f0f]/30 rounded-full h-16 flex items-center justify-around px-8 border border-[#1f1f1f]/40 shadow-lg shadow-black/[0.15]"
             >
               {navItems.map((item, index) => (
-                <button
-                  key={item.name}
-                  onClick={() => handleItemClick(item, index)}
-                  className={cn(
-                    "relative flex items-center gap-2 text-sm font-medium text-white/90 hover:text-white transition-colors",
-                    activeIndex === index && "text-white"
-                  )}
-                >
-                  {item.icon}
-                  <span>{item.name}</span>
-                </button>
+                item.link.startsWith('#') ? (
+                  <button
+                    key={item.name}
+                    onClick={() => handleItemClick(item, index)}
+                    className={cn(
+                      "relative flex items-center gap-2 text-sm font-medium text-white/90 hover:text-white transition-colors",
+                      activeIndex === index && "text-white"
+                    )}
+                  >
+                    {item.icon}
+                    <span>{item.name}</span>
+                  </button>
+                ) : (
+                  <Link
+                    key={item.name}
+                    href={item.link}
+                    className="relative flex items-center gap-2 text-sm font-medium text-white/90 hover:text-white transition-colors"
+                  >
+                    {item.icon}
+                    <span>{item.name}</span>
+                  </Link>
+                )
               ))}
             </motion.div>
         </motion.div>
