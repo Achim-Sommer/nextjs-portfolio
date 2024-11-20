@@ -13,7 +13,7 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'raw.githubusercontent.com',
         port: '',
-        pathname: '/AchimSommer/github-readme-stats/master/**',
+        pathname: '/Achim-Sommer/github-readme-stats/master/**',
       },
       {
         protocol: 'https',
