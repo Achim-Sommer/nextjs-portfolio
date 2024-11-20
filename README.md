@@ -68,6 +68,34 @@ Ein modernes, performantes Portfolio entwickelt mit Next.js und TypeScript. Live
   - Edge Network
   - Analytik & Monitoring
 
+### 🔍 SEO-Konfiguration
+
+Das Portfolio ist mit einer dynamischen XML-Sitemap und robots.txt für optimale Suchmaschinenindexierung ausgestattet.
+
+#### Sitemap
+- Automatisch generierte XML-Sitemap unter `/sitemap.xml`
+- Dynamische Aktualisierung der Seiten
+- Automatische `lastmod` Daten
+
+#### robots.txt
+- Suchmaschinen-Crawler Konfiguration
+- Sitemap-Referenz für bessere Indexierung
+
+#### Domain-Konfiguration
+Um die SEO-Funktionen für deine Domain zu aktivieren:
+
+1. In `public/robots.txt` die Sitemap-URL anpassen:
+```txt
+Sitemap: https://deine-domain.com/sitemap.xml
+```
+
+2. In `pages/sitemap.xml.tsx` die Domain-Konstante aktualisieren:
+```typescript
+const EXTERNAL_DATA_URL = 'https://deine-domain.com'
+```
+
+Diese SEO-Optimierungen verbessern die Sichtbarkeit deiner Portfolio-Website in Suchmaschinen.
+
 ## 🚀 Schnellstart
 
 ### Voraussetzungen
