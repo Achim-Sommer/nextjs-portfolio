@@ -22,6 +22,7 @@ export default function handler(req: NextRequest) {
             overflow: 'hidden',
             fontFamily: 'monospace',
           }}
+        >
           {/* Line Numbers */}
           <div
             style={{
