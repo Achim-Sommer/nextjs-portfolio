@@ -204,7 +204,7 @@ const Hero: React.FC = () => {
               <h1 className="mb-4 text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
                 <TypewriterEffectSmooth
                   words={[
-                    { text: "Hey", className: "text-white" },
+                    { text: "Hey,", className: "text-white" },
                     { text: "ich", className: "text-white" },
                     { text: "bin", className: "text-white" },
                     { text: "Achim", className: "text-white" }
