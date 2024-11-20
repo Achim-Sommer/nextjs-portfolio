@@ -64,8 +64,7 @@ export default function DatenschutzPage() {
               <h2 className="text-2xl font-semibold text-white mb-4">3. Cookies und Local Storage</h2>
               <h3 className="text-xl font-semibold text-white mb-2">Cookie-Banner und Einwilligung</h3>
               <p className="mb-4">Beim ersten Besuch unserer Website wird Ihnen ein Cookie-Banner angezeigt. Hier können Sie entscheiden, ob Sie der Verwendung von Cookies zustimmen möchten. Ihre Entscheidung wird im localStorage Ihres Browsers unter dem Schlüssel 'cookieConsent' gespeichert.</p>
-              
-              <h3 className="text-xl font-semibold text-white mb-2">Verwendete Cookies und Local Storage</h3>
+　　 　 　 　 <h3 className="text-xl font-semibold text-white mb-2">Verwendete Cookies und Local Storage</h3>
               <p className="mb-4">Wir verwenden ausschließlich technisch notwendige Cookies und Local Storage Einträge:</p>
               <ul className="list-disc pl-6 mb-4">
                 <li className="mb-2">cookieConsent (Local Storage): Speichert Ihre Cookie-Präferenz</li>
@@ -74,8 +73,7 @@ export default function DatenschutzPage() {
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-white mb-4">4. Externe Dienste und Integrationen</h2>
-              
-              <h3 className="text-xl font-semibold text-white mb-2">GitHub API-Integration</h3>
+　　 　 　 　 <h3 className="text-xl font-semibold text-white mb-2">GitHub API-Integration</h3>
               <p className="mb-4">Wir nutzen die GitHub API, um Repositories und Beitragsstatistiken anzuzeigen. Dabei werden folgende Daten verarbeitet:</p>
               <ul className="list-disc pl-6 mb-4">
                 <li className="mb-2">Repository-Informationen (Name, Beschreibung, URL)</li>
@@ -83,6 +81,23 @@ export default function DatenschutzPage() {
                 <li className="mb-2">Programmiersprachen und Statistiken</li>
               </ul>
               <p className="mb-4">Die Kommunikation mit der GitHub API erfolgt über eine verschlüsselte HTTPS-Verbindung. Weitere Informationen finden Sie in der <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" className="text-blue-400 hover:text-blue-300">GitHub Datenschutzerklärung</a>.</p>
+
+              <h3 className="text-xl font-semibold text-white mb-2">Umami Analytics</h3>
+              <p className="mb-4">Wir nutzen Umami als datenschutzfreundliche Alternative zu Google Analytics. Umami ist ein Privacy-First Analytics Tool, das folgende Grundsätze befolgt:</p>
+              <ul className="list-disc pl-6 mb-4">
+                <li className="mb-2">Keine Verwendung von Cookies</li>
+                <li className="mb-2">Keine Speicherung personenbezogener Daten</li>
+                <li className="mb-2">Keine Cross-Site oder Cross-Device Tracking</li>
+                <li className="mb-2">Vollständige Compliance mit DSGVO</li>
+              </ul>
+              <p className="mb-4">Umami sammelt anonymisierte Daten wie:</p>
+              <ul className="list-disc pl-6 mb-4">
+                <li className="mb-2">Seitenaufrufe</li>
+                <li className="mb-2">Besuchsquellen</li>
+                <li className="mb-2">Verwendete Gerätetypen</li>
+                <li className="mb-2">Ungefähre geografische Location (basierend auf IP, die nicht gespeichert wird)</li>
+              </ul>
+              <p className="mb-4">Diese Daten helfen uns, unsere Website zu verbessern und werden ausschließlich in aggregierter Form verwendet. Es findet keine Zusammenführung mit anderen Datenquellen statt.</p>
 
               <h3 className="text-xl font-semibold text-white mb-2">Google Fonts</h3>
               <p className="mb-4">Wir binden Google Fonts lokal ein, um die Ladezeiten zu optimieren und Ihre Privatsphäre zu schützen. Es findet keine direkte Verbindung zu Google-Servern statt.</p>
@@ -96,8 +111,7 @@ export default function DatenschutzPage() {
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-white mb-4">5. Technische Details</h2>
-              
-              <h3 className="text-xl font-semibold text-white mb-2">Server-Log-Files</h3>
+　　 　 　 　 <h3 className="text-xl font-semibold text-white mb-2">Server-Log-Files</h3>
               <p className="mb-4">Bei jedem Zugriff auf unsere Website werden automatisch Informationen in Server-Log-Files gespeichert. Diese beinhalten:</p>
               <ul className="list-disc pl-6 mb-4">
                 <li className="mb-2">Browsertyp und -version</li>

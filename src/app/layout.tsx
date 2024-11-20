@@ -21,6 +21,11 @@ export default function RootLayout({
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         />
+        <script
+          async
+          src="https://analytics.eu.umami.is/script.js"
+          data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
+        />
       </head>
       <body className={`${inter.className} bg-gray-900 text-white`}>
         <div className="min-h-screen">
