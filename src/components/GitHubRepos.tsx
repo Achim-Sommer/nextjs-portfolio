@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AnimatedCard } from './ui/animated-card';
 import { AnimatedText } from './ui/animated-text';
 import { Spotlight } from './ui/spotlight';
@@ -7,6 +7,7 @@ import { ShimmerButton } from './ui/shimmer-button';
 import { MagneticButton } from './ui/magnetic-button';
 import { motion } from 'framer-motion';
 import GitHubCalendar from 'react-github-calendar';
+import { Tooltip } from 'react-tooltip';
 
 interface Repository {
   id: number;
@@ -139,7 +140,6 @@ export default function GitHubRepos() {
                   year="last"
                   labels={{
                     totalCount: "{{count}} Beiträge im letzten Jahr",
-                    tooltip: "<strong>{{count}} Beiträge</strong> am {{date}}",
                     months: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
                     weekdays: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
                   }}
@@ -148,12 +148,15 @@ export default function GitHubRepos() {
                   }}
                   style={{
                     color: '#9ca3af',
-                    margin: '0 auto',
                   }}
-                  className="transition-all duration-300"
                   showWeekdayLabels={true}
                   hideColorLegend={false}
+                  renderBlock={(block, activity) => React.cloneElement(block, {
+                    'data-tooltip-id': 'github-calendar-tooltip',
+                    'data-tooltip-content': `${activity.count} Beiträge am ${activity.date}`
+                  })}
                 />
+                <Tooltip id="github-calendar-tooltip" />
               </div>
             </div>
           </div>
