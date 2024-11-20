@@ -363,10 +363,12 @@ Sprachen: Python, JavaScript, Lua`
   ];
 
   return (
-    <div className="relative w-full h-screen overflow-hidden">
-      <AboutNetworkBackground />
+    <div className="relative w-full overflow-hidden max-h-[1000px] sm:max-h-[1100px]">
+      <div className="absolute inset-0 w-full h-full">
+        <AboutNetworkBackground />
+      </div>
       <div className="relative">
-        <section id="about-me" className="relative py-10 sm:py-16">
+        <section id="about-me" className="relative py-8 sm:py-12">
           <div className="mx-auto max-w-[90%] xl:max-w-[1400px] px-4">
             <div className="text-center mb-8">
               <motion.div
@@ -376,7 +378,7 @@ Sprachen: Python, JavaScript, Lua`
               >
                 <AnimatedText
                   text="Entwickler-Terminal"
-                  className="text-4xl font-bold mb-4"
+                  className="text-2xl sm:text-4xl font-bold mb-4"
                   gradient
                 />
               </motion.div>
@@ -391,29 +393,29 @@ Sprachen: Python, JavaScript, Lua`
               {/* MacOS Titlebar */}
               <div className="h-7 bg-[#2D2D2D]/95 backdrop-blur-sm flex items-center px-4 select-none border-b border-[#3c3c3c] relative">
                 <div className="flex space-x-2">
-                  <div className="w-3 h-3 rounded-full bg-[#FF5F56] hover:bg-[#FF4343] transition-colors duration-150 cursor-pointer"></div>
-                  <div className="w-3 h-3 rounded-full bg-[#FFBD2E] hover:bg-[#FFAB1E] transition-colors duration-150 cursor-pointer"></div>
-                  <div className="w-3 h-3 rounded-full bg-[#27C93F] hover:bg-[#1AAB32] transition-colors duration-150 cursor-pointer"></div>
+                  <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-[#FF5F56] hover:bg-[#FF4343] transition-colors duration-150 cursor-pointer"></div>
+                  <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-[#FFBD2E] hover:bg-[#FFAB1E] transition-colors duration-150 cursor-pointer"></div>
+                  <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-[#27C93F] hover:bg-[#1AAB32] transition-colors duration-150 cursor-pointer"></div>
                 </div>
-                <div className="flex-1 text-center text-sm text-gray-400">portfolio.app</div>
+                <div className="flex-1 text-center text-xs sm:text-sm text-gray-400">portfolio.app</div>
               </div>
-              <div className="flex h-[800px] relative">
+              <div className="flex h-[500px] sm:h-[800px] relative">
                 {/* Activity Bar */}
-                <div className="w-12 bg-[#333333] flex flex-col items-center py-2 space-y-4">
+                <div className="w-8 sm:w-12 bg-[#333333] flex flex-col items-center py-2 space-y-4">
                   {sidebarItems.map((item) => (
                     <button
                       key={item.id}
-                      className="w-10 h-10 flex items-center justify-center hover:bg-[#2a2a2a] rounded"
+                      className="w-6 h-6 sm:w-10 sm:h-10 flex items-center justify-center hover:bg-[#2a2a2a] rounded"
                       title={item.label}
                     >
-                      {item.icon}
+                      <div className="w-4 h-4 sm:w-5 sm:h-5">{item.icon}</div>
                     </button>
                   ))}
                 </div>
 
-                {/* Sidebar */}
+                {/* Sidebar - nur auf Desktop anzeigen */}
                 {sidebarOpen && (
-                  <div className="w-64 bg-[#252526] border-r border-[#3c3c3c]">
+                  <div className="hidden sm:block w-64 bg-[#252526] border-r border-[#3c3c3c]">
                     <div className="p-2">
                       <h2 className="text-sm uppercase text-gray-400 px-2 py-1">Explorer</h2>
                       <div className="space-y-1">
@@ -437,36 +439,36 @@ Sprachen: Python, JavaScript, Lua`
                 {/* Main Content */}
                 <div className="flex-1 flex flex-col">
                   {/* Tabs */}
-                  <div className="h-9 bg-[#2d2d2d] flex items-center">
+                  <div className="h-7 sm:h-9 bg-[#2d2d2d] flex items-center overflow-x-auto">
                     {tabs.map((tab) => (
                       <button
                         key={tab.id}
-                        className={`px-3 h-full flex items-center space-x-2 ${
+                        className={`px-2 sm:px-3 h-full flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm whitespace-nowrap ${
                           activeTab === tab.id
                             ? 'bg-[#1e1e1e] border-t border-[#007acc]'
                             : 'hover:bg-[#2a2a2a]'
                         }`}
                         onClick={() => setActiveTab(tab.id)}
                       >
-                        {tab.icon}
+                        <div className="w-3 h-3 sm:w-4 sm:h-4">{tab.icon}</div>
                         <span>{tab.title}</span>
                       </button>
                     ))}
                   </div>
 
                   {/* Content Area */}
-                  <div className="flex-1 overflow-auto bg-[#1e1e1e]">
+                  <div className="flex-1 overflow-auto bg-[#1e1e1e] text-sm sm:text-base">
                     {tabs.find((tab) => tab.id === activeTab)?.content}
                   </div>
 
                   {/* Terminal */}
                   <div className="h-1/3 border-t border-[#3c3c3c] bg-[#1e1e1e]">
-                    <div className="h-8 bg-[#2d2d2d] px-4 flex items-center">
-                      <span className="text-sm">Terminal</span>
+                    <div className="h-6 sm:h-8 bg-[#2d2d2d] px-2 sm:px-4 flex items-center">
+                      <span className="text-xs sm:text-sm">Terminal</span>
                     </div>
                     <div
                       ref={terminalRef}
-                      className="h-[calc(100%-2rem)] overflow-auto p-2 font-mono text-sm"
+                      className="h-[calc(100%-1.5rem)] sm:h-[calc(100%-2rem)] overflow-auto p-2 font-mono text-xs sm:text-sm"
                     >
                       {output.map((line, i) => (
                         <div key={i} className="whitespace-pre-wrap">
@@ -489,9 +491,9 @@ Sprachen: Python, JavaScript, Lua`
                   </div>
 
                   {/* Status Bar */}
-                  <div className="h-6 bg-[#007acc] text-white flex items-center px-2 text-sm">
-                    <span className="mr-4">🌿 main</span>
-                    <span className="mr-4">📡 Verbunden</span>
+                  <div className="h-5 sm:h-6 bg-[#007acc] text-white flex items-center px-2 text-xs sm:text-sm overflow-x-auto whitespace-nowrap">
+                    <span className="mr-2 sm:mr-4">🌿 main</span>
+                    <span className="mr-2 sm:mr-4">📡 Verbunden</span>
                     <span>CPU: {systemStats.cpu}% SPEICHER: {systemStats.memory}%</span>
                   </div>
                 </div>

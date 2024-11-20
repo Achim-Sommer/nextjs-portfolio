@@ -79,13 +79,13 @@ const Hero: React.FC = () => {
         </div>
 
         {/* Corner Circuit Decorations */}
-        <div className="absolute top-0 left-0 w-24 h-24 border-l-2 border-t-2 border-blue-500/30" />
-        <div className="absolute top-0 right-0 w-24 h-24 border-r-2 border-t-2 border-blue-500/30" />
-        <div className="absolute bottom-0 left-0 w-24 h-24 border-l-2 border-b-2 border-blue-500/30" />
-        <div className="absolute bottom-0 right-0 w-24 h-24 border-r-2 border-b-2 border-blue-500/30" />
+        <div className="absolute top-0 left-0 w-12 md:w-24 h-12 md:h-24 border-l-2 border-t-2 border-blue-500/30" />
+        <div className="absolute top-0 right-0 w-12 md:w-24 h-12 md:h-24 border-r-2 border-t-2 border-blue-500/30" />
+        <div className="absolute bottom-0 left-0 w-12 md:w-24 h-12 md:h-24 border-l-2 border-b-2 border-blue-500/30" />
+        <div className="absolute bottom-0 right-0 w-12 md:w-24 h-12 md:h-24 border-r-2 border-b-2 border-blue-500/30" />
 
         {/* Line Numbers - Only in Hero section */}
-        <div className="absolute left-0 top-0 bottom-0 w-12 border-r border-blue-500/10 flex flex-col items-end pr-2 pt-4 text-xs text-blue-500/40 select-none">
+        <div className="absolute left-0 top-0 bottom-0 w-12 border-r border-blue-500/10 flex flex-col items-end pr-2 pt-4 text-xs text-blue-500/40 select-none hidden md:flex">
           {Array.from({ length: 100 }).map((_, i) => (
             <div key={i} className="leading-[1.65rem]">
               {(i + 1).toString().padStart(2, '0')}
@@ -94,7 +94,7 @@ const Hero: React.FC = () => {
         </div>
 
         {/* Terminal Window */}
-        <div className="absolute top-4 left-16 w-80 bg-black/30 backdrop-blur-sm rounded border border-blue-500/20">
+        <div className="absolute top-4 left-4 md:left-16 w-[calc(100%-2rem)] md:w-80 bg-black/30 backdrop-blur-sm rounded border border-blue-500/20 z-20">
           <div className="h-6 bg-blue-950/30 border-b border-blue-500/20 flex items-center px-3">
             <div className="flex space-x-2">
               <div className="w-2.5 h-2.5 rounded-full bg-red-500/50"></div>
@@ -150,15 +150,15 @@ const Hero: React.FC = () => {
                 <span className="ml-2">tailwind</span>
               </div>
             </div>
-            <div className="mt-2 flex items-center">
+            <div className="mt-2 flex items-center relative">
               <span className="text-blue-300/80">$</span>
-              <span className="ml-2 w-2 h-4 bg-blue-500/50 animate-pulse"></span>
+              <span className="ml-2 w-2 h-4 bg-blue-500/50 animate-pulse absolute left-[7.2rem] md:left-[6.8rem]"></span>
             </div>
           </div>
         </div>
 
         {/* Code Comments */}
-        <div className="absolute right-4 top-4 w-64 text-xs font-mono opacity-20">
+        <div className="absolute right-4 top-24 md:top-4 w-[calc(100%-2rem)] md:w-64 text-xs font-mono opacity-20 z-10">
           <div className="text-blue-300/80">// portfolio.config.ts</div>
           <div className="text-green-500/80">/** 
            * @author Achim Sommer
