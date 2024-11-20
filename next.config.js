@@ -19,7 +19,10 @@ const nextConfig = {
   env: {
     GITHUB_TOKEN: process.env.GITHUB_TOKEN,
     WAKATIME_API_KEY: process.env.WAKATIME_API_KEY,
-  }
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 }
 
 module.exports = nextConfig

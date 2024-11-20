@@ -64,7 +64,7 @@ export default function DatenschutzPage() {
               <h2 className="text-2xl font-semibold text-white mb-4">3. Cookies und Local Storage</h2>
               <h3 className="text-xl font-semibold text-white mb-2">Cookie-Banner und Einwilligung</h3>
               <p className="mb-4">Beim ersten Besuch unserer Website wird Ihnen ein Cookie-Banner angezeigt. Hier können Sie entscheiden, ob Sie der Verwendung von Cookies zustimmen möchten. Ihre Entscheidung wird im localStorage Ihres Browsers unter dem Schlüssel 'cookieConsent' gespeichert.</p>
-　　 　 　 　 <h3 className="text-xl font-semibold text-white mb-2">Verwendete Cookies und Local Storage</h3>
+              <h3 className="text-xl font-semibold text-white mb-2">Verwendete Cookies und Local Storage</h3>
               <p className="mb-4">Wir verwenden ausschließlich technisch notwendige Cookies und Local Storage Einträge:</p>
               <ul className="list-disc pl-6 mb-4">
                 <li className="mb-2">cookieConsent (Local Storage): Speichert Ihre Cookie-Präferenz</li>
@@ -73,7 +73,7 @@ export default function DatenschutzPage() {
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-white mb-4">4. Externe Dienste und Integrationen</h2>
-　　 　 　 　 <h3 className="text-xl font-semibold text-white mb-2">GitHub API-Integration</h3>
+              <h3 className="text-xl font-semibold text-white mb-2">GitHub API-Integration</h3>
               <p className="mb-4">Wir nutzen die GitHub API, um Repositories und Beitragsstatistiken anzuzeigen. Dabei werden folgende Daten verarbeitet:</p>
               <ul className="list-disc pl-6 mb-4">
                 <li className="mb-2">Repository-Informationen (Name, Beschreibung, URL)</li>
@@ -111,7 +111,7 @@ export default function DatenschutzPage() {
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-white mb-4">5. Technische Details</h2>
-　　 　 　 　 <h3 className="text-xl font-semibold text-white mb-2">Server-Log-Files</h3>
+              <h3 className="text-xl font-semibold text-white mb-2">Server-Log-Files</h3>
               <p className="mb-4">Bei jedem Zugriff auf unsere Website werden automatisch Informationen in Server-Log-Files gespeichert. Diese beinhalten:</p>
               <ul className="list-disc pl-6 mb-4">
                 <li className="mb-2">Browsertyp und -version</li>

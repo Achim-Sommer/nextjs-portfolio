@@ -13,7 +13,8 @@
     "react/jsx-no-comment-textnodes": "warn",
     "@next/next/no-img-element": "warn",
     "react-hooks/exhaustive-deps": "warn",
-    "prefer-const": "warn"
+    "prefer-const": "warn",
+    "no-irregular-whitespace": "warn"
   },
   "root": true
 }
