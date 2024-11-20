@@ -102,6 +102,7 @@ Fülle die Variablen in `.env.local` aus:
 GITHUB_TOKEN=dein_github_token
 WAKATIME_API_KEY=dein_wakatime_api_key
 NEXT_PUBLIC_UMAMI_WEBSITE_ID=dein_umami_website_api_key
+NEXT_PUBLIC_UMAMI_URL=https://ihre-umami-domain.com/script.js
 ```
 
 5. Entwicklungsserver starten
