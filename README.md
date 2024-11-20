@@ -26,6 +26,7 @@ Ein modernes, performantes Portfolio entwickelt mit Next.js und TypeScript. Live
 - Optimierte Performance (100/100 Lighthouse Score)
 - SEO optimiert mit Next.js Metadata
 - Progressive Web App (PWA) fähig
+- Datenschutzfreundliche Analytics mit Umami
 
 ### 📱 Komponenten
 - Interaktive Projekt-Showcase
@@ -52,6 +53,7 @@ Ein modernes, performantes Portfolio entwickelt mit Next.js und TypeScript. Live
 - **Externe APIs:** 
   - GitHub API (Repositories)
   - WakaTime API (Coding Stats)
+  - Umami Analytics (Selbst-gehostet)
 
 ### Deployment & Hosting
 - **Primäre Option:** [Zap-Hosting](https://zap-hosting.com/) mit [Coolify](https://coolify.io/)
