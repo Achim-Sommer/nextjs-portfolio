@@ -209,12 +209,12 @@ export default function GitHubRepos() {
                   </p>
                   <div className="flex justify-between items-center">
                     <MagneticButton>
-                      <ShimmerButton className="w-full transform transition-transform duration-300 hover:scale-105 hover:bg-gray-800" asChild>
+                      <ShimmerButton className="transform transition-transform duration-300 hover:scale-105 hover:bg-gray-800" asChild>
                         <a
                           href={repo.html_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center justify-center gap-2 px-6 py-2"
+                          className="flex items-center justify-center gap-2 px-4 py-2"
                         >
                           View Project
                           <svg
