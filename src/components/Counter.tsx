@@ -1,130 +1,175 @@
 'use client';
-import { motion } from "framer-motion";
-import { AnimatedCounter } from "./ui/animated-counter";
-import { cn } from "@/utils/cn";
-import { 
-  FaYoutube, 
-  FaVideo, 
-  FaCommentAlt, 
-  FaInstagram, 
-  FaGlobeEurope, 
-  FaDiscord, 
-  FaClock, 
-  FaUsers 
-} from "react-icons/fa";
 
-const stats = [
-  {
-    value: 8444,
-    label: "YouTube Abonnenten",
-    icon: FaUsers,
-    gradient: "from-red-500 via-red-400 to-red-500"
-  },
-  {
-    value: 3500000,
-    label: "YouTube Views",
-    icon: FaYoutube,
-    gradient: "from-blue-500 via-blue-400 to-blue-500"
-  },
-  {
-    value: 420,
-    label: "Videos",
-    icon: FaVideo,
-    gradient: "from-purple-500 via-purple-400 to-purple-500"
-  },
-  {
-    value: 88000,
-    label: "YouTube Kommentare",
-    icon: FaCommentAlt,
-    gradient: "from-green-500 via-green-400 to-green-500"
-  },
-  {
-    value: 198500,
-    label: "Watch Time (Stunden)",
-    icon: FaClock,
-    gradient: "from-yellow-500 via-yellow-400 to-yellow-500"
-  },
-  {
-    value: 1850,
-    label: "Instagram Follower",
-    icon: FaInstagram,
-    gradient: "from-pink-500 via-pink-400 to-pink-500"
-  },
-  {
-    value: 8200,
-    label: "Forum Mitglieder",
-    icon: FaGlobeEurope,
-    gradient: "from-indigo-500 via-indigo-400 to-indigo-500"
-  },
-  {
-    value: 3700,
-    label: "Discord Mitglieder",
-    icon: FaDiscord,
-    gradient: "from-violet-500 via-violet-400 to-violet-500"
+import { motion, Variants } from "framer-motion";
+import { cn } from "@/utils/cn";
+import { stats, ANIMATION_DELAY } from "@/config/stats.config";
+import { useCounterAnimation } from "@/hooks/useCounterAnimation";
+import { ErrorBoundary } from "react-error-boundary";
+
+// Animation variants
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * ANIMATION_DELAY / 1000,
+      duration: 0.5,
+      ease: "easeOut"
+    }
+  })
+};
+
+const iconVariants: Variants = {
+  initial: { scale: 1 },
+  hover: { 
+    scale: 1.1,
+    transition: {
+      duration: 0.2,
+      ease: "easeInOut"
+    }
   }
-];
+};
+
+// Fallback component for error boundary
+const ErrorFallback = ({ error }: { error: Error }) => (
+  <div className="text-red-500 p-4 rounded-lg bg-red-100">
+    <h2 className="font-bold">Something went wrong:</h2>
+    <pre className="text-sm">{error.message}</pre>
+  </div>
+);
+
+// Individual stat card component
+const StatCard = ({ value, label, icon: Icon, gradient, accentColor, index }: typeof stats[0] & { index: number }) => {
+  const { count, countRef } = useCounterAnimation(value);
+  
+  return (
+    <motion.div
+      ref={countRef}
+      custom={index}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-50px" }}
+      variants={cardVariants}
+      whileHover={{ scale: 1.02 }}
+      className="relative group"
+    >
+      {/* Card Background */}
+      <div className={cn(
+        "absolute inset-0 rounded-2xl backdrop-blur-sm",
+        "border border-slate-700/50 group-hover:border-slate-600/50",
+        "transition-all duration-300",
+        accentColor
+      )} />
+      
+      {/* Accent line */}
+      <div className={cn(
+        "absolute h-1 w-full bottom-0 rounded-b-2xl opacity-80",
+        "group-hover:opacity-100 transition-all duration-300",
+        gradient
+      )} />
+      
+      {/* Content */}
+      <div className="relative rounded-2xl p-6">
+        {/* Header */}
+        <div className="flex items-center gap-3 mb-4">
+          <motion.div 
+            variants={iconVariants}
+            initial="initial"
+            whileHover="hover"
+            className="relative"
+          >
+            <div className={cn(
+              "p-2 rounded-lg",
+              "bg-slate-800/80 group-hover:bg-slate-700/80",
+              "ring-1 ring-slate-700/50 group-hover:ring-slate-600/50",
+              "transition-all duration-300"
+            )}>
+              <Icon className={cn(
+                "text-2xl",
+                "text-white group-hover:text-transparent",
+                "group-hover:bg-gradient-to-r",
+                "group-hover:bg-clip-text",
+                gradient
+              )} />
+            </div>
+          </motion.div>
+          <p className="text-sm font-medium text-slate-400 group-hover:text-slate-300">
+            {label}
+          </p>
+        </div>
+        
+        {/* Counter */}
+        <div className={cn(
+          "font-mono font-bold text-3xl tracking-tight",
+          "text-white group-hover:text-transparent",
+          "group-hover:bg-gradient-to-r",
+          "group-hover:bg-clip-text",
+          gradient
+        )}>
+          {count.toLocaleString()}
+        </div>
+        
+        {/* Decorative elements */}
+        <div className="absolute top-0 right-0 p-2">
+          <div className={cn(
+            "w-12 h-12 rounded-tr-2xl border-t-2 border-r-2",
+            "opacity-10 group-hover:opacity-20",
+            "transition-all duration-300",
+            gradient.includes("rose") ? "border-rose-500" :
+            gradient.includes("sky") ? "border-sky-500" :
+            gradient.includes("violet") ? "border-violet-500" :
+            gradient.includes("emerald") ? "border-emerald-500" :
+            gradient.includes("amber") ? "border-amber-500" :
+            gradient.includes("fuchsia") ? "border-fuchsia-500" :
+            gradient.includes("cyan") ? "border-cyan-500" :
+            "border-indigo-500"
+          )} />
+        </div>
+        <div className="absolute bottom-0 left-0 p-2">
+          <div className={cn(
+            "w-12 h-12 rounded-bl-2xl border-b-2 border-l-2",
+            "opacity-10 group-hover:opacity-20",
+            "transition-all duration-300",
+            gradient.includes("rose") ? "border-rose-500" :
+            gradient.includes("sky") ? "border-sky-500" :
+            gradient.includes("violet") ? "border-violet-500" :
+            gradient.includes("emerald") ? "border-emerald-500" :
+            gradient.includes("amber") ? "border-amber-500" :
+            gradient.includes("fuchsia") ? "border-fuchsia-500" :
+            gradient.includes("cyan") ? "border-cyan-500" :
+            "border-indigo-500"
+          )} />
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
 export default function Counter() {
   return (
-    <section className="py-20 sm:py-32 relative overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent" />
-      
-      {/* Content */}
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl lg:max-w-none">
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {stats.map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="relative group"
-              >
-                {/* Card Background */}
-                <div className="absolute inset-0 rounded-2xl bg-white/[0.02] backdrop-blur-sm" />
-                <div className={cn(
-                  "absolute inset-px rounded-[15px] bg-gradient-to-b",
-                  "from-white/10 to-white/5"
-                )} />
-                
-                {/* Card Content */}
-                <div className="relative rounded-2xl p-8">
-                  {/* Icon with glow */}
-                  <div className="mb-4 inline-block relative">
-                    <stat.icon className="text-4xl relative z-10" />
-                    <div className="absolute inset-0 blur-sm opacity-50">
-                      <stat.icon className="text-4xl" />
-                    </div>
-                  </div>
-                  
-                  {/* Counter */}
-                  <div className={cn(
-                    "font-bold text-4xl bg-gradient-to-r bg-clip-text text-transparent",
-                    stat.gradient
-                  )}>
-                    <AnimatedCounter 
-                      value={stat.value} 
-                      duration={2000} 
-                    />
-                  </div>
-                  
-                  {/* Label */}
-                  <p className="mt-2 text-base text-gray-400">{stat.label}</p>
-                  
-                  {/* Hover Effects */}
-                  <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <section className="py-20 sm:py-32 relative overflow-hidden">
+        {/* Background */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+          className="absolute inset-0 bg-slate-950/90 backdrop-blur-sm" 
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/80 to-transparent" />
+        
+        {/* Content */}
+        <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl lg:max-w-none">
+            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+              {stats.map((stat, index) => (
+                <StatCard key={stat.label} {...stat} index={index} />
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </ErrorBoundary>
   );
 }
