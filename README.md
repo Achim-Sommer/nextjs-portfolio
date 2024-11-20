@@ -4,6 +4,7 @@
 [![Next.js](https://img.shields.io/badge/Next.js-14-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-38B2AC)](https://tailwindcss.com/)
+[![wakatime](https://wakatime.com/badge/user/677681b3-49a8-4ab2-a967-cffb857c9d96/project/82699207-ba17-409d-9023-5bde06558a42.svg)](https://wakatime.com/badge/user/677681b3-49a8-4ab2-a967-cffb857c9d96/project/82699207-ba17-409d-9023-5bde06558a42)
 
 Ein modernes, performantes Portfolio entwickelt mit Next.js und TypeScript. Live Demo: [https://achimsommer.com](https://achimsommer.com)
 
@@ -323,3 +324,74 @@ Besonderer Dank geht an:
 - Next.js Team für das großartige Framework
 - Zap-Hosting für zuverlässiges Hosting
 - Coolify für die Self-Hosting Lösung
+
+### 🎨 Logo & PWA Assets
+
+Das Portfolio kommt mit einem automatisierten System zur Generierung von Logos und PWA-Assets.
+
+#### Logo Generator
+
+Das Logo wird automatisch aus einem SVG-Template generiert. Du kannst es einfach an deine Bedürfnisse anpassen:
+
+1. **Base Logo anpassen** (`scripts/generate-base-logo.js`):
+```javascript
+// Passe diese Werte an:
+- Initialen im SVG-Text
+- Farben im Gradienten
+- Größen und Positionen
+- Hintergrund-Code-Snippets
+- Untertitel
+```
+
+2. **Base Logo generieren**:
+```bash
+node scripts/generate-base-logo.js
+```
+
+#### PWA Assets
+
+Alle PWA-Assets werden automatisch aus dem Base Logo generiert:
+
+1. **Assets generieren** (`scripts/generate-pwa-assets.js`):
+```bash
+node scripts/generate-pwa-assets.js
+```
+
+Dies erstellt:
+- Icons in verschiedenen Größen (72x72 bis 512x512)
+- Apple Touch Icon
+- Favicon
+
+#### Anpassung der Assets
+
+1. **Logo-Design**: 
+   - Öffne `scripts/generate-base-logo.js`
+   - Passe die SVG-Template-Strings an
+   - Ändere Farben, Texte und Größen
+   - Führe das Script aus
+
+2. **PWA-Manifest** (`public/manifest.json`):
+   - Aktualisiere den App-Namen
+   - Passe die Farben an
+   - Konfiguriere Start-URL und Scope
+
+3. **Icon-Größen**: 
+   - Standardmäßig werden alle gängigen Größen generiert
+   - Bei Bedarf können in `scripts/generate-pwa-assets.js` weitere Größen hinzugefügt werden
+
+#### Best Practices
+
+1. **Qualität**:
+   - Verwende das Base Logo in hoher Auflösung (1024x1024)
+   - Teste die Icons in verschiedenen Kontexten
+   - Überprüfe die Lesbarkeit in kleinen Größen
+
+2. **Konsistenz**:
+   - Halte das Design über alle Größen hinweg konsistent
+   - Verwende die gleichen Farben wie in deinem Portfolio
+   - Stelle sicher, dass das Logo zur Markenidentität passt
+
+3. **Testing**:
+   - Teste die PWA-Installation auf verschiedenen Geräten
+   - Überprüfe das Erscheinungsbild auf dem Homescreen
+   - Validiere das Web App Manifest

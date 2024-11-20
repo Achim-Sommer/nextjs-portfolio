@@ -1,7 +1,73 @@
-import { Person, WithContext } from 'schema-dts';
+import { WithContext } from 'schema-dts';
+
+// Definiere erweiterte Typen
+interface ExtendedPerson {
+  "@type": "Person";
+  name: string;
+  url: string;
+  jobTitle: string;
+  description: string;
+  image: string;
+  sameAs: string[];
+  alumniOf: {
+    "@type": "CollegeOrUniversity";
+    name: string;
+    alternateName: string;
+    department: {
+      "@type": "Organization";
+      name: string;
+    };
+    location: {
+      "@type": "Place";
+      address: {
+        "@type": "PostalAddress";
+        streetAddress: string;
+        addressLocality: string;
+        postalCode: string;
+        addressCountry: string;
+      };
+    };
+  };
+  knowsAbout: string[];
+  workLocation: {
+    "@type": "Place";
+    address: {
+      "@type": "PostalAddress";
+      addressLocality: string;
+      addressCountry: string;
+    };
+  };
+  hasCredential?: {
+    "@type": "EducationalOccupationalCredential";
+    name: string;
+    educationalLevel: string;
+  }[];
+}
+
+interface ExtendedWebsite {
+  "@type": "WebSite";
+  name: string;
+  url: string;
+  description: string;
+  author: {
+    "@type": "Person";
+    name: string;
+  };
+  inLanguage: string;
+  copyrightYear: number;
+  creator: {
+    "@type": "Person";
+    name: string;
+  };
+  about: {
+    "@type": "Thing";
+    name: string;
+    description: string;
+  };
+}
 
 const JsonLd = () => {
-  const schema: WithContext<Person> = {
+  const personSchema: WithContext<ExtendedPerson> = {
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Achim Sommer",
@@ -10,9 +76,12 @@ const JsonLd = () => {
     description: "Dualer Student, Full Stack Developer und YouTuber",
     image: "https://achimsommer.com/api/og",
     sameAs: [
-      "https://github.com/AchimSommer",
-      "https://www.linkedin.com/in/achim-sommer",
-      "https://www.youtube.com/@achimsommer"
+      "https://github.com/Achim-Sommer",
+      "https://www.facebook.com/achim.sommer1",
+      "https://www.youtube.com/@achimsommer",
+      "https://twitch.tv/achim1337",
+      "https://www.instagram.com/achim.sommer/",
+      "https://www.linkedin.com/in/achim-sommer-b898a2185/"
     ],
     alumniOf: {
       "@type": "CollegeOrUniversity",
@@ -39,31 +108,103 @@ const JsonLd = () => {
       "Next.js",
       "Node.js",
       "Full Stack Development",
-      "Web Development"
-    ]
+      "Web Development",
+      "FiveM Development",
+      "Lua Programming",
+      "Database Design",
+      "System Architecture"
+    ],
+    workLocation: {
+      "@type": "Place",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Aachen",
+        addressCountry: "DE"
+      }
+    },
+    hasCredential: [{
+      "@type": "EducationalOccupationalCredential",
+      name: "Wirtschaftsinformatik (B.Sc.)",
+      educationalLevel: "Bachelor of Science"
+    }]
   };
 
-  // Füge zusätzliche Bildungsinformationen hinzu, die nicht durch die TypeScript-Definitionen eingeschränkt sind
-  const fullSchema = {
-    ...schema,
-    education: {
-      "@type": "EducationalOccupationalProgram",
-      name: "Wirtschaftsinformatik (B.Sc.)",
-      programType: "Bachelor's Degree",
-      educationalLevel: "Bachelor of Science",
-      inLanguage: "de",
-      provider: {
-        "@type": "CollegeOrUniversity",
-        name: "FOM Hochschule für Oekonomie und Management"
-      }
+  const websiteSchema: WithContext<ExtendedWebsite> = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Achim Sommer Portfolio",
+    url: "https://achimsommer.com",
+    description: "Portfolio und persönliche Website von Achim Sommer - Full Stack Developer und FiveM Entwickler",
+    author: {
+      "@type": "Person",
+      name: "Achim Sommer"
+    },
+    inLanguage: "de-DE",
+    copyrightYear: new Date().getFullYear(),
+    creator: {
+      "@type": "Person",
+      name: "Achim Sommer"
+    },
+    about: {
+      "@type": "Thing",
+      name: "Portfolio Website",
+      description: "Eine moderne Portfolio-Website, die meine Fähigkeiten und Projekte als Full Stack Developer präsentiert"
     }
   };
 
+  const organizationSchema: WithContext<{
+    "@type": "Organization";
+    name: string;
+    url: string;
+    logo: string;
+    description: string;
+    founder: {
+      "@type": "Person";
+      name: string;
+    };
+    address: {
+      "@type": "PostalAddress";
+      addressLocality: string;
+      addressCountry: string;
+    };
+    sameAs: string[];
+  }> = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Achim Sommer Development",
+    url: "https://achimsommer.com",
+    logo: "https://achimsommer.com/api/og",
+    description: "Full Stack Development und FiveM Entwicklung",
+    founder: {
+      "@type": "Person",
+      name: "Achim Sommer"
+    },
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Aachen",
+      addressCountry: "DE"
+    },
+    sameAs: [
+      "https://github.com/Achim-Sommer",
+      "https://www.linkedin.com/in/achim-sommer-b898a2185/"
+    ]
+  };
+
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(fullSchema) }}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+    </>
   );
 };
 
