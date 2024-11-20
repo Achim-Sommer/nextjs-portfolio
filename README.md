@@ -96,6 +96,97 @@ const EXTERNAL_DATA_URL = 'https://deine-domain.com'
 
 Diese SEO-Optimierungen verbessern die Sichtbarkeit deiner Portfolio-Website in Suchmaschinen.
 
+### 🔍 SEO-Konfiguration
+
+Das Portfolio ist mit umfassenden SEO-Optimierungen ausgestattet, einschließlich strukturierter Daten, dynamischer OG-Images und Meta-Tags.
+
+#### Wichtige SEO-Dateien
+
+- `pages/_app.tsx`: Zentrale App-Komponente mit SEO-Integration
+- `pages/api/og.tsx`: Dynamische Open Graph Image Generierung
+- `src/components/JsonLd.tsx`: Strukturierte Daten (Schema.org)
+- `src/config/seo.config.ts`: Zentrale SEO-Konfiguration
+- `public/robots.txt`: Crawler-Konfiguration
+- `pages/sitemap.xml.tsx`: Dynamische Sitemap
+
+#### Anpassung der SEO-Konfiguration
+
+1. **Basis SEO-Konfiguration** (`src/config/seo.config.ts`):
+```typescript
+// Passe diese Werte an deine Website an
+{
+  titleTemplate: '%s | Dein Name',
+  defaultTitle: 'Dein Name | Portfolio',
+  description: 'Deine Beschreibung',
+  openGraph: {
+    url: 'https://deine-domain.com/',
+    siteName: 'Dein Portfolio Name',
+    // ...
+  }
+}
+```
+
+2. **Strukturierte Daten** (`src/components/JsonLd.tsx`):
+```typescript
+// Aktualisiere die persönlichen Informationen
+{
+  name: "Dein Name",
+  url: "https://deine-domain.com",
+  jobTitle: "Deine Position",
+  description: "Deine Beschreibung",
+  sameAs: [
+    "https://github.com/dein-username",
+    "https://linkedin.com/in/dein-username"
+  ],
+  // Bildungseinrichtung anpassen
+  alumniOf: {
+    name: "Deine Universität",
+    // ...
+  }
+}
+```
+
+3. **Open Graph Image** (`pages/api/og.tsx`):
+```typescript
+// Passe das Design des OG-Images an
+{
+  // Ändere Text und Styling
+  name: "Dein Name",
+  role: "Deine Position",
+  // Passe Farben und Layout an
+  background: "deine-farbe",
+  // ...
+}
+```
+
+#### SEO Best Practices
+
+1. **Meta-Tags**:
+   - Stelle sicher, dass alle Seiten eindeutige Titel haben
+   - Schreibe aussagekräftige Beschreibungen
+   - Nutze relevante Keywords natürlich im Content
+
+2. **Strukturierte Daten**:
+   - Halte die persönlichen Informationen aktuell
+   - Füge alle relevanten Social Media Profile hinzu
+   - Aktualisiere Bildungs- und Berufsinformationen
+
+3. **Open Graph**:
+   - Teste das OG-Image mit Social Media Debuggern
+   - Stelle sicher, dass die Vorschau auf allen Plattformen gut aussieht
+
+4. **Sitemap & Robots**:
+   - Aktualisiere die Sitemap bei neuen Seiten
+   - Überprüfe die robots.txt Konfiguration
+
+#### Validierung
+
+Nutze diese Tools zur Überprüfung deiner SEO-Implementierung:
+- [Google Rich Results Test](https://search.google.com/test/rich-results)
+- [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/)
+- [Twitter Card Validator](https://cards-dev.twitter.com/validator)
+- [LinkedIn Post Inspector](https://www.linkedin.com/post-inspector/)
+
 ## 🚀 Schnellstart
 
 ### Voraussetzungen
