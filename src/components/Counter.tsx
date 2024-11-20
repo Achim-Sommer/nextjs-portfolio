@@ -87,9 +87,8 @@ const StatCard = ({ value, label, icon: Icon, gradient, accentColor, index }: ty
             )}>
               <Icon className={cn(
                 "text-2xl",
-                "text-white group-hover:text-transparent",
-                "group-hover:bg-gradient-to-r",
-                "group-hover:bg-clip-text",
+                "text-white",
+                "transition-colors duration-300",
                 gradient
               )} />
             </div>
@@ -102,9 +101,8 @@ const StatCard = ({ value, label, icon: Icon, gradient, accentColor, index }: ty
         {/* Counter */}
         <div className={cn(
           "font-mono font-bold text-3xl tracking-tight",
-          "text-white group-hover:text-transparent",
-          "group-hover:bg-gradient-to-r",
-          "group-hover:bg-clip-text",
+          "text-white",
+          "transition-colors duration-300",
           gradient
         )}>
           {count.toLocaleString()}
