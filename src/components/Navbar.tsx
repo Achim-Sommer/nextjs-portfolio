@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { FloatingNav } from './ui/floating-navbar';
 import { AiOutlineUser, AiOutlineTool, AiOutlineProject, AiOutlineRead } from 'react-icons/ai';
+import { MdOutlineHomeRepairService } from 'react-icons/md';
 import BlogNavbar from './BlogNavbar';
 import { usePathname } from 'next/navigation';
 
@@ -10,6 +11,7 @@ export default function Navbar() {
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const isBlogPage = pathname?.includes('/blog') ?? false;
+  const isServicesPage = pathname?.includes('/services') ?? false;
 
   useEffect(() => {
     setMounted(true);
@@ -21,6 +23,11 @@ export default function Navbar() {
 
   if (isBlogPage) {
     return <BlogNavbar />;
+  }
+
+  // Keine Floating Navbar auf der Services-Seite
+  if (isServicesPage) {
+    return null;
   }
 
   const navItems = [
@@ -38,6 +45,11 @@ export default function Navbar() {
       name: 'Projekte',
       link: '#github-section',
       icon: <AiOutlineProject className="w-4 h-4" />,
+    },
+    {
+      name: 'Services',
+      link: '/services',
+      icon: <MdOutlineHomeRepairService className="w-4 h-4" />,
     },
     {
       name: 'Blog',
