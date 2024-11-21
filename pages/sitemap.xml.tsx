@@ -10,6 +10,9 @@ interface PageConfig {
   priority: number;
   changefreq: 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never';
   lastmod?: string;
+  title?: string;
+  description?: string;
+  tags?: string[];
 }
 
 // Konfiguration für alle Seiten
@@ -18,6 +21,12 @@ const pages: PageConfig[] = [
     path: '/',
     priority: 1.0,
     changefreq: 'weekly',
+  },
+  {
+    path: '/services',
+    priority: 1.0,
+    changefreq: 'weekly',
+    lastmod: new Date().toISOString().split('T')[0], // Aktuelle Datum für die Services-Seite
   },
   {
     path: '/blog',
@@ -59,13 +68,16 @@ function generateSiteMap(pages: PageConfig[]) {
            xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 
            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
      ${pages
-       .map(({ path, priority, changefreq, lastmod }) => {
+       .map(({ path, priority, changefreq, lastmod, title, description, tags }) => {
          return `
        <url>
            <loc>${`${EXTERNAL_DATA_URL}${path}`}</loc>
            <lastmod>${lastmod || new Date().toISOString()}</lastmod>
            <changefreq>${changefreq}</changefreq>
            <priority>${priority}</priority>
+           ${title ? `<title>${title}</title>` : ''}
+           ${description ? `<description>${description}</description>` : ''}
+           ${tags ? `<tags>${tags.join(', ')}</tags>` : ''}
        </url>
      `;
        })
@@ -88,12 +100,27 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
     const fileContents = fs.readFileSync(filePath, 'utf8');
     const { data } = matter(fileContents);
     
+    // Extrahiere das Datum aus dem Frontmatter oder verwende das Dateiänderungsdatum
+    const stats = fs.statSync(filePath);
+    const lastModified = data.date 
+      ? new Date(data.date).toISOString()
+      : stats.mtime.toISOString();
+
     return {
       path: `/blog/${filename.replace('.md', '')}`,
-      priority: data.featured ? 0.9 : 0.7,
-      changefreq: 'weekly',
-      lastmod: data.date,
+      priority: data.featured ? 0.9 : 0.8, // Erhöhe die Priorität für normale Blog-Posts
+      changefreq: data.featured ? 'daily' : 'weekly', // Häufigere Updates für featured Posts
+      lastmod: lastModified,
+      // Füge zusätzliche Metadaten hinzu
+      title: data.title,
+      description: data.description,
+      tags: data.tags,
     } as PageConfig;
+  });
+
+  // Sortiere Blog-Posts nach Datum (neueste zuerst)
+  blogPosts.sort((a: any, b: any) => {
+    return new Date(b.lastmod).getTime() - new Date(a.lastmod).getTime();
   });
 
   // Combine static pages with dynamic blog posts
@@ -103,6 +130,11 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   const sitemap = generateSiteMap(allPages);
 
   res.setHeader('Content-Type', 'text/xml');
+  // Enable caching for 12 hours
+  res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=43200, stale-while-revalidate=43200'
+  );
   res.write(sitemap);
   res.end();
 

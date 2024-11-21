@@ -55,7 +55,19 @@ const config: DefaultSeoProps = {
     },
     {
       name: 'format-detection',
-      content: 'telephone=no',
+      content: 'telephone=yes',
+    },
+    {
+      name: 'geo.region',
+      content: 'DE-NW',
+    },
+    {
+      name: 'geo.placename',
+      content: 'Aachen',
+    },
+    {
+      name: 'geo.position',
+      content: '50.7753455;6.0838868',
     },
   ],
   additionalLinkTags: [

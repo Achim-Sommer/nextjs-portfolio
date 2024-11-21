@@ -13,6 +13,7 @@ module.exports = {
         'scan-x-reverse': 'scan-x 8s linear infinite reverse',
         'scan-y': 'scan-y 8s linear infinite',
         'scan-y-reverse': 'scan-y 8s linear infinite reverse',
+        'scroll': 'scroll 40s linear infinite',
       },
       keyframes: {
         'scan-x': {
@@ -23,6 +24,10 @@ module.exports = {
           '0%': { transform: 'translateY(-100%)' },
           '100%': { transform: 'translateY(100%)' },
         },
+        'scroll': {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' }
+        }
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { FloatingNav } from './ui/floating-navbar';
-import { AiOutlineUser, AiOutlineTool, AiOutlineProject } from 'react-icons/ai';
+import { AiOutlineUser, AiOutlineTool, AiOutlineProject, AiOutlineCustomerService } from 'react-icons/ai';
 
 export default function Navigation() {
   const [mounted, setMounted] = useState(false);
@@ -22,6 +22,11 @@ export default function Navigation() {
       name: 'Projekte',
       link: '#github-section',
       icon: <AiOutlineProject className="w-4 h-4" />,
+    },
+    {
+      name: 'Services',
+      link: '/services',
+      icon: <AiOutlineCustomerService className="w-4 h-4" />,
     },
   ];
 
