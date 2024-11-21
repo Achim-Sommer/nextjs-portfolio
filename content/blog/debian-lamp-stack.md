@@ -1,6 +1,6 @@
 ---
 title: 'Apache2, MariaDB, PHP 8 und phpMyAdmin unter Debian Linux installieren'
-date: '2024-01-10'
+date: '2024-11-20'
 description: 'Schritt-für-Schritt Anleitung: Installation und Konfiguration eines LAMP-Stacks (Linux, Apache2, MariaDB, PHP 8) mit phpMyAdmin auf Debian. Inklusive Sicherheitstipps und Fehlerbehebung.'
 tags: ["Debian", "Linux", "Apache", "MariaDB", "PHP", "Server", "Web Development", "LAMP", "phpMyAdmin", "Tutorial"]
 featured: false
@@ -10,7 +10,7 @@ featured: false
 
 ## Voraussetzungen
 
-- Ein Debian Linux Server (Empfehlung: [Zap-Hosting](https://zap-hosting.com/achim) bietet hochwertige Linux Server auch als Lifetime-Option an)
+- Ein Debian Linux Server (Empfehlung: [ZAP-Hosting](https://zap-hosting.com/achim) bietet hochwertige Linux Server auch als [Lifetime-Option](/blog/zap-hosting-lifetime) an)
 - Root-Zugriff auf den Server
 - SSH-Client ([Termius](https://termius.com) - ein moderner, benutzerfreundlicher SSH-Client)
 
