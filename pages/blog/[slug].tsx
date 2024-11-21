@@ -14,6 +14,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ArticleShare } from '@/components/ui/article-share';
 import { NextSeo, ArticleJsonLd } from 'next-seo';
+import Tip from '../../src/components/Tip';
 
 interface FrontMatter {
   title: string;
@@ -41,7 +42,8 @@ const components = {
       return <CodeBlock>{codeString}</CodeBlock>;
     }
     return <pre {...props} />;
-  }
+  },
+  Tip: Tip
 };
 
 export default function BlogPost({ frontMatter, mdxSource, slug }: BlogPostProps) {
