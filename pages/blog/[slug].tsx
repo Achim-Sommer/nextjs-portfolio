@@ -6,16 +6,32 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { getCompiledMDX } from '../../lib/mdx-cache';
-import { Box, Container, Heading, Text, useColorModeValue, HStack, Icon, VStack, Divider } from '@chakra-ui/react';
-import CodeBlock from '@/components/CodeBlock';
-import BlogZapHosting from '@/components/BlogZapHosting';
-import FloatingZapAd from '@/components/FloatingZapAd';
+import dynamic from 'next/dynamic';
+import {
+  Box,
+  Container,
+  Heading,
+  Text,
+  HStack,
+  VStack,
+  Divider,
+  Icon,
+  useColorModeValue
+} from '@chakra-ui/react';
 import { FiFileText, FiClock, FiCalendar, FiArrowLeft } from 'react-icons/fi';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ArticleShare } from '@/components/ui/article-share';
 import { NextSeo, ArticleJsonLd } from 'next-seo';
-import Tip from '../../src/components/Tip';
+
+// Dynamische Imports für MDX-Komponenten
+const CodeBlock = dynamic(() => import('@/components/CodeBlock'), {
+  loading: () => <Box p={4} bg="gray.800" borderRadius="md"><Text>Loading code...</Text></Box>
+});
+const BlogZapHosting = dynamic(() => import('@/components/BlogZapHosting'));
+const FloatingZapAd = dynamic(() => import('@/components/FloatingZapAd'));
+const Tip = dynamic(() => import('../../src/components/Tip'));
+const Image = dynamic(() => import('next/image'));
 
 interface FrontMatter {
   title: string;
@@ -81,7 +97,7 @@ export default function BlogPost({ frontMatter, mdxSource, slug }: BlogPostProps
           description: frontMatter.description,
           images: [
             {
-              url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=${encodeURIComponent(frontMatter.title)}`,
+              url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=${encodeURIComponent(frontMatter.title)}&cache=1`,
               width: 1200,
               height: 630,
               alt: frontMatter.title,
@@ -114,7 +130,7 @@ export default function BlogPost({ frontMatter, mdxSource, slug }: BlogPostProps
         url={currentUrl}
         title={frontMatter.title}
         images={[
-          `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=${encodeURIComponent(frontMatter.title)}`
+          `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=${encodeURIComponent(frontMatter.title)}&cache=1`
         ]}
         datePublished={frontMatter.date}
         dateModified={frontMatter.date}

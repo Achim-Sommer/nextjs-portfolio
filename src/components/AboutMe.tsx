@@ -7,6 +7,16 @@ import * as SiIcons from 'react-icons/si';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import typescript from 'react-syntax-highlighter/dist/cjs/languages/prism/typescript';
 import { AboutNetworkBackground } from './ui/about-network-background';
+import {
+  Box,
+  Container,
+  Text,
+  Heading,
+  useColorModeValue,
+  VStack,
+  HStack,
+  Icon
+} from '@chakra-ui/react';
 
 // Register languages
 SyntaxHighlighter.registerLanguage('typescript', typescript);
