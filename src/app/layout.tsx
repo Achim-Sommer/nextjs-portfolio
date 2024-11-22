@@ -13,7 +13,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="de" className="dark" suppressHydrationWarning>
+    <html lang="de" className="dark">
       <head>
         <title>Achim Sommer - Portfolio</title>
         <meta name="description" content="Portfolio von Achim Sommer - Dualer Student, Full Stack Developer und YouTuber" />
@@ -28,7 +28,7 @@ export default function RootLayout({
           data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
         />
       </head>
-      <body className={`${inter.className} bg-gray-900 text-white`}>
+      <body className={`${inter.className} bg-gray-900 text-white`} suppressHydrationWarning>
         <div className="min-h-screen">
           {children}
           <BackToTop />

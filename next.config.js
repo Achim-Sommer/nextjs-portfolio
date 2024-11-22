@@ -8,6 +8,7 @@ const withPWA = require('next-pwa')({
   disable: process.env.NODE_ENV === 'development',
   register: true,
   skipWaiting: true,
+  maximumFileSizeToCacheInBytes: 3 * 1024 * 1024, // 3MB
 });
 
 /** @type {import('next').NextConfig} */
@@ -28,6 +29,17 @@ const nextConfig = {
       },
     ],
   },
+  compress: true,
+  poweredByHeader: false,
+  reactStrictMode: true,
+  swcMinify: true,
+  experimental: {
+    optimizeCss: true,
+    optimizePackageImports: ['@chakra-ui/react', '@emotion/react', '@emotion/styled'],
+  },
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
   webpack: (config, { dev, isServer }) => {
     // Optimiere die Cache-Strategie
     config.cache = {
@@ -35,37 +47,33 @@ const nextConfig = {
       buildDependencies: {
         config: [__filename],
       },
-      cacheDirectory: path.resolve(__dirname, '.next/cache/webpack'),
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 Tage
-      compression: 'gzip',
-      store: 'pack',
-      version: '1.0.0'
+      cacheDirectory: path.join(__dirname, '.next', 'cache'),
     };
 
     // Optimiere die Bundle-Größe
     if (!dev && !isServer) {
       config.optimization = {
         ...config.optimization,
-        mergeDuplicateChunks: true,
-        minimize: true,
+        runtimeChunk: 'single',
         splitChunks: {
           chunks: 'all',
+          maxInitialRequests: 25,
           minSize: 20000,
-          minRemainingSize: 0,
-          minChunks: 1,
-          maxAsyncRequests: 30,
-          maxInitialRequests: 30,
-          enforceSizeThreshold: 50000,
           cacheGroups: {
-            defaultVendors: {
-              test: /[\\/]node_modules[\\/]/,
-              priority: -10,
+            default: false,
+            vendors: false,
+            commons: {
+              name: 'commons',
+              chunks: 'all',
+              minChunks: 2,
               reuseExistingChunk: true,
             },
-            default: {
-              minChunks: 2,
-              priority: -20,
-              reuseExistingChunk: true,
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              chunks: 'all',
+              name: 'vendor',
+              priority: 10,
+              enforce: true,
             },
           },
         },
@@ -74,10 +82,6 @@ const nextConfig = {
 
     return config;
   },
-  compress: true,
-  poweredByHeader: false,
-  reactStrictMode: true,
-  swcMinify: true,
   env: {
     GITHUB_TOKEN: process.env.GITHUB_TOKEN,
     WAKATIME_API_KEY: process.env.WAKATIME_API_KEY,
