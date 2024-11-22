@@ -61,6 +61,20 @@ const pages: PageConfig[] = [
 ];
 
 function generateSiteMap(pages: PageConfig[]) {
+  // Helper function to escape XML special characters
+  const escapeXml = (unsafe: string): string => {
+    return unsafe.replace(/[<>&'"]/g, (c) => {
+      switch (c) {
+        case '<': return '&lt;';
+        case '>': return '&gt;';
+        case '&': return '&amp;';
+        case '\'': return '&apos;';
+        case '"': return '&quot;';
+        default: return c;
+      }
+    });
+  };
+
   return `<?xml version="1.0" encoding="UTF-8"?>
    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -75,9 +89,9 @@ function generateSiteMap(pages: PageConfig[]) {
            <lastmod>${lastmod || new Date().toISOString()}</lastmod>
            <changefreq>${changefreq}</changefreq>
            <priority>${priority}</priority>
-           ${title ? `<title>${title}</title>` : ''}
-           ${description ? `<description>${description}</description>` : ''}
-           ${tags ? `<tags>${tags.join(', ')}</tags>` : ''}
+           ${title ? `<title>${escapeXml(title)}</title>` : ''}
+           ${description ? `<description>${escapeXml(description)}</description>` : ''}
+           ${tags ? `<tags>${escapeXml(tags.join(', '))}</tags>` : ''}
        </url>
      `;
        })
