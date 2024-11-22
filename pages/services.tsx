@@ -599,8 +599,7 @@ export default function Services() {
                   transition={{ duration: 0.5, delay: 0.7 }}
                   className="text-xl leading-relaxed"
                 >
-                  Mit <span className="text-blue-400">28 Jahren</span> und einer Leidenschaft für Technologie entwickle ich 
-                  maßgeschneiderte Lösungen, die Ihren Alltag vereinfachen.
+                  Als <span className="text-blue-400">erfahrener Entwickler</span> und Technologie-Enthusiast kreiere ich innovative digitale Lösungen, die Ihr Business auf das nächste Level heben.
                 </motion.p>
                 
                 <motion.p
@@ -609,9 +608,7 @@ export default function Services() {
                   transition={{ duration: 0.5, delay: 1.0 }}
                   className="text-lg leading-relaxed"
                 >
-                  Meine Expertise reicht von modernen <span className="text-green-400">Webanwendungen</span> über 
-                  professionelle <span className="text-orange-400">UniFi-Netzwerke</span> bis hin zu 
-                  intelligenten <span className="text-purple-400">Smart Home</span> Systemen.
+                  Von leistungsstarken <span className="text-green-400">Webanwendungen</span> über hochverfügbare <span className="text-orange-400">UniFi-Netzwerke</span> bis hin zu intelligenten <span className="text-purple-400">Smart Home</span> Systemen - ich biete Ihnen maßgeschneiderte Technologielösungen aus einer Hand.
                 </motion.p>
 
                 <motion.div
@@ -676,14 +673,15 @@ export default function Services() {
                 {category.services.map((service, serviceIdx) => (
                   <BackgroundGradient key={serviceIdx} className="rounded-[22px] p-4 sm:p-10 h-full">
                     <div className="flex h-full flex-col justify-between">
-                      <div className="flex-grow">
-                        <div className="flex items-center justify-between">
+                      <div>
+                        <div className="flex items-start justify-between mb-2">
                           <h3 className="text-xl font-semibold text-white">{service.title}</h3>
-                          <span className="rounded-full bg-blue-500/10 px-3 py-1 text-sm text-blue-400">
+                          <span className="rounded-full bg-blue-500/10 px-3 py-1.5 text-sm font-medium text-blue-400 border border-blue-500/20 flex items-center gap-1">
+                            <RiSparklingFill className="h-3.5 w-3.5" />
                             {service.badge}
                           </span>
                         </div>
-                        <p className="mt-4 text-gray-400">{service.description}</p>
+                        <p className="line-clamp-3 text-gray-400">{service.description}</p>
                         <ul className="mt-4 space-y-2">
                           {service.details.map((detail, detailIdx) => (
                             <li key={detailIdx} className="text-gray-300">
