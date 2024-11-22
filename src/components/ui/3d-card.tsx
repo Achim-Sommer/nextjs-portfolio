@@ -2,6 +2,7 @@
 
 import { cn } from "@/utils/cn";
 import { useMotionValue, useSpring, useTransform, motion } from "framer-motion";
+import dynamic from 'next/dynamic';
 import React, { useRef, useState } from "react";
 
 export const Card3D = ({
@@ -45,6 +46,10 @@ export const Card3D = ({
   const onMouseEnter = () => {
     setHovering(true);
   };
+
+  const Image = dynamic(() => import('next/image'), {
+    loading: () => <div className="h-full w-full bg-gray-200/30 animate-pulse rounded" />,
+  });
 
   return (
     <div

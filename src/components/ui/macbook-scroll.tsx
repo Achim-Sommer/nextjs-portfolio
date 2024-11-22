@@ -1,7 +1,11 @@
 "use client";
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import Image from "next/image";
+import dynamic from "next/dynamic";
+
+const Image = dynamic(() => import('next/image'), {
+  loading: () => <div className="h-full w-full bg-gray-200/30 animate-pulse rounded" />,
+});
 
 export const MacbookScroll = ({
   title,

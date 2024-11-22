@@ -52,10 +52,10 @@ interface SideBarItem {
 }
 
 // Lazy load tab contents
-const AboutTab = lazy(() => import('./tabs/AboutTab'));
-const SkillsTab = lazy(() => import('./tabs/SkillsTab'));
-const ProjectsTab = lazy(() => import('./tabs/ProjectsTab'));
-const ExperienceTab = lazy(() => import('./tabs/ExperienceTab'));
+const AboutTab = lazy(() => import('./tabs/AboutTab').then(mod => ({ default: mod.default })));
+const SkillsTab = lazy(() => import('./tabs/SkillsTab').then(mod => ({ default: mod.default })));
+const ProjectsTab = lazy(() => import('./tabs/ProjectsTab').then(mod => ({ default: mod.default })));
+const ExperienceTab = lazy(() => import('./tabs/ExperienceTab').then(mod => ({ default: mod.default })));
 
 export default function AboutMe() {
   const [activeTab, setActiveTab] = useState<string>('about.tsx');
