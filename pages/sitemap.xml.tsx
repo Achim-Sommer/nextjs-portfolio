@@ -10,13 +10,10 @@ interface PageConfig {
   priority: number;
   changefreq: 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never';
   lastmod?: string;
-  title?: string;
-  description?: string;
-  tags?: string[];
 }
 
-// Konfiguration für alle Seiten
-const pages: PageConfig[] = [
+// Konfiguration für alle statischen Seiten
+const staticPages: PageConfig[] = [
   {
     path: '/',
     priority: 1.0,
@@ -26,7 +23,7 @@ const pages: PageConfig[] = [
     path: '/services',
     priority: 1.0,
     changefreq: 'weekly',
-    lastmod: new Date().toISOString().split('T')[0], // Aktuelle Datum für die Services-Seite
+    lastmod: new Date().toISOString().split('T')[0],
   },
   {
     path: '/blog',
@@ -60,56 +57,12 @@ const pages: PageConfig[] = [
   },
 ];
 
-function generateSiteMap(pages: PageConfig[]) {
-  // Helper function to escape XML special characters
-  const escapeXml = (unsafe: string): string => {
-    return unsafe.replace(/[<>&'"]/g, (c) => {
-      switch (c) {
-        case '<': return '&lt;';
-        case '>': return '&gt;';
-        case '&': return '&amp;';
-        case '\'': return '&apos;';
-        case '"': return '&quot;';
-        default: return c;
-      }
-    });
-  };
-
-  return `<?xml version="1.0" encoding="UTF-8"?>
-   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-           xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 
-           http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-     ${pages
-       .map(({ path, priority, changefreq, lastmod, title, description, tags }) => {
-         return `
-       <url>
-           <loc>${`${EXTERNAL_DATA_URL}${path}`}</loc>
-           <lastmod>${lastmod || new Date().toISOString()}</lastmod>
-           <changefreq>${changefreq}</changefreq>
-           <priority>${priority}</priority>
-           ${title ? `<title>${escapeXml(title)}</title>` : ''}
-           ${description ? `<description>${escapeXml(description)}</description>` : ''}
-           ${tags ? `<tags>${escapeXml(tags.join(', '))}</tags>` : ''}
-       </url>
-     `;
-       })
-       .join('')}
-   </urlset>
- `;
-}
-
-function SiteMap() {
-  // getServerSideProps will do the heavy lifting
-}
-
-export const getServerSideProps: GetServerSideProps = async ({ res }) => {
-  // Get all blog posts
+// Funktion zum Laden der Blog-Posts
+function getBlogPosts(): PageConfig[] {
   const postsDirectory = path.join(process.cwd(), 'content/blog');
   const filenames = fs.readdirSync(postsDirectory);
   
-  const blogPosts = filenames.map(filename => {
+  return filenames.map(filename => {
     const filePath = path.join(postsDirectory, filename);
     const fileContents = fs.readFileSync(filePath, 'utf8');
     const { data } = matter(fileContents);
@@ -122,33 +75,46 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
 
     return {
       path: `/blog/${filename.replace('.md', '')}`,
-      priority: data.featured ? 0.9 : 0.8, // Erhöhe die Priorität für normale Blog-Posts
-      changefreq: data.featured ? 'daily' : 'weekly', // Häufigere Updates für featured Posts
+      priority: 0.8,
+      changefreq: 'weekly',
       lastmod: lastModified,
-      // Füge zusätzliche Metadaten hinzu
-      title: data.title,
-      description: data.description,
-      tags: data.tags,
-    } as PageConfig;
+    };
   });
+}
 
-  // Sortiere Blog-Posts nach Datum (neueste zuerst)
-  blogPosts.sort((a: any, b: any) => {
-    return new Date(b.lastmod).getTime() - new Date(a.lastmod).getTime();
-  });
+function generateSiteMap(pages: PageConfig[]) {
+  return `<?xml version="1.0" encoding="UTF-8"?>
+   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+     ${pages
+       .map(({ path, priority, changefreq, lastmod }) => {
+         return `
+       <url>
+           <loc>${`${EXTERNAL_DATA_URL}${path}`}</loc>
+           <lastmod>${lastmod || new Date().toISOString()}</lastmod>
+           <changefreq>${changefreq}</changefreq>
+           <priority>${priority}</priority>
+       </url>
+     `;
+       })
+       .join('')}
+   </urlset>
+ `;
+}
 
-  // Combine static pages with dynamic blog posts
-  const allPages = [...pages, ...blogPosts];
+function SiteMap() {
+  // getServerSideProps will do the heavy lifting
+  return null;
+}
 
-  // Generate the XML sitemap with the posts data
+export const getServerSideProps: GetServerSideProps = async ({ res }) => {
+  // Kombiniere statische Seiten mit Blog-Posts
+  const blogPosts = getBlogPosts();
+  const allPages = [...staticPages, ...blogPosts];
+
+  // Generate the XML sitemap with all pages
   const sitemap = generateSiteMap(allPages);
 
   res.setHeader('Content-Type', 'text/xml');
-  // Enable caching for 12 hours
-  res.setHeader(
-    'Cache-Control',
-    'public, s-maxage=43200, stale-while-revalidate=43200'
-  );
   res.write(sitemap);
   res.end();
 
