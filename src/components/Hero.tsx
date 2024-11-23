@@ -2,9 +2,15 @@
 
 import * as React from 'react';
 import { motion } from 'framer-motion';
-import { TypewriterEffectSmooth } from './ui/typewriter-effect';
 import { HeroHighlight, Highlight } from './ui/hero-highlight';
 import dynamic from 'next/dynamic';
+import { Suspense, useState, useEffect } from 'react';
+
+// Dynamically import TypewriterEffectSmooth with no SSR
+const TypewriterEffectSmooth = dynamic(
+  () => import('./ui/typewriter-effect').then(mod => mod.TypewriterEffectSmooth),
+  { ssr: false }
+);
 
 // Lazy load Particles
 const Particles = dynamic(() => import('./ui/particles'), {
@@ -92,6 +98,12 @@ const LazyLineNumbers = dynamic(() => Promise.resolve(LineNumbers), {
 });
 
 const Hero: React.FC = () => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
     <section id="top" className="relative min-h-screen bg-black overflow-hidden">
       <div 
@@ -108,16 +120,26 @@ const Hero: React.FC = () => {
           >
             <div className="inline-block">
               <h1 className="mb-4 text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
-                <TypewriterEffectSmooth
-                  words={[
-                    { text: "Hey,", className: "text-white" },
-                    { text: "ich", className: "text-white" },
-                    { text: "bin", className: "text-white" },
-                    { text: "Achim", className: "text-white" }
-                  ]}
-                  cursorClassName="h-[36px] w-[4px] md:h-[48px] lg:h-[56px] translate-x-8"
-                  className="min-h-[60px] md:min-h-[72px] lg:min-h-[84px]"
-                />
+                {/* Conditional Rendering basierend auf Bildschirmgröße */}
+                <span className="block sm:hidden text-white">
+                  Hey, ich bin Achim
+                </span>
+                {isClient && (
+                  <span className="hidden sm:block">
+                    <Suspense fallback={<div>Loading...</div>}>
+                      <TypewriterEffectSmooth
+                        words={[
+                          { text: "Hey,", className: "text-white" },
+                          { text: "ich", className: "text-white" },
+                          { text: "bin", className: "text-white" },
+                          { text: "Achim", className: "text-white" }
+                        ]}
+                        cursorClassName="h-[36px] w-[4px] md:h-[48px] lg:h-[56px] translate-x-8"
+                        className="min-h-[60px] md:min-h-[72px] lg:min-h-[84px]"
+                      />
+                    </Suspense>
+                  </span>
+                )}
               </h1>
             </div>
 
