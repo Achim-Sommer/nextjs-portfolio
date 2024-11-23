@@ -1,32 +1,38 @@
-/* Inter Font */
+/* Optimiere Schriftart-Laden */
 @font-face {
   font-family: 'Inter';
-  src: url('/fonts/Inter-Regular.ttf') format('truetype');
+  font-style: normal;
   font-weight: 400;
-  font-style: normal;
   font-display: swap;
+  src: url('/fonts/inter-var.woff2') format('woff2');
 }
 
 @font-face {
   font-family: 'Inter';
-  src: url('/fonts/Inter-Medium.ttf') format('truetype');
-  font-weight: 500;
   font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Inter';
-  src: url('/fonts/Inter-SemiBold.ttf') format('truetype');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Inter';
-  src: url('/fonts/Inter-Bold.ttf') format('truetype');
   font-weight: 700;
-  font-style: normal;
   font-display: swap;
+  src: url('/fonts/inter-var.woff2') format('woff2');
+}
+
+/* Preload-Hinweis für kritische Schriftarten */
+@media screen {
+  head {
+    font-family: 'Inter';
+  }
+}
+
+/* Performance-Optimierungen */
+.content-wrapper {
+  content-visibility: auto;
+  contain-intrinsic-size: 1000px;
+}
+
+/* Optimiere LCP-Element */
+.hero-title {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
 }

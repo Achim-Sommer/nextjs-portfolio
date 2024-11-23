@@ -24,27 +24,29 @@ export default function Home() {
       <main className="min-h-screen bg-black">
         <Navbar />
         <Hero />
-        <Suspense fallback={<LoadingComponent />}>
-          <AboutMe />
-        </Suspense>
-        <Suspense fallback={<LoadingComponent />}>
-          <Skills />
-        </Suspense>
-        <Suspense fallback={<LoadingComponent />}>
-          <ZapHosting />
-        </Suspense>
-        <Suspense fallback={<LoadingComponent />}>
-          <Counter />
-        </Suspense>
-        <Suspense fallback={<LoadingComponent />}>
-          <ProjectShowcase />
-        </Suspense>
-        <Suspense fallback={<LoadingComponent />}>
-          <GitHubRepos />
-        </Suspense>
-        <Suspense fallback={<LoadingComponent />}>
-          <Footer />
-        </Suspense>
+        <div className="content-wrapper">
+          <Suspense fallback={<LoadingComponent />}>
+            <AboutMe />
+          </Suspense>
+          <Suspense fallback={<LoadingComponent />}>
+            <Skills />
+          </Suspense>
+          <Suspense fallback={<LoadingComponent />}>
+            <ZapHosting />
+          </Suspense>
+          <Suspense fallback={<LoadingComponent />}>
+            <Counter />
+          </Suspense>
+          <Suspense fallback={<LoadingComponent />}>
+            <ProjectShowcase />
+          </Suspense>
+          <Suspense fallback={<LoadingComponent />}>
+            <GitHubRepos />
+          </Suspense>
+          <Suspense fallback={<LoadingComponent />}>
+            <Footer />
+          </Suspense>
+        </div>
       </main>
     </div>
   );
