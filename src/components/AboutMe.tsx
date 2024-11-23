@@ -374,7 +374,7 @@ Sprachen: Python, JavaScript, Lua`
 
   return (
     <div className="relative w-full overflow-hidden max-h-[1000px] sm:max-h-[1100px]">
-      <div className="absolute inset-0 w-full h-full">
+      <div className="absolute inset-0 w-full h-full hidden md:block">
         <AboutNetworkBackground />
       </div>
       <div className="relative">

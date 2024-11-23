@@ -219,7 +219,7 @@ const Hero: React.FC = () => {
         </div>
 
         {/* Code Comments */}
-        <div className="absolute right-4 top-24 md:top-4 w-[calc(100%-2rem)] md:w-64 text-xs font-mono opacity-20 z-10">
+        <div className="absolute right-4 top-24 md:top-4 w-[calc(100%-2rem)] md:w-64 text-xs font-mono opacity-20 z-10 hidden md:block">
           <div className="text-blue-300/80">// portfolio.config.ts</div>
           <div className="text-green-500/80">/** 
            * @author Achim Sommer
