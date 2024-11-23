@@ -26,9 +26,10 @@ const nextConfig = {
     ],
   },
   experimental: {
-    optimizeCss: true,
+    optimizeCss: false,
     optimizePackageImports: ['@chakra-ui/react'],
   },
+  optimizeFonts: false,
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },

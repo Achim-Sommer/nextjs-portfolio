@@ -14,6 +14,9 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      fontFamily: {
+        inter: ['Inter', 'sans-serif'],
+      },
       animation: {
         'gradient-xy': 'gradient-xy 15s ease infinite',
         'scan-x': 'scan-x 8s linear infinite',
