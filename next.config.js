@@ -1,14 +1,10 @@
 const path = require('path');
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-});
-
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const withPWA = require('next-pwa')({
   dest: 'public',
   disable: process.env.NODE_ENV === 'development',
   register: true,
   skipWaiting: true,
-  maximumFileSizeToCacheInBytes: 3 * 1024 * 1024, // 3MB
 });
 
 /** @type {import('next').NextConfig} */
@@ -29,10 +25,6 @@ const nextConfig = {
       },
     ],
   },
-  compress: true,
-  poweredByHeader: false,
-  reactStrictMode: true,
-  swcMinify: true,
   experimental: {
     optimizeCss: true,
     optimizePackageImports: ['@chakra-ui/react', '@emotion/react', '@emotion/styled'],
@@ -41,47 +33,51 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === 'production',
   },
   webpack: (config, { dev, isServer }) => {
-    // Optimiere die Cache-Strategie
-    config.cache = {
-      type: 'filesystem',
-      buildDependencies: {
-        config: [__filename],
-      },
-      cacheDirectory: path.join(__dirname, '.next', 'cache'),
-    };
-
-    // Optimiere die Bundle-Größe
     if (!dev && !isServer) {
       config.optimization = {
         ...config.optimization,
-        runtimeChunk: 'single',
         splitChunks: {
           chunks: 'all',
-          maxInitialRequests: 25,
           minSize: 20000,
+          maxSize: 90000,
           cacheGroups: {
             default: false,
             vendors: false,
+            framework: {
+              name: 'framework',
+              chunks: 'all',
+              test: /[\\/]node_modules[\\/](react|react-dom|scheduler|next)[\\/]/,
+              priority: 40,
+              enforce: true,
+            },
             commons: {
               name: 'commons',
-              chunks: 'all',
               minChunks: 2,
-              reuseExistingChunk: true,
-            },
-            vendor: {
-              test: /[\\/]node_modules[\\/]/,
-              chunks: 'all',
-              name: 'vendor',
-              priority: 10,
-              enforce: true,
+              priority: 20,
             },
           },
         },
       };
     }
-
     return config;
   },
+  headers: async () => {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
+  },
+  compress: true,
+  poweredByHeader: false,
+  reactStrictMode: true,
+  swcMinify: true,
   env: {
     GITHUB_TOKEN: process.env.GITHUB_TOKEN,
     WAKATIME_API_KEY: process.env.WAKATIME_API_KEY,
@@ -91,5 +87,4 @@ const nextConfig = {
   },
 };
 
-// Exportiere die Konfiguration mit Bundle Analyzer und PWA
-module.exports = withBundleAnalyzer(withPWA(nextConfig));
+module.exports = withPWA(nextConfig);

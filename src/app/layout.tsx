@@ -18,10 +18,22 @@ export default function RootLayout({
         <title>Achim Sommer - Portfolio</title>
         <meta name="description" content="Portfolio von Achim Sommer - Dualer Student, Full Stack Developer und YouTuber" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link
-          rel="stylesheet"
+        <link 
+          rel="preload"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          as="style"
+          onLoad={(e) => {
+            const target = e.currentTarget;
+            target.onload = null;
+            target.rel = 'stylesheet';
+          }}
         />
+        <noscript>
+          <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          />
+        </noscript>
         <script
           async
           src={process.env.NEXT_PUBLIC_UMAMI_URL}
