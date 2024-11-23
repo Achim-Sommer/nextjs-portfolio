@@ -21,6 +21,8 @@ export default function BlogSearch({ searchQuery, onSearchChange }: BlogSearchPr
         <Icon as={FiSearch} color={iconColor} />
       </InputLeftElement>
       <Input
+        aria-label="Artikel durchsuchen"
+        role="searchbox"
         placeholder="Artikel durchsuchen..."
         value={searchQuery}
         onChange={(e) => onSearchChange(e.target.value)}

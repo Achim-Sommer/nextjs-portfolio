@@ -80,6 +80,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-2xl hover:text-blue-500 transition-colors duration-300 cursor-pointer"
+                aria-label="Besuche mein LinkedIn Profil"
               >
                 <i className="fab fa-linkedin"></i>
               </a>
@@ -88,6 +89,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-2xl hover:text-purple-500 transition-colors duration-300 cursor-pointer"
+                aria-label="Folge mir auf Twitch"
               >
                 <i className="fab fa-twitch"></i>
               </a>
@@ -96,6 +98,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-2xl hover:text-pink-500 transition-colors duration-300 cursor-pointer"
+                aria-label="Folge mir auf Instagram"
               >
                 <i className="fab fa-instagram"></i>
               </a>
@@ -104,6 +107,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-2xl hover:text-red-500 transition-colors duration-300 cursor-pointer"
+                aria-label="Abonniere meinen YouTube Kanal"
               >
                 <i className="fab fa-youtube"></i>
               </a>

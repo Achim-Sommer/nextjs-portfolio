@@ -173,7 +173,8 @@ export default function ZapHosting() {
             href="https://zap-hosting.com/achim"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center px-8 py-3 text-lg font-medium rounded-md text-white bg-[#57BB54] hover:bg-[#57BB54]/90 transition-colors duration-300"
+            className="inline-flex items-center justify-center px-8 py-3 text-lg font-medium bg-[#57BB54] text-white rounded-lg hover:bg-[#4ca349] transition-colors duration-300 shadow-lg"
+            aria-label="Jetzt bei Zap-Hosting bestellen"  
           >
             Jetzt bei Zap-Hosting bestellen
           </a>

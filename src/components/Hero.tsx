@@ -249,6 +249,8 @@ const Hero: React.FC = () => {
                   }
                 }}
                 className="cursor-pointer hover:opacity-75 transition-opacity"
+                aria-label="Zum About Me Bereich scrollen"
+                title="Nach unten scrollen zum About Me Bereich"
               >
                 <svg
                   className="w-8 h-8 text-gray-400"
