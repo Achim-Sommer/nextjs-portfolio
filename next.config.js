@@ -26,16 +26,20 @@ const nextConfig = {
     ],
   },
   experimental: {
-    optimizeCss: false,
+    optimizeCss: true,
     optimizePackageImports: ['@chakra-ui/react'],
+    turbo: {
+      rules: {
+        '*.js': ['swc-loader']
+      },
+    },
   },
-  optimizeFonts: false,
+  optimizeFonts: true,
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
   webpack: (config, { dev, isServer }) => {
     if (!dev && !isServer) {
-      // Aktiviere Tree Shaking
       config.optimization.usedExports = true;
       
       config.optimization = {
@@ -48,12 +52,11 @@ const nextConfig = {
             default: false,
             vendors: false,
             framework: {
-              name: 'framework',
               chunks: 'all',
-              test: /[\\/]node_modules[\\/](react|react-dom|scheduler|next)[\\/]/,
+              name: 'framework',
+              test: /(?<!node_modules.*)[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
               priority: 40,
               enforce: true,
-              reuseExistingChunk: true,
             },
             commons: {
               name: 'commons',
@@ -61,12 +64,18 @@ const nextConfig = {
               priority: 20,
               reuseExistingChunk: true,
             },
+            lib: {
+              test(module) {
+                return module.size() > 160000 && /node_modules[/\\]/.test(module.identifier());
+              },
+              name: 'lib',
+              priority: 30,
+              minChunks: 1,
+              reuseExistingChunk: true,
+            },
           },
         },
-        // Optimiere Module-Konkatenierung
-        concatenateModules: true,
-        // Aktiviere Modul-ID Hashing für besseres Caching
-        moduleIds: 'deterministic',
+        minimize: true,
       };
     }
     // Only run CSS optimization in production
