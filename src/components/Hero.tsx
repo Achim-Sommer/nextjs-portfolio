@@ -32,12 +32,13 @@ const BinaryBackground = () => (
 );
 
 const LazyBinaryBackground = dynamic(() => Promise.resolve(BinaryBackground), {
-  ssr: false
+  ssr: false,
+  loading: () => null
 });
 
 // Optimierte Terminal-Komponente
 const TerminalWindow = () => (
-  <div className="absolute top-4 left-4 md:left-16 w-[calc(100%-2rem)] md:w-80 bg-black/30 backdrop-blur-sm rounded border border-blue-500/20 z-20">
+  <div className="hidden md:block absolute top-4 left-4 md:left-16 w-[calc(100%-2rem)] md:w-80 bg-black/30 backdrop-blur-sm rounded border border-blue-500/20 z-20">
     <div className="h-6 bg-blue-950/30 border-b border-blue-500/20 flex items-center px-3">
       <div className="flex space-x-2">
         <div className="w-2.5 h-2.5 rounded-full bg-red-500/50"></div>
@@ -178,8 +179,14 @@ const Hero: React.FC = () => {
 
         {/* Hintergrund-Effekte mit niedrigerer Priorität */}
         <div className="absolute inset-0 z-0">
-          <Particles className="absolute inset-0" />
-          <LazyBinaryBackground />
+          {/* Particles nur auf Desktop laden */}
+          <div className="hidden md:block">
+            <Particles className="absolute inset-0" />
+          </div>
+          {/* BinaryBackground nur auf Desktop laden */}
+          <div className="hidden md:block">
+            <LazyBinaryBackground />
+          </div>
         </div>
 
         {/* Terminal und Line Numbers */}
