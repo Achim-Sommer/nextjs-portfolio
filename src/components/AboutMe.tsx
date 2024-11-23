@@ -495,6 +495,7 @@ Sprachen: Python, JavaScript, Lua`
                           onKeyDown={handleKeyDown}
                           className="flex-1 bg-transparent outline-none border-none ml-2"
                           spellCheck={false}
+                          aria-label="Terminal Eingabe"
                         />
                       </div>
                     </div>

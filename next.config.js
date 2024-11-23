@@ -19,7 +19,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'github-readme-stats.vercel.app',
+        hostname: 'avatars.githubusercontent.com',
         port: '',
         pathname: '/**',
       },
@@ -67,6 +67,17 @@ const nextConfig = {
         // Aktiviere Modul-ID Hashing für besseres Caching
         moduleIds: 'deterministic',
       };
+    }
+    // Only run CSS optimization in production
+    if (!dev && !isServer) {
+      config.optimization.minimizer = config.optimization.minimizer || [];
+      config.optimization.minimizer.push(
+        new CssMinimizerPlugin({
+          minimizerOptions: {
+            preset: ['default', { discardComments: { removeAll: true } }],
+          },
+        })
+      );
     }
     return config;
   },
