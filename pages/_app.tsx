@@ -1,11 +1,19 @@
 import type { AppProps } from 'next/app';
 import { DefaultSeo } from 'next-seo';
 import seoConfig from '../src/config/seo.config';
-import JsonLd from '../src/components/JsonLd';
+import dynamic from 'next/dynamic';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
-import Layout from '../src/components/Layout';
 import Head from 'next/head';
 import '../styles/globals.css';
+
+// Dynamically import components that are not needed for initial render
+const Layout = dynamic(() => import('../src/components/Layout'), {
+  ssr: true
+});
+
+const JsonLd = dynamic(() => import('../src/components/JsonLd'), {
+  ssr: true
+});
 
 const theme = extendTheme({
   config: {

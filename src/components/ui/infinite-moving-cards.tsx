@@ -2,6 +2,11 @@
 
 import { cn } from "@/utils/cn";
 import React, { useState } from "react";
+import dynamic from 'next/dynamic';
+
+const Image = dynamic(() => import('next/image'), {
+  loading: () => <div className="h-full w-full bg-gray-200/30 animate-pulse rounded" />,
+});
 
 export const InfiniteMovingCards = ({
   items,

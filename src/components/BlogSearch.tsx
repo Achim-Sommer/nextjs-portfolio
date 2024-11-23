@@ -21,10 +21,12 @@ export default function BlogSearch({ searchQuery, onSearchChange }: BlogSearchPr
         <Icon as={FiSearch} color={iconColor} />
       </InputLeftElement>
       <Input
+        aria-label="Artikel durchsuchen"
+        role="searchbox"
         placeholder="Artikel durchsuchen..."
         value={searchQuery}
         onChange={(e) => onSearchChange(e.target.value)}
-        bg={inputBg}
+        bg="transparent"
         border="1px solid"
         borderColor={inputBorder}
         color={inputColor}
@@ -33,6 +35,7 @@ export default function BlogSearch({ searchQuery, onSearchChange }: BlogSearchPr
         _focus={{ borderColor: 'blue.500', boxShadow: 'none' }}
         fontSize="sm"
         fontFamily="mono"
+        className="flex-1"
       />
     </InputGroup>
   );

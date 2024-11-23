@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { FaEnvelope, FaDiscord, FaLinkedin, FaTwitch, FaInstagram, FaGithub, FaYoutube } from 'react-icons/fa';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -16,7 +17,7 @@ export default function Footer() {
                   href="mailto:dev@achimsommer.com"
                   className="hover:text-blue-400 transition-colors duration-300 flex items-center cursor-pointer"
                 >
-                  <i className="fas fa-envelope mr-2"></i>
+                  <FaEnvelope className="mr-2" />
                   dev@achimsommer.com
                 </a>
               </li>
@@ -27,7 +28,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="hover:text-blue-400 transition-colors duration-300 flex items-center cursor-pointer"
                 >
-                  <i className="fab fa-discord mr-2"></i>
+                  <FaDiscord className="mr-2" />
                   Discord Server
                 </a>
               </li>
@@ -63,8 +64,9 @@ export default function Footer() {
                   href="https://github.com/Achim-Sommer"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-blue-400 transition-colors duration-300 cursor-pointer"
+                  className="hover:text-blue-400 transition-colors duration-300 flex items-center cursor-pointer"
                 >
+                  <FaGithub className="mr-2" />
                   GitHub
                 </a>
               </li>
@@ -80,32 +82,36 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-2xl hover:text-blue-500 transition-colors duration-300 cursor-pointer"
+                aria-label="Besuche mein LinkedIn Profil"
               >
-                <i className="fab fa-linkedin"></i>
+                <FaLinkedin />
               </a>
               <a
                 href="https://twitch.tv/achim1337"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-2xl hover:text-purple-500 transition-colors duration-300 cursor-pointer"
+                aria-label="Folge mir auf Twitch"
               >
-                <i className="fab fa-twitch"></i>
+                <FaTwitch />
               </a>
               <a
                 href="https://www.instagram.com/achim.sommer/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-2xl hover:text-pink-500 transition-colors duration-300 cursor-pointer"
+                aria-label="Folge mir auf Instagram"
               >
-                <i className="fab fa-instagram"></i>
+                <FaInstagram />
               </a>
               <a
                 href="https://www.youtube.com/@achimsommer"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-2xl hover:text-red-500 transition-colors duration-300 cursor-pointer"
+                aria-label="Abonniere meinen YouTube Kanal"
               >
-                <i className="fab fa-youtube"></i>
+                <FaYoutube />
               </a>
             </div>
           </div>

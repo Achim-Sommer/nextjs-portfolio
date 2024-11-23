@@ -7,6 +7,16 @@ import * as SiIcons from 'react-icons/si';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import typescript from 'react-syntax-highlighter/dist/cjs/languages/prism/typescript';
 import { AboutNetworkBackground } from './ui/about-network-background';
+import {
+  Box,
+  Container,
+  Text,
+  Heading,
+  useColorModeValue,
+  VStack,
+  HStack,
+  Icon
+} from '@chakra-ui/react';
 
 // Register languages
 SyntaxHighlighter.registerLanguage('typescript', typescript);
@@ -52,10 +62,10 @@ interface SideBarItem {
 }
 
 // Lazy load tab contents
-const AboutTab = lazy(() => import('./tabs/AboutTab'));
-const SkillsTab = lazy(() => import('./tabs/SkillsTab'));
-const ProjectsTab = lazy(() => import('./tabs/ProjectsTab'));
-const ExperienceTab = lazy(() => import('./tabs/ExperienceTab'));
+const AboutTab = lazy(() => import('./tabs/AboutTab').then(mod => ({ default: mod.default })));
+const SkillsTab = lazy(() => import('./tabs/SkillsTab').then(mod => ({ default: mod.default })));
+const ProjectsTab = lazy(() => import('./tabs/ProjectsTab').then(mod => ({ default: mod.default })));
+const ExperienceTab = lazy(() => import('./tabs/ExperienceTab').then(mod => ({ default: mod.default })));
 
 export default function AboutMe() {
   const [activeTab, setActiveTab] = useState<string>('about.tsx');
@@ -485,6 +495,7 @@ Sprachen: Python, JavaScript, Lua`
                           onKeyDown={handleKeyDown}
                           className="flex-1 bg-transparent outline-none border-none ml-2"
                           spellCheck={false}
+                          aria-label="Terminal Eingabe"
                         />
                       </div>
                     </div>

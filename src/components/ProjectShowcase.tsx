@@ -1,8 +1,10 @@
 'use client';
 import { motion } from 'framer-motion';
-import { Card, CardTitle, CardDescription } from './ui/card';
+import { CardTitle, CardDescription } from './ui/card';
 import { Badge } from './ui/badge';
 import { Sparkles } from './ui/sparkles';
+import Image from 'next/image';
+import dynamic from 'next/dynamic';
 
 interface Project {
   title: string;
@@ -33,6 +35,11 @@ const projects: Project[] = [
   },
 ];
 
+// Dynamically import components
+const DynamicCard = dynamic(() => import('./ui/card').then((mod) => mod.Card), {
+  loading: () => <div className="animate-pulse bg-gray-200 rounded-lg h-96"></div>
+});
+
 export default function ProjectShowcase() {
   return (
     <section id="github-section" className="py-20">
@@ -58,13 +65,18 @@ export default function ProjectShowcase() {
               transition={{ delay: index * 0.1 }}
             >
               <a href={project.link} target="_blank" rel="noopener noreferrer">
-                <Card className="h-full transition-transform duration-300 hover:-translate-y-2">
+                <DynamicCard className="h-full transition-transform duration-300 hover:-translate-y-2">
                   {project.image && (
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="mb-4 h-48 w-full rounded-lg object-cover"
-                    />
+                    <div className="relative h-48 w-full mb-4">
+                      <Image
+                        src={project.image}
+                        alt={project.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="rounded-lg object-cover"
+                        loading={index < 3 ? "eager" : "lazy"}
+                      />
+                    </div>
                   )}
                   <CardTitle>{project.title}</CardTitle>
                   <CardDescription>{project.description}</CardDescription>
@@ -75,7 +87,7 @@ export default function ProjectShowcase() {
                       </Badge>
                     ))}
                   </div>
-                </Card>
+                </DynamicCard>
               </a>
             </motion.div>
           ))}

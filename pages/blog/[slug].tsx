@@ -5,16 +5,33 @@ import { ParsedUrlQuery } from 'querystring';
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { Box, Container, Heading, Text, useColorModeValue, HStack, Icon, VStack, Divider } from '@chakra-ui/react';
-import CodeBlock from '@/components/CodeBlock';
-import BlogZapHosting from '@/components/BlogZapHosting';
-import FloatingZapAd from '@/components/FloatingZapAd';
+import { getCompiledMDX } from '../../lib/mdx-cache';
+import dynamic from 'next/dynamic';
+import {
+  Box,
+  Container,
+  Heading,
+  Text,
+  HStack,
+  VStack,
+  Divider,
+  Icon,
+  useColorModeValue
+} from '@chakra-ui/react';
 import { FiFileText, FiClock, FiCalendar, FiArrowLeft } from 'react-icons/fi';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ArticleShare } from '@/components/ui/article-share';
 import { NextSeo, ArticleJsonLd } from 'next-seo';
-import Tip from '../../src/components/Tip';
+
+// Dynamische Imports für MDX-Komponenten
+const CodeBlock = dynamic(() => import('@/components/CodeBlock'), {
+  loading: () => <Box p={4} bg="gray.800" borderRadius="md"><Text>Loading code...</Text></Box>
+});
+const BlogZapHosting = dynamic(() => import('@/components/BlogZapHosting'));
+const FloatingZapAd = dynamic(() => import('@/components/FloatingZapAd'));
+const Tip = dynamic(() => import('../../src/components/Tip'));
+const Image = dynamic(() => import('next/image'));
 
 interface FrontMatter {
   title: string;
@@ -56,6 +73,10 @@ export default function BlogPost({ frontMatter, mdxSource, slug }: BlogPostProps
   const router = useRouter();
   const currentUrl = `${process.env.NEXT_PUBLIC_SITE_URL || ""}${router.asPath}`;
 
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <NextSeo
@@ -76,7 +97,7 @@ export default function BlogPost({ frontMatter, mdxSource, slug }: BlogPostProps
           description: frontMatter.description,
           images: [
             {
-              url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=${encodeURIComponent(frontMatter.title)}`,
+              url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=${encodeURIComponent(frontMatter.title)}&cache=1`,
               width: 1200,
               height: 630,
               alt: frontMatter.title,
@@ -84,11 +105,6 @@ export default function BlogPost({ frontMatter, mdxSource, slug }: BlogPostProps
             },
           ],
           siteName: 'Achim Sommer Blog'
-        }}
-        twitter={{
-          handle: '@achimsommer',
-          site: '@achimsommer',
-          cardType: 'summary_large_image',
         }}
         additionalMetaTags={[
           {
@@ -114,7 +130,7 @@ export default function BlogPost({ frontMatter, mdxSource, slug }: BlogPostProps
         url={currentUrl}
         title={frontMatter.title}
         images={[
-          `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=${encodeURIComponent(frontMatter.title)}`
+          `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=${encodeURIComponent(frontMatter.title)}&cache=1`
         ]}
         datePublished={frontMatter.date}
         dateModified={frontMatter.date}
@@ -156,7 +172,6 @@ export default function BlogPost({ frontMatter, mdxSource, slug }: BlogPostProps
               py={2}
               spacing={2}
             >
-              <Icon as={FiFileText} color={iconColor} />
               <Text color={textColor} fontSize="sm" fontFamily="mono">
                 {slug}.md
               </Text>
@@ -375,27 +390,19 @@ export default function BlogPost({ frontMatter, mdxSource, slug }: BlogPostProps
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  try {
-    const postsDirectory = path.join(process.cwd(), 'content/blog');
-    const filenames = fs.readdirSync(postsDirectory);
-
-    const paths = filenames.map((filename) => ({
+  const files = fs.readdirSync(path.join(process.cwd(), 'content/blog'));
+  const paths = files
+    .filter(filename => filename.endsWith('.md'))
+    .map(filename => ({
       params: {
-        slug: filename.replace('.md', ''),
-      },
+        slug: filename.replace('.md', '')
+      }
     }));
 
-    return {
-      paths,
-      fallback: false,
-    };
-  } catch (error) {
-    console.error('Error in getStaticPaths:', error);
-    return {
-      paths: [],
-      fallback: false,
-    };
-  }
+  return {
+    paths,
+    fallback: true // Enable ISR
+  };
 };
 
 export const getStaticProps: GetStaticProps<BlogPostProps, IParams> = async ({ params }) => {
@@ -411,17 +418,18 @@ export const getStaticProps: GetStaticProps<BlogPostProps, IParams> = async ({ p
     const fileContents = fs.readFileSync(filePath, 'utf8');
     const { data: frontMatter, content } = matter(fileContents);
     
-    const mdxSource = await serialize(content);
+    const mdxSource = await getCompiledMDX(content);
 
     return {
       props: {
         frontMatter: {
           ...frontMatter,
-          readingTime: Math.ceil(content.split(' ').length / 200) // Geschätzte Lesezeit
+          readingTime: Math.ceil(content.split(' ').length / 200)
         } as FrontMatter,
         mdxSource,
         slug
-      }
+      },
+      revalidate: 3600 // Revalidiere jede Stunde
     };
   } catch (error) {
     return {
