@@ -27,11 +27,14 @@ export default function RootLayout({
             target.onload = null;
             target.rel = 'stylesheet';
           }}
+          crossOrigin="anonymous"
+          fetchPriority="low"
         />
         <noscript>
           <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+            crossOrigin="anonymous"
           />
         </noscript>
         <script

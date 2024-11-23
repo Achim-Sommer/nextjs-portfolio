@@ -27,13 +27,16 @@ const nextConfig = {
   },
   experimental: {
     optimizeCss: true,
-    optimizePackageImports: ['@chakra-ui/react', '@emotion/react', '@emotion/styled'],
+    optimizePackageImports: ['@chakra-ui/react'],
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
   webpack: (config, { dev, isServer }) => {
     if (!dev && !isServer) {
+      // Aktiviere Tree Shaking
+      config.optimization.usedExports = true;
+      
       config.optimization = {
         ...config.optimization,
         splitChunks: {
@@ -49,14 +52,20 @@ const nextConfig = {
               test: /[\\/]node_modules[\\/](react|react-dom|scheduler|next)[\\/]/,
               priority: 40,
               enforce: true,
+              reuseExistingChunk: true,
             },
             commons: {
               name: 'commons',
               minChunks: 2,
               priority: 20,
+              reuseExistingChunk: true,
             },
           },
         },
+        // Optimiere Module-Konkatenierung
+        concatenateModules: true,
+        // Aktiviere Modul-ID Hashing für besseres Caching
+        moduleIds: 'deterministic',
       };
     }
     return config;
