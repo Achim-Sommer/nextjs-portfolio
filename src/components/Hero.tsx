@@ -9,7 +9,10 @@ import { Suspense, useState, useEffect } from 'react';
 // Dynamically import TypewriterEffectSmooth with no SSR
 const TypewriterEffectSmooth = dynamic(
   () => import('./ui/typewriter-effect').then(mod => mod.TypewriterEffectSmooth),
-  { ssr: false }
+  { 
+    ssr: false,
+    loading: () => <div className="h-[1.2em] bg-transparent">Loading...</div>
+  }
 );
 
 // Lazy load Particles
@@ -126,7 +129,7 @@ const Hero: React.FC = () => {
                 </span>
                 {isClient && (
                   <span className="hidden sm:block">
-                    <Suspense fallback={<div>Loading...</div>}>
+                    <Suspense fallback={<div className="text-center">Loading...</div>}>
                       <TypewriterEffectSmooth
                         words={[
                           { text: "Hey,", className: "text-white" },
@@ -134,8 +137,7 @@ const Hero: React.FC = () => {
                           { text: "bin", className: "text-white" },
                           { text: "Achim", className: "text-white" }
                         ]}
-                        cursorClassName="h-[36px] w-[4px] md:h-[48px] lg:h-[56px] translate-x-8"
-                        className="min-h-[60px] md:min-h-[72px] lg:min-h-[84px]"
+                        cursorClassName="bg-white"
                       />
                     </Suspense>
                   </span>

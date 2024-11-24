@@ -67,7 +67,7 @@ export const FloatingNav = ({
               {navItems.map((item, index) => (
                 item.link.startsWith('#') ? (
                   <button
-                    key={item.name}
+                    key={`desktop-${item.name}-${index}`}
                     onClick={() => handleItemClick(item, index)}
                     className={cn(
                       "relative flex items-center gap-2 text-sm font-medium text-white/90 hover:text-white transition-colors",
@@ -79,7 +79,7 @@ export const FloatingNav = ({
                   </button>
                 ) : (
                   <Link
-                    key={item.name}
+                    key={`desktop-${item.name}-${index}`}
                     href={item.link}
                     className="relative flex items-center gap-2 text-sm font-medium text-white/90 hover:text-white transition-colors"
                   >
@@ -130,7 +130,7 @@ export const FloatingNav = ({
                   className="w-full backdrop-blur-md bg-[#0f0f0f]/95 rounded-2xl py-4 border border-[#1f1f1f]/40 shadow-lg shadow-black/[0.15]"
                 >
                   {navItems.map((item, index) => (
-                    <div key={item.name} className="px-4">
+                    <div key={`mobile-${item.name}-${index}`} className="px-4">
                       {item.link.startsWith('#') ? (
                         <button
                           onClick={() => handleItemClick(item, index)}

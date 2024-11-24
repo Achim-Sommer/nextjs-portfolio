@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from "@/utils/cn";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import dynamic from 'next/dynamic';
 
 const Image = dynamic(() => import('next/image'), {
@@ -30,8 +30,60 @@ export const InfiniteMovingCards = ({
   cardClassName?: string;
   showName?: boolean;
 }) => {
-  const [duplicatedItems] = useState(() => [...items, ...items, ...items]);
-
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    addAnimation();
+  }, []);
+  
+  const [start, setStart] = useState(false);
+  
+  function addAnimation() {
+    if (containerRef.current && scrollerRef.current) {
+      const scrollerContent = Array.from(scrollerRef.current.children);
+      
+      scrollerContent.forEach((item) => {
+        const duplicatedItem = item.cloneNode(true);
+        if (scrollerRef.current) {
+          scrollerRef.current.appendChild(duplicatedItem);
+        }
+      });
+      
+      getDirection();
+      getSpeed();
+      setStart(true);
+    }
+  }
+  
+  const getDirection = () => {
+    if (containerRef.current) {
+      if (direction === "left") {
+        containerRef.current.style.setProperty(
+          "--animation-direction",
+          "forwards"
+        );
+      } else {
+        containerRef.current.style.setProperty(
+          "--animation-direction",
+          "reverse"
+        );
+      }
+    }
+  };
+  
+  const getSpeed = () => {
+    if (containerRef.current) {
+      if (speed === "fast") {
+        containerRef.current.style.setProperty("--animation-duration", "20s");
+      } else if (speed === "normal") {
+        containerRef.current.style.setProperty("--animation-duration", "40s");
+      } else {
+        containerRef.current.style.setProperty("--animation-duration", "80s");
+      }
+    }
+  };
+  
   const renderCard = (item: (typeof items)[0], index: number) => (
     <div
       key={item.name + index}
@@ -76,21 +128,22 @@ export const InfiniteMovingCards = ({
   );
 
   return (
-    <div className={cn("relative overflow-hidden", className)}>
-      {/* Gradient Overlays */}
-      <div className="absolute left-0 top-0 bottom-0 w-[100px] z-10 bg-gradient-to-r from-slate-900 to-transparent pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-[100px] z-10 bg-gradient-to-l from-slate-900 to-transparent pointer-events-none" />
-
-      <div className="relative flex overflow-hidden">
-        <div
-          className={cn(
-            "flex gap-4 py-4",
-            direction === "left" ? "animate-scroll" : "animate-scroll-reverse",
-            pauseOnHover && "hover-pause"
-          )}
-        >
-          {duplicatedItems.map((item, idx) => renderCard(item, idx))}
-        </div>
+    <div
+      ref={containerRef}
+      className={cn(
+        "relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]",
+        className
+      )}
+    >
+      <div
+        ref={scrollerRef}
+        className={cn(
+          "flex min-w-full shrink-0 gap-4 py-4 w-max",
+          start && "animate-scroll",
+          pauseOnHover && "hover:[animation-play-state:paused]"
+        )}
+      >
+        {items.map((item, idx) => renderCard(item, idx))}
       </div>
     </div>
   );
