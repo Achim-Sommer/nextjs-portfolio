@@ -1,11 +1,18 @@
-'use client';
-
 import '@/styles/fonts.css'
 import './globals.css'
-import Navbar from '@/components/Navbar';
+import { Suspense } from 'react'
 import BackToTop from '@/components/BackToTop'
 import FloatingDock from '@/components/FloatingDock'
 import CookieBanner from '@/components/CookieBanner'
+import Script from 'next/script'
+
+export const metadata = {
+  title: 'Achim Sommer - Portfolio',
+  description: 'Portfolio von Achim Sommer - Dualer Student, Full Stack Developer und YouTuber',
+  icons: {
+    icon: '/favicon.ico',
+  },
+}
 
 export default function RootLayout({
   children,
@@ -14,22 +21,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="de" className="dark">
-      <head>
-        <title>Achim Sommer - Portfolio</title>
-        <meta name="description" content="Portfolio von Achim Sommer - Dualer Student, Full Stack Developer und YouTuber" />
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <script
+      <body className="bg-gray-900 text-white font-inter" suppressHydrationWarning>
+        <Script
           async
           src={process.env.NEXT_PUBLIC_UMAMI_URL}
           data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
+          strategy="afterInteractive"
         />
-      </head>
-      <body className="bg-gray-900 text-white font-inter" suppressHydrationWarning>
         <div className="min-h-screen">
           {children}
-          <BackToTop />
-          <FloatingDock />
-          <CookieBanner />
+          <Suspense>
+            <BackToTop />
+            <FloatingDock />
+            <CookieBanner />
+          </Suspense>
         </div>
       </body>
     </html>

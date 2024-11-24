@@ -8,13 +8,15 @@ import { MagneticButton } from './ui/magnetic-button';
 import { motion } from 'framer-motion';
 import GitHubCalendar from 'react-github-calendar';
 import { Tooltip } from 'react-tooltip';
+import Link from 'next/link';
+import { IconBrandGithub, IconGitFork, IconStar } from '@tabler/icons-react';
 
 interface Repository {
   id: number;
   name: string;
-  description: string;
+  description: string | null;
   html_url: string;
-  language: string;
+  language: string | null;
   stargazers_count: number;
   forks_count: number;
   fork: boolean;
@@ -22,9 +24,61 @@ interface Repository {
   private: boolean;
 }
 
-export default function GitHubRepos() {
-  const [repos, setRepos] = useState<Repository[]>([]);
-  const [loading, setLoading] = useState(true);
+interface GitHubReposProps {
+  initialRepos?: Repository[];
+}
+
+const RepositoryCard = React.memo(({ repo }: { repo: Repository }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.3 }}
+    className="bg-gray-900/80 backdrop-blur-sm rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-200"
+  >
+    <div className="flex items-center justify-between mb-4">
+      <Link 
+        href={repo.html_url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-lg font-semibold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-2"
+      >
+        <IconBrandGithub size={20} />
+        {repo.name}
+      </Link>
+      <div className="flex items-center space-x-4">
+        <span className="flex items-center text-gray-300">
+          <IconStar size={16} className="mr-1" />
+          {repo.stargazers_count}
+        </span>
+        <span className="flex items-center text-gray-300">
+          <IconGitFork size={16} className="mr-1" />
+          {repo.forks_count}
+        </span>
+      </div>
+    </div>
+    {repo.description && (
+      <p className="text-gray-300 mb-4 line-clamp-2">
+        {repo.description}
+      </p>
+    )}
+    <div className="flex items-center justify-between">
+      {repo.language && (
+        <span className="text-sm text-gray-400">
+          {repo.language}
+        </span>
+      )}
+      <span className="text-sm text-gray-400">
+        {new Date(repo.updated_at).toLocaleDateString()}
+      </span>
+    </div>
+  </motion.div>
+));
+
+RepositoryCard.displayName = 'RepositoryCard';
+
+const GitHubRepos = React.memo(({ initialRepos }: GitHubReposProps) => {
+  const [repos, setRepos] = useState<Repository[]>(initialRepos || []);
+  const [loading, setLoading] = useState(!initialRepos);
   const [error, setError] = useState<string | null>(null);
   const [stats, setStats] = useState({ total: 0, private: 0 });
 
@@ -82,8 +136,8 @@ export default function GitHubRepos() {
       }
     };
 
-    fetchRepos();
-  }, []);
+    if (!initialRepos) fetchRepos();
+  }, [initialRepos]);
 
   if (loading) {
     return (
@@ -168,74 +222,7 @@ export default function GitHubRepos() {
             viewport={{ once: true }}
           >
             {repos.map((repo) => (
-              <AnimatedCard key={repo.id} className="relative group hover:shadow-xl transition-all duration-300 border border-gray-800 bg-gray-900/80 backdrop-blur-sm">
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                      {repo.name}
-                    </h3>
-                    {repo.private && (
-                      <span className="px-2 py-1 text-xs rounded-full bg-yellow-500/10 text-yellow-300 border border-yellow-500/20">
-                        Private
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-gray-300 mb-4 line-clamp-2 text-left">
-                    {repo.description || 'No description available'}
-                  </p>
-                  <div className="flex flex-wrap items-center gap-3 mb-4">
-                    {repo.language && (
-                      <span className="px-3 py-1 text-sm rounded-full bg-gradient-to-r from-blue-900 to-purple-900 text-blue-100 font-medium border border-blue-700/30">
-                        {repo.language}
-                      </span>
-                    )}
-                    <div className="flex items-center space-x-4">
-                      <span className="flex items-center space-x-1 text-gray-300">
-                        <svg className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                        <span className="font-medium">{repo.stargazers_count}</span>
-                      </span>
-                      <span className="flex items-center space-x-1 text-gray-300">
-                        <svg className="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1z" />
-                        </svg>
-                        <span className="font-medium">{repo.forks_count}</span>
-                      </span>
-                    </div>
-                  </div>
-                  <p className="text-sm text-gray-400 mb-4 text-left">
-                    Last updated: {new Date(repo.updated_at).toLocaleDateString()}
-                  </p>
-                  <div className="flex justify-between items-center">
-                    <MagneticButton>
-                      <ShimmerButton className="transform transition-transform duration-300 hover:scale-105 hover:bg-gray-800" asChild>
-                        <a
-                          href={repo.html_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center justify-center gap-2 px-4 py-2"
-                        >
-                          View Project
-                          <svg
-                            className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                            />
-                          </svg>
-                        </a>
-                      </ShimmerButton>
-                    </MagneticButton>
-                  </div>
-                </div>
-              </AnimatedCard>
+              <RepositoryCard key={repo.id} repo={repo} />
             ))}
           </motion.div>
           <motion.div 
@@ -264,4 +251,8 @@ export default function GitHubRepos() {
       </div>
     </Spotlight>
   );
-}
+});
+
+GitHubRepos.displayName = 'GitHubRepos';
+
+export default GitHubRepos;

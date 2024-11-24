@@ -1,5 +1,10 @@
 const path = require('path');
+const crypto = require('crypto');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+
 const withPWA = require('next-pwa')({
   dest: 'public',
   disable: process.env.NODE_ENV === 'development',
@@ -24,15 +29,26 @@ const nextConfig = {
         pathname: '/**',
       },
     ],
+    formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 3600,
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
   experimental: {
     optimizeCss: true,
-    optimizePackageImports: ['@chakra-ui/react'],
+    optimizePackageImports: [
+      '@chakra-ui/react',
+      'framer-motion',
+      '@tabler/icons-react',
+      'react-icons',
+    ],
+    optimisticClientCache: true,
     turbo: {
       rules: {
         '*.js': ['swc-loader']
       },
     },
+    webVitalsAttribution: ['CLS', 'LCP'],
   },
   optimizeFonts: true,
   compiler: {
@@ -40,23 +56,21 @@ const nextConfig = {
   },
   webpack: (config, { dev, isServer }) => {
     if (!dev && !isServer) {
-      config.optimization.usedExports = true;
-      
       config.optimization = {
         ...config.optimization,
+        moduleIds: 'deterministic',
+        runtimeChunk: 'single',
         splitChunks: {
           chunks: 'all',
+          maxInitialRequests: 25,
           minSize: 20000,
-          maxSize: 90000,
+          maxSize: 60000,
           cacheGroups: {
-            default: false,
-            vendors: false,
             framework: {
-              chunks: 'all',
               name: 'framework',
-              test: /(?<!node_modules.*)[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
+              test: /[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
               priority: 40,
-              enforce: true,
+              chunks: 'all',
             },
             commons: {
               name: 'commons',
@@ -66,35 +80,76 @@ const nextConfig = {
             },
             lib: {
               test(module) {
-                return module.size() > 160000 && /node_modules[/\\]/.test(module.identifier());
+                return module.size() > 80000 && /node_modules[/\\]/.test(module.identifier());
               },
-              name: 'lib',
+              name(module) {
+                const hash = crypto.createHash('sha1');
+                if (module.identifier) {
+                  hash.update(module.identifier());
+                }
+                return `lib-${hash.digest('hex').substring(0, 8)}`;
+              },
               priority: 30,
               minChunks: 1,
               reuseExistingChunk: true,
-            },
+            }
           },
         },
-        minimize: true,
       };
-    }
-    // Only run CSS optimization in production
-    if (!dev && !isServer) {
-      config.optimization.minimizer = config.optimization.minimizer || [];
+
       config.optimization.minimizer.push(
         new CssMinimizerPlugin({
           minimizerOptions: {
-            preset: ['default', { discardComments: { removeAll: true } }],
+            preset: [
+              'default',
+              {
+                discardComments: { removeAll: true },
+                normalizeWhitespace: true,
+                minifyFontValues: true,
+                minifyGradients: true,
+              },
+            ],
           },
         })
       );
     }
+
     return config;
   },
-  headers: async () => {
+  headers() {
     return [
       {
         source: '/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
+          },
+        ],
+      },
+      {
+        source: '/api/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=7200',
+          },
+        ],
+      },
+      {
+        source: '/_next/image/:path*',
         headers: [
           {
             key: 'Cache-Control',
@@ -117,4 +172,4 @@ const nextConfig = {
   },
 };
 
-module.exports = withPWA(nextConfig);
+module.exports = withBundleAnalyzer(withPWA(nextConfig));
