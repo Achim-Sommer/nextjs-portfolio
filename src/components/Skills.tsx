@@ -1,7 +1,9 @@
 'use client';
+
 import { AnimatedText } from "./ui/animated-text";
 import { motion } from "framer-motion";
-import { InfiniteMovingCards } from "./ui/infinite-moving-cards";
+import dynamic from 'next/dynamic';
+import { memo, useEffect, useState } from 'react';
 import { 
   FaReact, 
   FaNodeJs, 
@@ -25,9 +27,24 @@ import {
   SiDocker,
   SiExpress
 } from 'react-icons/si';
-import { IconType } from 'react-icons';
 
-const skillsData = [
+// Dynamically import FixedSizeGrid with no SSR
+const FixedSizeGrid = dynamic(
+  () => import('react-window').then((mod) => mod.FixedSizeGrid),
+  { ssr: false }
+);
+
+interface Skill {
+  name: string;
+  icon: JSX.Element;
+  color: string;
+}
+
+interface SkillCardProps {
+  skill: Skill;
+}
+
+const skillsData: Skill[] = [
   { 
     name: "TypeScript", 
     icon: <SiTypescript className="text-3xl text-blue-500" />, 
@@ -90,7 +107,7 @@ const skillsData = [
   },
 ];
 
-const backendSkills = [
+const backendSkills: Skill[] = [
   { 
     name: "Express", 
     icon: <SiExpress className="text-3xl text-white" />, 
@@ -148,69 +165,92 @@ const backendSkills = [
   },
 ];
 
-export default function Skills() {
-  return (
-    <section id="skills-section" className="relative py-20 sm:py-32">
-      <div className="absolute inset-0 bg-slate-900/90" />
-      <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/80 to-slate-900/40" />
-      
-      {/* Header mit max-w-7xl für Text-Content */}
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 mb-16">
-        <div className="text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <AnimatedText
-              text="Technologien & Skills"
-              className="text-4xl font-bold mb-4"
-              gradient
-            />
-            <p className="text-gray-400 max-w-2xl mx-auto">
-              Die wichtigsten Technologien und Tools, mit denen ich arbeite
-            </p>
-          </motion.div>
-        </div>
-      </div>
+const MemoizedSkillCard = memo(({ skill }: SkillCardProps) => (
+  <motion.div
+    className={`relative flex flex-col items-center justify-center p-4 rounded-xl bg-gradient-to-r ${skill.color}`}
+    whileHover={{ scale: 1.05 }}
+    transition={{ duration: 0.2 }}
+  >
+    {skill.icon}
+    <span className="mt-2 text-sm font-medium">{skill.name}</span>
+  </motion.div>
+));
 
-      {/* Cards Container ohne max-width für volle Breite */}
-      <div className="relative w-full">
-        <div className="flex flex-col gap-8">
-          <div 
-            className="w-full relative" 
-            style={{ position: 'relative' }}
-          >
-            <InfiniteMovingCards
-              items={skillsData.map(skill => ({
-                ...skill,
-                icon: <div className="flex items-center">{skill.icon}</div>
-              }))}
-              direction="left"
-              speed="slow"
-              className="py-4"
-              showName={true}
-            />
-          </div>
-          
-          <div 
-            className="w-full relative" 
-            style={{ position: 'relative' }}
-          >
-            <InfiniteMovingCards
-              items={backendSkills.map(skill => ({
-                ...skill,
-                icon: <div className="flex items-center">{skill.icon}</div>
-              }))}
-              direction="right"
-              speed="normal"
-              className="py-4"
-              showName={true}
-            />
-          </div>
+MemoizedSkillCard.displayName = 'MemoizedSkillCard';
+
+const SkillsGrid = () => {
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const itemSize = 120;
+  
+  useEffect(() => {
+    const updateDimensions = () => {
+      const width = window.innerWidth - 32;
+      const columnCount = Math.max(1, Math.floor(width / itemSize));
+      const rowCount = Math.ceil(skillsData.length / columnCount);
+      setDimensions({
+        width: columnCount * itemSize,
+        height: rowCount * itemSize
+      });
+    };
+
+    updateDimensions();
+    window.addEventListener('resize', updateDimensions);
+    return () => window.removeEventListener('resize', updateDimensions);
+  }, []);
+
+  const columnCount = Math.max(1, Math.floor(dimensions.width / itemSize));
+  const rowCount = Math.ceil(skillsData.length / columnCount);
+
+  if (dimensions.width === 0) {
+    return null;
+  }
+
+  const Cell = ({ columnIndex, rowIndex, style }: any) => {
+    const index = rowIndex * columnCount + columnIndex;
+    if (index >= skillsData.length) return null;
+    
+    return (
+      <div style={style}>
+        <MemoizedSkillCard skill={skillsData[index]} />
+      </div>
+    );
+  };
+
+  return (
+    <FixedSizeGrid
+      columnCount={columnCount}
+      columnWidth={itemSize}
+      height={dimensions.height}
+      rowCount={rowCount}
+      rowHeight={itemSize}
+      width={dimensions.width}
+    >
+      {Cell}
+    </FixedSizeGrid>
+  );
+};
+
+const SkillsComponent = () => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  return (
+    <section className="py-10 bg-black">
+      <div className="container mx-auto px-4">
+        <AnimatedText text="Meine Skills" className="text-4xl font-bold text-center mb-10" />
+        <div className="w-full flex justify-center min-h-[300px]">
+          {isMounted ? (
+            <SkillsGrid />
+          ) : (
+            <div className="w-full max-w-4xl h-[300px] bg-gray-800 animate-pulse rounded-lg" />
+          )}
         </div>
       </div>
     </section>
   );
-}
+};
+
+export default dynamic(() => Promise.resolve(SkillsComponent), { ssr: false });
