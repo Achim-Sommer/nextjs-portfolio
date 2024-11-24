@@ -1,9 +1,10 @@
+'use client';
+
 import { Suspense } from 'react';
 import { headers } from 'next/headers';
 import dynamic from 'next/dynamic';
-
-// Kritische Komponenten (Above the fold)
 import Hero from '@/components/Hero';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 
 // Lazy Loading Components
 const Navbar = dynamic(() => import('@/components/Navbar'), {
@@ -11,10 +12,10 @@ const Navbar = dynamic(() => import('@/components/Navbar'), {
 });
 
 const AboutMe = dynamic(() => import('@/components/AboutMe'), {
+  loading: () => <LoadingSpinner />,
   ssr: true
 });
 
-// Parallele Routen
 const GitHubFeed = dynamic(() => import('./@github/page'), {
   loading: () => <div className="w-full h-[300px] bg-gray-900/50 animate-pulse rounded-lg" />,
   ssr: true
@@ -25,9 +26,8 @@ const Projects = dynamic(() => import('./@projects/page'), {
   ssr: true
 });
 
-// Nicht-kritische Komponenten
 const Skills = dynamic(() => import('@/components/Skills'), {
-  loading: () => <div className="w-full h-[300px] bg-gray-900/50 animate-pulse rounded-lg" />,
+  loading: () => <LoadingSpinner />,
   ssr: true
 });
 
@@ -64,11 +64,11 @@ export default async function Home() {
         </Suspense>
 
         {/* Content Sections */}
-        <Suspense>
+        <Suspense fallback={<LoadingSpinner />}>
           <AboutMe />
         </Suspense>
 
-        <Suspense>
+        <Suspense fallback={<LoadingSpinner />}>
           <Skills />
         </Suspense>
 

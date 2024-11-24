@@ -1,5 +1,24 @@
 import Footer from '@/components/Footer';
 
+import type { Metadata } from 'next';
+
+export const viewport = {
+  themeColor: '#000000',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+};
+
+export const metadata: Metadata = {
+  title: 'Datenschutzerklärung - Achim Sommer',
+  description: 'Datenschutzerklärung für das Portfolio von Achim Sommer',
+  manifest: '/manifest.json',
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/icon-512x512.png',
+  },
+};
+
 export default function DatenschutzPage() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-900">
