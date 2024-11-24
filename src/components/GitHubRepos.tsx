@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useEffect, useState } from 'react';
 import { AnimatedCard } from './ui/animated-card';
 import { AnimatedText } from './ui/animated-text';
@@ -24,76 +25,15 @@ interface Repository {
   private: boolean;
 }
 
-interface GitHubReposProps {
-  initialRepos?: Repository[];
-}
-
-const RepositoryCard = React.memo(({ repo }: { repo: Repository }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.3 }}
-    className="bg-gray-900/80 backdrop-blur-sm rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-200"
-  >
-    <div className="flex items-center justify-between mb-4">
-      <Link 
-        href={repo.html_url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-lg font-semibold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-2"
-      >
-        <IconBrandGithub size={20} />
-        {repo.name}
-      </Link>
-      <div className="flex items-center space-x-4">
-        <span className="flex items-center text-gray-300">
-          <IconStar size={16} className="mr-1" />
-          {repo.stargazers_count}
-        </span>
-        <span className="flex items-center text-gray-300">
-          <IconGitFork size={16} className="mr-1" />
-          {repo.forks_count}
-        </span>
-      </div>
-    </div>
-    {repo.description && (
-      <p className="text-gray-300 mb-4 line-clamp-2">
-        {repo.description}
-      </p>
-    )}
-    <div className="flex items-center justify-between">
-      {repo.language && (
-        <span className="text-sm text-gray-400">
-          {repo.language}
-        </span>
-      )}
-      <span className="text-sm text-gray-400">
-        {new Date(repo.updated_at).toLocaleDateString()}
-      </span>
-    </div>
-  </motion.div>
-));
-
-RepositoryCard.displayName = 'RepositoryCard';
-
-const GitHubRepos = React.memo(({ initialRepos }: GitHubReposProps) => {
-  const [repos, setRepos] = useState<Repository[]>(initialRepos || []);
-  const [loading, setLoading] = useState(!initialRepos);
+export default function GitHubRepos() {
+  const [repos, setRepos] = useState<Repository[]>([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [stats, setStats] = useState({ total: 0, private: 0 });
-
-  const getContributionColor = (count: number): string => {
-    if (count === 0) return 'bg-gray-800';
-    if (count <= 3) return 'bg-green-900';
-    if (count <= 6) return 'bg-green-700';
-    if (count <= 9) return 'bg-green-500';
-    return 'bg-green-300';
-  };
 
   useEffect(() => {
     const fetchRepos = async () => {
       try {
-        // Fetch all repositories including private ones
         const response = await fetch('https://api.github.com/user/repos', {
           headers: {
             'Authorization': `Bearer ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
@@ -103,21 +43,16 @@ const GitHubRepos = React.memo(({ initialRepos }: GitHubReposProps) => {
         if (!response.ok) throw new Error('Failed to fetch repositories');
         const data = await response.json();
         
-        // Calculate stats
         setStats({
           total: data.length,
           private: data.filter((repo: Repository) => repo.private).length
         });
 
-        // Filter out forks if needed
         const ownRepos = data.filter((repo: Repository) => !repo.fork);
-        
-        // Get top starred repos (up to 3)
         const starredRepos = [...ownRepos]
           .sort((a: Repository, b: Repository) => b.stargazers_count - a.stargazers_count)
           .slice(0, 3);
         
-        // Get recently updated repos (up to 3), excluding those already in starredRepos
         const recentRepos = [...ownRepos]
           .sort((a: Repository, b: Repository) => 
             new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
@@ -127,7 +62,6 @@ const GitHubRepos = React.memo(({ initialRepos }: GitHubReposProps) => {
           )
           .slice(0, 3);
         
-        // Combine and set repos
         setRepos([...starredRepos, ...recentRepos]);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to fetch repositories');
@@ -136,21 +70,21 @@ const GitHubRepos = React.memo(({ initialRepos }: GitHubReposProps) => {
       }
     };
 
-    if (!initialRepos) fetchRepos();
-  }, [initialRepos]);
+    fetchRepos();
+  }, []);
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-[400px]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      <div className="animate-pulse">
+        <div className="h-96 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="text-center py-10">
-        <p className="text-red-500">{error}</p>
+      <div className="text-center text-red-500 py-10">
+        <p>{error}</p>
       </div>
     );
   }
@@ -182,6 +116,7 @@ const GitHubRepos = React.memo(({ initialRepos }: GitHubReposProps) => {
               </span>
             </div>
           </div>
+
           <div className="mb-8 flex justify-center">
             <div className="w-full max-w-[900px] bg-gray-900/80 backdrop-blur-sm rounded-lg p-4 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-900">
               <div className="min-w-max flex flex-col items-center">
@@ -214,6 +149,7 @@ const GitHubRepos = React.memo(({ initialRepos }: GitHubReposProps) => {
               </div>
             </div>
           </div>
+
           <motion.div 
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
             initial={{ opacity: 0, y: 20 }}
@@ -222,9 +158,78 @@ const GitHubRepos = React.memo(({ initialRepos }: GitHubReposProps) => {
             viewport={{ once: true }}
           >
             {repos.map((repo) => (
-              <RepositoryCard key={repo.id} repo={repo} />
+              <AnimatedCard key={repo.id} className="relative group hover:shadow-xl transition-all duration-300 border border-gray-800 bg-gray-900/80 backdrop-blur-sm">
+                <div className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <Link 
+                      href={repo.html_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent hover:from-blue-300 hover:to-purple-300"
+                    >
+                      {repo.name}
+                    </Link>
+                    {repo.private && (
+                      <span className="px-2 py-1 text-xs rounded-full bg-yellow-500/10 text-yellow-300 border border-yellow-500/20">
+                        Private
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-gray-300 mb-4 line-clamp-2 text-left">
+                    {repo.description || 'No description available'}
+                  </p>
+                  <div className="flex flex-wrap items-center gap-3 mb-4">
+                    {repo.language && (
+                      <span className="px-3 py-1 text-sm rounded-full bg-gradient-to-r from-blue-900 to-purple-900 text-blue-100 font-medium border border-blue-700/30">
+                        {repo.language}
+                      </span>
+                    )}
+                    <div className="flex items-center space-x-4">
+                      <span className="flex items-center space-x-1 text-gray-300">
+                        <IconStar className="w-5 h-5 text-yellow-400" />
+                        <span className="font-medium">{repo.stargazers_count}</span>
+                      </span>
+                      <span className="flex items-center space-x-1 text-gray-300">
+                        <IconGitFork className="w-5 h-5 text-blue-400" />
+                        <span className="font-medium">{repo.forks_count}</span>
+                      </span>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-400 mb-4 text-left">
+                    Last updated: {new Date(repo.updated_at).toLocaleDateString()}
+                  </p>
+                  <div className="flex justify-between items-center">
+                    <MagneticButton>
+                      <ShimmerButton className="transform transition-transform duration-300 hover:scale-105 hover:bg-gray-800" asChild>
+                        <a
+                          href={repo.html_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center gap-2 px-4 py-2"
+                        >
+                          View Project
+                          <svg
+                            className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                            />
+                          </svg>
+                        </a>
+                      </ShimmerButton>
+                    </MagneticButton>
+                  </div>
+                </div>
+              </AnimatedCard>
             ))}
           </motion.div>
+
           <motion.div 
             className="mt-12 flex justify-center"
             initial={{ opacity: 0, y: 20 }}
@@ -238,9 +243,7 @@ const GitHubRepos = React.memo(({ initialRepos }: GitHubReposProps) => {
               className="group relative inline-flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600 p-[2px] rounded-lg overflow-hidden hover:from-blue-600 hover:to-purple-700 transition-all duration-300 hover:scale-110 transform"
             >
               <span className="relative inline-flex items-center gap-2 px-6 py-3 bg-gray-900 rounded-lg group-hover:bg-opacity-80 transition-all duration-300">
-                <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                  <path fillRule="evenodd" d="M12.026 2c-5.509 0-9.974 4.465-9.974 9.974 0 4.406 2.857 8.145 6.821 9.465.499.09.679-.217.679-.481 0-.237-.008-.865-.011-1.696-2.775.602-3.361-1.338-3.361-1.338-.452-1.152-1.107-1.459-1.107-1.459-.905-.619.069-.605.069-.605 1.002.07 1.527 1.028 1.527 1.028.89 1.524 2.336 1.084 2.902.829.091-.645.351-1.085.635-1.334-2.214-.251-4.542-1.107-4.542-4.93 0-1.087.389-1.979 1.024-2.675-.101-.253-.446-1.268.099-2.64 0 0 .837-.269 2.742 1.021a9.582 9.582 0 0 1 2.496-.336 9.554 9.554 0 0 1 2.496.336c1.906-1.291 2.742-1.021 2.742-1.021.545 1.372.203 2.387.099 2.64.64.696 1.024 1.587 1.024 2.675 0 3.833-2.33 4.675-4.552 4.922.355.308.675.916.675 1.846 0 1.334-.012 2.41-.012 2.737 0 .267.178.577.687.479C19.146 20.115 22 16.379 22 11.974 22 6.465 17.535 2 12.026 2z" clipRule="evenodd"/>
-                </svg>
+                <IconBrandGithub className="w-5 h-5 text-white" />
                 <span className="relative text-white font-medium">
                   Besuche mein GitHub Profil
                 </span>
@@ -251,8 +254,4 @@ const GitHubRepos = React.memo(({ initialRepos }: GitHubReposProps) => {
       </div>
     </Spotlight>
   );
-});
-
-GitHubRepos.displayName = 'GitHubRepos';
-
-export default GitHubRepos;
+}
