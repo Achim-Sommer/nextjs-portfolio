@@ -101,11 +101,15 @@ export const FloatingNav = ({
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="w-12 h-12 flex items-center justify-center rounded-full backdrop-blur-md bg-[#0f0f0f]/30 border border-[#1f1f1f]/40 shadow-lg shadow-black/[0.15]"
+              aria-label={isMobileMenuOpen ? "Menü schließen" : "Menü öffnen"}
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-menu"
+              aria-haspopup="true"
             >
               {isMobileMenuOpen ? (
-                <HiX className="w-6 h-6 text-white" />
+                <HiX className="w-6 h-6 text-white" aria-hidden="true" />
               ) : (
-                <HiMenu className="w-6 h-6 text-white" />
+                <HiMenu className="w-6 h-6 text-white" aria-hidden="true" />
               )}
             </button>
           </motion.div>
@@ -118,6 +122,9 @@ export const FloatingNav = ({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 className="fixed top-20 inset-x-4 z-50 sm:hidden"
+                id="mobile-menu"
+                role="navigation"
+                aria-label="Mobile Navigation"
               >
                 <motion.div
                   className="w-full backdrop-blur-md bg-[#0f0f0f]/95 rounded-2xl py-4 border border-[#1f1f1f]/40 shadow-lg shadow-black/[0.15]"
@@ -131,8 +138,10 @@ export const FloatingNav = ({
                             "w-full flex items-center gap-3 py-3 text-base font-medium text-white/90 hover:text-white transition-colors",
                             activeIndex === index && "text-white"
                           )}
+                          aria-label={`Navigiere zu ${item.name}`}
+                          aria-current={activeIndex === index ? "page" : undefined}
                         >
-                          {item.icon}
+                          {item.icon && <span aria-hidden="true">{item.icon}</span>}
                           <span>{item.name}</span>
                         </button>
                       ) : (
@@ -140,8 +149,9 @@ export const FloatingNav = ({
                           href={item.link}
                           onClick={() => setIsMobileMenuOpen(false)}
                           className="w-full flex items-center gap-3 py-3 text-base font-medium text-white/90 hover:text-white transition-colors"
+                          aria-label={`Gehe zu ${item.name}`}
                         >
-                          {item.icon}
+                          {item.icon && <span aria-hidden="true">{item.icon}</span>}
                           <span>{item.name}</span>
                         </Link>
                       )}
