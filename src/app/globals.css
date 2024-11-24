@@ -42,20 +42,28 @@ body {
 
 /* Infinite Scroll Animation */
 @keyframes scroll {
-  from {
+  0% {
     transform: translateX(0);
   }
-  to {
-    transform: translateX(calc(-100% - 1rem));
+  100% {
+    transform: translateX(calc(-33.33%));
   }
 }
 
 .animate-scroll {
   animation: scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite;
+  display: flex;
+  gap: 1rem;
+  width: fit-content;
+  will-change: transform;
 }
 
 .animate-scroll-reverse {
   animation: scroll var(--animation-duration, 40s) var(--animation-direction, reverse) linear infinite;
+  display: flex;
+  gap: 1rem;
+  width: fit-content;
+  will-change: transform;
 }
 
 .hover-pause:hover {

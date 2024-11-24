@@ -34,7 +34,47 @@ export const InfiniteMovingCards = ({
   const scrollerRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
-    addAnimation();
+    if (containerRef.current && scrollerRef.current) {
+      const scrollerContent = Array.from(scrollerRef.current.children);
+      
+      // Klone die Elemente sofort beim Start
+      scrollerContent.forEach((item) => {
+        const duplicatedItem = item.cloneNode(true);
+        if (scrollerRef.current) {
+          scrollerRef.current.appendChild(duplicatedItem);
+        }
+      });
+
+      // Füge weitere Klone hinzu, um einen nahtlosen Übergang zu gewährleisten
+      scrollerContent.forEach((item) => {
+        const duplicatedItem = item.cloneNode(true);
+        if (scrollerRef.current) {
+          scrollerRef.current.appendChild(duplicatedItem);
+        }
+      });
+
+      getDirection();
+      getSpeed();
+      setStart(true);
+
+      // Füge einen Event Listener hinzu, der die Animation neu startet, bevor sie endet
+      const scrollerInstance = scrollerRef.current;
+      const handleAnimationEnd = () => {
+        if (scrollerInstance) {
+          scrollerInstance.style.transform = 'translateX(0)';
+          scrollerInstance.style.transition = 'none';
+          // Force reflow
+          void scrollerInstance.offsetHeight;
+          scrollerInstance.style.transition = '';
+          addAnimation();
+        }
+      };
+
+      scrollerInstance.addEventListener('animationend', handleAnimationEnd);
+      return () => {
+        scrollerInstance.removeEventListener('animationend', handleAnimationEnd);
+      };
+    }
   }, []);
   
   const [start, setStart] = useState(false);
@@ -131,14 +171,14 @@ export const InfiniteMovingCards = ({
     <div
       ref={containerRef}
       className={cn(
-        "relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]",
+        "scroller relative z-20 w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]",
         className
       )}
     >
       <div
         ref={scrollerRef}
         className={cn(
-          "flex min-w-full shrink-0 gap-4 py-4 w-max",
+          "flex w-[max-content] gap-4 py-4",
           start && "animate-scroll",
           pauseOnHover && "hover:[animation-play-state:paused]"
         )}
