@@ -146,7 +146,7 @@ export default function ZapHosting() {
           </div>
           <p className="text-slate-300 text-lg max-w-3xl mx-auto">
             Professionelles Hosting mit einzigartiger Lifetime-Option. 
-            Sparen Sie langfristig mit unseren Lifetime-Angeboten - einmalig zahlen, für immer nutzen!
+            Spare langfristig mit dem Lifetime-Angeboten - einmalig zahlen, für immer nutzen!
           </p>
         </div>
       </div>
