@@ -32,8 +32,8 @@ In diesem ausführlichen Tutorial zeige ich dir **Schritt für Schritt**, wie du
 
 ### Hardware Anforderungen (Systemvoraussetzungen)
 - Mindestens 2 CPU Kerne (empfohlen: 4 Kerne für bessere Performance)
-- Mindestens 2 GB RAM (empfohlen: 4 GB für mehrere Anwendungen)
-- Mindestens 30 GB Speicherplatz (SSD empfohlen für schnellere Builds)
+- Mindestens 4 GB RAM (empfohlen: 8 GB für mehrere Anwendungen)
+- Mindestens 50 GB Speicherplatz (SSD empfohlen für schnellere Builds)
 - Eine 64-bit Architektur (AMD64 oder ARM64)
 
 ### Software Voraussetzungen
