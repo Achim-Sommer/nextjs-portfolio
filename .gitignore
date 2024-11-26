@@ -4,3 +4,4 @@ node_modules
 .env.local
 .env
 public/sw.js
+public/workbox-4754cb34.js
