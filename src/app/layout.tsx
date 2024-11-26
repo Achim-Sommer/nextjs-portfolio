@@ -53,6 +53,8 @@ export default function RootLayout({
           async
           src={process.env.NEXT_PUBLIC_UMAMI_URL}
           data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
+          data-auto-track="true"
+          data-domains="achimsommer.com"
           strategy="afterInteractive"
         />
         <Providers>
