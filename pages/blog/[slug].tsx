@@ -23,6 +23,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ArticleShare } from '@/components/ui/article-share';
 import { NextSeo, ArticleJsonLd } from 'next-seo';
+import { TableOfContents } from '@/components/TableOfContents';
 
 // Dynamische Imports für MDX-Komponenten
 const CodeBlock = dynamic(() => import('@/components/CodeBlock'), {
@@ -157,234 +158,239 @@ export default function BlogPost({ frontMatter, mdxSource, slug }: BlogPostProps
         position="relative"
         pt="5rem"
       >
-        <Container maxW="6xl">
-          <Box 
-            bg={tabBg} 
-            borderRadius="md" 
-            borderWidth="1px" 
-            borderColor={borderColor}
-            overflow="hidden"
-            position="relative"
-            zIndex={1}
-          >
-            {/* File tab */}
-            <HStack 
-              borderBottom="1px" 
-              borderColor={borderColor} 
-              bg="gray.900" 
-              px={4} 
-              py={2}
-              spacing={2}
-            >
-              <Text color={textColor} fontSize="sm" fontFamily="mono">
-                {slug}.md
-              </Text>
-            </HStack>
-
-            {/* Content */}
-            <Box p={8}>
-              <VStack align="stretch" spacing={6}>
-                {/* Header section */}
-                <Box borderBottom="1px" borderColor={borderColor} pb={6}>
-                  <Heading 
-                    as="h1" 
-                    size="2xl" 
-                    color={headingColor}
-                    fontFamily="mono"
-                    mb={4}
-                  >
-                    {frontMatter.title}
-                  </Heading>
-                  
-                  <Text 
-                    color={textColor} 
-                    fontSize="lg" 
-                    mb={4}
-                    pl={4}
-                    borderLeft="2px"
-                    borderColor="blue.500"
-                  >
-                    {frontMatter.description}
-                  </Text>
-
-                  <HStack spacing={6} color={textColor} fontSize="sm" fontFamily="mono">
-                    <HStack>
-                      <Icon as={FiCalendar} color={iconColor} />
-                      <Text>
-                        {new Date(frontMatter.date).toLocaleDateString('de-DE', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric'
-                        })}
-                      </Text>
-                    </HStack>
-                    <HStack>
-                      <Icon as={FiClock} color={iconColor} />
-                      <Text>{frontMatter.readingTime} min read</Text>
-                    </HStack>
-                  </HStack>
-
-                  {/* Top Share Button */}
-                  <Box py={6}>
-                    <ArticleShare url={currentUrl} title={frontMatter.title} variant="top" />
-                  </Box>
-                </Box>
-
-                {/* Main content */}
-                <Box 
-                  className="prose prose-dark max-w-none"
-                  sx={{
-                    'h1, h2, h3, h4, h5, h6': {
-                      color: 'blue.200',
-                      fontFamily: 'mono',
-                      mt: 6,
-                      mb: 4,
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 2,
-                      '&::before': {
-                        content: '""',
-                        display: 'block',
-                        width: '3px',
-                        height: '1em',
-                        backgroundColor: 'blue.500',
-                        borderRadius: 'sm',
-                      }
-                    },
-                    p: {
-                      color: 'gray.50',
-                      mb: 4,
-                      lineHeight: 1.8,
-                      fontSize: '1.1rem'
-                    },
-                    strong: {
-                      color: 'blue.100',
-                      fontWeight: 'bold'
-                    },
-                    a: {
-                      color: 'blue.200',
-                      textDecoration: 'none',
-                      borderBottom: '1px dashed',
-                      borderColor: 'blue.500',
-                      transition: 'all 0.2s',
-                      _hover: {
-                        color: 'blue.100',
-                        borderStyle: 'solid'
-                      }
-                    },
-                    'ul, ol': {
-                      color: 'gray.50',
-                      pl: 4,
-                      mb: 4,
-                      fontSize: '1.1rem'
-                    },
-                    li: {
-                      mb: 2,
-                      pl: 2,
-                      '&::marker': {
-                        color: 'blue.300'
-                      }
-                    },
-                    pre: {
-                      position: 'relative',
-                      bg: 'gray.800',
-                      color: 'gray.50',
-                      p: 4,
-                      borderRadius: 'md',
-                      overflowX: 'auto',
-                      mb: 4,
-                      border: '1px solid',
-                      borderColor: 'gray.700',
-                      boxShadow: 'lg'
-                    },
-                    code: {
-                      bg: 'gray.800',
-                      color: 'blue.200',
-                      p: 1,
-                      borderRadius: 'sm',
-                      fontSize: '0.9em',
-                      fontFamily: 'mono'
-                    },
-                    blockquote: {
-                      borderLeftWidth: '4px',
-                      borderLeftColor: 'blue.400',
-                      pl: 4,
-                      ml: 0,
-                      color: 'blue.100',
-                      fontStyle: 'italic',
-                      bg: 'whiteAlpha.50',
-                      py: 2,
-                      pr: 2,
-                      borderRadius: '0 md md 0'
-                    },
-                    hr: {
-                      borderColor: 'gray.600',
-                      my: 6
-                    },
-                    table: {
-                      color: 'gray.50',
-                      width: 'full',
-                      mb: 4,
-                      borderCollapse: 'separate',
-                      borderSpacing: 0,
-                      border: '1px solid',
-                      borderColor: 'gray.700',
-                      borderRadius: 'md',
-                      overflow: 'hidden',
-                      fontSize: '1.1rem'
-                    },
-                    'th, td': {
-                      borderColor: 'gray.700',
-                      p: 2,
-                      borderBottom: '1px solid',
-                      borderRight: '1px solid'
-                    },
-                    th: {
-                      bg: 'gray.800',
-                      fontWeight: 'bold',
-                      color: 'blue.200',
-                      textAlign: 'left'
-                    },
-                    img: {
-                      maxW: 'full',
-                      h: 'auto',
-                      mb: 4,
-                      borderRadius: 'md',
-                      border: '1px solid',
-                      borderColor: 'gray.700',
-                      boxShadow: 'lg'
-                    }
-                  }}
+        <Container maxW="container.xl" pt={8}>
+          <Box position="relative" display="flex" gap={8}>
+            <TableOfContents />
+            <Box flex="1">
+              <Box 
+                bg={tabBg} 
+                borderRadius="md" 
+                borderWidth="1px" 
+                borderColor={borderColor}
+                overflow="hidden"
+                position="relative"
+                zIndex={1}
+              >
+                {/* File tab */}
+                <HStack 
+                  borderBottom="1px" 
+                  borderColor={borderColor} 
+                  bg="gray.900" 
+                  px={4} 
+                  py={2}
+                  spacing={2}
                 >
-                  <MDXRemote {...mdxSource} components={components} />
+                  <Text color={textColor} fontSize="sm" fontFamily="mono">
+                    {slug}.md
+                  </Text>
+                </HStack>
+
+                {/* Content */}
+                <Box p={8} id="article-content">
+                  <VStack align="stretch" spacing={6}>
+                    {/* Header section */}
+                    <Box borderBottom="1px" borderColor={borderColor} pb={6}>
+                      <Heading 
+                        as="h1" 
+                        size="2xl" 
+                        color={headingColor}
+                        fontFamily="mono"
+                        mb={4}
+                      >
+                        {frontMatter.title}
+                      </Heading>
+                      
+                      <Text 
+                        color={textColor} 
+                        fontSize="lg" 
+                        mb={4}
+                        pl={4}
+                        borderLeft="2px"
+                        borderColor="blue.500"
+                      >
+                        {frontMatter.description}
+                      </Text>
+
+                      <HStack spacing={6} color={textColor} fontSize="sm" fontFamily="mono">
+                        <HStack>
+                          <Icon as={FiCalendar} color={iconColor} />
+                          <Text>
+                            {new Date(frontMatter.date).toLocaleDateString('de-DE', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric'
+                            })}
+                          </Text>
+                        </HStack>
+                        <HStack>
+                          <Icon as={FiClock} color={iconColor} />
+                          <Text>{frontMatter.readingTime} min read</Text>
+                        </HStack>
+                      </HStack>
+
+                      {/* Top Share Button */}
+                      <Box py={6}>
+                        <ArticleShare url={currentUrl} title={frontMatter.title} variant="top" />
+                      </Box>
+                    </Box>
+
+                    {/* Main content */}
+                    <Box 
+                      className="prose prose-dark max-w-none"
+                      sx={{
+                        'h1, h2, h3, h4, h5, h6': {
+                          color: 'blue.200',
+                          fontFamily: 'mono',
+                          mt: 6,
+                          mb: 4,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 2,
+                          '&::before': {
+                            content: '""',
+                            display: 'block',
+                            width: '3px',
+                            height: '1em',
+                            backgroundColor: 'blue.500',
+                            borderRadius: 'sm',
+                          }
+                        },
+                        p: {
+                          color: 'gray.50',
+                          mb: 4,
+                          lineHeight: 1.8,
+                          fontSize: '1.1rem'
+                        },
+                        strong: {
+                          color: 'blue.100',
+                          fontWeight: 'bold'
+                        },
+                        a: {
+                          color: 'blue.200',
+                          textDecoration: 'none',
+                          borderBottom: '1px dashed',
+                          borderColor: 'blue.500',
+                          transition: 'all 0.2s',
+                          _hover: {
+                            color: 'blue.100',
+                            borderStyle: 'solid'
+                          }
+                        },
+                        'ul, ol': {
+                          color: 'gray.50',
+                          pl: 4,
+                          mb: 4,
+                          fontSize: '1.1rem'
+                        },
+                        li: {
+                          mb: 2,
+                          pl: 2,
+                          '&::marker': {
+                            color: 'blue.300'
+                          }
+                        },
+                        pre: {
+                          position: 'relative',
+                          bg: 'gray.800',
+                          color: 'gray.50',
+                          p: 4,
+                          borderRadius: 'md',
+                          overflowX: 'auto',
+                          mb: 4,
+                          border: '1px solid',
+                          borderColor: 'gray.700',
+                          boxShadow: 'lg'
+                        },
+                        code: {
+                          bg: 'gray.800',
+                          color: 'blue.200',
+                          p: 1,
+                          borderRadius: 'sm',
+                          fontSize: '0.9em',
+                          fontFamily: 'mono'
+                        },
+                        blockquote: {
+                          borderLeftWidth: '4px',
+                          borderLeftColor: 'blue.400',
+                          pl: 4,
+                          ml: 0,
+                          color: 'blue.100',
+                          fontStyle: 'italic',
+                          bg: 'whiteAlpha.50',
+                          py: 2,
+                          pr: 2,
+                          borderRadius: '0 md md 0'
+                        },
+                        hr: {
+                          borderColor: 'gray.600',
+                          my: 6
+                        },
+                        table: {
+                          color: 'gray.50',
+                          width: 'full',
+                          mb: 4,
+                          borderCollapse: 'separate',
+                          borderSpacing: 0,
+                          border: '1px solid',
+                          borderColor: 'gray.700',
+                          borderRadius: 'md',
+                          overflow: 'hidden',
+                          fontSize: '1.1rem'
+                        },
+                        'th, td': {
+                          borderColor: 'gray.700',
+                          p: 2,
+                          borderBottom: '1px solid',
+                          borderRight: '1px solid'
+                        },
+                        th: {
+                          bg: 'gray.800',
+                          fontWeight: 'bold',
+                          color: 'blue.200',
+                          textAlign: 'left'
+                        },
+                        img: {
+                          maxW: 'full',
+                          h: 'auto',
+                          mb: 4,
+                          borderRadius: 'md',
+                          border: '1px solid',
+                          borderColor: 'gray.700',
+                          boxShadow: 'lg'
+                        }
+                      }}
+                    >
+                      <MDXRemote {...mdxSource} components={components} />
+                    </Box>
+
+                    {/* Bottom Share Button */}
+                    <Box pt={6}>
+                      <ArticleShare url={currentUrl} title={frontMatter.title} variant="bottom" />
+                    </Box>
+
+                    {/* Zap-Hosting Werbung */}
+                    <BlogZapHosting />
+                  </VStack>
                 </Box>
 
-                {/* Bottom Share Section */}
-                <Box py={8}>
-                  <ArticleShare url={currentUrl} title={frontMatter.title} variant="bottom" />
-                </Box>
-
-                {/* Zap-Hosting Werbung */}
-                <BlogZapHosting />
-              </VStack>
+                {/* Status bar */}
+                <HStack 
+                  borderTop="1px" 
+                  borderColor={borderColor} 
+                  bg="gray.900" 
+                  px={4} 
+                  py={1}
+                  spacing={4}
+                  fontSize="xs"
+                  color={textColor}
+                  fontFamily="mono"
+                >
+                  <Text>markdown</Text>
+                  <Text>UTF-8</Text>
+                  <Text>Ln {mdxSource.compiledSource.split('\n').length}</Text>
+                </HStack>
+              </Box>
             </Box>
-
-            {/* Status bar */}
-            <HStack 
-              borderTop="1px" 
-              borderColor={borderColor} 
-              bg="gray.900" 
-              px={4} 
-              py={1}
-              spacing={4}
-              fontSize="xs"
-              color={textColor}
-              fontFamily="mono"
-            >
-              <Text>markdown</Text>
-              <Text>UTF-8</Text>
-              <Text>Ln {mdxSource.compiledSource.split('\n').length}</Text>
-            </HStack>
           </Box>
         </Container>
       </Box>
