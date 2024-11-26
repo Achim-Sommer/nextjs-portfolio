@@ -32,6 +32,8 @@ const BlogZapHosting = dynamic(() => import('@/components/BlogZapHosting'));
 const FloatingZapAd = dynamic(() => import('@/components/FloatingZapAd'));
 const Tip = dynamic(() => import('../../src/components/Tip'));
 const Image = dynamic(() => import('next/image'));
+const ServerComparisonTable = dynamic(() => import('@/components/mdx/tables').then(mod => mod.ServerComparisonTable));
+const PriceComparison = dynamic(() => import('@/components/PriceComparison/PriceComparison'));
 
 interface FrontMatter {
   title: string;
@@ -60,7 +62,9 @@ const components = {
     }
     return <pre {...props} />;
   },
-  Tip: Tip
+  Tip: Tip,
+  ServerComparisonTable: ServerComparisonTable,
+  PriceComparison: PriceComparison
 };
 
 export default function BlogPost({ frontMatter, mdxSource, slug }: BlogPostProps) {

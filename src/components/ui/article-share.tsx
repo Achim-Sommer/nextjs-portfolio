@@ -13,6 +13,7 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { FiShare2, FiTwitter, FiLinkedin, FiMail, FiCopy } from "react-icons/fi";
+import { FaWhatsapp } from "react-icons/fa";
 
 interface ArticleShareProps {
   url: string;
@@ -30,6 +31,14 @@ const shareOptions = [
       `https://twitter.com/intent/tweet?text=${encodeURIComponent(
         title
       )}&url=${encodeURIComponent(url)}`,
+  },
+  {
+    name: "WhatsApp",
+    icon: FaWhatsapp,
+    color: "#25D366",
+    hoverBg: "#25D36633",
+    getUrl: (url: string, title: string) =>
+      `https://wa.me/?text=${encodeURIComponent(title + " " + url)}`,
   },
   {
     name: "LinkedIn",
