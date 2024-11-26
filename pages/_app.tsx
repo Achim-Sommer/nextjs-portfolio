@@ -6,8 +6,6 @@ import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import Head from 'next/head';
 import '../styles/globals.css';
 import Script from 'next/script';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 
 // Dynamically import components that are not needed for initial render
 const Layout = dynamic(() => import('../src/components/Layout'), {
@@ -34,21 +32,6 @@ const theme = extendTheme({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
-  const router = useRouter();
-
-  useEffect(() => {
-    const handleRouteChange = (url: string) => {
-      if (typeof (window as any).umami !== 'undefined') {
-        (window as any).umami.trackView(url);
-      }
-    };
-
-    router.events.on('routeChangeComplete', handleRouteChange);
-    return () => {
-      router.events.off('routeChangeComplete', handleRouteChange);
-    };
-  }, [router]);
-
   return (
     <ChakraProvider theme={theme}>
       <Head>
