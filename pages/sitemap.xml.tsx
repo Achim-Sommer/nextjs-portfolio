@@ -31,21 +31,6 @@ const staticPages: PageConfig[] = [
     changefreq: 'daily',
   },
   {
-    path: '/about',
-    priority: 0.8,
-    changefreq: 'monthly',
-  },
-  {
-    path: '/projects',
-    priority: 0.8,
-    changefreq: 'monthly',
-  },
-  {
-    path: '/contact',
-    priority: 0.7,
-    changefreq: 'monthly',
-  },
-  {
     path: '/impressum',
     priority: 0.3,
     changefreq: 'yearly',
