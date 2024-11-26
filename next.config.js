@@ -267,6 +267,15 @@ const nextConfig = {
         ],
       },
       {
+        source: '/_next/static/chunks/:path*.js',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/javascript',
+          },
+        ],
+      },
+      {
         source: '/_next/image/:path*',
         headers: [
           {
