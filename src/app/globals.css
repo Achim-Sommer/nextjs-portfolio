@@ -159,4 +159,34 @@ body {
   ::-webkit-scrollbar-thumb:hover {
     background: #666;
   }
+
+  /* Markdown Content Styles */
+  .markdown-content {
+    @apply max-w-full overflow-x-hidden;
+  }
+
+  .markdown-content pre {
+    @apply max-w-full overflow-x-auto p-4 my-4 bg-gray-800 rounded-lg;
+  }
+
+  .markdown-content code {
+    @apply bg-gray-800 px-1 py-0.5 rounded text-sm;
+  }
+
+  .markdown-content table {
+    @apply w-full max-w-full overflow-x-auto block my-4;
+  }
+
+  .markdown-content td,
+  .markdown-content th {
+    @apply border border-gray-700 px-4 py-2;
+  }
+
+  .markdown-content img {
+    @apply max-w-full h-auto;
+  }
+
+  .markdown-content p {
+    @apply break-words;
+  }
 }

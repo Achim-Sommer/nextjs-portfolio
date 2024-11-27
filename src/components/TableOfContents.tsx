@@ -120,30 +120,23 @@ export const TableOfContents = () => {
   return (
     <Box
       as="nav"
+      aria-label="Table of Contents"
       position="sticky"
-      top="80px"
-      maxHeight="calc(100vh - 100px)"
-      overflow="auto"
+      top="2rem"
+      maxHeight="calc(100vh - 4rem)"
+      overflowY="auto"
+      className="toc-container"
+      ml="-12rem"
       display={{ base: 'none', xl: 'block' }}
-      w="64"
-      pr="4"
-      pb="8"
-      fontSize="sm"
-      className="table-of-contents"
-      css={{
-        '&::-webkit-scrollbar': {
-          width: '4px',
-        },
-        '&::-webkit-scrollbar-track': {
-          width: '6px',
-        },
-        '&::-webkit-scrollbar-thumb': {
-          background: 'gray.500',
-          borderRadius: '24px',
-        },
-      }}
+      width="10rem"
     >
-      <Text fontWeight="bold" mb="4" color="white">
+      <Text
+        as="h2"
+        fontSize="sm"
+        fontWeight="bold"
+        mb={4}
+        color="white"
+      >
         Inhaltsverzeichnis
       </Text>
       <List spacing={2}>
