@@ -16,6 +16,7 @@ import "@/styles/grid-pattern.css";
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { BlogPost } from '@/types/blog';
+import { Meteors } from "@/components/ui/meteors";
 
 const MotionBox = motion(Box);
 
@@ -134,18 +135,8 @@ export default function Blog({ posts }: Props) {
   const currentUrl = `${process.env.NEXT_PUBLIC_SITE_URL}${router.asPath}`;
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState('date-desc');
   const bgColor = useColorModeValue('gray.900', 'gray.900');
-
-  // Sammle alle einzigartigen Tags
-  const allTags = useMemo(() => {
-    const tags = new Set<string>();
-    posts.forEach(post => {
-      post.frontmatter.tags?.forEach(tag => tags.add(tag));
-    });
-    return Array.from(tags);
-  }, [posts]);
 
   // Filtere und sortiere Posts
   const filteredAndSortedPosts = useMemo(() => {
@@ -155,11 +146,7 @@ export default function Blog({ posts }: Props) {
           post.frontmatter.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
           post.frontmatter.description.toLowerCase().includes(searchQuery.toLowerCase());
 
-        const matchesTags = 
-          selectedTags.length === 0 || 
-          selectedTags.every(tag => post.frontmatter.tags?.includes(tag));
-
-        return matchesSearch && matchesTags;
+        return matchesSearch;
       })
       .sort((a, b) => {
         switch (sortBy) {
@@ -175,15 +162,7 @@ export default function Blog({ posts }: Props) {
             return 0;
         }
       });
-  }, [posts, searchQuery, selectedTags, sortBy]);
-
-  const handleTagSelect = (tag: string) => {
-    setSelectedTags([...selectedTags, tag]);
-  };
-
-  const handleTagRemove = (tag: string) => {
-    setSelectedTags(selectedTags.filter(t => t !== tag));
-  };
+  }, [posts, searchQuery, sortBy]);
 
   const featuredPost = useMemo(() => {
     return posts.find(post => post.frontmatter.featured);
@@ -313,10 +292,6 @@ export default function Blog({ posts }: Props) {
                       onSearchChange={setSearchQuery}
                     />
                     <BlogFilter
-                      selectedTags={selectedTags}
-                      allTags={allTags}
-                      onTagSelect={handleTagSelect}
-                      onTagRemove={handleTagRemove}
                       sortBy={sortBy}
                       onSortChange={setSortBy}
                     />
@@ -409,36 +384,15 @@ export default function Blog({ posts }: Props) {
                           transform: "scaleX(1)"
                         }}
                       />
+
+                      {/* Meteors Effect */}
+                      <Meteors number={20} className="opacity-0 group-hover:opacity-100" />
                     </MotionBox>
                   </Link>
                 </Box>
               )}
 
               {/* Active Filters */}
-              {selectedTags.length > 0 && (
-                <Flex gap={2} mb={8} flexWrap="wrap">
-                  {selectedTags.map(tag => (
-                    <Tag
-                      key={tag}
-                      size="md"
-                      variant="subtle"
-                      bg="blue.900"
-                      color="blue.200"
-                      fontFamily="mono"
-                      pr={2}
-                      cursor="pointer"
-                      onClick={() => handleTagRemove(tag)}
-                    >
-                      <HStack spacing={2}>
-                        <Icon as={FiTag} />
-                        <Text>{tag}</Text>
-                        <Icon as={FiX} />
-                      </HStack>
-                    </Tag>
-                  ))}
-                </Flex>
-              )}
-
               {/* Blog Grid */}
               {filteredAndSortedPosts.length > 0 ? (
                 <BlogGrid posts={filteredAndSortedPosts} />
