@@ -12,7 +12,7 @@ import {
   Tooltip,
   Flex,
 } from "@chakra-ui/react";
-import { FiShare2, FiTwitter, FiLinkedin, FiMail, FiCopy } from "react-icons/fi";
+import { FiShare2, FiTwitter, FiMail, FiCopy } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 
 interface ArticleShareProps {
@@ -39,16 +39,6 @@ const shareOptions = [
     hoverBg: "#25D36633",
     getUrl: (url: string, title: string) =>
       `https://wa.me/?text=${encodeURIComponent(title + " " + url)}`,
-  },
-  {
-    name: "LinkedIn",
-    icon: FiLinkedin,
-    color: "#0A66C2",
-    hoverBg: "#0A66C233",
-    getUrl: (url: string) =>
-      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-        url
-      )}`,
   },
   {
     name: "Email",
@@ -106,7 +96,7 @@ export const ArticleShare = ({
           borderRadius="2xl"
           border="1px solid"
           borderColor={isHovered ? "blue.400" : "blue.800"}
-          p={6}
+          p={[4, 4, 6]}
           transition="all 0.2s"
           position="relative"
           overflow="hidden"
@@ -132,25 +122,25 @@ export const ArticleShare = ({
             direction={{ base: "column", sm: "row" }}
             justify="space-between"
             align={{ base: "stretch", sm: "center" }}
-            gap={4}
+            gap={[3, 3, 4]}
             position="relative"
           >
             <HStack spacing={3} flex="none">
               <Box
                 bg={isHovered ? "blue.400" : "blue.500"}
-                p={2}
+                p={[1.5, 1.5, 2]}
                 borderRadius="xl"
                 transition="all 0.2s"
               >
                 <Icon
                   as={FiShare2}
-                  boxSize={5}
+                  boxSize={[4, 4, 5]}
                   color="white"
                 />
               </Box>
               <Text
                 color="blue.50"
-                fontSize={variant === "bottom" ? "md" : "lg"}
+                fontSize={["sm", "md", variant === "bottom" ? "md" : "lg"]}
                 fontWeight="medium"
               >
                 {variant === "bottom"
@@ -159,14 +149,14 @@ export const ArticleShare = ({
               </Text>
             </HStack>
             <Flex 
-              gap={2} 
+              gap={[1, 1, 2]} 
               wrap="wrap"
               justify={{ base: "flex-start", sm: "flex-end" }}
             >
               {shareOptions.map((option) => (
                 <Tooltip key={option.name} label={option.name} placement="top">
                   <Button
-                    size="md"
+                    size={["sm", "sm", "md"]}
                     variant="ghost"
                     color="white"
                     onClick={() => handleShare(option)}
@@ -176,15 +166,16 @@ export const ArticleShare = ({
                       transform: "translateY(-2px)",
                     }}
                     leftIcon={<option.icon />}
-                    px={4}
+                    px={[2, 2, 4]}
+                    minW={["auto", "auto", "120px"]}
                   >
-                    {option.name}
+                    <Text display={["none", "none", "block"]}>{option.name}</Text>
                   </Button>
                 </Tooltip>
               ))}
               <Tooltip label="Link kopieren" placement="top">
                 <Button
-                  size="md"
+                  size={["sm", "sm", "md"]}
                   variant="ghost"
                   color="white"
                   onClick={handleCopy}
@@ -194,9 +185,10 @@ export const ArticleShare = ({
                     transform: "translateY(-2px)",
                   }}
                   leftIcon={<FiCopy />}
-                  px={4}
+                  px={[2, 2, 4]}
+                  minW={["auto", "auto", "120px"]}
                 >
-                  Kopieren
+                  <Text display={["none", "none", "block"]}>Kopieren</Text>
                 </Button>
               </Tooltip>
             </Flex>

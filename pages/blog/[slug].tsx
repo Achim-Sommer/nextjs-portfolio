@@ -158,10 +158,13 @@ export default function BlogPost({ frontMatter, mdxSource, slug }: BlogPostProps
         position="relative"
         pt="5rem"
       >
-        <Container maxW="container.xl" pt={8}>
-          <Box position="relative" display="flex" gap={8}>
-            <TableOfContents />
-            <Box flex="1">
+        <Container maxW="container.xl" pt={8} px={[4, 4, 6, 8]}>
+          <Box position="relative" display="flex" flexDir={["column", "column", "row"]} gap={8}>
+            {/* TableOfContents nur auf Desktop anzeigen */}
+            <Box display={["none", "none", "block"]}>
+              <TableOfContents />
+            </Box>
+            <Box flex="1" w={["100%", "100%", "auto"]}>
               <Box 
                 bg={tabBg} 
                 borderRadius="md" 
@@ -170,29 +173,31 @@ export default function BlogPost({ frontMatter, mdxSource, slug }: BlogPostProps
                 overflow="hidden"
                 position="relative"
                 zIndex={1}
+                mx={[-4, -4, 0]} // Negative margin auf Mobile für volle Breite
+                width={["calc(100% + 2rem)", "calc(100% + 2rem)", "100%"]} // Kompensiere den negativen Margin
               >
                 {/* File tab */}
                 <HStack 
                   borderBottom="1px" 
                   borderColor={borderColor} 
                   bg="gray.900" 
-                  px={4} 
+                  px={[3, 4]} 
                   py={2}
                   spacing={2}
                 >
-                  <Text color={textColor} fontSize="sm" fontFamily="mono">
+                  <Text color={textColor} fontSize={["xs", "sm"]} fontFamily="mono">
                     {slug}.md
                   </Text>
                 </HStack>
 
                 {/* Content */}
-                <Box p={8} id="article-content">
+                <Box p={[4, 6, 8]} id="article-content">
                   <VStack align="stretch" spacing={6}>
                     {/* Header section */}
                     <Box borderBottom="1px" borderColor={borderColor} pb={6}>
                       <Heading 
                         as="h1" 
-                        size="2xl" 
+                        size={["xl", "2xl"]} 
                         color={headingColor}
                         fontFamily="mono"
                         mb={4}
@@ -378,7 +383,7 @@ export default function BlogPost({ frontMatter, mdxSource, slug }: BlogPostProps
                   borderTop="1px" 
                   borderColor={borderColor} 
                   bg="gray.900" 
-                  px={4} 
+                  px={[3, 4]} 
                   py={1}
                   spacing={4}
                   fontSize="xs"

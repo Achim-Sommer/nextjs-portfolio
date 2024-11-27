@@ -29,7 +29,11 @@ export const TableOfContents = () => {
 
   useEffect(() => {
     const setupHeadings = () => {
-      const elements = Array.from(document.querySelectorAll('h2, h3, h4'))
+      // Nur Überschriften innerhalb des Artikel-Inhalts erfassen
+      const articleContent = document.getElementById('article-content');
+      if (!articleContent) return;
+
+      const elements = Array.from(articleContent.querySelectorAll('h2, h3, h4'))
         .map((element) => {
           if (!element.id) {
             const generatedId = generateId(element.textContent || '');
@@ -139,7 +143,7 @@ export const TableOfContents = () => {
         },
       }}
     >
-      <Text fontWeight="bold" mb="4">
+      <Text fontWeight="bold" mb="4" color="white">
         Inhaltsverzeichnis
       </Text>
       <List spacing={2}>

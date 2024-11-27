@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, VStack, HStack, Text, Button, Icon, useColorModeValue, Link } from '@chakra-ui/react';
+import { Box, VStack, HStack, Text, Button, Icon, useColorModeValue, Link, Stack } from '@chakra-ui/react';
 import { FiServer, FiShield, FiCpu, FiCode, FiGift } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 
@@ -26,7 +26,7 @@ export default function BlogZapHosting({ context }: BlogZapHostingProps) {
         width="full"
         bg={bgColor}
         borderRadius="lg"
-        p={6}
+        p={[4, 6]}
         border="1px solid"
         borderColor={borderColor}
         position="relative"
@@ -43,34 +43,38 @@ export default function BlogZapHosting({ context }: BlogZapHostingProps) {
       >
         <VStack align="stretch" spacing={4}>
           <HStack spacing={4}>
-            <Icon as={FiServer} color={ZAP_GREEN} boxSize={6} />
-            <Text color={textColor} fontSize="lg" fontWeight="bold" fontFamily="mono">
+            <Icon as={FiServer} color={ZAP_GREEN} boxSize={[5, 6]} />
+            <Text color={textColor} fontSize={["md", "lg"]} fontWeight="bold" fontFamily="mono">
               Jetzt bei Zap-Hosting deployen
             </Text>
           </HStack>
 
-          <HStack spacing={8} pl={10}>
+          <Stack 
+            direction={["column", "row"]} 
+            spacing={[4, 8]} 
+            pl={[4, 10]}
+          >
             <VStack align="start" spacing={2}>
               <HStack>
-                <Icon as={FiShield} color={ZAP_GREEN} />
-                <Text color={textColor}>DDoS Schutz</Text>
+                <Icon as={FiShield} color={ZAP_GREEN} boxSize={[4, 5]} />
+                <Text color={textColor} fontSize={["sm", "md"]}>DDoS Schutz</Text>
               </HStack>
               <HStack>
-                <Icon as={FiCpu} color={ZAP_GREEN} />
-                <Text color={textColor}>Root Zugriff</Text>
+                <Icon as={FiCpu} color={ZAP_GREEN} boxSize={[4, 5]} />
+                <Text color={textColor} fontSize={["sm", "md"]}>Root Zugriff</Text>
               </HStack>
             </VStack>
             <VStack align="start" spacing={2}>
               <HStack>
-                <Icon as={FiCode} color={ZAP_GREEN} />
-                <Text color={textColor}>Sofort Verfügbar</Text>
+                <Icon as={FiCode} color={ZAP_GREEN} boxSize={[4, 5]} />
+                <Text color={textColor} fontSize={["sm", "md"]}>Sofort Verfügbar</Text>
               </HStack>
               <HStack>
-                <Icon as={FiServer} color={ZAP_GREEN} />
-                <Text color={textColor}>24/7 Support</Text>
+                <Icon as={FiServer} color={ZAP_GREEN} boxSize={[4, 5]} />
+                <Text color={textColor} fontSize={["sm", "md"]}>24/7 Support</Text>
               </HStack>
             </VStack>
-          </HStack>
+          </Stack>
         </VStack>
       </MotionBox>
 
@@ -82,15 +86,19 @@ export default function BlogZapHosting({ context }: BlogZapHostingProps) {
         width="full"
         bg={bgColor}
         borderRadius="lg"
-        p={6}
+        p={[4, 6]}
         border="1px solid"
         borderColor={borderColor}
         fontFamily="mono"
       >
         <VStack align="stretch" spacing={6}>
-          <Text color={textColor} fontSize="sm">$ Starte deinen eigenen Linux V-Server</Text>
+          <Text color={textColor} fontSize={["xs", "sm"]}>$ Starte deinen eigenen Linux V-Server</Text>
           
-          <HStack justify="space-between" spacing={6}>
+          <Stack 
+            direction={["column", "row"]} 
+            spacing={[4, 6]} 
+            width="full"
+          >
             {/* Monthly Plan */}
             <VStack 
               flex={1} 
@@ -100,10 +108,11 @@ export default function BlogZapHosting({ context }: BlogZapHostingProps) {
               border="1px solid"
               borderColor={borderColor}
               spacing={2}
+              width="full"
             >
-              <Text color={textColor} fontSize="lg">Monatlich</Text>
-              <Text color={ZAP_GREEN} fontSize="2xl" fontWeight="bold">ab 7,90€</Text>
-              <Text color={textColor} fontSize="sm">/Monat</Text>
+              <Text color={textColor} fontSize={["md", "lg"]}>Monatlich</Text>
+              <Text color={ZAP_GREEN} fontSize={["xl", "2xl"]} fontWeight="bold">ab 7,90€</Text>
+              <Text color={textColor} fontSize={["xs", "sm"]}>/Monat</Text>
               <Link 
                 href="https://zap-hosting.com/vserverhomepage" 
                 isExternal 
@@ -115,7 +124,8 @@ export default function BlogZapHosting({ context }: BlogZapHostingProps) {
                   bg={ZAP_GREEN}
                   color="white"
                   _hover={{ bg: `${ZAP_GREEN}90` }}
-                  size="sm"
+                  size={["xs", "sm"]}
+                  py={[3, 4]}
                 >
                   Jetzt Starten
                 </Button>
@@ -132,6 +142,7 @@ export default function BlogZapHosting({ context }: BlogZapHostingProps) {
               borderColor={ZAP_GREEN}
               spacing={2}
               position="relative"
+              width="full"
               _before={{
                 content: '"Bester Deal"',
                 position: 'absolute',
@@ -140,13 +151,13 @@ export default function BlogZapHosting({ context }: BlogZapHostingProps) {
                 px: 2,
                 py: 0.5,
                 borderRadius: 'md',
-                fontSize: 'xs',
+                fontSize: ["2xs", "xs"],
                 color: 'white',
               }}
             >
-              <Text color={textColor} fontSize="lg">Lifetime</Text>
-              <Text color={ZAP_GREEN} fontSize="2xl" fontWeight="bold">ab 79,00€</Text>
-              <Text color={textColor} fontSize="sm">einmalig</Text>
+              <Text color={textColor} fontSize={["md", "lg"]}>Lifetime</Text>
+              <Text color={ZAP_GREEN} fontSize={["xl", "2xl"]} fontWeight="bold">ab 79,00€</Text>
+              <Text color={textColor} fontSize={["xs", "sm"]}>einmalig</Text>
               <Link 
                 href="https://zap-hosting.com/vserverhomepage" 
                 isExternal 
@@ -158,17 +169,18 @@ export default function BlogZapHosting({ context }: BlogZapHostingProps) {
                   bg={ZAP_GREEN}
                   color="white"
                   _hover={{ bg: `${ZAP_GREEN}90` }}
-                  size="sm"
+                  size={["xs", "sm"]}
+                  py={[3, 4]}
                 >
                   Lifetime Sichern
                 </Button>
               </Link>
             </VStack>
-          </HStack>
+          </Stack>
 
           <HStack justify="center" spacing={2}>
-            <Icon as={FiGift} color={ZAP_GREEN} />
-            <Text color={textColor} fontSize="sm">
+            <Icon as={FiGift} color={ZAP_GREEN} boxSize={[4, 5]} />
+            <Text color={textColor} fontSize={["xs", "sm"]}>
               Code GERMANGAMING für 20% Rabatt
             </Text>
           </HStack>
