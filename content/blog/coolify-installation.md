@@ -95,11 +95,6 @@ Von deinem Provider erhältst du folgende Zugangsdaten:
 
 #### 4. Erste Sicherheitsmaßnahmen
 
-Nach erfolgreicher Verbindung solltest du als erstes das Root-Passwort ändern:
-```bash
-passwd
-```
-
 Führe dann ein System-Update durch:
 ```bash
 apt update && apt upgrade -y
@@ -110,6 +105,10 @@ apt update && apt upgrade -y
 ### Schnellinstallation (Empfohlen)
 
 Die einfachste Methode Coolify zu installieren ist über das offizielle Installationsskript:
+
+```bash
+apt-get install curl
+```
 
 ```bash
 curl -fsSL https://cdn.coollabs.io/coolify/install.sh | bash
