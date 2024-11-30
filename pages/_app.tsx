@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import Head from 'next/head';
 import '../styles/globals.css';
+import '../styles/gta.css';
 import Script from 'next/script';
 
 // Dynamically import components that are not needed for initial render

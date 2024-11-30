@@ -1,0 +1,155 @@
+/* GTA-inspired styles */
+@keyframes ken-burns {
+  0% {
+    transform: scale(1.0);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1.0);
+  }
+}
+
+.animate-ken-burns {
+  animation: ken-burns 20s ease infinite;
+}
+
+@keyframes spotlight {
+  0%, 100% {
+    opacity: 0;
+    transform: translateX(-100%) skewX(-45deg);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(100%) skewX(-45deg);
+  }
+}
+
+@keyframes gradient-x {
+  0%, 100% {
+    opacity: 0.5;
+    transform: translateX(-50%);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(50%);
+  }
+}
+
+.animate-spotlight {
+  animation: spotlight 5s ease-in-out infinite;
+}
+
+.animate-gradient-x {
+  animation: gradient-x 15s ease infinite;
+}
+
+.gta-text-shadow {
+  text-shadow: 0 0 10px rgba(255, 87, 34, 0.5),
+               0 0 20px rgba(76, 175, 80, 0.3),
+               0 0 30px rgba(33, 150, 243, 0.2);
+}
+
+.gta-text-glow {
+  text-shadow: 0 0 8px rgba(76, 175, 80, 0.4);
+}
+
+.gaming-card {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px rgba(76, 175, 80, 0.1);
+}
+
+.gaming-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(76, 175, 80, 0.2);
+}
+
+.gaming-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: 0.5s;
+}
+
+.gaming-card:hover::before {
+  left: 100%;
+}
+
+.gta-button {
+  @apply px-6 py-3 bg-gradient-to-r from-[#ff5722] to-[#4caf50] text-white font-mono font-bold rounded-lg
+         transition-all duration-300 hover:from-[#4caf50] hover:to-[#2196f3] hover:scale-105
+         hover:shadow-[0_0_20px_rgba(76,175,80,0.4)]
+         border-2 border-[#4caf50]/50
+         relative overflow-hidden
+         flex items-center justify-center;
+}
+
+.gta-button::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(45deg);
+  animation: shine 3s infinite;
+}
+
+.gta-button-primary {
+  @apply px-6 py-3 bg-gradient-to-r from-[#2196f3] to-[#4caf50] text-white font-mono font-bold rounded-lg
+         transition-all duration-300 hover:from-[#4caf50] hover:to-[#ff5722] hover:scale-105
+         hover:shadow-[0_0_20px_rgba(33,150,243,0.4)]
+         border-2 border-[#2196f3]/50
+         flex items-center justify-center
+         relative overflow-hidden;
+}
+
+.gta-button-secondary {
+  @apply px-6 py-3 bg-transparent text-white font-mono font-bold rounded-lg
+         transition-all duration-300 hover:bg-gradient-to-r hover:from-[#ff5722]/10 hover:to-[#4caf50]/10
+         hover:shadow-[0_0_20px_rgba(76,175,80,0.2)]
+         border-2 border-[#4caf50]/50
+         flex items-center justify-center;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hover-text-glow:hover {
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+@keyframes shine {
+  0% {
+    top: -50%;
+    left: -50%;
+  }
+  100% {
+    top: 150%;
+    left: 150%;
+  }
+}
