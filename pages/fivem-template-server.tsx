@@ -225,7 +225,58 @@ export default function FiveMTemplateServer() {
             </div>
           </div>
         </div>
-
+        {/* Info Section */}
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-16 rounded-2xl p-8 bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm relative overflow-hidden group"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-[#ff5722]/5 via-[#4caf50]/5 to-[#2196f3]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <h2 className="text-4xl font-bold bg-gradient-to-r from-[#ff5722] via-[#4caf50] to-[#2196f3] bg-clip-text text-transparent mb-6 font-mono tracking-tight gta-text-shadow">
+              Über den FiveM Template Server
+            </h2>
+            <div className="space-y-4 relative z-10">
+              <p className="text-gray-300 leading-relaxed">
+                Der FiveM Template Server bietet eine perfekte Grundlage für deinen eigenen FiveM Server - egal ob Anfänger oder Fortgeschrittener. Das modulare System ermöglicht es dir, den Server genau nach deinen Vorstellungen anzupassen.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                <div className="space-y-2">
+                  <h3 className="text-white font-bold flex items-center gap-2">
+                    <FaCode className="text-[#4caf50]" /> Modularer Aufbau
+                  </h3>
+                  <p className="text-gray-400">
+                    Füge hinzu, entferne oder ändere Komponenten ganz nach deinen Bedürfnissen. Perfekt für jeden Servertyp - von Hardcore bis Casual RP.
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-white font-bold flex items-center gap-2">
+                    <FaLanguage className="text-[#2196f3]" /> Mehrsprachig
+                  </h3>
+                  <p className="text-gray-400">
+                    Größtenteils auf Deutsch übersetzt und einfach in jede gewünschte Sprache anpassbar.
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-white font-bold flex items-center gap-2">
+                    <FaServer className="text-[#ff5722]" /> Neueste ESX Version
+                  </h3>
+                  <p className="text-gray-400">
+                    Basiert auf der aktuellsten ESX Legacy Version für beste Performance und Sicherheit.
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-white font-bold flex items-center gap-2">
+                    <FaHeadset className="text-[#9c27b0]" /> Support
+                  </h3>
+                  <p className="text-gray-400">
+                    Professioneller Support bei Fragen oder Problemen für alle Premium-Nutzer.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+          
         {/* Main Content */}
         <div id="features" className="max-w-7xl mx-auto px-4 py-12">
           {/* Feature Sections */}
@@ -294,58 +345,6 @@ export default function FiveMTemplateServer() {
               </div>
             </motion.div>
           ))}
-
-          {/* Info Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mt-16 rounded-2xl p-8 bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm relative overflow-hidden group"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-[#ff5722]/5 via-[#4caf50]/5 to-[#2196f3]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <h2 className="text-4xl font-bold bg-gradient-to-r from-[#ff5722] via-[#4caf50] to-[#2196f3] bg-clip-text text-transparent mb-6 font-mono tracking-tight gta-text-shadow">
-              Über den FiveM Template Server
-            </h2>
-            <div className="space-y-4 relative z-10">
-              <p className="text-gray-300 leading-relaxed">
-                Der FiveM Template Server bietet eine perfekte Grundlage für deinen eigenen FiveM Server - egal ob Anfänger oder Fortgeschrittener. Das modulare System ermöglicht es dir, den Server genau nach deinen Vorstellungen anzupassen.
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                <div className="space-y-2">
-                  <h3 className="text-white font-bold flex items-center gap-2">
-                    <FaCode className="text-[#4caf50]" /> Modularer Aufbau
-                  </h3>
-                  <p className="text-gray-400">
-                    Füge hinzu, entferne oder ändere Komponenten ganz nach deinen Bedürfnissen. Perfekt für jeden Servertyp - von Hardcore bis Casual RP.
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-white font-bold flex items-center gap-2">
-                    <FaLanguage className="text-[#2196f3]" /> Mehrsprachig
-                  </h3>
-                  <p className="text-gray-400">
-                    Größtenteils auf Deutsch übersetzt und einfach in jede gewünschte Sprache anpassbar.
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-white font-bold flex items-center gap-2">
-                    <FaServer className="text-[#ff5722]" /> Neueste ESX Version
-                  </h3>
-                  <p className="text-gray-400">
-                    Basiert auf der aktuellsten ESX Legacy Version für beste Performance und Sicherheit.
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-white font-bold flex items-center gap-2">
-                    <FaHeadset className="text-[#9c27b0]" /> Support
-                  </h3>
-                  <p className="text-gray-400">
-                    Professioneller Support bei Fragen oder Problemen für alle Premium-Nutzer.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </motion.div>
 
           {/* Shop CTA Section */}
           <motion.div
