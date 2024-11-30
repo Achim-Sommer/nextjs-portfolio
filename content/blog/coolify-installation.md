@@ -73,7 +73,7 @@ Bei der Serverauswahl solltest du auf folgende Mindestanforderungen achten:
 
 #### 1. SSH-Client installieren
 Für die Verbindung zum Server brauchst du einen SSH-Client. Ich empfehle [Terminus](https://termius.com/), da er benutzerfreundlich ist und für alle Betriebssysteme zur Verfügung steht. Alternativen sind:
-- Windows: PuTTY
+- Windows: [Terminus](https://termius.com/)
 - macOS/Linux: Terminal (vorinstalliert)
 
 #### 2. Zugangsdaten vorbereiten
