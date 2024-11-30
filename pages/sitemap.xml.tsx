@@ -31,6 +31,11 @@ const staticPages: PageConfig[] = [
     changefreq: 'daily',
   },
   {
+    path: '/fivem-template-server',
+    priority: 0.9,
+    changefreq: 'weekly',
+  },
+  {
     path: '/impressum',
     priority: 0.3,
     changefreq: 'yearly',
