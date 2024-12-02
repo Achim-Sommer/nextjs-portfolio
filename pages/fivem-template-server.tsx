@@ -3,11 +3,12 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { SparklesCore } from "@/components/ui/sparkles-core";
 import { BackgroundGradient } from "@/components/ui/background-gradient";
-import { FaGamepad, FaServer, FaCode, FaShieldAlt, FaDiceD20, FaUsers, FaDownload, FaPlane, FaShip, FaTruck, FaCar, FaCarCrash, FaTshirt, FaStore, FaGasPump, FaWrench, FaCut, FaAmbulance, FaBus, FaTaxi, FaFish, FaDice, FaBuilding, FaMobileAlt, FaDog, FaKey, FaLanguage, FaHeadset, FaGithub } from "react-icons/fa";
+import { FaGamepad, FaWhatsapp, FaServer, FaCode, FaShieldAlt, FaDiceD20, FaUsers, FaDownload, FaPlane, FaShip, FaTruck, FaCar, FaCarCrash, FaTshirt, FaStore, FaGasPump, FaWrench, FaCut, FaAmbulance, FaBus, FaTaxi, FaFish, FaDice, FaBuilding, FaMobileAlt, FaDog, FaKey, FaLanguage, FaHeadset, FaGithub } from "react-icons/fa";
 import { GiPoliceOfficerHead, GiHandcuffs, GiPokerHand, GiBank, GiCardPlay, GiSteeringWheel } from "react-icons/gi";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { createPortal } from 'react-dom';
 
 const allFeatures = {
   shops: [
@@ -73,6 +74,12 @@ const premiumFeatures = [
 ];
 
 export default function FiveMTemplateServer() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  
   return (
     <>
       <NextSeo
@@ -98,7 +105,22 @@ export default function FiveMTemplateServer() {
           }
         ]}
       />
-      
+      {/* Floating WhatsApp Button */}
+      {mounted && createPortal(
+        <div className="fixed bottom-4 right-4 z-[9999] drop-shadow-2xl">
+          <Link
+            href={`https://wa.me/4915678317784`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-4 rounded-full bg-green-600 hover:bg-green-500 transition-colors duration-300 shadow-lg block"
+            aria-label="Contact on WhatsApp"
+          >
+            <FaWhatsapp className="w-6 h-6 text-white" />
+          </Link>
+        </div>,
+        document.body
+      )}
+
       <div className="min-h-screen bg-[#0a0a0a] bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(255,87,34,0.15),rgba(76,175,80,0.15),rgba(255,255,255,0))]">
         {/* Hero Section */}
         <div className="relative h-[60vh] md:h-[80vh] w-full flex flex-col items-center justify-center overflow-hidden">
