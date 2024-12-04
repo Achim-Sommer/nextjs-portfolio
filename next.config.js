@@ -297,6 +297,25 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  async redirects() {
+    return [
+      {
+        source: '/apache2-php-7-4-mariadb-und-phpmyadmin-auf-linux-server-installieren-mysql-datenbank-erstellen',
+        destination: '/debian-lamp-stack',
+        permanent: true,
+      },
+      {
+        source: '/mount-zonah-medical-center-mlo-fivem',
+        destination: '/fivem-template-server',
+        permanent: true,
+      },
+      {
+        source: '/fivem-esx-scoreboard',
+        destination: '/fivem-template-server',
+        permanent: true,
+      },
+    ]
+  },
 };
 
 module.exports = withBundleAnalyzer(withPWA(nextConfig));
