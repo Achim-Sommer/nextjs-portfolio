@@ -429,7 +429,13 @@ export const getStaticProps: GetStaticProps<BlogPostProps, IParams> = async ({ p
 
   try {
     const { slug } = params;
-    const filePath = path.join(process.cwd(), 'content/blog', `${slug}.md`);
+    const rootDir = path.join(process.cwd(), 'content/blog');
+    const filePath = path.resolve(rootDir, `${slug}.md`);
+    if (!filePath.startsWith(rootDir)) {
+      return {
+        notFound: true
+      };
+    }
     const fileContents = fs.readFileSync(filePath, 'utf8');
     const { data: frontMatter, content } = matter(fileContents);
     
