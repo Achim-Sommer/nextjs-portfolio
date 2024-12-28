@@ -49,6 +49,79 @@ export default function RootLayout({
         <meta name="theme-color" content={viewport.themeColor} />
       </head>
       <body className={`bg-gray-900 text-white font-inter ${inter.className}`}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "name": "Achim Sommer",
+              "url": "https://achimsommer.com",
+              "image": "https://achimsommer.com/logo.png",
+              "jobTitle": "Full Stack Developer & FiveM Entwickler",
+              "worksFor": {
+                "@type": "Organization",
+                "name": "Achim Sommer Portfolio"
+              },
+              "alumniOf": {
+                "@type": "EducationalOrganization",
+                "name": "FOM Hochschule"
+              },
+              "sameAs": [
+                "https://github.com/Achim-Sommer",
+                "https://www.linkedin.com/in/achim-sommer-b898a2185/",
+                "https://www.instagram.com/achim.sommer/",
+                "https://www.youtube.com/channel/UCJRVHx9owERZiRu5hcI_JLA",
+                "https://www.youtube.com/@achimsommer"
+              ],
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Aachen",
+                "addressRegion": "NRW",
+                "addressCountry": "DE"
+              }
+            })
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "url": "https://achimsommer.com",
+              "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                  {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Startseite",
+                    "item": "https://achimsommer.com"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Blog",
+                    "item": "https://achimsommer.com/blog"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "Services",
+                    "item": "https://achimsommer.com/services"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 4,
+                    "name": "FiveM Template Server",
+                    "item": "https://achimsommer.com/fivem-template-server"
+                  }
+                ]
+              }
+            })
+          }}
+        />
         <Script
           async
           src={process.env.NEXT_PUBLIC_UMAMI_URL}

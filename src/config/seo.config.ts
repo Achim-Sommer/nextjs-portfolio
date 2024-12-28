@@ -1,9 +1,9 @@
 import { DefaultSeoProps } from 'next-seo';
 
 const config: DefaultSeoProps = {
-  titleTemplate: '%s | Achim Sommer',
-  defaultTitle: 'Achim Sommer | Full Stack Developer & FiveM Entwickler',
-  description: 'Full Stack Developer aus Aachen, spezialisiert auf TypeScript, React, Next.js und FiveM Entwicklung. Dualer Student der Wirtschaftsinformatik.',
+  titleTemplate: '%s | Achim Sommer (achimsommer)',
+  defaultTitle: 'Achim Sommer (achimsommer) | Full Stack Developer & FiveM Entwickler',
+  description: 'Achim Sommer (achimsommer) - Full Stack Developer aus Aachen, spezialisiert auf TypeScript, React, Next.js und FiveM Entwicklung. Dualer Student der Wirtschaftsinformatik.',
   canonical: 'https://achimsommer.com',
   openGraph: {
     type: 'website',
@@ -39,7 +39,7 @@ const config: DefaultSeoProps = {
     },
     {
       name: 'keywords',
-      content: 'Full Stack Developer, FiveM Entwickler, TypeScript, React, Next.js, Node.js, Webentwicklung, Aachen, Portfolio, Software Engineer, Wirtschaftsinformatik',
+      content: 'Achim Sommer, achimsommer, Full Stack Developer, FiveM Entwickler, TypeScript, React, Next.js, Node.js, Webentwicklung, Aachen, Portfolio, Software Engineer, Wirtschaftsinformatik',
     },
     {
       name: 'theme-color',
