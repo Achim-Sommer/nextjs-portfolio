@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-# Sitemap URL
 Sitemap: https://achimsommer.com/sitemap.xml
