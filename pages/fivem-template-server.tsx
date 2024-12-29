@@ -83,25 +83,25 @@ export default function FiveMTemplateServer() {
   return (
     <>
       <NextSeo
-        title="FiveM ESX Legacy Template Server | Kostenlos & Open Source"
-        description="Professionelles FiveM ESX Legacy Template Server Setup. Inklusive Jobs, Shops, Casino, Heists und mehr. Perfekt für deinen eigenen FiveM Roleplay Server."
+        title="FiveM Template Server Kostenlos | Free ESX Legacy Template für GTA RP"
+        description="FiveM Template Server kostenlos downloaden - Das beste kostenlose ESX Legacy Template für deinen GTA Roleplay Server. Inklusive Jobs, Shops, Casino & mehr. Jetzt kostenlos herunterladen!"
         canonical="https://achimsommer.com/fivem-template-server"
         openGraph={{
-          title: 'FiveM ESX Legacy Template Server',
-          description: 'Kostenloses FiveM Server Template mit ESX Legacy Framework. Enthält Polizei, Krankenhaus, Casino, Shops und vieles mehr.',
+          title: 'FiveM Template Server Kostenlos | Free ESX Legacy Template',
+          description: 'FiveM Template Server kostenlos downloaden - Das beste kostenlose ESX Legacy Template für deinen GTA Roleplay Server. Inklusive Jobs, Shops, Casino & mehr.',
           images: [
             {
               url: 'https://achimsommer.com/images/fivem-template-preview.jpg',
               width: 1200,
               height: 630,
-              alt: 'FiveM Template Server Preview',
+              alt: 'FiveM Template Server Kostenlos - Bestes ESX Legacy Template',
             }
           ],
         }}
         additionalMetaTags={[
           {
             name: 'keywords',
-            content: 'fivem server template, esx legacy template, fivem roleplay server, gta roleplay server, fivem server setup, esx server template'
+            content: 'fivem template server, fivem template server kostenlos, fivem template server free, esx legacy template, gta roleplay server, fivem server setup, fivem server template kostenlos'
           }
         ]}
       />
@@ -156,7 +156,7 @@ export default function FiveMTemplateServer() {
               transition={{ duration: 0.5 }}
               className="text-6xl md:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-[#ff5722] via-[#4caf50] to-[#2196f3] mb-6 font-mono tracking-tight gta-text-shadow"
             >
-              FiveM Template Server
+              FiveM Template Server Kostenlos - Bestes ESX Legacy Template
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -164,7 +164,7 @@ export default function FiveMTemplateServer() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-xl md:text-3xl text-emerald-300/90 max-w-3xl mx-auto font-mono gta-text-glow mb-8"
             >
-              Dein perfekter Start in die Welt von Los Santos
+              Kostenloser FiveM Template Server mit ESX Legacy Framework - Perfekter Start für deinen GTA Roleplay Server
             </motion.p>
 
             {/* Stats Bar */}
@@ -256,11 +256,11 @@ export default function FiveMTemplateServer() {
           >
             <div className="absolute inset-0 bg-gradient-to-r from-[#ff5722]/5 via-[#4caf50]/5 to-[#2196f3]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <h2 className="text-4xl font-bold bg-gradient-to-r from-[#ff5722] via-[#4caf50] to-[#2196f3] bg-clip-text text-transparent mb-6 font-mono tracking-tight gta-text-shadow">
-              Über den FiveM Template Server
+              FiveM Template Server Kostenlos - Das beste ESX Legacy Template
             </h2>
             <div className="space-y-4 relative z-10">
               <p className="text-gray-300 leading-relaxed">
-                Der FiveM Template Server bietet eine perfekte Grundlage für deinen eigenen FiveM Server - egal ob Anfänger oder Fortgeschrittener. Das modulare System ermöglicht es dir, den Server genau nach deinen Vorstellungen anzupassen.
+                Der kostenlose FiveM Template Server ist das beste ESX Legacy Template für deinen GTA Roleplay Server. Egal ob Anfänger oder Fortgeschrittener - mit diesem kostenlosen Template erstellst du schnell und einfach deinen eigenen Server. Das modulare System ermöglicht es dir, den Server genau nach deinen Vorstellungen anzupassen.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                 <div className="space-y-2">
@@ -503,13 +503,13 @@ export default function FiveMTemplateServer() {
             </div>
             
             <h2 className="text-4xl font-bold bg-gradient-to-r from-[#ff5722] via-[#4caf50] to-[#2196f3] bg-clip-text text-transparent mb-6 font-mono tracking-tight gta-text-shadow">
-              Open Source Version
+              Kostenloser FiveM Template Server - Open Source Version
             </h2>
             
             <div className="space-y-6">
               <div className="p-4 rounded-lg border border-yellow-600/30 bg-yellow-600/10">
                 <p className="text-yellow-200 font-mono text-sm">
-                  ⚠️ Die Open Source Version enthält keinen Support und ausgewählte Premium-Features.
+                  ⚠️ Die kostenlose Open Source Version enthält keinen Support und ausgewählte Premium-Features. Perfekt für alle, die einen kostenlosen FiveM Server erstellen wollen.
                 </p>
               </div>
               
@@ -537,6 +537,36 @@ export default function FiveMTemplateServer() {
                     </div>
                   </motion.a>
                 ))}
+              </div>
+            </div>
+          </motion.div>
+
+          {/* FAQ Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-24 rounded-2xl p-8 bg-zinc-900/50 border border-zinc-800 backdrop-blur-sm"
+          >
+            <h2 className="text-4xl font-bold bg-gradient-to-r from-[#ff5722] via-[#4caf50] to-[#2196f3] bg-clip-text text-transparent mb-6 font-mono tracking-tight gta-text-shadow">
+              Häufige Fragen (FAQ)
+            </h2>
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <h3 className="text-white font-bold">Ist der FiveM Template Server wirklich kostenlos?</h3>
+                <p className="text-gray-400">Ja, die Open Source Version des FiveM Template Servers ist komplett kostenlos und kann ohne Einschränkungen genutzt werden.</p>
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-white font-bold">Was ist der Unterschied zwischen der kostenlosen und Premium Version?</h3>
+                <p className="text-gray-400">Die kostenlose Version enthält alle grundlegenden Features, während die Premium Version zusätzliche Erweiterungen und professionellen Support bietet.</p>
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-white font-bold">Kann ich den Server für kommerzielle Zwecke nutzen?</h3>
+                <p className="text-gray-400">Ja, der FiveM Template Server kann sowohl für private als auch kommerzielle Projekte genutzt werden.</p>
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-white font-bold">Wie oft wird der Template Server aktualisiert?</h3>
+                <p className="text-gray-400">Der Server erhält regelmäßige Updates, sowohl für die kostenlose als auch die Premium Version.</p>
               </div>
             </div>
           </motion.div>
