@@ -5,3 +5,4 @@ node_modules
 .env
 public/sw.js
 public/workbox-4754cb34.js
+lighthouse-report.json
