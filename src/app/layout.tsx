@@ -79,6 +79,12 @@ export default function RootLayout({
                 "addressLocality": "Aachen",
                 "addressRegion": "NRW",
                 "addressCountry": "DE"
+              },
+              "legalName": "Achim Sommer",
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "contactType": "Impressum",
+                "url": "https://achimsommer.com/impressum"
               }
             })
           }}
