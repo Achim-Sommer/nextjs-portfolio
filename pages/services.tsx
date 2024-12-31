@@ -1,9 +1,17 @@
 import { NextSeo } from "next-seo";
+import Image from 'next/image';
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils"; 
 import { SparklesCore } from "@/components/ui/sparkles-core";
 import { BackgroundGradient } from "@/components/ui/background-gradient";
-import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
+import dynamic from 'next/dynamic';
+const InfiniteMovingCards = dynamic(
+  () => import('@/components/ui/infinite-moving-cards').then(mod => mod.InfiniteMovingCards),
+  {
+    ssr: false,
+    loading: () => <div className="h-[240px] w-full bg-gray-900/50 rounded-xl" />
+  }
+);
 import { FaWhatsapp, FaEnvelope, FaCode, FaServer, FaUserCheck, FaArrowRight, FaGamepad, FaWifi, FaHome, FaNetworkWired, FaVideo, FaQuestionCircle, FaComments } from "react-icons/fa";
 import { RiSparklingFill } from "react-icons/ri";
 import Link from "next/link";
@@ -361,8 +369,8 @@ export default function Services() {
   return (
     <>
       <NextSeo
-        title="IT Services & Dienstleistungen | Achim Sommer - Webentwicklung & Ubiquiti Experte"
-        description="Professionelle IT-Dienstleistungen: Webentwicklung mit Next.js, Ubiquiti UniFi Netzwerklösungen, Smart Home Automation und Gaming Server Setup. ✓ Kostenlose Erstberatung ✓ Faire Preise"
+        title="IT Dienstleistungen & Webentwicklung | Achim Sommer - Experte für Next.js & Ubiquiti"
+        description="Professionelle IT-Dienstleistungen in Aachen: Webentwicklung mit Next.js, React & TypeScript | Ubiquiti UniFi Netzwerke | Smart Home Automation | Gaming Server Setup | Kostenlose Erstberatung | Faire Preise | DSGVO-konforme Lösungen"
         canonical="https://achimsommer.com/services"
         openGraph={{
           url: 'https://achimsommer.com/services',
@@ -398,22 +406,44 @@ export default function Services() {
             "@type": "ProfessionalService",
             "name": "Achim Sommer IT Services",
             "image": "https://achimsommer.com/og-image.jpg",
-            "description": "Professionelle IT-Dienstleistungen: Webentwicklung, Ubiquiti UniFi Lösungen, Smart Home Automation",
+            "description": "Professionelle IT-Dienstleistungen in Aachen: Webentwicklung mit Next.js, React & TypeScript | Ubiquiti UniFi Netzwerke | Smart Home Automation | Gaming Server Setup",
             "address": {
               "@type": "PostalAddress",
               "streetAddress": "Adalbertsteinweg 156",
               "addressLocality": "Aachen",
               "postalCode": "52066",
-              "addressCountry": "DE"
+              "addressCountry": "DE",
+              "areaServed": ["Aachen", "Köln", "Düsseldorf", "NRW"]
             },
-            "priceRange": "€",
+            "priceRange": "€9-€249",
             "telephone": "+49 156 78317784",
             "email": "dev@achimsommer.com",
             "url": "https://achimsommer.com/services",
+            "openingHoursSpecification": {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday"
+              ],
+              "opens": "09:00",
+              "closes": "18:00"
+            },
             "sameAs": [
               "https://github.com/Achim-Sommer",
               "https://linkedin.com/achim-sommer-b898a2185",
             ],
+            "serviceArea": {
+              "@type": "GeoCircle",
+              "geoMidpoint": {
+                "@type": "GeoCoordinates",
+                "latitude": 50.775346,
+                "longitude": 6.083887
+              },
+              "geoRadius": 50000
+            },
             "offers": serviceCategories.map(category => ({
               "@type": "Offer",
               "name": category.title,
@@ -599,7 +629,7 @@ export default function Services() {
                   transition={{ duration: 0.5, delay: 0.7 }}
                   className="text-xl leading-relaxed"
                 >
-                  Als <span className="text-blue-400">erfahrener Entwickler</span> und Technologie-Enthusiast kreiere ich innovative digitale Lösungen, die Ihr Business auf das nächste Level heben.
+                  Als <span className="text-blue-400">erfahrener Entwickler</span> und Technologie-Enthusiast kreiere ich innovative digitale Lösungen, die Ihr Business auf das nächste Level heben. Erfahren Sie mehr über meine <Link href="/blog/seo-optimierung-nextjs-websites-best-practices-2025" className="text-blue-400 hover:underline">SEO-Optimierung</Link> oder <Link href="/blog/nextjs-vs-react-welches-framework-ist-2025-die-bessere-wahl" className="text-blue-400 hover:underline">warum Next.js die beste Wahl ist</Link>.
                 </motion.p>
                 
                 <motion.p
