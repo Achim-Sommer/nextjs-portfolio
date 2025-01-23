@@ -157,7 +157,7 @@ const Hero: React.FC = () => {
                 }}
               >
                 <Highlight>
-                  Dualer Student, Full Stack Developer und YouTuber
+                Wirtschaftsinformatik (B.Sc.)
                 </Highlight>
               </motion.h2>
             </HeroHighlight>
