@@ -64,13 +64,13 @@ const versions = [
 ];
 
 const premiumFeatures = [
-  { name: "PoliceCad", link: "https://shop.achimsommer.com/package/5097370", description: "Professionelles Polizei-Verwaltungssystem" },
-  { name: "Helicopter Camera", link: "https://shop.achimsommer.com/package/5156431", description: "Realistische Helikopter-Kamera" },
-  { name: "Luckywheel", link: "https://shop.achimsommer.com/package/5214747", description: "Casino Glücksrad-System" },
-  { name: "ESX Drugs", link: "https://shop.achimsommer.com/package/5118373", description: "Erweitertes Drogensystem" },
-  { name: "MainMenu", link: "https://shop.achimsommer.com/package/5153446", description: "Anpassbares Hauptmenü" },
-  { name: "Roulette Like GTA:O", link: "https://shop.achimsommer.com/package/5240886", description: "GTA-Style Casino Roulette" },
-  { name: "Doge Store", link: "https://shop.achimsommer.com/package/5113761", description: "Erweitertes Shop-System" },
+  { name: "PoliceCad", link: "https://achim.tebex.io/package/5097370", description: "Professionelles Polizei-Verwaltungssystem" },
+  { name: "Helicopter Camera", link: "https://achim.tebex.io/package/5156431", description: "Realistische Helikopter-Kamera" },
+  { name: "Luckywheel", link: "https://achim.tebex.io/package/5214747", description: "Casino Glücksrad-System" },
+  { name: "ESX Drugs", link: "https://achim.tebex.io/package/5118373", description: "Erweitertes Drogensystem" },
+  { name: "MainMenu", link: "https://achim.tebex.io/package/5153446", description: "Anpassbares Hauptmenü" },
+  { name: "Roulette Like GTA:O", link: "https://achim.tebex.io/package/5240886", description: "GTA-Style Casino Roulette" },
+  { name: "Doge Store", link: "https://achim.tebex.io/package/5113761", description: "Erweitertes Shop-System" },
 ];
 
 export default function FiveMTemplateServer() {
@@ -201,7 +201,7 @@ export default function FiveMTemplateServer() {
                 <FaGamepad className="w-5 h-5 mr-2" />
                 Features erkunden
               </button>
-              <a href="https://shop.achimsommer.com/category/esx-legacy-template" target="_blank" rel="noopener noreferrer" className="gta-button-primary">
+              <a href="https://achim.tebex.io/category/esx-legacy-template" target="_blank" rel="noopener noreferrer" className="gta-button-primary">
                 <FaStore className="w-5 h-5 mr-2" />
                 Zum Shop
               </a>
@@ -402,7 +402,7 @@ export default function FiveMTemplateServer() {
                   </ul>
                   <div className="flex items-center gap-4">
                     <a
-                      href="https://shop.achimsommer.com/category/esx-legacy-template"
+                      href="https://achim.tebex.io/category/esx-legacy-template"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 px-6 py-3 bg-[#4caf50] hover:bg-[#43a047] text-white font-bold rounded-lg transition-all duration-300 shadow-lg shadow-[#4caf50]/20 hover:shadow-[#4caf50]/30"
