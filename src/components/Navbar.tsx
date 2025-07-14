@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { FloatingNav } from './ui/floating-navbar';
 import { AiOutlineUser, AiOutlineTool, AiOutlineProject, AiOutlineRead } from 'react-icons/ai';
-import { MdOutlineHomeRepairService } from 'react-icons/md';
 import BlogNavbar from './BlogNavbar';
 import { usePathname } from 'next/navigation';
 
@@ -38,18 +37,13 @@ export default function Navbar() {
     },
     {
       name: 'Skills',
-      link: '#skills-section',
+      link: '#skills',
       icon: <AiOutlineTool className="w-4 h-4" />,
     },
     {
       name: 'Projekte',
       link: '#github-section',
       icon: <AiOutlineProject className="w-4 h-4" />,
-    },
-    {
-      name: 'Services',
-      link: '/services',
-      icon: <MdOutlineHomeRepairService className="w-4 h-4" />,
     },
     {
       name: 'Blog',
