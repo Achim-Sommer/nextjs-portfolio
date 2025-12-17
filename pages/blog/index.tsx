@@ -2,16 +2,15 @@ import { GetStaticProps } from 'next';
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { Box, Container, Heading, Text, useColorModeValue, SimpleGrid, VStack, HStack, Icon, Flex, Tag } from '@chakra-ui/react';
+import { Box, Heading, Text, SimpleGrid, VStack, HStack, Icon, Tag } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { FiCalendar, FiClock, FiTag, FiFileText, FiX } from 'react-icons/fi';
+import { FiCalendar, FiClock, FiFileText } from 'react-icons/fi';
 import Link from 'next/link';
 import { useState, useMemo } from 'react';
 import BlogSearch from '@/components/BlogSearch';
 import BlogFilter from '@/components/BlogFilter';
 import { BackgroundGrid } from "@/components/ui/background-grid";
 import { BlogGrid } from "@/components/ui/blog-grid";
-import { BlogCard as NewBlogCard } from "@/components/ui/blog-card";
 import "@/styles/grid-pattern.css";
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
@@ -24,125 +23,18 @@ interface Props {
   posts: BlogPost[];
 }
 
-function BlogCard({ post }: { post: BlogPost }) {
-  return (
-    <Link href={`/blog/${post.slug}`} passHref>
-      <MotionBox
-        as="article"
-        whileHover={{ 
-          y: -4,
-          boxShadow: '0 4px 20px rgba(66, 153, 225, 0.15)'
-        }}
-        transition={{ duration: 0.2 }}
-        bg="gray.800"
-        borderRadius="xl"
-        overflow="hidden"
-        position="relative"
-        role="group"
-        h="full"
-      >
-        {/* Card Content */}
-        <Box p={6} h="full">
-          <VStack align="stretch" spacing={4} h="full">
-            {/* Tags */}
-            <Flex gap={2} flexWrap="wrap">
-              {post.frontmatter.tags?.map((tag) => (
-                <Tag
-                  key={tag}
-                  size="sm"
-                  bg="blue.900"
-                  color="blue.200"
-                  fontFamily="mono"
-                  fontSize="xs"
-                  borderRadius="md"
-                >
-                  {tag}
-                </Tag>
-              ))}
-            </Flex>
-
-            {/* Title */}
-            <Heading 
-              as="h2" 
-              size="md" 
-              color="white"
-              fontWeight="bold"
-              noOfLines={2}
-              _groupHover={{ color: 'blue.400' }}
-            >
-              {post.frontmatter.title}
-            </Heading>
-
-            {/* Description */}
-            <Text 
-              color="gray.400" 
-              fontSize="sm" 
-              noOfLines={3}
-              flex="1"
-            >
-              {post.frontmatter.description}
-            </Text>
-
-            {/* Meta Info */}
-            <HStack 
-              spacing={4} 
-              fontSize="sm" 
-              color="gray.500"
-              pt={4}
-              borderTop="1px solid"
-              borderColor="whiteAlpha.100"
-            >
-              <HStack>
-                <Icon as={FiCalendar} color="blue.400" />
-                <Text>
-                  {new Date(post.frontmatter.date).toLocaleDateString('de-DE', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric'
-                  })}
-                </Text>
-              </HStack>
-              <HStack>
-                <Icon as={FiClock} color="blue.400" />
-                <Text>{post.frontmatter.readingTime} min</Text>
-              </HStack>
-            </HStack>
-          </VStack>
-        </Box>
-
-        {/* Hover Gradient */}
-        <Box
-          position="absolute"
-          bottom={0}
-          left={0}
-          right={0}
-          h="6px"
-          bg="blue.500"
-          transform="scaleX(0)"
-          transformOrigin="left"
-          transition="transform 0.3s ease-out"
-          _groupHover={{
-            transform: "scaleX(1)"
-          }}
-        />
-      </MotionBox>
-    </Link>
-  );
-}
-
 export default function Blog({ posts }: Props) {
   const router = useRouter();
-  const currentUrl = `${process.env.NEXT_PUBLIC_SITE_URL}${router.asPath}`;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://achimsommer.com';
+  const currentUrl = `${siteUrl}${router.asPath}`;
 
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('date-desc');
-  const bgColor = useColorModeValue('gray.900', 'gray.900');
 
-  // Filtere und sortiere Posts
   const filteredAndSortedPosts = useMemo(() => {
     return posts
       .filter(post => {
-        const matchesSearch = 
+        const matchesSearch =
           post.frontmatter.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
           post.frontmatter.description.toLowerCase().includes(searchQuery.toLowerCase());
 
@@ -181,7 +73,7 @@ export default function Blog({ posts }: Props) {
           description: 'Technische Tutorials, Guides und Best Practices zu Web Development, Server-Hosting, und Software Engineering von Full Stack Developer Achim Sommer.',
           images: [
             {
-              url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=${encodeURIComponent('Blog - Tutorials & Guides')}`,
+              url: `${siteUrl}/api/og?title=${encodeURIComponent('Blog - Tutorials & Guides')}`,
               width: 1200,
               height: 630,
               alt: 'Achim Sommer Blog',
@@ -198,28 +90,27 @@ export default function Blog({ posts }: Props) {
         additionalMetaTags={[
           {
             name: 'author',
-            content: 'Achim Sommer'
+            content: 'Achim Sommer',
           },
           {
             name: 'keywords',
-            content: 'Web Development, Server-Hosting, Tutorials, Programming, Software Engineering, Full Stack Development'
+            content: 'Web Development, Server-Hosting, Tutorials, Programming, Software Engineering, Full Stack Development',
           },
           {
             name: 'robots',
-            content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
-          }
+            content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+          },
         ]}
       />
-      <Box 
+      <Box
         minH="100vh"
         bg="gray.900"
         position="relative"
         overflow="hidden"
       >
         <BackgroundGrid />
-        
+
         <Box position="relative" zIndex={1}>
-          {/* Hero Section */}
           <Box
             position="relative"
             mb={16}
@@ -234,7 +125,6 @@ export default function Blog({ posts }: Props) {
               borderColor="whiteAlpha.100"
             >
               <VStack spacing={8} align="flex-start">
-                {/* Header */}
                 <VStack spacing={6} align="flex-start">
                   <Heading
                     as="h1"
@@ -252,11 +142,10 @@ export default function Blog({ posts }: Props) {
                     maxW="3xl"
                     lineHeight="tall"
                   >
-                    Entdecke Artikel über Web Development, DevOps und Software Engineering
+                    Entdecke Artikel �ber Web Development, DevOps und Software Engineering
                   </Text>
                 </VStack>
 
-                {/* Blog Stats */}
                 <SimpleGrid columns={{ base: 2, md: 4 }} spacing={8} w="full" maxW="3xl">
                   <VStack align="flex-start">
                     <Text color="blue.400" fontSize="2xl" fontWeight="bold" fontFamily="mono">
@@ -284,10 +173,9 @@ export default function Blog({ posts }: Props) {
                   </VStack>
                 </SimpleGrid>
 
-                {/* Search & Filter */}
                 <Box w="full" maxW="3xl">
                   <VStack spacing={6} align="stretch" w="full">
-                    <BlogSearch 
+                    <BlogSearch
                       searchQuery={searchQuery}
                       onSearchChange={setSearchQuery}
                     />
@@ -301,10 +189,8 @@ export default function Blog({ posts }: Props) {
             </Box>
           </Box>
 
-          {/* Main Content */}
           <Box px={8}>
             <Box maxW="7xl" mx="auto">
-              {/* Featured Post */}
               {featuredPost && (
                 <Box mb={16}>
                   <Link href={`/blog/${featuredPost.slug}`} passHref>
@@ -334,16 +220,16 @@ export default function Blog({ posts }: Props) {
                             ))}
                           </HStack>
 
-                          <Heading 
-                            size="2xl" 
+                          <Heading
+                            size="2xl"
                             color="white"
                             _groupHover={{ color: 'blue.400' }}
                           >
                             {featuredPost.frontmatter.title}
                           </Heading>
 
-                          <Text 
-                            color="gray.400" 
+                          <Text
+                            color="gray.400"
                             fontSize="lg"
                             maxW="3xl"
                           >
@@ -369,7 +255,6 @@ export default function Blog({ posts }: Props) {
                         </VStack>
                       </Box>
 
-                      {/* Hover Gradient */}
                       <Box
                         position="absolute"
                         bottom={0}
@@ -385,20 +270,17 @@ export default function Blog({ posts }: Props) {
                         }}
                       />
 
-                      {/* Meteors Effect */}
                       <Meteors number={20} className="opacity-0 group-hover:opacity-100" />
                     </MotionBox>
                   </Link>
                 </Box>
               )}
 
-              {/* Active Filters */}
-              {/* Blog Grid */}
               {filteredAndSortedPosts.length > 0 ? (
                 <BlogGrid posts={filteredAndSortedPosts} />
               ) : (
-                <Box 
-                  p={12} 
+                <Box
+                  p={12}
                   textAlign="center"
                   border="1px dashed"
                   borderColor="blue.800"
@@ -406,13 +288,13 @@ export default function Blog({ posts }: Props) {
                   bg="gray.800"
                 >
                   <VStack spacing={4}>
-                    <Icon 
-                      as={FiFileText} 
-                      color="blue.400" 
-                      boxSize={10} 
+                    <Icon
+                      as={FiFileText}
+                      color="blue.400"
+                      boxSize={10}
                     />
-                    <Text 
-                      fontFamily="mono" 
+                    <Text
+                      fontFamily="mono"
                       color="gray.400"
                       fontSize="lg"
                     >
@@ -427,7 +309,6 @@ export default function Blog({ posts }: Props) {
             </Box>
           </Box>
 
-          {/* Background Elements */}
           <Box
             position="absolute"
             top={0}
@@ -455,9 +336,8 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     );
 
     const { data: frontmatter, content } = matter(markdownWithMeta);
-    
-    // Berechne die Lesezeit
-    const readingTime = Math.ceil(content.split(/\s+/).length / 200); // 200 Wörter pro Minute
+
+    const readingTime = Math.ceil(content.split(/\s+/).length / 200);
 
     return {
       slug: filename.replace('.md', ''),

@@ -3,7 +3,6 @@ import { Meteors } from "../ui/meteors";
 import { motion, Variants } from "framer-motion";
 
 interface PriceComparisonProps {
-  title: string;
   monthlyRent: number;
   lifetimePrice: number;
   breakEvenMonths: number;
@@ -12,7 +11,6 @@ interface PriceComparisonProps {
 }
 
 export const PriceComparison: React.FC<PriceComparisonProps> = ({
-  title,
   monthlyRent,
   lifetimePrice,
   breakEvenMonths,

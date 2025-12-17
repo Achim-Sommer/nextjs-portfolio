@@ -7,16 +7,6 @@ import * as SiIcons from 'react-icons/si';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import typescript from 'react-syntax-highlighter/dist/cjs/languages/prism/typescript';
 import { AboutNetworkBackground } from './ui/about-network-background';
-import {
-  Box,
-  Container,
-  Text,
-  Heading,
-  useColorModeValue,
-  VStack,
-  HStack,
-  Icon
-} from '@chakra-ui/react';
 
 // Register languages
 SyntaxHighlighter.registerLanguage('typescript', typescript);
@@ -28,11 +18,6 @@ interface GitHubStats {
   repos?: number;
   mainLanguages?: { [key: string]: number };
   error?: string;
-}
-
-interface WakaTimeStats {
-  totalHours?: number;
-  languages?: { name: string; percent: number }[];
 }
 
 interface SystemStats {
@@ -69,7 +54,6 @@ const ExperienceTab = lazy(() => import('./tabs/ExperienceTab').then(mod => ({ d
 
 export default function AboutMe() {
   const [activeTab, setActiveTab] = useState<string>('about.tsx');
-  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [input, setInput] = useState('');
   const [output, setOutput] = useState<(string | JSX.Element)[]>(['Willkommen in meinem Portfolio-Terminal! Tippe "help" für verfügbare Befehle.']);
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
@@ -371,6 +355,8 @@ Sprachen: Python, JavaScript, Lua`
     { id: 'debug', icon: <VscIcons.VscDebugAlt className="w-5 h-5" />, label: 'Ausführen und Debuggen' },
     { id: 'extensions', icon: <VscIcons.VscExtensions className="w-5 h-5" />, label: 'Erweiterungen' }
   ];
+
+  const sidebarOpen = true;
 
   return (
     <div className="relative w-full overflow-hidden max-h-[1000px] sm:max-h-[1100px]">

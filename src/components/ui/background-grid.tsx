@@ -12,7 +12,7 @@ export const BackgroundGrid = () => {
       opacity: 1,
       transition: { duration: 0.5 },
     });
-  }, []);
+  }, [controls]);
 
   return (
     <motion.div

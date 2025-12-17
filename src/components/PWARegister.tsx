@@ -7,7 +7,7 @@ export default function PWARegister() {
     if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
       window.addEventListener('load', function() {
         navigator.serviceWorker.register('/sw.js').then(
-          function(registration) {
+          function() {
             console.log('Service Worker registration successful');
           },
           function(err) {

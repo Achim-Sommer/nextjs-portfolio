@@ -5,10 +5,10 @@ import BackToTop from '@/components/BackToTop'
 import FloatingDock from '@/components/FloatingDock'
 import CookieBanner from '@/components/CookieBanner'
 import Script from 'next/script'
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import { Providers } from './providers';
-import dynamic from 'next/dynamic';
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import { Providers } from './providers'
+import dynamic from 'next/dynamic'
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,6 +16,10 @@ const inter = Inter({ subsets: ['latin'] });
 const PWARegister = dynamic(() => import('@/components/PWARegister'), {
   ssr: false
 });
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://achimsommer.com';
+const umamiUrl = process.env.NEXT_PUBLIC_UMAMI_URL;
+const umamiWebsiteId = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
 
 export const viewport = {
   themeColor: '#000000',
@@ -28,10 +32,38 @@ export const viewport = {
 export const metadata: Metadata = {
   title: 'Achim Sommer - Portfolio',
   description: 'Portfolio von Achim Sommer - Dualer Student, Full Stack Developer und YouTuber',
+  metadataBase: new URL(siteUrl),
   manifest: '/manifest.json',
   icons: {
     icon: '/favicon.ico',
     apple: '/icon-512x512.png',
+  },
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    type: 'website',
+    title: 'Achim Sommer - Portfolio',
+    description: 'Portfolio von Achim Sommer - Dualer Student, Full Stack Developer und YouTuber',
+    url: siteUrl,
+    siteName: 'Achim Sommer',
+    images: [
+      {
+        url: `${siteUrl}/api/og?title=${encodeURIComponent('Achim Sommer - Portfolio')}`,
+        width: 1200,
+        height: 630,
+        alt: 'Achim Sommer Portfolio',
+      },
+    ],
+    locale: 'de_DE',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@achimsommer',
+    creator: '@achimsommer',
+    title: 'Achim Sommer - Portfolio',
+    description: 'Portfolio von Achim Sommer - Dualer Student, Full Stack Developer und YouTuber',
+    images: [`${siteUrl}/api/og?title=${encodeURIComponent('Achim Sommer - Portfolio')}`],
   },
 }
 
@@ -49,6 +81,12 @@ export default function RootLayout({
         <meta name="theme-color" content={viewport.themeColor} />
       </head>
       <body className={`bg-gray-900 text-white font-inter ${inter.className}`}>
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded focus:bg-blue-600 focus:px-4 focus:py-2 focus:text-white"
+        >
+          Zum Inhalt springen
+        </a>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -128,14 +166,16 @@ export default function RootLayout({
             })
           }}
         />
-        <Script
-          async
-          src={process.env.NEXT_PUBLIC_UMAMI_URL}
-          data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
-          data-auto-track="true"
-          data-domains="achimsommer.com"
-          strategy="afterInteractive"
-        />
+        {umamiUrl && umamiWebsiteId && (
+          <Script
+            async
+            src={umamiUrl}
+            data-website-id={umamiWebsiteId}
+            data-auto-track="true"
+            data-domains="achimsommer.com"
+            strategy="afterInteractive"
+          />
+        )}
         <Providers>
           <div className="min-h-screen">
             {children}

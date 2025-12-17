@@ -1,6 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
-import { SimpleGrid, Skeleton, Box } from "@chakra-ui/react";
+import { useCallback, useEffect, useState } from "react";
+import { SimpleGrid, Skeleton } from "@chakra-ui/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BlogCard } from "./blog-card";
 import { BlogPost } from "@/types/blog";
@@ -13,8 +13,19 @@ const POSTS_PER_PAGE = 6;
 
 export const BlogGrid = ({ posts }: BlogGridProps) => {
   const [displayedPosts, setDisplayedPosts] = useState<BlogPost[]>([]);
-  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+
+  const loadMorePosts = useCallback(async () => {
+    setLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    const nextPosts = posts.slice(
+      displayedPosts.length,
+      displayedPosts.length + POSTS_PER_PAGE
+    );
+    setDisplayedPosts((prev) => [...prev, ...nextPosts]);
+    setLoading(false);
+  }, [displayedPosts.length, posts]);
 
   useEffect(() => {
     setDisplayedPosts(posts.slice(0, POSTS_PER_PAGE));
@@ -33,21 +44,7 @@ export const BlogGrid = ({ posts }: BlogGridProps) => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [displayedPosts.length, loading, posts.length]);
-
-  const loadMorePosts = async () => {
-    setLoading(true);
-    // Simulate loading delay
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    
-    const nextPosts = posts.slice(
-      displayedPosts.length,
-      displayedPosts.length + POSTS_PER_PAGE
-    );
-    setDisplayedPosts((prev) => [...prev, ...nextPosts]);
-    setPage((prev) => prev + 1);
-    setLoading(false);
-  };
+  }, [displayedPosts.length, loadMorePosts, loading, posts.length]);
 
   return (
     <>

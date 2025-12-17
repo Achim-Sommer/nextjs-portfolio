@@ -1,25 +1,19 @@
 'use client';
 
-import { AnimatedText } from "./ui/animated-text";
 import { motion } from "framer-motion";
 import dynamic from 'next/dynamic';
-import { memo } from 'react';
 import { 
   FaReact, 
   FaNodeJs, 
   FaGitAlt, 
   FaHtml5, 
-  FaCss3Alt, 
-  FaLinux, 
-  FaWindows, 
-  FaApple 
+  FaCss3Alt
 } from 'react-icons/fa';
 import { 
   SiTypescript, 
   SiNextdotjs, 
   SiDjango, 
   SiTailwindcss, 
-  SiLua, 
   SiJavascript, 
   SiPostgresql, 
   SiMysql, 

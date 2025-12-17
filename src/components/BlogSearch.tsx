@@ -10,7 +10,6 @@ interface BlogSearchProps {
 }
 
 export default function BlogSearch({ searchQuery, onSearchChange }: BlogSearchProps) {
-  const inputBg = useColorModeValue('gray.800', 'gray.800');
   const inputBorder = useColorModeValue('gray.700', 'gray.700');
   const inputColor = useColorModeValue('gray.100', 'gray.100');
   const iconColor = useColorModeValue('gray.400', 'gray.400');

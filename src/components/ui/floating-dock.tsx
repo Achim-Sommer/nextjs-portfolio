@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface DockItem {
@@ -19,18 +19,7 @@ export const FloatingDock = ({
   mobileClassName = '',
 }: FloatingDockProps) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const dockRef = useRef<HTMLDivElement>(null);
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (dockRef.current) {
-      const rect = dockRef.current.getBoundingClientRect();
-      setMousePosition({
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
-      });
-    }
-  };
 
   const getScale = (index: number) => {
     if (hoveredIndex === null) return 1;
@@ -43,7 +32,6 @@ export const FloatingDock = ({
   return (
     <motion.div
       ref={dockRef}
-      onMouseMove={handleMouseMove}
       onMouseLeave={() => setHoveredIndex(null)}
       className={`fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 ${mobileClassName}`}
     >

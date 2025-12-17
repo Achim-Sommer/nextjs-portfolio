@@ -145,7 +145,6 @@ export const AboutNetworkBackground = () => {
       circuitLines.forEach(line => {
         const dx = line.end.x - line.start.x;
         const dy = line.end.y - line.start.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
         
         ctx.beginPath();
         ctx.strokeStyle = line.start.color.replace('0.9', '0.15');

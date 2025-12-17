@@ -33,7 +33,7 @@ export const Spotlight = ({
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, [randomOffset.x, randomOffset.y]);
+  }, [mouseX, mouseY, randomOffset.x, randomOffset.y]);
 
   return (
     <div className={`relative ${className}`}>

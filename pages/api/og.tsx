@@ -1,11 +1,10 @@
 import { ImageResponse } from '@vercel/og';
-import { NextRequest } from 'next/server';
 
 export const config = {
   runtime: 'edge',
 };
 
-export default function handler(req: NextRequest) {
+export default function handler() {
   try {
     return new ImageResponse(
       (
@@ -204,7 +203,7 @@ export default function handler(req: NextRequest) {
               display: 'flex',
             }}
           >
-            // Portfolio
+            {'// Portfolio'}
           </div>
           <div
             style={{
@@ -217,7 +216,7 @@ export default function handler(req: NextRequest) {
               display: 'flex',
             }}
           >
-            // Full Stack Developer
+            {'// Full Stack Developer'}
           </div>
 
           {/* Main Content */}

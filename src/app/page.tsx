@@ -1,9 +1,9 @@
-'use client';
-
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
+import { getLatestPosts } from '../../lib/blog';
+import LatestPosts from '@/components/LatestPosts';
 
 // Dynamische Imports für weniger kritische Komponenten
 const AboutMe = dynamic(() => import('@/components/AboutMe'), { ssr: true });
@@ -13,15 +13,16 @@ const GitHubRepos = dynamic(() => import('@/components/GitHubRepos'), { ssr: tru
 const ProjectShowcase = dynamic(() => import('@/components/ProjectShowcase'), { ssr: true });
 const ZapHosting = dynamic(() => import('@/components/ZapHosting'), { ssr: true });
 const Footer = dynamic(() => import('@/components/Footer'), { ssr: true });
-const SocialMedia = dynamic(() => import('@/components/SocialMedia'), { ssr: true });
 
 // Loading-Komponente
 const LoadingComponent = () => <div className="w-full h-[300px] bg-gray-900 animate-pulse rounded-lg"></div>;
 
 export default function Home() {
+  const latestPosts = getLatestPosts(3);
+
   return (
     <div style={{ position: 'relative' }}>
-      <main className="min-h-screen bg-black">
+      <main id="main-content" className="min-h-screen bg-black">
         <Navbar />
         <Hero />
         <div className="content-wrapper">
@@ -43,6 +44,7 @@ export default function Home() {
           <Suspense fallback={<LoadingComponent />}>
             <GitHubRepos />
           </Suspense>
+          <LatestPosts posts={latestPosts} />
           <Suspense fallback={<LoadingComponent />}>
             <Footer />
           </Suspense>

@@ -244,11 +244,11 @@ const Hero: React.FC = () => {
 
         {/* Code Comments */}
         <div className="absolute right-4 top-24 md:top-4 w-[calc(100%-2rem)] md:w-64 text-xs font-mono opacity-20 z-10 hidden md:block">
-          <div className="text-blue-300/80">// portfolio.config.ts</div>
-          <div className="text-green-500/80">/** 
+          <div className="text-blue-300/80">{'// portfolio.config.ts'}</div>
+          <div className="text-green-500/80">{'/** '}
            * @author Achim Sommer
            * @version 1.0.0 
-           */</div>
+           {'*/'}</div>
           <div className="mt-2 text-blue-500">interface Developer {'{'}</div>
           <div className="pl-4">
             <div className="text-purple-500">name: string;</div>
@@ -256,7 +256,7 @@ const Hero: React.FC = () => {
             <div className="text-purple-500">skills: string[];</div>
             <div className="text-purple-500">location: string;</div>
           </div>
-          <div className="text-blue-500">{'}'}</div>
+            <div className="text-blue-500">{'}'}</div>
           <div className="mt-2">
             <div className="text-blue-500">const developer: Developer = {'{'}</div>
             <div className="pl-4">
@@ -274,7 +274,7 @@ const Hero: React.FC = () => {
             </div>
             <div className="text-blue-500">{'}'}</div>
           </div>
-          <div className="mt-2 text-blue-300/80">// TODO: Add more awesome features</div>
+          <div className="mt-2 text-blue-300/80">{'// TODO: Add more awesome features'}</div>
         </div>
 
         {/* Corner Decorations */}

@@ -1,12 +1,9 @@
 'use client';
 
-import { useState } from 'react';
 import { FloatingNav } from './ui/floating-navbar';
 import { AiOutlineUser, AiOutlineTool, AiOutlineProject, AiOutlineCustomerService } from 'react-icons/ai';
 
 export default function Navigation() {
-  const [mounted, setMounted] = useState(false);
-
   const navItems = [
     {
       name: 'Über Mich',

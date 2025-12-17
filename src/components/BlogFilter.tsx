@@ -20,6 +20,7 @@ export default function BlogFilter({
       <Select
         value={sortBy}
         onChange={(e) => onSortChange(e.target.value)}
+        aria-label="Artikel sortieren"
         bg={selectBg}
         border="1px solid"
         borderColor={selectBorder}

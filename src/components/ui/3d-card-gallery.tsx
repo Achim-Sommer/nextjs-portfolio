@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { cn } from "@/utils/cn";
 
@@ -16,7 +17,7 @@ export const ThreeDCardGallery = ({
   }[];
   className?: string;
 }) => {
-  let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
     <div
@@ -44,10 +45,13 @@ export const ThreeDCardGallery = ({
             }}
           >
             <div className="relative h-60 w-full overflow-hidden rounded-xl">
-              <img
+              <Image
                 src={item.image}
                 alt={item.title}
-                className="h-full w-full object-cover"
+                fill
+                className="object-cover"
+                sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                priority={idx < 2}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
             </div>

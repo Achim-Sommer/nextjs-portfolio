@@ -1,18 +1,7 @@
 import { NextSeo } from "next-seo";
-import Image from 'next/image';
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils"; 
-import { SparklesCore } from "@/components/ui/sparkles-core";
 import { BackgroundGradient } from "@/components/ui/background-gradient";
-import dynamic from 'next/dynamic';
-const InfiniteMovingCards = dynamic(
-  () => import('@/components/ui/infinite-moving-cards').then(mod => mod.InfiniteMovingCards),
-  {
-    ssr: false,
-    loading: () => <div className="h-[240px] w-full bg-gray-900/50 rounded-xl" />
-  }
-);
-import { FaWhatsapp, FaEnvelope, FaCode, FaServer, FaUserCheck, FaArrowRight, FaGamepad, FaWifi, FaHome, FaNetworkWired, FaVideo, FaQuestionCircle, FaComments } from "react-icons/fa";
+import { FaWhatsapp, FaEnvelope, FaCode, FaServer, FaArrowRight, FaGamepad, FaWifi, FaHome, FaNetworkWired, FaVideo, FaQuestionCircle, FaComments } from "react-icons/fa";
 import { RiSparklingFill } from "react-icons/ri";
 import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
@@ -647,7 +636,7 @@ export default function Services() {
                   transition={{ duration: 0.5, delay: 1.3 }}
                   className="flex flex-wrap gap-3"
                 >
-                  {['TypeScript', 'React', 'Next.js', 'UniFi', 'Home Assistant', 'IoT'].map((tech, index) => (
+                  {['TypeScript', 'React', 'Next.js', 'UniFi', 'Home Assistant', 'IoT'].map((tech) => (
                     <span
                       key={tech}
                       className="px-3 py-1 bg-gray-800/50 rounded-full text-sm border border-gray-700"

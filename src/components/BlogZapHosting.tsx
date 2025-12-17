@@ -7,11 +7,7 @@ import { motion } from 'framer-motion';
 const MotionBox = motion(Box);
 const ZAP_GREEN = '#57BB54';
 
-interface BlogZapHostingProps {
-  context?: string;
-}
-
-export default function BlogZapHosting({ context }: BlogZapHostingProps) {
+export default function BlogZapHosting() {
   const bgColor = useColorModeValue('gray.800', 'gray.800');
   const borderColor = useColorModeValue('gray.700', 'gray.700');
   const textColor = useColorModeValue('gray.100', 'gray.100');

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 
 interface Particle {
@@ -12,16 +12,16 @@ interface Particle {
   color: string;
 }
 
+const PARTICLE_COLORS = ['#3b82f6', '#6366f1', '#8b5cf6', '#d946ef'];
+
 export default function Particles({
   className = '',
   quantity = 50,
-  staticity = 50,
   ease = 50,
   refresh = false,
 }: {
   className?: string;
   quantity?: number;
-  staticity?: number;
   ease?: number;
   refresh?: boolean;
 }) {
@@ -32,42 +32,8 @@ export default function Particles({
   const mouse = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const isMouseOver = useRef<boolean>(false);
   const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
-  const particleColors = ['#3b82f6', '#6366f1', '#8b5cf6', '#d946ef'];
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    context.current = ctx;
-    initCanvas();
-    animate();
-    
-    const handleResize = () => initCanvas();
-    const handleMouseMove = (e: MouseEvent) => onMouseMove(e);
-    const handleMouseEnter = () => { isMouseOver.current = true; };
-    const handleMouseLeave = () => { isMouseOver.current = false; };
-
-    window.addEventListener("resize", handleResize);
-    window.addEventListener("mousemove", handleMouseMove);
-    canvas.addEventListener("mouseenter", handleMouseEnter);
-    canvas.addEventListener("mouseleave", handleMouseLeave);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      window.removeEventListener("mousemove", handleMouseMove);
-      canvas.removeEventListener("mouseenter", handleMouseEnter);
-      canvas.removeEventListener("mouseleave", handleMouseLeave);
-    };
-  }, []);
-
-  useEffect(() => {
-    initCanvas();
-  }, [refresh]);
-
-  const initCanvas = () => {
+  const initCanvas = useCallback(() => {
     const canvas = canvasRef.current;
     const ctx = context.current;
     const container = canvasContainerRef.current;
@@ -87,9 +53,9 @@ export default function Particles({
       vx: (Math.random() - 0.5) * 2,
       vy: (Math.random() - 0.5) * 2,
       size: Math.random() * 2 + 1,
-      color: particleColors[Math.floor(Math.random() * particleColors.length)]
+      color: PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)]
     }));
-  };
+  }, [dpr, quantity]);
 
   const onMouseMove = (e: MouseEvent) => {
     const container = canvasContainerRef.current;
@@ -102,7 +68,7 @@ export default function Particles({
     };
   };
 
-  const drawConnections = () => {
+  const drawConnections = useCallback(() => {
     const ctx = context.current;
     if (!ctx) return;
 
@@ -123,9 +89,9 @@ export default function Particles({
         }
       });
     });
-  };
+  }, []);
 
-  const animate = () => {
+  const animate = useCallback(() => {
     const canvas = canvasRef.current;
     const ctx = context.current;
     if (!canvas || !ctx) return;
@@ -181,7 +147,40 @@ export default function Particles({
     });
 
     requestAnimationFrame(animate);
-  };
+  }, [drawConnections, dpr, ease]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    context.current = ctx;
+    initCanvas();
+    animate();
+    
+    const handleResize = () => initCanvas();
+    const handleMouseMove = (e: MouseEvent) => onMouseMove(e);
+    const handleMouseEnter = () => { isMouseOver.current = true; };
+    const handleMouseLeave = () => { isMouseOver.current = false; };
+
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("mousemove", handleMouseMove);
+    canvas.addEventListener("mouseenter", handleMouseEnter);
+    canvas.addEventListener("mouseleave", handleMouseLeave);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("mousemove", handleMouseMove);
+      canvas.removeEventListener("mouseenter", handleMouseEnter);
+      canvas.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, [animate, initCanvas]);
+
+  useEffect(() => {
+    initCanvas();
+  }, [initCanvas, refresh]);
 
   return (
     <div className={cn("h-full w-full", className)} ref={canvasContainerRef}>

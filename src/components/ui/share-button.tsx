@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Box, IconButton, Text, HStack, useClipboard, useToast } from "@chakra-ui/react";
+import { Box, IconButton, HStack, useClipboard, useToast } from "@chakra-ui/react";
 import { FiShare2, FiTwitter, FiLinkedin, FiCopy } from "react-icons/fi";
 
 interface ShareButtonProps {

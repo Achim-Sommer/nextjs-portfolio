@@ -1,12 +1,10 @@
 import { NextSeo } from "next-seo";
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
 import { SparklesCore } from "@/components/ui/sparkles-core";
-import { BackgroundGradient } from "@/components/ui/background-gradient";
-import { FaGamepad, FaWhatsapp, FaServer, FaCode, FaShieldAlt, FaDiceD20, FaUsers, FaDownload, FaPlane, FaShip, FaTruck, FaCar, FaCarCrash, FaTshirt, FaStore, FaGasPump, FaWrench, FaCut, FaAmbulance, FaBus, FaTaxi, FaFish, FaDice, FaBuilding, FaMobileAlt, FaDog, FaKey, FaLanguage, FaHeadset, FaGithub } from "react-icons/fa";
-import { GiPoliceOfficerHead, GiHandcuffs, GiPokerHand, GiBank, GiCardPlay, GiSteeringWheel } from "react-icons/gi";
+import { cn } from "@/utils/cn";
+import { FaGamepad, FaWhatsapp, FaServer, FaCode, FaUsers, FaDownload, FaPlane, FaShip, FaTruck, FaCar, FaCarCrash, FaTshirt, FaStore, FaGasPump, FaWrench, FaCut, FaAmbulance, FaBus, FaTaxi, FaFish, FaDice, FaBuilding, FaMobileAlt, FaDog, FaKey, FaLanguage, FaHeadset, FaGithub } from "react-icons/fa";
+import { GiPoliceOfficerHead, GiPokerHand, GiBank, GiCardPlay, GiSteeringWheel } from "react-icons/gi";
 import Link from "next/link";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { createPortal } from 'react-dom';
 

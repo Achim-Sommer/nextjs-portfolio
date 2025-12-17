@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Box, HStack, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { HoverEffect } from "./hover-effect";
 import { ModernShare } from "./modern-share";
 import { MacWindow } from "./mac-window";

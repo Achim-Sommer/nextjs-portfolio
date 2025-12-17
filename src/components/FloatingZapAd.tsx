@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, VStack, Text, Button, Icon, Link, IconButton, useColorModeValue } from '@chakra-ui/react';
+import { Box, VStack, Text, Button, Link, IconButton, useColorModeValue } from '@chakra-ui/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiServer, FiX } from 'react-icons/fi';
 import { useState, useEffect } from 'react';

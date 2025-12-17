@@ -1,5 +1,4 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { ParsedUrlQuery } from 'querystring';
 import fs from 'fs';
@@ -7,6 +6,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import { getCompiledMDX } from '../../lib/mdx-cache';
 import dynamic from 'next/dynamic';
+import { getRelatedPosts, BlogListItem } from '../../lib/blog';
 import {
   Box,
   Container,
@@ -14,11 +14,11 @@ import {
   Text,
   HStack,
   VStack,
-  Divider,
   Icon,
-  useColorModeValue
+  useColorModeValue,
+  SimpleGrid,
 } from '@chakra-ui/react';
-import { FiFileText, FiClock, FiCalendar, FiArrowLeft } from 'react-icons/fi';
+import { FiClock, FiCalendar } from 'react-icons/fi';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ArticleShare } from '@/components/ui/article-share';
@@ -32,7 +32,6 @@ const CodeBlock = dynamic(() => import('@/components/CodeBlock'), {
 const BlogZapHosting = dynamic(() => import('@/components/BlogZapHosting'));
 const FloatingZapAd = dynamic(() => import('@/components/FloatingZapAd'));
 const Tip = dynamic(() => import('../../src/components/Tip'));
-const Image = dynamic(() => import('next/image'));
 const ServerComparisonTable = dynamic(() => import('@/components/mdx/tables').then(mod => mod.ServerComparisonTable));
 const PriceComparison = dynamic(() => import('@/components/PriceComparison/PriceComparison'));
 
@@ -49,6 +48,7 @@ interface BlogPostProps {
   frontMatter: FrontMatter;
   mdxSource: MDXRemoteSerializeResult;
   slug: string;
+  relatedPosts?: BlogListItem[];
 }
 
 interface IParams extends ParsedUrlQuery {
@@ -68,7 +68,7 @@ const components = {
   PriceComparison: PriceComparison
 };
 
-export default function BlogPost({ frontMatter, mdxSource, slug }: BlogPostProps) {
+export default function BlogPost({ frontMatter, mdxSource, slug, relatedPosts }: BlogPostProps) {
   const textColor = useColorModeValue('gray.100', 'gray.100');
   const headingColor = useColorModeValue('blue.300', 'blue.300');
   const iconColor = useColorModeValue('blue.400', 'blue.400');
@@ -76,7 +76,8 @@ export default function BlogPost({ frontMatter, mdxSource, slug }: BlogPostProps
   const tabBg = useColorModeValue('gray.800', 'gray.800');
   const borderColor = useColorModeValue('gray.700', 'gray.700');
   const router = useRouter();
-  const currentUrl = `${process.env.NEXT_PUBLIC_SITE_URL || ""}${router.asPath}`;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://achimsommer.com';
+  const currentUrl = `${siteUrl}${router.asPath}`;
 
   if (router.isFallback) {
     return <div>Loading...</div>;
@@ -95,14 +96,14 @@ export default function BlogPost({ frontMatter, mdxSource, slug }: BlogPostProps
             modifiedTime: frontMatter.date,
             authors: ['Achim Sommer'],
             tags: frontMatter.tags,
-            section: 'Technology'
+            section: frontMatter.tags?.[0] ?? 'Technology'
           },
           url: currentUrl,
           title: frontMatter.title,
           description: frontMatter.description,
           images: [
             {
-              url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=${encodeURIComponent(frontMatter.title)}&cache=1`,
+              url: `${siteUrl}/api/og?title=${encodeURIComponent(frontMatter.title)}&cache=1`,
               width: 1200,
               height: 630,
               alt: frontMatter.title,
@@ -129,13 +130,20 @@ export default function BlogPost({ frontMatter, mdxSource, slug }: BlogPostProps
             content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
           }
         ]}
+        additionalLinkTags={[
+          {
+            rel: 'alternate',
+            type: 'application/rss+xml',
+            href: `${siteUrl}/rss.xml`,
+          },
+        ]}
       />
       <ArticleJsonLd
         type="BlogPosting"
         url={currentUrl}
         title={frontMatter.title}
         images={[
-          `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?title=${encodeURIComponent(frontMatter.title)}&cache=1`
+          `${siteUrl}/api/og?title=${encodeURIComponent(frontMatter.title)}&cache=1`
         ]}
         datePublished={frontMatter.date}
         dateModified={frontMatter.date}
@@ -404,6 +412,68 @@ export default function BlogPost({ frontMatter, mdxSource, slug }: BlogPostProps
 
                     {/* Zap-Hosting Werbung */}
                     <BlogZapHosting />
+
+                    {relatedPosts && relatedPosts.length > 0 && (
+                      <Box pt={8}>
+                        <Heading
+                          as="h3"
+                          size="md"
+                          color={headingColor}
+                          fontFamily="mono"
+                          mb={4}
+                        >
+                          Ähnliche Artikel
+                        </Heading>
+                        <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
+                          {relatedPosts.map((post) => (
+                            <Link key={post.slug} href={`/blog/${post.slug}`}>
+                              <Box
+                                role="article"
+                                bg={tabBg}
+                                border="1px solid"
+                                borderColor={borderColor}
+                                borderRadius="md"
+                                p={4}
+                                transition="all 0.2s ease"
+                                _hover={{ borderColor: 'blue.500', transform: 'translateY(-2px)' }}
+                              >
+                                <HStack spacing={2} mb={2} flexWrap="wrap">
+                                  {post.frontmatter.tags?.slice(0, 2).map((tag) => (
+                                    <Box
+                                      key={tag}
+                                      px={2}
+                                      py={1}
+                                      borderRadius="full"
+                                      bg="blue.900"
+                                      color="blue.200"
+                                      fontSize="xs"
+                                      fontFamily="mono"
+                                    >
+                                      {tag}
+                                    </Box>
+                                  ))}
+                                </HStack>
+                                <Text fontWeight="bold" color={headingColor} mb={1} noOfLines={2}>
+                                  {post.frontmatter.title}
+                                </Text>
+                                <Text fontSize="sm" color={textColor} noOfLines={2}>
+                                  {post.frontmatter.description}
+                                </Text>
+                                <Text mt={3} fontSize="xs" color={textColor}>
+                                  {new Date(post.frontmatter.date).toLocaleDateString('de-DE', {
+                                    year: 'numeric',
+                                    month: 'short',
+                                    day: 'numeric'
+                                  })}
+                                  {' • '}
+                                  {post.frontmatter.readingTime} min
+                                </Text>
+                              </Box>
+                            </Link>
+                          ))}
+                        </SimpleGrid>
+                      </Box>
+                    )}
                   </VStack>
                 </Box>
 
@@ -463,6 +533,7 @@ export const getStaticProps: GetStaticProps<BlogPostProps, IParams> = async ({ p
     const { data: frontMatter, content } = matter(fileContents);
     
     const mdxSource = await getCompiledMDX(content);
+    const relatedPosts = getRelatedPosts(frontMatter.tags || [], slug, 3);
 
     return {
       props: {
@@ -471,7 +542,8 @@ export const getStaticProps: GetStaticProps<BlogPostProps, IParams> = async ({ p
           readingTime: Math.ceil(content.split(' ').length / 200)
         } as FrontMatter,
         mdxSource,
-        slug
+        slug,
+        relatedPosts
       },
       revalidate: 3600 // Revalidiere jede Stunde
     };

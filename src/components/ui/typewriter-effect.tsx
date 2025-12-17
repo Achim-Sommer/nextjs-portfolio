@@ -2,7 +2,7 @@
 
 import { cn } from "@/utils/cn";
 import { motion, useAnimate, useInView } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export const TypewriterEffectSmooth = ({
   words,
@@ -20,6 +20,15 @@ export const TypewriterEffectSmooth = ({
   const isInView = useInView(scope);
   const [displayedLetters, setDisplayedLetters] = useState(0);
   const [hasPlayed, setHasPlayed] = useState(false);
+  
+  const getTotalLetters = useCallback(() => {
+    let total = 0;
+    words.forEach((word, index) => {
+      total += word.text.length;
+      if (index < words.length - 1) total++;
+    });
+    return total;
+  }, [words]);
   
   useEffect(() => {
     if (isInView && !hasPlayed) {
@@ -45,16 +54,7 @@ export const TypewriterEffectSmooth = ({
 
       return () => clearInterval(interval);
     }
-  }, [isInView, animate, hasPlayed]);
-
-  const getTotalLetters = () => {
-    let total = 0;
-    words.forEach((word, index) => {
-      total += word.text.length;
-      if (index < words.length - 1) total++;
-    });
-    return total;
-  };
+  }, [animate, getTotalLetters, hasPlayed, isInView]);
 
   const renderWords = () => {
     let letterCounter = 0;

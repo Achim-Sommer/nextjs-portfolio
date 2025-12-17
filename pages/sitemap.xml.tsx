@@ -45,6 +45,11 @@ const staticPages: PageConfig[] = [
     priority: 0.3,
     changefreq: 'yearly',
   },
+  {
+    path: '/rss.xml',
+    priority: 0.2,
+    changefreq: 'daily',
+  },
 ];
 
 // Funktion zum Laden der Blog-Posts

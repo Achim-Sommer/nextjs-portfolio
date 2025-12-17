@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Box, IconButton, useClipboard, useToast, Text, Tooltip } from "@chakra-ui/react";
+import { Box, IconButton, useClipboard, useToast, Tooltip } from "@chakra-ui/react";
 import { FiShare2, FiTwitter, FiLinkedin, FiMail, FiCopy } from "react-icons/fi";
 
 interface ModernShareProps {
