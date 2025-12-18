@@ -1,5 +1,5 @@
 import type { AppProps } from 'next/app';
-import { DefaultSeo } from 'next-seo';
+import { generateDefaultSeo } from 'next-seo/pages';
 import seoConfig from '../src/config/seo.config';
 import dynamic from 'next/dynamic';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
@@ -37,6 +37,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <ChakraProvider theme={theme}>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {generateDefaultSeo(seoConfig)}
       </Head>
       <Script
         async
@@ -46,7 +47,6 @@ export default function App({ Component, pageProps }: AppProps) {
         data-domains="achimsommer.com"
         strategy="afterInteractive"
       />
-      <DefaultSeo {...seoConfig} />
       <JsonLd />
       <Layout>
         <Component {...pageProps} />

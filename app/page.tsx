@@ -2,12 +2,12 @@ import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
-import { getLatestPosts } from '../../lib/blog';
+import { getLatestPosts } from '../lib/blog';
 import LatestPosts from '@/components/LatestPosts';
 
 // Dynamische Imports für weniger kritische Komponenten
 const AboutMe = dynamic(() => import('@/components/AboutMe'), { ssr: true });
-const Skills = dynamic(() => import('@/components/Skills'), { ssr: false });
+const Skills = dynamic(() => import('@/components/Skills'));
 const Counter = dynamic(() => import('@/components/Counter'), { ssr: true });
 const GitHubRepos = dynamic(() => import('@/components/GitHubRepos'), { ssr: true });
 const ProjectShowcase = dynamic(() => import('@/components/ProjectShowcase'), { ssr: true });

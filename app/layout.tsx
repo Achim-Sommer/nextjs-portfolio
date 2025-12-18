@@ -8,14 +8,8 @@ import Script from 'next/script'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Providers } from './providers'
-import dynamic from 'next/dynamic'
 
 const inter = Inter({ subsets: ['latin'] });
-
-// Dynamically import PWA register component
-const PWARegister = dynamic(() => import('@/components/PWARegister'), {
-  ssr: false
-});
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://achimsommer.com';
 const umamiUrl = process.env.NEXT_PUBLIC_UMAMI_URL;
@@ -184,7 +178,6 @@ export default function RootLayout({
               <FloatingDock />
               <CookieBanner />
             </Suspense>
-            <PWARegister />
           </div>
         </Providers>
       </body>

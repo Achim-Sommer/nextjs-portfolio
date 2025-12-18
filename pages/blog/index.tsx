@@ -12,7 +12,8 @@ import BlogFilter from '@/components/BlogFilter';
 import { BackgroundGrid } from "@/components/ui/background-grid";
 import { BlogGrid } from "@/components/ui/blog-grid";
 import "@/styles/grid-pattern.css";
-import { NextSeo } from 'next-seo';
+import Head from 'next/head';
+import { generateNextSeo } from 'next-seo/pages';
 import { useRouter } from 'next/router';
 import { BlogPost } from '@/types/blog';
 import { Meteors } from "@/components/ui/meteors";
@@ -62,46 +63,51 @@ export default function Blog({ posts }: Props) {
 
   return (
     <>
-      <NextSeo
-        title="Blog - Tutorials & Guides zu Web Development und Server-Hosting"
-        description="Technische Tutorials, Guides und Best Practices zu Web Development, Server-Hosting, und Software Engineering von Full Stack Developer Achim Sommer."
-        canonical={currentUrl}
-        openGraph={{
-          type: 'website',
-          url: currentUrl,
+      <Head>
+        {generateNextSeo({
           title: 'Blog - Tutorials & Guides zu Web Development und Server-Hosting',
-          description: 'Technische Tutorials, Guides und Best Practices zu Web Development, Server-Hosting, und Software Engineering von Full Stack Developer Achim Sommer.',
-          images: [
+          description:
+            'Technische Tutorials, Guides und Best Practices zu Web Development, Server-Hosting, und Software Engineering von Full Stack Developer Achim Sommer.',
+          canonical: currentUrl,
+          openGraph: {
+            type: 'website',
+            url: currentUrl,
+            title: 'Blog - Tutorials & Guides zu Web Development und Server-Hosting',
+            description:
+              'Technische Tutorials, Guides und Best Practices zu Web Development, Server-Hosting, und Software Engineering von Full Stack Developer Achim Sommer.',
+            images: [
+              {
+                url: `${siteUrl}/api/og?title=${encodeURIComponent('Blog - Tutorials & Guides')}`,
+                width: 1200,
+                height: 630,
+                alt: 'Achim Sommer Blog',
+                type: 'image/png',
+              },
+            ],
+            siteName: 'Achim Sommer Blog',
+          },
+          twitter: {
+            handle: '@achimsommer',
+            site: '@achimsommer',
+            cardType: 'summary_large_image',
+          },
+          additionalMetaTags: [
             {
-              url: `${siteUrl}/api/og?title=${encodeURIComponent('Blog - Tutorials & Guides')}`,
-              width: 1200,
-              height: 630,
-              alt: 'Achim Sommer Blog',
-              type: 'image/png',
+              name: 'author',
+              content: 'Achim Sommer',
+            },
+            {
+              name: 'keywords',
+              content:
+                'Web Development, Server-Hosting, Tutorials, Programming, Software Engineering, Full Stack Development',
+            },
+            {
+              name: 'robots',
+              content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
             },
           ],
-          siteName: 'Achim Sommer Blog'
-        }}
-        twitter={{
-          handle: '@achimsommer',
-          site: '@achimsommer',
-          cardType: 'summary_large_image',
-        }}
-        additionalMetaTags={[
-          {
-            name: 'author',
-            content: 'Achim Sommer',
-          },
-          {
-            name: 'keywords',
-            content: 'Web Development, Server-Hosting, Tutorials, Programming, Software Engineering, Full Stack Development',
-          },
-          {
-            name: 'robots',
-            content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
-          },
-        ]}
-      />
+        })}
+      </Head>
       <Box
         minH="100vh"
         bg="gray.900"

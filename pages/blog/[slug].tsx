@@ -22,7 +22,9 @@ import { FiClock, FiCalendar } from 'react-icons/fi';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ArticleShare } from '@/components/ui/article-share';
-import { NextSeo, ArticleJsonLd } from 'next-seo';
+import Head from 'next/head';
+import { generateNextSeo } from 'next-seo/pages';
+import { ArticleJsonLd } from 'next-seo';
 import { TableOfContents } from '@/components/TableOfContents';
 
 // Dynamische Imports für MDX-Komponenten
@@ -85,78 +87,78 @@ export default function BlogPost({ frontMatter, mdxSource, slug, relatedPosts }:
 
   return (
     <>
-      <NextSeo
-        title={frontMatter.title}
-        description={frontMatter.description}
-        canonical={currentUrl}
-        openGraph={{
-          type: 'article',
-          article: {
-            publishedTime: frontMatter.date,
-            modifiedTime: frontMatter.date,
-            authors: ['Achim Sommer'],
-            tags: frontMatter.tags,
-            section: frontMatter.tags?.[0] ?? 'Technology'
-          },
-          url: currentUrl,
+      <Head>
+        {generateNextSeo({
           title: frontMatter.title,
           description: frontMatter.description,
-          images: [
+          canonical: currentUrl,
+          openGraph: {
+            type: 'article',
+            article: {
+              publishedTime: frontMatter.date,
+              modifiedTime: frontMatter.date,
+              authors: ['Achim Sommer'],
+              tags: frontMatter.tags,
+              section: frontMatter.tags?.[0] ?? 'Technology',
+            },
+            url: currentUrl,
+            title: frontMatter.title,
+            description: frontMatter.description,
+            images: [
+              {
+                url: `${siteUrl}/api/og?title=${encodeURIComponent(frontMatter.title)}&cache=1`,
+                width: 1200,
+                height: 630,
+                alt: frontMatter.title,
+                type: 'image/png',
+              },
+            ],
+            siteName: 'Achim Sommer Blog',
+          },
+          additionalMetaTags: [
             {
-              url: `${siteUrl}/api/og?title=${encodeURIComponent(frontMatter.title)}&cache=1`,
-              width: 1200,
-              height: 630,
-              alt: frontMatter.title,
-              type: 'image/png',
+              name: 'author',
+              content: 'Achim Sommer',
+            },
+            {
+              name: 'keywords',
+              content: frontMatter.tags.join(', '),
+            },
+            {
+              property: 'article:author',
+              content: 'https://achimsommer.com',
+            },
+            {
+              name: 'robots',
+              content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
             },
           ],
-          siteName: 'Achim Sommer Blog'
-        }}
-        additionalMetaTags={[
-          {
-            name: 'author',
-            content: 'Achim Sommer'
-          },
-          {
-            name: 'keywords',
-            content: frontMatter.tags.join(', ')
-          },
-          {
-            property: 'article:author',
-            content: 'https://achimsommer.com'
-          },
-          {
-            name: 'robots',
-            content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
-          }
-        ]}
-        additionalLinkTags={[
-          {
-            rel: 'alternate',
-            type: 'application/rss+xml',
-            href: `${siteUrl}/rss.xml`,
-          },
-        ]}
-      />
+          additionalLinkTags: [
+            {
+              rel: 'alternate',
+              type: 'application/rss+xml',
+              href: `${siteUrl}/rss.xml`,
+            },
+          ],
+        })}
+      </Head>
       <ArticleJsonLd
         type="BlogPosting"
         url={currentUrl}
-        title={frontMatter.title}
-        images={[
-          `${siteUrl}/api/og?title=${encodeURIComponent(frontMatter.title)}&cache=1`
-        ]}
+        headline={frontMatter.title}
+        image={[`${siteUrl}/api/og?title=${encodeURIComponent(frontMatter.title)}&cache=1`]}
         datePublished={frontMatter.date}
         dateModified={frontMatter.date}
-        authorName={{
-          "@type": "Person",
-          name: "Achim Sommer",
-          url: "https://achimsommer.com",
+        author={{
+          name: 'Achim Sommer',
+          url: 'https://achimsommer.com',
         }}
         description={frontMatter.description}
         isAccessibleForFree={true}
-        publisherName="Achim Sommer"
-        publisherLogo="https://achimsommer.com/logo.png"
-        keywords={frontMatter.tags.join(", ")}
+        publisher={{
+          name: 'Achim Sommer',
+          url: 'https://achimsommer.com',
+        }}
       />
       <script
         type="application/ld+json"
@@ -547,7 +549,7 @@ export const getStaticProps: GetStaticProps<BlogPostProps, IParams> = async ({ p
       },
       revalidate: 3600 // Revalidiere jede Stunde
     };
-  } catch (error) {
+  } catch {
     return {
       notFound: true
     };

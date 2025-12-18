@@ -1,5 +1,7 @@
 import Footer from '@/components/Footer';
 
+import Link from 'next/link';
+
 import type { Metadata } from 'next';
 
 export const viewport = {
@@ -25,7 +27,7 @@ export default function DatenschutzPage() {
       <main className="flex-grow">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <nav className="mb-8">
-            <a
+            <Link
               href="/"
               className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors duration-300 cursor-pointer z-50 relative"
             >
@@ -33,7 +35,7 @@ export default function DatenschutzPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
               Zurück zur Startseite
-            </a>
+            </Link>
           </nav>
 
           <article className="text-gray-300">

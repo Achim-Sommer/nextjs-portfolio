@@ -7,7 +7,7 @@ import { Spotlight } from './ui/spotlight';
 import { ShimmerButton } from './ui/shimmer-button';
 import { MagneticButton } from './ui/magnetic-button';
 import { motion } from 'framer-motion';
-import GitHubCalendar from 'react-github-calendar';
+import { GitHubCalendar } from 'react-github-calendar';
 import { Tooltip } from 'react-tooltip';
 import Link from 'next/link';
 import { IconBrandGithub, IconGitFork, IconStar } from '@tabler/icons-react';
@@ -25,6 +25,18 @@ interface Repository {
   private: boolean;
 }
 
+type GitHubApiResponse = {
+  stats: {
+    total: number;
+    private: number;
+    stars: number;
+    repos: number;
+    contributions: number;
+    mainLanguages: Record<string, number>;
+  };
+  repos: Repository[];
+};
+
 export default function GitHubRepos() {
   const [repos, setRepos] = useState<Repository[]>([]);
   const [loading, setLoading] = useState(true);
@@ -34,21 +46,20 @@ export default function GitHubRepos() {
   useEffect(() => {
     const fetchRepos = async () => {
       try {
-        const response = await fetch('https://api.github.com/user/repos', {
+        const response = await fetch('/api/github', {
           headers: {
-            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
-            'Accept': 'application/vnd.github.v3+json',
-          }
+            'Accept': 'application/json',
+          },
         });
         if (!response.ok) throw new Error('Failed to fetch repositories');
-        const data = await response.json();
-        
+        const data: GitHubApiResponse = await response.json();
+
         setStats({
-          total: data.length,
-          private: data.filter((repo: Repository) => repo.private).length
+          total: data.stats.total,
+          private: data.stats.private,
         });
 
-        const ownRepos = data.filter((repo: Repository) => !repo.fork);
+        const ownRepos = data.repos.filter((repo: Repository) => !repo.fork);
         const starredRepos = [...ownRepos]
           .sort((a: Repository, b: Repository) => b.stargazers_count - a.stargazers_count)
           .slice(0, 3);
@@ -139,7 +150,6 @@ export default function GitHubRepos() {
                     color: '#9ca3af',
                   }}
                   showWeekdayLabels={true}
-                  hideColorLegend={false}
                   renderBlock={(block, activity) => React.cloneElement(block, {
                     'data-tooltip-id': 'github-calendar-tooltip',
                     'data-tooltip-content': `${activity.count} Beiträge am ${activity.date}`

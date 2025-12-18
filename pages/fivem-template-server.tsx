@@ -1,4 +1,5 @@
-import { NextSeo } from "next-seo";
+import Head from 'next/head';
+import { generateNextSeo } from 'next-seo/pages';
 import { motion } from "framer-motion";
 import { SparklesCore } from "@/components/ui/sparkles-core";
 import { cn } from "@/utils/cn";
@@ -80,29 +81,34 @@ export default function FiveMTemplateServer() {
   
   return (
     <>
-      <NextSeo
-        title="FiveM Template Server Kostenlos | Free ESX Legacy Template für GTA RP"
-        description="FiveM Template Server kostenlos downloaden - Das beste kostenlose ESX Legacy Template für deinen GTA Roleplay Server. Inklusive Jobs, Shops, Casino & mehr. Jetzt kostenlos herunterladen!"
-        canonical="https://achimsommer.com/fivem-template-server"
-        openGraph={{
-          title: 'FiveM Template Server Kostenlos | Free ESX Legacy Template',
-          description: 'FiveM Template Server kostenlos downloaden - Das beste kostenlose ESX Legacy Template für deinen GTA Roleplay Server. Inklusive Jobs, Shops, Casino & mehr.',
-          images: [
+      <Head>
+        {generateNextSeo({
+          title: 'FiveM Template Server Kostenlos | Free ESX Legacy Template für GTA RP',
+          description:
+            'FiveM Template Server kostenlos downloaden - Das beste kostenlose ESX Legacy Template für deinen GTA Roleplay Server. Inklusive Jobs, Shops, Casino & mehr. Jetzt kostenlos herunterladen!',
+          canonical: 'https://achimsommer.com/fivem-template-server',
+          openGraph: {
+            title: 'FiveM Template Server Kostenlos | Free ESX Legacy Template',
+            description:
+              'FiveM Template Server kostenlos downloaden - Das beste kostenlose ESX Legacy Template für deinen GTA Roleplay Server. Inklusive Jobs, Shops, Casino & mehr.',
+            images: [
+              {
+                url: 'https://achimsommer.com/images/fivem-template-preview.jpg',
+                width: 1200,
+                height: 630,
+                alt: 'FiveM Template Server Kostenlos - Bestes ESX Legacy Template',
+              },
+            ],
+          },
+          additionalMetaTags: [
             {
-              url: 'https://achimsommer.com/images/fivem-template-preview.jpg',
-              width: 1200,
-              height: 630,
-              alt: 'FiveM Template Server Kostenlos - Bestes ESX Legacy Template',
-            }
+              name: 'keywords',
+              content:
+                'fivem template server, fivem template server kostenlos, fivem template server free, esx legacy template, gta roleplay server, fivem server setup, fivem server template kostenlos',
+            },
           ],
-        }}
-        additionalMetaTags={[
-          {
-            name: 'keywords',
-            content: 'fivem template server, fivem template server kostenlos, fivem template server free, esx legacy template, gta roleplay server, fivem server setup, fivem server template kostenlos'
-          }
-        ]}
-      />
+        })}
+      </Head>
       {/* Floating WhatsApp Button */}
       {mounted && createPortal(
         <div className="fixed bottom-4 right-4 z-[9999] drop-shadow-2xl">

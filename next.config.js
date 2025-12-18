@@ -161,14 +161,8 @@ const nextConfig = {
       'react-icons',
     ],
     optimisticClientCache: true,
-    turbo: {
-      rules: {
-        '*.js': ['swc-loader']
-      },
-    },
     webVitalsAttribution: ['CLS', 'LCP'],
   },
-  optimizeFonts: true,
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
@@ -240,10 +234,6 @@ const nextConfig = {
         source: '/:path*',
         headers: [
           {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-          {
             key: 'X-Content-Type-Options',
             value: 'nosniff',
           },
@@ -258,11 +248,20 @@ const nextConfig = {
         ],
       },
       {
+        source: '/_next/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
         source: '/api/:path*',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=7200',
+            value: 'private, no-store',
           },
         ],
       },
@@ -289,14 +288,6 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
-  swcMinify: true,
-  env: {
-    GITHUB_TOKEN: process.env.GITHUB_TOKEN,
-    WAKATIME_API_KEY: process.env.WAKATIME_API_KEY,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   async redirects() {
     return [
       {

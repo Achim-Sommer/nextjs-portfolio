@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useRef, lazy, Suspense } from 'react';
+import { useState, useEffect, useRef, lazy, Suspense, type ReactNode } from 'react';
 import { AnimatedText } from './ui/animated-text';
 import { motion } from 'framer-motion';
 import * as VscIcons from 'react-icons/vsc';
@@ -30,19 +30,19 @@ interface SystemStats {
 
 interface TerminalCommand {
   description: string;
-  action: () => string | JSX.Element;
+  action: () => string | ReactNode;
 }
 
 interface Tab {
   id: string;
   title: string;
-  icon?: JSX.Element;
-  content: React.ReactNode;
+  icon?: ReactNode;
+  content: ReactNode;
 }
 
 interface SideBarItem {
   id: string;
-  icon: JSX.Element;
+  icon: ReactNode;
   label: string;
 }
 
@@ -55,7 +55,9 @@ const ExperienceTab = lazy(() => import('./tabs/ExperienceTab').then(mod => ({ d
 export default function AboutMe() {
   const [activeTab, setActiveTab] = useState<string>('about.tsx');
   const [input, setInput] = useState('');
-  const [output, setOutput] = useState<(string | JSX.Element)[]>(['Willkommen in meinem Portfolio-Terminal! Tippe "help" für verfügbare Befehle.']);
+  const [output, setOutput] = useState<(string | ReactNode)[]>([
+    'Willkommen in meinem Portfolio-Terminal! Tippe "help" für verfügbare Befehle.',
+  ]);
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [githubStats, setGithubStats] = useState<GitHubStats>({});

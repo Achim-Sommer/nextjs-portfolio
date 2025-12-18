@@ -1,13 +1,16 @@
 import { Box, Heading, Text, Container } from '@chakra-ui/react';
-import { NextSeo } from 'next-seo';
+import Head from 'next/head';
+import { generateNextSeo } from 'next-seo/pages';
 
 export default function Offline() {
   return (
     <>
-      <NextSeo
-        title="Offline - Achim Sommer"
-        noindex={true}
-      />
+      <Head>
+        {generateNextSeo({
+          title: 'Offline - Achim Sommer',
+          noindex: true,
+        })}
+      </Head>
       <Container maxW="container.md" py={10}>
         <Box textAlign="center" py={10} px={6}>
           <Heading

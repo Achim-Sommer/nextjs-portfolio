@@ -1,4 +1,5 @@
-import { NextSeo } from "next-seo";
+import Head from 'next/head';
+import { generateNextSeo } from 'next-seo/pages';
 import { motion } from "framer-motion";
 import { BackgroundGradient } from "@/components/ui/background-gradient";
 import { FaWhatsapp, FaEnvelope, FaCode, FaServer, FaArrowRight, FaGamepad, FaWifi, FaHome, FaNetworkWired, FaVideo, FaQuestionCircle, FaComments } from "react-icons/fa";
@@ -328,7 +329,7 @@ export default function Services() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [activeCategory]);
 
-  const scrollToSection = (ref: React.RefObject<HTMLDivElement>) => {
+  const scrollToSection = (ref: React.RefObject<HTMLDivElement | null>) => {
     if (ref.current) {
       const navbarHeight = 70;
       const tabsHeight = 60;
@@ -357,34 +358,39 @@ export default function Services() {
 
   return (
     <>
-      <NextSeo
-        title="IT Dienstleistungen & Webentwicklung | Achim Sommer - Experte für Next.js & Ubiquiti"
-        description="Professionelle IT-Dienstleistungen in Aachen: Webentwicklung mit Next.js, React & TypeScript | Ubiquiti UniFi Netzwerke | Smart Home Automation | Gaming Server Setup | Kostenlose Erstberatung | Faire Preise | DSGVO-konforme Lösungen"
-        canonical="https://achimsommer.com/services"
-        openGraph={{
-          url: 'https://achimsommer.com/services',
-          title: 'IT Services & Dienstleistungen | Achim Sommer',
-          description: 'Professionelle IT-Dienstleistungen von der Webentwicklung bis zu Ubiquiti UniFi Lösungen. Erfahren Sie mehr über meine Services!',
-          images: [
-            {
-              url: 'https://achimsommer.com/og-image.jpg',
-              width: 1200,
-              height: 630,
-              alt: 'Achim Sommer IT Services',
-            }
-          ],
-        }}
-        additionalMetaTags={[
-          {
-            name: 'keywords',
-            content: 'Webentwicklung, Next.js, React, Ubiquiti UniFi, Smart Home, Home Assistant, Gaming Server, FiveM Server, Minecraft Server, IT Dienstleistungen'
+      <Head>
+        {generateNextSeo({
+          title: 'IT Dienstleistungen & Webentwicklung | Achim Sommer - Experte für Next.js & Ubiquiti',
+          description:
+            'Professionelle IT-Dienstleistungen in Aachen: Webentwicklung mit Next.js, React & TypeScript | Ubiquiti UniFi Netzwerke | Smart Home Automation | Gaming Server Setup | Kostenlose Erstberatung | Faire Preise | DSGVO-konforme Lösungen',
+          canonical: 'https://achimsommer.com/services',
+          openGraph: {
+            url: 'https://achimsommer.com/services',
+            title: 'IT Services & Dienstleistungen | Achim Sommer',
+            description:
+              'Professionelle IT-Dienstleistungen von der Webentwicklung bis zu Ubiquiti UniFi Lösungen. Erfahren Sie mehr über meine Services!',
+            images: [
+              {
+                url: 'https://achimsommer.com/og-image.jpg',
+                width: 1200,
+                height: 630,
+                alt: 'Achim Sommer IT Services',
+              },
+            ],
           },
-          {
-            name: 'author',
-            content: 'Achim Sommer'
-          }
-        ]}
-      />
+          additionalMetaTags: [
+            {
+              name: 'keywords',
+              content:
+                'Webentwicklung, Next.js, React, Ubiquiti UniFi, Smart Home, Home Assistant, Gaming Server, FiveM Server, Minecraft Server, IT Dienstleistungen',
+            },
+            {
+              name: 'author',
+              content: 'Achim Sommer',
+            },
+          ],
+        })}
+      </Head>
 
       {/* Schema.org strukturierte Daten */}
       <script
