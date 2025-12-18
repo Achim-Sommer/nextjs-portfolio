@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import { motion } from 'framer-motion';
 import { HeroHighlight, Highlight } from './ui/hero-highlight';
 import dynamic from 'next/dynamic';
 import { Suspense, useState, useEffect } from 'react';
@@ -17,7 +16,7 @@ const TypewriterEffectSmooth = dynamic(
 
 // Lazy load Particles
 const Particles = dynamic(() => import('./ui/particles'), {
-  ssr: true,
+  ssr: false,
   loading: () => <div className="absolute inset-0" />
 });
 
@@ -115,19 +114,18 @@ const Hero: React.FC = () => {
       >
         {/* Hauptinhalt mit höchster Priorität */}
         <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-center"
-          >
+          <div className="text-center">
             <div className="inline-block">
               <h1 className="mb-4 text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
                 {/* Conditional Rendering basierend auf Bildschirmgröße */}
                 <span className="block sm:hidden text-white">
                   Hey, ich bin Achim
                 </span>
-                {isClient && (
+                {!isClient ? (
+                  <span className="hidden sm:block text-white">
+                    Hey, ich bin Achim
+                  </span>
+                ) : (
                   <span className="hidden sm:block">
                     <Suspense fallback={<div className="text-center">Loading...</div>}>
                       <TypewriterEffectSmooth
@@ -146,12 +144,9 @@ const Hero: React.FC = () => {
             </div>
 
             <HeroHighlight>
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.8, ease: "easeOut" }}
+              <h2
                 className="hero-title text-2xl px-4 md:text-4xl font-bold text-white leading-relaxed text-center mx-auto"
-                style={{ 
+                style={{
                   willChange: 'transform',
                   transform: 'translateZ(0)'
                 }}
@@ -159,30 +154,18 @@ const Hero: React.FC = () => {
                 <Highlight>
                 Wirtschaftsinformatik (B.Sc.)
                 </Highlight>
-              </motion.h2>
+              </h2>
             </HeroHighlight>
 
             <div className="flex flex-col items-center mt-8">
-              <motion.button
+              <button
                 onClick={() => {
                   const aboutSection = document.getElementById('about-me');
                   if (aboutSection) {
                     aboutSection.scrollIntoView({ behavior: 'smooth' });
                   }
                 }}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{
-                  opacity: 1,
-                  y: [0, 10, 0],
-                  transition: {
-                    y: {
-                      duration: 1.5,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }
-                  }
-                }}
-                className="cursor-pointer hover:opacity-75 transition-opacity"
+                className="cursor-pointer hover:opacity-75 transition-opacity motion-safe:animate-bounce"
                 aria-label="Zum About Me Bereich scrollen"
               >
                 <svg
@@ -196,9 +179,9 @@ const Hero: React.FC = () => {
                 >
                   <path d="M12 5v14M19 12l-7 7-7-7" />
                 </svg>
-              </motion.button>
+              </button>
             </div>
-          </motion.div>
+          </div>
         </div>
 
         {/* Hintergrund-Effekte mit niedrigerer Priorität */}

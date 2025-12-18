@@ -1,15 +1,16 @@
-import '@/styles/fonts.css'
 import './globals.css'
 import { Suspense } from 'react'
-import BackToTop from '@/components/BackToTop'
-import FloatingDock from '@/components/FloatingDock'
-import CookieBanner from '@/components/CookieBanner'
 import Script from 'next/script'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Providers } from './providers'
+import ClientWidgets from './client-widgets'
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+});
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://achimsommer.com';
 const umamiUrl = process.env.NEXT_PUBLIC_UMAMI_URL;
@@ -74,7 +75,7 @@ export default function RootLayout({
         <meta name="viewport" content={`${viewport.width}, initial-scale=${viewport.initialScale}, maximum-scale=${viewport.maximumScale}, user-scalable=${viewport.userScalable}`} />
         <meta name="theme-color" content={viewport.themeColor} />
       </head>
-      <body className={`bg-gray-900 text-white font-inter ${inter.className}`}>
+      <body className={`bg-gray-900 text-white ${inter.variable}`}>
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded focus:bg-blue-600 focus:px-4 focus:py-2 focus:text-white"
@@ -173,11 +174,7 @@ export default function RootLayout({
         <Providers>
           <div className="min-h-screen">
             {children}
-            <Suspense>
-              <BackToTop />
-              <FloatingDock />
-              <CookieBanner />
-            </Suspense>
+            <ClientWidgets />
           </div>
         </Providers>
       </body>
