@@ -149,7 +149,7 @@ const Hero: React.FC = () => {
               <motion.h2
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
+                transition={{ duration: 1.8, ease: "easeOut" }}
                 className="hero-title text-2xl px-4 md:text-4xl font-bold text-white leading-relaxed text-center mx-auto"
                 style={{ 
                   willChange: 'transform',
