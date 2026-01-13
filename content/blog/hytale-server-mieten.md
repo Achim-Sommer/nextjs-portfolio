@@ -6,13 +6,9 @@ tags: ['Hytale', 'Gameserver', 'Server mieten', 'Hosting', 'ZAP-Hosting', 'Tutor
 featured: false
 ---
 
-import ZapHostingCta from '../../src/components/ZapHostingCta'
-
 Wenn du mit Freunden direkt loslegen willst, ist **einen Hytale Server zu mieten** meist der schnellste Weg: keine Hardware, keine lange Einrichtung, dafür ein Panel, in dem du Start/Stop, Backups und Einstellungen bequem verwaltest.
 
-<!-- markdownlint-disable MD033 -->
 <ZapHostingCta href="https://zap-hosting.com/hytale" buttonText="Hytale Server jetzt mieten" />
-<!-- markdownlint-enable MD033 -->
 
 Den passenden Hytale-Server bekommst du hier:
 
@@ -95,9 +91,7 @@ Beim Checkout kannst du den Rabattcode eintragen:
 
 Nach der Bestellung wird der Server in der Regel automatisch eingerichtet. Sobald er bereit ist, bekommst du Zugang zu Panel/Serverdaten.
 
-<!-- markdownlint-disable MD033 -->
 <ZapHostingCta href="https://zap-hosting.com/hytale" buttonText="Jetzt Hytale Server holen" />
-<!-- markdownlint-enable MD033 -->
 
 Wenn du direkt starten willst:
 
@@ -156,9 +150,7 @@ Für den direkten Vergleich: [Hytale Server kaufen statt mieten (Lifetime)](/blo
 
 Wenn du **sofort starten** willst, ist Mieten ideal. Wenn du sicher bist, dass der Server lange laufen soll, lohnt sich oft der Blick auf Lifetime.
 
-<!-- markdownlint-disable MD033 -->
 <ZapHostingCta href="https://zap-hosting.com/hytale" buttonText="Hytale Server jetzt starten" />
-<!-- markdownlint-enable MD033 -->
 
 Wenn du eher einen eigenen Linux-Server für mehrere Dienste suchst, schau dir auch [vServer kaufen statt mieten](/blog/vserver-kaufen-statt-mieten) an. Für Setup-Ideen passen z. B. [Debian LAMP Stack](/blog/debian-lamp-stack) oder [Coolify Installation](/blog/coolify-installation).
 

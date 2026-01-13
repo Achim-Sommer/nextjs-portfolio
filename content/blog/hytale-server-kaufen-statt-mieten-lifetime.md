@@ -6,13 +6,9 @@ tags: ['Hytale', 'Gameserver', 'Server kaufen', 'Lifetime', 'ZAP-Hosting', 'Host
 featured: false
 ---
 
-import ZapHostingCta from '../../src/components/ZapHostingCta'
-
 Ein gemieteter Gameserver ist perfekt, wenn du schnell starten willst. Wenn du aber **langfristig** planst (z. B. Community, dauerhaftes Projekt, regelmäßige Events), kann es wirtschaftlich sinnvoll sein, einen **Hytale Server zu kaufen statt zu mieten** – vor allem, wenn eine **Lifetime-Option** verfügbar ist.
 
-<!-- markdownlint-disable MD033 -->
 <ZapHostingCta href="https://zap-hosting.com/hytale" buttonText="Hytale Server (Lifetime) sichern" />
-<!-- markdownlint-enable MD033 -->
 
 Den Hytale-Server bekommst du hier:
 
@@ -76,15 +72,15 @@ Mehr Hintergrund und Beispiele findest du auch hier: [ZAP-Hosting Lifetime Serve
 
 Ob sich Kaufen lohnt, kannst du mit einer simplen Break-even-Rechnung abschätzen:
 
-- Monatspreis: $M$
-- Lifetime-Preis: $L$
-- Break-even nach: $L / M$ Monaten
+- Monatspreis: `M`
+- Lifetime-Preis: `L`
+- Break-even nach: `L / M` Monaten
 
 ### Beispiel-Rechnung
 
-Wenn ein Server monatlich $M = 10$ kostet und die Lifetime-Option $L = 100$, dann liegt der Break-even bei:
+Wenn ein Server monatlich `M = 10` kostet und die Lifetime-Option `L = 100`, dann liegt der Break-even bei:
 
-$$\frac{L}{M} = \frac{100}{10} = 10\ \text{Monate}$$
+`L / M = 100 / 10 = 10 Monate`
 
 Ab etwa 10 Monaten wäre Kaufen günstiger als Mieten.
 
@@ -111,9 +107,7 @@ Direktlink zum Bestellen:
 
 - [Hytale Server bei ZAP-Hosting holen](https://zap-hosting.com/hytale)
 
-<!-- markdownlint-disable MD033 -->
 <ZapHostingCta href="https://zap-hosting.com/hytale" buttonText="Jetzt Lifetime-Option prüfen" />
-<!-- markdownlint-enable MD033 -->
 
 ## Risiken & Dinge, die du beachten solltest
 
@@ -141,9 +135,7 @@ Ja: Wenn du mehrere Dienste betreiben willst (z. B. Website, Bots, Monitoring), 
 
 Wenn du sicher bist, dass dein Hytale-Server **länger als den Break-even** laufen soll, ist Lifetime oft die bessere Rechnung. Für den Einstieg oder Tests bleibt Mieten die flexibelste Option.
 
-<!-- markdownlint-disable MD033 -->
 <ZapHostingCta href="https://zap-hosting.com/hytale" buttonText="Hytale Server jetzt holen" />
-<!-- markdownlint-enable MD033 -->
 
 Wenn du zusätzlich eigene Services betreiben willst (Web, Bots, Docker), schau dir auch [vServer kaufen statt mieten](/blog/vserver-kaufen-statt-mieten) und [ZAP-Hosting Lifetime Server](/blog/zap-hosting-lifetime) an.
 
