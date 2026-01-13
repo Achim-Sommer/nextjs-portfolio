@@ -49,6 +49,8 @@ import { PriceComparison } from '../../src/components/PriceComparison/PriceCompa
 - Volle Kostenkontrolle und Planungssicherheit
 - Lebenslanger Zugriff auf die Server-Ressourcen
 
+> **Praxisbeispiel (Gameserver):** Einstieg: [Hytale Server mieten](/blog/hytale-server-mieten) • Langzeit-Kosten: [Hytale Server kaufen statt mieten (Lifetime)](/blog/hytale-server-kaufen-statt-mieten-lifetime)
+
 ### Nachteile der Server-Miete
 - Monatlich wiederkehrende Kosten
 - Höhere Gesamtkosten bei Langzeitnutzung

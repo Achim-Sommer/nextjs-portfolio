@@ -24,6 +24,8 @@ ZAP-Hosting ist der einzige Anbieter, der diese Option für eine breite Palette 
 
 Die Besonderheit liegt nicht nur in der Verfügbarkeit dieser Option, sondern auch in der langfristigen Kosteneffizienz für Nutzer.
 
+Wenn du konkret nach Gameservern suchst: [Hytale Server mieten](/blog/hytale-server-mieten) oder (für Langzeit-Projekte) [Hytale Server kaufen statt mieten (Lifetime)](/blog/hytale-server-kaufen-statt-mieten-lifetime).
+
 ## Wann lohnt sich die Lifetime-Option?
 
 Die Rentabilität der Lifetime-Option hängt vom jeweiligen Produkt ab. Ein gutes Beispiel ist der virtuelle Server (vServer):
