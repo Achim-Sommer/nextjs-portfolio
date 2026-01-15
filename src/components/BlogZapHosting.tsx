@@ -88,7 +88,9 @@ export default function BlogZapHosting() {
         fontFamily="mono"
       >
         <VStack align="stretch" spacing={6}>
-          <Text color={textColor} fontSize={["xs", "sm"]}>$ Starte deinen eigenen Linux V-Server</Text>
+          <Text color={textColor} fontSize={["xs", "sm"]}>
+            Starte deinen eigenen vServer/VPS (Linux oder Windows)
+          </Text>
           
           <Stack 
             direction={["column", "row"]} 

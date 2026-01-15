@@ -73,13 +73,13 @@ export default function FloatingZapAd() {
                 >
                   <VStack spacing={3} align="stretch">
                     <Text color="white" fontSize="sm" fontWeight="bold">
-                      Linux V-Server
+                      VPS / vServer (Linux/Windows)
                     </Text>
                     <Text color={ZAP_GREEN} fontSize="xl" fontWeight="bold">
-                      Ab 7,90€/Monat
+                      ab 7,90€/Monat
                     </Text>
                     <Text color="gray.300" fontSize="xs">
-                      oder 64,00€ Lifetime
+                      oder ab 64,00€ Lifetime
                     </Text>
                     <Link 
                       href="https://zap-hosting.com/vserverhomepage" 
