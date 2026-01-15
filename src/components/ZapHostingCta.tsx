@@ -5,13 +5,13 @@ import {
   Button,
   HStack,
   Icon,
-  Link,
   Stack,
   Text,
   VStack,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { FiGift, FiExternalLink } from 'react-icons/fi';
+import Image from 'next/image';
 
 const ZAP_GREEN = '#57BB54';
 
@@ -21,6 +21,10 @@ type ZapHostingCtaProps = {
   title?: string;
   description?: string;
   couponCode?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
 };
 
 export default function ZapHostingCta({
@@ -29,10 +33,16 @@ export default function ZapHostingCta({
   title = 'Hytale Server in Minuten starten',
   description = 'Einfach bestellen, im Panel verwalten und direkt loslegen.',
   couponCode = 'GermanGaming',
+  imageSrc,
+  imageAlt = 'Hytale Charakter',
+  imageWidth = 280,
+  imageHeight = 287,
 }: ZapHostingCtaProps) {
   const bgColor = useColorModeValue('gray.800', 'gray.800');
   const borderColor = useColorModeValue('gray.700', 'gray.700');
   const textColor = useColorModeValue('gray.100', 'gray.100');
+
+  const resolvedImageSrc = imageSrc ?? (href.includes('/hytale') ? '/img/blog/hytale-character.png' : undefined);
 
   return (
     <Box
@@ -54,36 +64,66 @@ export default function ZapHostingCta({
         background: `linear-gradient(90deg, ${ZAP_GREEN} 0%, ${ZAP_GREEN}80 100%)`,
       }}
     >
-      <VStack align="stretch" spacing={4}>
-        <Stack direction={["column", "row"]} justify="space-between" spacing={[3, 6]}>
-          <VStack align="start" spacing={1}>
-            <Text color={textColor} fontSize={["md", "lg"]} fontWeight="bold" fontFamily="mono">
-              {title}
-            </Text>
-            <Text color={textColor} fontSize={["sm", "md"]} opacity={0.9}>
-              {description}
-            </Text>
-          </VStack>
+      <VStack align="stretch" spacing={4} position="relative" zIndex={1}>
+        <Stack direction={["column", "row"]} justify="space-between" spacing={[4, 8]} align={["stretch", "center"]}>
+          <HStack spacing={4} align="center" flex={1} minW={0}>
+            {resolvedImageSrc ? (
+              <Box
+                flexShrink={0}
+                display={{ base: 'none', md: 'block' }}
+                pointerEvents="none"
+              >
+                <Image
+                  src={resolvedImageSrc}
+                  alt={imageAlt}
+                  width={imageWidth}
+                  height={imageHeight}
+                  style={{ height: '120px', width: 'auto', objectFit: 'contain' }}
+                  priority={false}
+                />
+              </Box>
+            ) : null}
 
-          <Link href={href} isExternal rel="sponsored noopener noreferrer" _hover={{ textDecoration: 'none' }}>
-            <Button
-              bg={ZAP_GREEN}
-              color="white"
-              _hover={{ bg: `${ZAP_GREEN}90` }}
-              rightIcon={<Icon as={FiExternalLink} />}
-              size={["sm", "md"]}
-            >
-              {buttonText}
-            </Button>
-          </Link>
+            <VStack align="start" spacing={1} minW={0} flex={1}>
+              <Text color={textColor} fontSize={["md", "lg"]} fontWeight="bold" fontFamily="mono">
+                {title}
+              </Text>
+              <Text color={textColor} fontSize={["sm", "md"]} opacity={0.9}>
+                {description}
+              </Text>
+
+              <HStack spacing={2} pt={2}>
+                <Icon as={FiGift} color={ZAP_GREEN} />
+                <Text color={textColor} fontSize={["xs", "sm"]}>
+                  Rabattcode: <Text as="span" fontFamily="mono" fontWeight="bold">{couponCode}</Text> (20% sparen)
+                </Text>
+              </HStack>
+            </VStack>
+          </HStack>
+
+          <Button
+            as="a"
+            href={href}
+            target="_blank"
+            rel="sponsored noopener noreferrer"
+            bg={ZAP_GREEN}
+            color="white"
+            sx={{
+              color: 'white !important',
+              '&:link': { color: 'white !important' },
+              '&:visited': { color: 'white !important' },
+              '&:hover': { color: 'white !important' },
+              '&:active': { color: 'white !important' },
+            }}
+            _hover={{ bg: `${ZAP_GREEN}90`, textDecoration: 'none' }}
+            _active={{ bg: `${ZAP_GREEN}85` }}
+            rightIcon={<Icon as={FiExternalLink} color="currentColor" />}
+            size={["sm", "md"]}
+            alignSelf={{ base: 'flex-start', md: 'center' }}
+          >
+            {buttonText}
+          </Button>
         </Stack>
-
-        <HStack spacing={2}>
-          <Icon as={FiGift} color={ZAP_GREEN} />
-          <Text color={textColor} fontSize={["xs", "sm"]}>
-            Rabattcode: <Text as="span" fontFamily="mono" fontWeight="bold">{couponCode}</Text> (20% sparen)
-          </Text>
-        </HStack>
       </VStack>
     </Box>
   );

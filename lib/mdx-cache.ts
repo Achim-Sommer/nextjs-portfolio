@@ -1,6 +1,7 @@
 import { LRUCache } from 'lru-cache';
 import { serialize } from 'next-mdx-remote/serialize';
 import { createHash } from 'crypto';
+import remarkGfm from 'remark-gfm';
 
 const mdxCache = new LRUCache<string, any>({
   max: 50, // Maximale Anzahl gecachter Einträge
@@ -17,7 +18,8 @@ export async function getCompiledMDX(source: string) {
   const compiled = await serialize(source, {
     parseFrontmatter: true,
     mdxOptions: {
-      development: process.env.NODE_ENV === 'development'
+      development: process.env.NODE_ENV === 'development',
+      remarkPlugins: [remarkGfm]
     }
   });
   
