@@ -27,7 +27,7 @@ const hostingProducts = [
         <FaLinux className="text-4xl text-[#57BB54]" />
         <div>
           <p className="text-base font-medium">ab 7,90€/Monat</p>
-          <p className="text-sm text-[#57BB54]">oder 79,00€ Lifetime</p>
+          <p className="text-sm text-[#57BB54]">oder 64,00€ Lifetime</p>
         </div>
       </div>
     </div>,

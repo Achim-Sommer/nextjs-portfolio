@@ -79,7 +79,7 @@ export default function FloatingZapAd() {
                       Ab 7,90€/Monat
                     </Text>
                     <Text color="gray.300" fontSize="xs">
-                      oder 79,00€ Lifetime
+                      oder 64,00€ Lifetime
                     </Text>
                     <Link 
                       href="https://zap-hosting.com/vserverhomepage" 

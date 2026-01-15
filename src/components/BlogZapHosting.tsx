@@ -152,7 +152,7 @@ export default function BlogZapHosting() {
               }}
             >
               <Text color={textColor} fontSize={["md", "lg"]}>Lifetime</Text>
-              <Text color={ZAP_GREEN} fontSize={["xl", "2xl"]} fontWeight="bold">ab 79,00€</Text>
+              <Text color={ZAP_GREEN} fontSize={["xl", "2xl"]} fontWeight="bold">ab 64,00€</Text>
               <Text color={textColor} fontSize={["xs", "sm"]}>einmalig</Text>
               <Link 
                 href="https://zap-hosting.com/vserverhomepage" 

@@ -86,7 +86,7 @@ Ein Dedicated Server bietet:
 
 #### vServer
 - Monatliche Kosten: ab 7,90€
-- Lifetime-Option: ab 79,00€
+- Lifetime-Option: ab 64,00€
 - Schnelle Skalierung
 - Geringere Initialinvestition
 

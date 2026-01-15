@@ -30,10 +30,10 @@ Wenn du konkret nach Gameservern suchst: [Hytale Server mieten](/blog/hytale-ser
 
 Die Rentabilität der Lifetime-Option hängt vom jeweiligen Produkt ab. Ein gutes Beispiel ist der virtuelle Server (vServer):
 - Monatliche Miete: ab 7,90€
-- Lifetime-Preis: ab 79,00€
-- Break-Even-Punkt: etwa 10 Monate
-- Ersparnis nach 2 Jahren: 110,60€
-- Ersparnis nach 5 Jahren: 395,00€
+- Lifetime-Preis: ab 64,00€
+- Break-Even-Punkt: etwa 8 Monate
+- Ersparnis nach 2 Jahren: 125,60€
+- Ersparnis nach 5 Jahren: 410,00€
 
 Diese Kalkulation variiert je nach Produkt und Konfiguration, dient aber als grober Richtwert. Bei einigen Produkten kann sich die Investition früher oder später rentieren.
 
