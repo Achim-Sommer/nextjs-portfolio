@@ -39,7 +39,7 @@ Wer einen leistungsstarken Dedicated Server für sein Projekt sucht, steht vor e
 />
 
 > **Kostengünstige Alternative:**
-> Falls ein Dedicated Server für Ihre Anforderungen überdimensioniert sein sollte, könnte ein [virtueller Server (vServer)](/blog/vserver-kaufen-statt-mieten) die bessere Wahl sein. vServer bieten ebenfalls die Möglichkeit eines Lifetime-Kaufs und sind bereits ab 79€ verfügbar.
+> Falls ein Dedicated Server für Ihre Anforderungen überdimensioniert sein sollte, könnte ein [virtueller Server (vServer)](/blog/vserver-kaufen-statt-mieten) die bessere Wahl sein. vServer bieten ebenfalls die Möglichkeit eines Lifetime-Kaufs und sind bereits ab 64€ verfügbar.
 
 ## Dedicated Server Optionen im Überblick
 

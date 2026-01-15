@@ -13,7 +13,7 @@ Wer einen Server für sein Projekt sucht, steht vor einer grundlegenden Entschei
 > **Kurzzusammenfassung:**
 > - vServer kaufen statt mieten spart langfristig viel Geld
 > - Einmalzahlung statt monatlicher Kosten
-> - Lifetime-Server bereits ab 79€ verfügbar
+> - Lifetime-Server bereits ab 64€ verfügbar
 > - Volle Root-Rechte und unbegrenzte Nutzungsdauer
 
 ## Was kostet ein vServer? Kauf vs. Miete im Vergleich
@@ -24,10 +24,10 @@ import { PriceComparison } from '../../src/components/PriceComparison/PriceCompa
 <PriceComparison
   title="Standard vServer"
   monthlyRent={7.90}
-  lifetimePrice={79.00}
-  breakEvenMonths={10}
-  savingsYear2={110.60}
-  savingsYear5={395.00}
+   lifetimePrice={64.00}
+   breakEvenMonths={8.1}
+   savingsYear2={125.60}
+   savingsYear5={410.00}
 />
 
 ### Beispielrechnung für einen Performance vServer (32 GB RAM, 8 CPU Kerne)
@@ -109,7 +109,7 @@ Bei einem gekauften Lifetime Server erhalten Sie die gleichen Garantien wie bei 
 ## Fazit: Wann sich der Server-Kauf wirklich lohnt
 
 Der Kauf eines Servers in Form eines Lifetime-vServers lohnt sich besonders dann, wenn:
-- Eine Nutzungsdauer von mehr als 10 Monaten geplant ist
+- Eine Nutzungsdauer von mehr als 8 Monaten geplant ist
 - Stabile und planbare Ressourcenanforderungen vorliegen
 - Das Budget für eine Einmalzahlung verfügbar ist
 - Langfristige Kosteneinsparungen wichtig sind
