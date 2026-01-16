@@ -1,4 +1,4 @@
-import { IconButton, useClipboard, Tooltip } from '@chakra-ui/react';
+import { Button, Tooltip, useBreakpointValue, useClipboard } from '@chakra-ui/react';
 import { FiCopy, FiCheck } from 'react-icons/fi';
 
 interface CopyButtonProps {
@@ -7,36 +7,35 @@ interface CopyButtonProps {
 
 const CopyButton = ({ code }: CopyButtonProps) => {
   const { hasCopied, onCopy } = useClipboard(code);
+  const showText = useBreakpointValue({ base: false, md: true });
+  const label = hasCopied ? 'Kopiert' : 'Kopieren';
 
   return (
     <Tooltip 
-      label={hasCopied ? 'Kopiert!' : 'Kopieren'} 
-      placement="left"
+      label={hasCopied ? 'Kopiert!' : 'Kopieren'}
+      placement="bottom-end"
       hasArrow
       bg="gray.700"
       color="white"
     >
-      <IconButton
-        icon={hasCopied ? <FiCheck /> : <FiCopy />}
+      <Button
+        leftIcon={hasCopied ? <FiCheck /> : <FiCopy />}
         onClick={onCopy}
-        aria-label="Code kopieren"
-        size="sm"
-        position="absolute"
-        top={6}
-        right={6}
+        aria-label={label}
+        size="xs"
         color={hasCopied ? 'green.300' : 'blue.300'}
-        bg="gray.700"
+        bg="transparent"
         _hover={{
-          bg: 'gray.600',
-          transform: 'scale(1.05)',
+          bg: 'gray.800',
         }}
         _active={{
-          bg: 'gray.800',
-          transform: 'scale(0.95)',
+          bg: 'gray.700',
         }}
         transition="all 0.2s"
         borderRadius="md"
-      />
+      >
+        {showText ? label : null}
+      </Button>
     </Tooltip>
   );
 };

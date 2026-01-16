@@ -12,7 +12,8 @@ const CodeBlock = ({ children }: CodeBlockProps) => {
   const lineNumberColor = useColorModeValue('gray.500', 'gray.500');
 
   // Split the code into lines and add line numbers
-  const lines = children.trim().split('\n');
+  const normalizedCode = children.replace(/\r\n/g, '\n').replace(/\n+$/, '');
+  const lines = normalizedCode.split('\n');
   const maxLineNumberWidth = String(lines.length).length;
 
   return (
@@ -35,19 +36,21 @@ const CodeBlock = ({ children }: CodeBlockProps) => {
         borderBottom="1px"
         borderColor={borderColor}
         spacing={[1.5, 2]}
+        justify="space-between"
       >
         <HStack spacing={[1.5, 2]}>
           <Circle size={['2.5', '3']} bg="red.500" />
           <Circle size={['2.5', '3']} bg="yellow.500" />
           <Circle size={['2.5', '3']} bg="green.500" />
         </HStack>
+
+        <CopyButton code={normalizedCode} />
       </HStack>
 
       {/* Code content */}
-      <Box 
-        position="relative" 
-        p={[3, 6]} 
-        overflowX="auto" 
+      <Box
+        p={[3, 6]}
+        overflowX="auto"
         maxW="100vw"
         sx={{
           '&::-webkit-scrollbar': {
@@ -104,9 +107,6 @@ const CodeBlock = ({ children }: CodeBlockProps) => {
             </Box>
           ))}
         </pre>
-        <Box position="absolute" top={[2, 6]} right={[2, 6]}>
-          <CopyButton code={children} />
-        </Box>
       </Box>
     </Box>
   );
