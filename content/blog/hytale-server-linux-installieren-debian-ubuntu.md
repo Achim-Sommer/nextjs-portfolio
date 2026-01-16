@@ -28,7 +28,6 @@ Wenn du lieber **ohne Linux-Setup** sofort loslegen willst, geht es in Minuten p
 - Java (Temurin) installieren
 - Hytale Server downloaden (Downloader)
 - systemd Service einrichten
-- Firewall/Ports (UFW)
 - Updates, Logs & Troubleshooting
 - FAQ
 
@@ -53,7 +52,13 @@ apt upgrade -y
 ### Benötigte Pakete installieren
 
 ```bash
-apt install -y wget apt-transport-https ufw gpg zip ca-certificates unzip
+apt install -y wget apt-transport-https gpg zip ca-certificates
+```
+
+Falls `unzip` bei dir noch nicht installiert ist:
+
+```bash
+apt install -y unzip
 ```
 
 ## Benutzer + Verzeichnis anlegen
@@ -103,10 +108,15 @@ java -version
 
 ## Hytale Server downloaden (Downloader)
 
-1) Downloader-ZIP laden:
+Am einfachsten ist es, wenn du die nächsten Schritte direkt im Server-Ordner machst:
 
 ```bash
 cd /opt/hytale-server
+```
+
+1) Downloader-ZIP laden:
+
+```bash
 wget -O hytale.zip https://downloader.hytale.com/hytale-downloader.zip
 ```
 
@@ -125,8 +135,8 @@ chmod +x hytale-downloader-linux-amd64
 
 Jetzt erscheint eine Ausgabe mit einem **AuthCode Link**.
 
-- Öffne die URL im Browser
-- AuthCode bestätigen
+- **AuthCode URL kopieren**
+- Im Browser öffnen und bestätigen
 - Zurück in die Konsole wechseln
 
 4) Server entpacken:
@@ -150,14 +160,14 @@ Damit der Server beim Boot automatisch startet und sauber neu startet, nutzen wi
 Erstelle die Service-Datei:
 
 ```bash
-nano /etc/systemd/system/hytale.service
+nano /opt/hytale-server/hytale.service
 ```
 
 Inhalt:
 
 ```ini
 [Unit]
-Description=Hytale Server
+Description=Startup script for Hytale server
 After=network.target
 
 [Service]
@@ -171,49 +181,31 @@ RestartSec=5
 WantedBy=multi-user.target
 ```
 
-Aktivieren und starten:
+Aktivieren:
 
 ```bash
 systemctl daemon-reload
-systemctl enable --now hytale.service
+systemctl enable /opt/hytale-server/hytale.service
 ```
 
-Status prüfen:
+Zum Testen ob der Server läuft:
 
 ```bash
-systemctl status hytale.service
+su - hytale -s /bin/bash
+java -jar /opt/hytale-server/Server/HytaleServer.jar --assets /opt/hytale-server/Assets.zip
+exit
 ```
 
-Logs ansehen:
+Dann den Service starten:
 
 ```bash
-journalctl -u hytale.service -f
+systemctl start hytale
 ```
 
-## Firewall/Ports (UFW)
-
-Du hast `ufw` installiert – nutze es auch, um nur das Nötigste freizugeben.
-
-1) SSH erlauben (sonst sperrst du dich aus):
+Mit folgendem Befehl kommst du in die Konsole vom Hytale Server:
 
 ```bash
-ufw allow OpenSSH
-```
-
-2) Hytale-Port freigeben:
-
-Der Port hängt von deiner Hytale-Server-Konfiguration ab. Prüfe den konfigurierten Port und erlaube ihn dann z.B. so:
-
-```bash
-# Beispiel: ufw allow 12345/tcp
-ufw allow <PORT>/tcp
-```
-
-3) Firewall aktivieren:
-
-```bash
-ufw enable
-ufw status
+journalctl -u hytale -f
 ```
 
 ## Updates, Logs & Troubleshooting
@@ -221,18 +213,18 @@ ufw status
 ### Server neu starten
 
 ```bash
-systemctl restart hytale.service
+systemctl restart hytale
 ```
 
 ### Server stoppen
 
 ```bash
-systemctl stop hytale.service
+systemctl stop hytale
 ```
 
 ### Häufige Probleme
 
-- **Service startet, aber stoppt sofort**: `journalctl -u hytale.service -f` checken (Pfad zur JAR/Assets stimmt oft nicht).
+- **Service startet, aber stoppt sofort**: `journalctl -u hytale -f` checken (Pfad zur JAR/Assets stimmt oft nicht).
 - **Permission denied**: Rechte unter `/opt/hytale-server` prüfen (`chown/chmod` wie oben).
 - **Java fehlt**: `java -version` prüfen, ggf. Temurin neu installieren.
 
