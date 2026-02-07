@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { FaEnvelope, FaDiscord, FaLinkedin, FaTwitch, FaInstagram, FaGithub, FaYoutube } from 'react-icons/fa';
+import { FaEnvelope, FaLinkedin, FaTwitch, FaInstagram, FaGithub, FaYoutube } from 'react-icons/fa';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -19,17 +19,6 @@ export default function Footer() {
                 >
                   <FaEnvelope className="mr-2" />
                   dev@achimsommer.com
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://discord.gg/yourserver"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-blue-400 transition-colors duration-300 flex items-center cursor-pointer"
-                >
-                  <FaDiscord className="mr-2" />
-                  Discord Server
                 </a>
               </li>
             </ul>
@@ -119,7 +108,7 @@ export default function Footer() {
 
         <div className="mt-12 pt-8 border-t border-gray-800 text-center">
           <p className="text-sm">
-            {currentYear} Achim Sommer. Alle Rechte vorbehalten.
+            © {currentYear} Achim Sommer. Alle Rechte vorbehalten.
           </p>
           <div className="mt-2 space-x-4 text-sm">
             <Link

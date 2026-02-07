@@ -19,25 +19,25 @@ const projects: Project[] = [
     title: 'Portfolio Website',
     description: 'Moderne Portfolio-Website mit Next.js 14, TypeScript und Tailwind CSS. Features: YouTube API Integration, 3D Animationen, Dark Mode.',
     technologies: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
-    link: 'https://github.com/yourusername/portfolio',
+    link: 'https://github.com/Achim-Sommer/nextjs-portfolio',
   },
   {
     title: "FiveM Development",
     description: "Entwicklung von hochperformanten FiveM-Systemen mit Lua und JavaScript. Spezialisiert auf Rollenspiel-Server mit komplexen Gameplay-Mechaniken.",
     technologies: ["Lua", "JavaScript", "FiveM", "Gaming"],
-    link: "https://github.com/yourusername/fivem-project",
+    link: "https://github.com/Achim-Sommer",
   },
   {
     title: "YouTube Tutorials",
     description: "Eine Sammlung von Tutorials und Code-Beispielen für die FiveM-Entwicklung. Fokus auf Best Practices und fortgeschrittene Techniken.",
     technologies: ["Tutorial", "FiveM", "Coding", "Education"],
-    link: "https://youtube.com/@yourusername",
+    link: "https://youtube.com/@achimsommer",
   },
 ];
 
 // Dynamically import components
 const DynamicCard = dynamic(() => import('./ui/card').then((mod) => mod.Card), {
-  loading: () => <div className="animate-pulse bg-gray-200 rounded-lg h-96"></div>
+  loading: () => <div className="animate-pulse bg-gray-800 rounded-lg h-96"></div>
 });
 
 export default function ProjectShowcase() {
@@ -58,7 +58,7 @@ export default function ProjectShowcase() {
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project, index) => (
             <motion.div
-              key={index}
+              key={project.title}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

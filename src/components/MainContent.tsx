@@ -3,88 +3,112 @@
 import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import Hero from '@/components/Hero';
-import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import LatestPosts from '@/components/LatestPosts';
+import type { BlogListItem } from '../../lib/blog';
+
+/** Einheitliche Skeleton-Ladekomponente */
+function SectionSkeleton({ height = 'h-[300px]' }: { height?: string }) {
+  return (
+    <div className={`w-full ${height} mx-auto max-w-7xl px-4`}>
+      <div className="h-full rounded-2xl bg-gray-900/50 animate-pulse" />
+    </div>
+  );
+}
 
 // Lazy Loading Components
 const Navbar = dynamic(() => import('@/components/Navbar'), {
-  ssr: false,
+  ssr: true,
   loading: () => <div className="w-full h-[80px] bg-gray-900/50 animate-pulse rounded-lg" />
 });
 
 const AboutMe = dynamic(() => import('@/components/AboutMe'), {
-  loading: () => <LoadingSpinner />,
-  ssr: false
+  loading: () => <SectionSkeleton height="h-[400px]" />,
+  ssr: true
 });
 
 const GitHubFeed = dynamic(() => import('@/components/GitHubRepos'), {
-  loading: () => <div className="w-full h-[300px] bg-gray-900/50 animate-pulse rounded-lg" />,
+  loading: () => <SectionSkeleton height="h-[300px]" />,
   ssr: false
 });
 
 const ProjectShowcase = dynamic(() => import('@/components/ProjectShowcase'), {
-  loading: () => <div className="w-full h-[400px] bg-gray-900/50 animate-pulse rounded-lg" />,
-  ssr: false
+  loading: () => <SectionSkeleton height="h-[400px]" />,
+  ssr: true
 });
 
 const ZapHosting = dynamic(() => import('@/components/ZapHosting'), {
-  loading: () => <div className="w-full h-[400px] bg-gray-900/50 animate-pulse rounded-lg" />,
-  ssr: false
+  loading: () => <SectionSkeleton height="h-[400px]" />,
+  ssr: true
 });
 
 const Skills = dynamic(() => import('@/components/Skills'), {
-  loading: () => <LoadingSpinner />,
-  ssr: false
+  loading: () => <SectionSkeleton height="h-[300px]" />,
+  ssr: true
 });
 
 const Counter = dynamic(() => import('@/components/Counter'), {
-  loading: () => <div className="w-full h-[100px] bg-gray-900/50 animate-pulse rounded-lg" />,
-  ssr: false
+  loading: () => <SectionSkeleton height="h-[100px]" />,
+  ssr: true
 });
 
 const Footer = dynamic(() => import('@/components/Footer'), {
-  loading: () => <div className="w-full h-[200px] bg-gray-900/50 animate-pulse rounded-lg" />,
-  ssr: false
+  loading: () => <SectionSkeleton height="h-[200px]" />,
+  ssr: true
 });
 
-export default function MainContent() {
+interface MainContentProps {
+  latestPosts?: BlogListItem[];
+}
+
+export default function MainContent({ latestPosts }: MainContentProps) {
   return (
     <div className="relative">
-      <main className="flex min-h-screen flex-col items-center justify-between bg-black">
-        <Suspense fallback={<div className="w-full h-[80px] bg-gray-900/50 animate-pulse rounded-lg" />}>
+      <main id="main-content" className="min-h-screen bg-black">
+        <Suspense fallback={<SectionSkeleton height="h-[80px]" />}>
           <Navbar />
         </Suspense>
         
         <Hero />
 
-        <Suspense fallback={<LoadingSpinner />}>
-          <AboutMe />
-        </Suspense>
+        <div className="content-wrapper">
+          <Suspense fallback={<SectionSkeleton height="h-[400px]" />}>
+            <AboutMe />
+          </Suspense>
 
-        <Suspense fallback={<div className="w-full h-[300px] bg-gray-900/50 animate-pulse rounded-lg" />}>
-          <GitHubFeed />
-        </Suspense>
+          <div className="w-full">
+            <Suspense fallback={<SectionSkeleton height="h-[300px]" />}>
+              <Skills />
+            </Suspense>
+          </div>
 
-        <Suspense fallback={<div className="w-full h-[400px] bg-gray-900/50 animate-pulse rounded-lg" />}>
-          <section className="py-20 w-full">
-            <ProjectShowcase />
-          </section>
+          <Suspense fallback={<SectionSkeleton height="h-[400px]" />}>
+            <section className="py-20 w-full">
+              <ZapHosting />
+            </section>
+          </Suspense>
 
-          <section className="py-20 w-full">
-            <ZapHosting />
-          </section>
-        </Suspense>
+          {latestPosts && latestPosts.length > 0 && (
+            <LatestPosts posts={latestPosts} />
+          )}
 
-        <Suspense fallback={<LoadingSpinner />}>
-          <Skills />
-        </Suspense>
+          <Suspense fallback={<SectionSkeleton height="h-[100px]" />}>
+            <Counter />
+          </Suspense>
 
-        <Suspense fallback={<div className="w-full h-[100px] bg-gray-900/50 animate-pulse rounded-lg" />}>
-          <Counter />
-        </Suspense>
+          <Suspense fallback={<SectionSkeleton height="h-[400px]" />}>
+            <section className="py-20 w-full">
+              <ProjectShowcase />
+            </section>
+          </Suspense>
 
-        <Suspense fallback={<div className="w-full h-[200px] bg-gray-900/50 animate-pulse rounded-lg" />}>
-          <Footer />
-        </Suspense>
+          <Suspense fallback={<SectionSkeleton height="h-[300px]" />}>
+            <GitHubFeed />
+          </Suspense>
+
+          <Suspense fallback={<SectionSkeleton height="h-[200px]" />}>
+            <Footer />
+          </Suspense>
+        </div>
       </main>
     </div>
   );

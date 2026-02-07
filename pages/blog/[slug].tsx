@@ -42,6 +42,7 @@ interface FrontMatter {
   title: string;
   description: string;
   date: string;
+  lastModified?: string;
   tags: string[];
   readingTime?: number;
   featured?: boolean;
@@ -98,7 +99,7 @@ export default function BlogPost({ frontMatter, mdxSource, slug, relatedPosts }:
             type: 'article',
             article: {
               publishedTime: frontMatter.date,
-              modifiedTime: frontMatter.date,
+              modifiedTime: frontMatter.lastModified || frontMatter.date,
               authors: ['Achim Sommer'],
               tags: frontMatter.tags,
               section: frontMatter.tags?.[0] ?? 'Technology',
@@ -150,7 +151,7 @@ export default function BlogPost({ frontMatter, mdxSource, slug, relatedPosts }:
         headline={frontMatter.title}
         image={[`${siteUrl}/api/og?title=${encodeURIComponent(frontMatter.title)}&cache=1`]}
         datePublished={frontMatter.date}
-        dateModified={frontMatter.date}
+        dateModified={frontMatter.lastModified || frontMatter.date}
         author={{
           name: 'Achim Sommer',
           url: 'https://achimsommer.com',
@@ -534,6 +535,8 @@ export const getStaticProps: GetStaticProps<BlogPostProps, IParams> = async ({ p
     const { slug } = params;
     const filePath = path.join(process.cwd(), 'content/blog', `${slug}.md`);
     const fileContents = fs.readFileSync(filePath, 'utf8');
+    const fileStat = fs.statSync(filePath);
+    const lastModified = fileStat.mtime.toISOString();
     const { data: frontMatter, content } = matter(fileContents);
     
     const mdxSource = await getCompiledMDX(content);
@@ -543,7 +546,8 @@ export const getStaticProps: GetStaticProps<BlogPostProps, IParams> = async ({ p
       props: {
         frontMatter: {
           ...frontMatter,
-          readingTime: Math.ceil(content.split(' ').length / 200)
+          readingTime: Math.ceil(content.split(' ').length / 200),
+          lastModified: frontMatter.lastModified || lastModified,
         } as FrontMatter,
         mdxSource,
         slug,

@@ -4,8 +4,8 @@
   "description": "Full Stack Developer Portfolio von Achim Sommer - Webentwicklung und FiveM Development",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#1e3a8a",
-  "theme_color": "#1e3a8a",
+  "background_color": "#000000",
+  "theme_color": "#000000",
   "orientation": "portrait",
   "icons": [
     {
@@ -64,20 +64,11 @@
       "description": "Meine Portfolio-Übersicht"
     },
     {
-      "name": "Projekte",
-      "url": "/projects",
-      "description": "Meine Projekte"
+      "name": "Blog",
+      "url": "/blog",
+      "description": "Tutorials & Guides"
     }
   ],
   "categories": ["portfolio", "development", "technology"],
-  "screenshots": [
-    {
-      "src": "/screenshots/desktop.png",
-      "sizes": "1920x1080",
-      "type": "image/png",
-      "platform": "wide",
-      "label": "Desktop Ansicht des Portfolios"
-    }
-  ],
   "prefer_related_applications": false
 }

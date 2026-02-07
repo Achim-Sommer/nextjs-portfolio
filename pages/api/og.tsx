@@ -1,11 +1,16 @@
 import { ImageResponse } from '@vercel/og';
+import type { NextRequest } from 'next/server';
 
 export const config = {
   runtime: 'edge',
 };
 
-export default function handler() {
+export default function handler(req: NextRequest) {
   try {
+    const { searchParams } = new URL(req.url);
+    const title = searchParams.get('title') || 'Achim Sommer';
+    const subtitle = searchParams.get('subtitle') || 'Full Stack Developer';
+
     return new ImageResponse(
       (
         <div
@@ -262,7 +267,7 @@ export default function handler() {
                   color: 'transparent',
                   display: 'flex',
                 }}>
-                  'Achim Sommer'
+                  '{title}'
                 </span>
                 <span style={{ color: '#F8F8F2', display: 'flex' }}>;</span>
               </div>
@@ -288,7 +293,7 @@ export default function handler() {
                   color: '#50FA7B',
                   display: 'flex',
                 }}>
-                  'Full Stack Developer'
+                  '{subtitle}'
                 </span>
                 <span style={{ color: '#F8F8F2', display: 'flex' }}>;</span>
               </div>

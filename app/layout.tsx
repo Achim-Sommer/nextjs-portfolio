@@ -72,10 +72,8 @@ export default function RootLayout({
       <head>
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/icon-512x512.png" />
-        <meta name="viewport" content={`${viewport.width}, initial-scale=${viewport.initialScale}, maximum-scale=${viewport.maximumScale}, user-scalable=${viewport.userScalable}`} />
-        <meta name="theme-color" content={viewport.themeColor} />
       </head>
-      <body className={`bg-gray-900 text-white ${inter.variable}`}>
+      <body className={`bg-gray-900 text-white ${inter.variable}`} suppressHydrationWarning>
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded focus:bg-blue-600 focus:px-4 focus:py-2 focus:text-white"
@@ -163,12 +161,30 @@ export default function RootLayout({
         />
         {umamiUrl && umamiWebsiteId && (
           <Script
-            async
-            src={umamiUrl}
-            data-website-id={umamiWebsiteId}
-            data-auto-track="true"
-            data-domains="achimsommer.com"
+            id="umami-analytics"
             strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `
+                (function() {
+                  function loadUmami() {
+                    if (localStorage.getItem('cookieConsent') === 'accepted') {
+                      if (!document.getElementById('umami-script')) {
+                        var s = document.createElement('script');
+                        s.id = 'umami-script';
+                        s.async = true;
+                        s.src = '${umamiUrl}';
+                        s.setAttribute('data-website-id', '${umamiWebsiteId}');
+                        s.setAttribute('data-auto-track', 'true');
+                        s.setAttribute('data-domains', 'achimsommer.com');
+                        document.head.appendChild(s);
+                      }
+                    }
+                  }
+                  loadUmami();
+                  window.addEventListener('cookie-consent-update', loadUmami);
+                })()
+              `,
+            }}
           />
         )}
         <Providers>

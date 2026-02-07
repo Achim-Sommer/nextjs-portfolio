@@ -36,15 +36,15 @@ export const Spotlight = ({
   }, [mouseX, mouseY, randomOffset.x, randomOffset.y]);
 
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative isolation-auto ${className}`}>
       <motion.div
-        className="absolute inset-0 opacity-0 mix-blend-soft-light bg-gradient-to-r from-blue-500 to-purple-500"
+        className="absolute inset-0 pointer-events-none"
         style={{
           background: `radial-gradient(600px circle at ${spotlightX}px ${spotlightY}px, rgba(120,119,198,0.15), transparent 80%)`,
         }}
       />
       <motion.div
-        className="absolute inset-0 opacity-0 mix-blend-soft-light bg-gradient-to-r from-blue-500 to-purple-500"
+        className="absolute inset-0 pointer-events-none"
         style={{
           background: `radial-gradient(300px circle at ${spotlightX}px ${spotlightY}px, rgba(60,120,198,0.15), transparent 80%)`,
         }}

@@ -6,7 +6,6 @@ import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import Head from 'next/head';
 import '../styles/globals.css';
 import '../styles/gta.css';
-import Script from 'next/script';
 
 // Dynamically import components that are not needed for initial render
 const Layout = dynamic(() => import('../src/components/Layout'), {
@@ -19,14 +18,14 @@ const JsonLd = dynamic(() => import('../src/components/JsonLd'), {
 
 const theme = extendTheme({
   config: {
-    initialColorMode: 'light',
+    initialColorMode: 'dark',
     useSystemColorMode: false,
   },
   styles: {
     global: {
       body: {
-        bg: 'white',
-        color: 'gray.800',
+        bg: '#0f0f0f',
+        color: 'whiteAlpha.900',
       },
     },
   },
@@ -36,17 +35,8 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
       <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
         {generateDefaultSeo(seoConfig)}
       </Head>
-      <Script
-        async
-        src={process.env.NEXT_PUBLIC_UMAMI_URL}
-        data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
-        data-auto-track="true"
-        data-domains="achimsommer.com"
-        strategy="afterInteractive"
-      />
       <JsonLd />
       <Layout>
         <Component {...pageProps} />

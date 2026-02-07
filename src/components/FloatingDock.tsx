@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FaShoppingCart, FaComments, FaGithub, FaLinkedin } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
 
 interface DockItem {
   icon: React.ReactNode;
@@ -12,16 +12,6 @@ interface DockItem {
 
 const dockItems: DockItem[] = [
   {
-    icon: <FaShoppingCart className="w-6 h-6" />,
-    label: 'Shop',
-    href: 'https://shop.achimsommer.com'
-  },
-  {
-    icon: <FaComments className="w-6 h-6" />,
-    label: 'Forum',
-    href: 'https://forum.achimsommer.com'
-  },
-  {
     icon: <FaGithub className="w-6 h-6" />,
     label: 'GitHub',
     href: 'https://github.com/Achim-Sommer'
@@ -30,6 +20,11 @@ const dockItems: DockItem[] = [
     icon: <FaLinkedin className="w-6 h-6" />,
     label: 'LinkedIn',
     href: 'https://www.linkedin.com/in/achim-sommer-b898a2185/'
+  },
+  {
+    icon: <FaInstagram className="w-6 h-6" />,
+    label: 'Instagram',
+    href: 'https://www.instagram.com/achim.sommer'
   }
 ];
 
@@ -79,10 +74,11 @@ export default function FloatingDock() {
         <div className="flex items-center gap-8">
           {dockItems.map((item, index) => (
             <motion.a
-              key={index}
+              key={item.label}
               href={item.href}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={item.label}
               className="relative flex flex-col items-center group"
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}

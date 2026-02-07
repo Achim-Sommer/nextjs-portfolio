@@ -148,7 +148,7 @@ export default function Blog({ posts }: Props) {
                     maxW="3xl"
                     lineHeight="tall"
                   >
-                    Entdecke Artikel �ber Web Development, DevOps und Software Engineering
+                    Entdecke Artikel über Web Development, DevOps und Software Engineering
                   </Text>
                 </VStack>
 

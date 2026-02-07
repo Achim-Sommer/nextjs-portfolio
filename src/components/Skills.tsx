@@ -108,8 +108,8 @@ const skillsData = [
 const SkillsComponent = () => {
   return (
     <section id="skills" className="relative py-20 sm:py-32 bg-black">
-      {/* Header Content mit max-w-7xl */}
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 mb-16">
+      {/* Header Content mit max-w */}
+      <div className="relative mx-auto max-w-[1400px] px-4 sm:px-6 mb-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

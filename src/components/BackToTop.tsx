@@ -7,7 +7,7 @@ export default function BackToTop() {
 
   useEffect(() => {
     const toggleVisibility = () => {
-      if (window.pageYOffset > 300) {
+      if (window.scrollY > 300) {
         setIsVisible(true);
       } else {
         setIsVisible(false);
@@ -33,6 +33,7 @@ export default function BackToTop() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
           onClick={scrollToTop}
+          aria-label="Nach oben scrollen"
           className="fixed bottom-8 right-8 p-3 rounded-full bg-blue-600/20 border border-blue-500/20 backdrop-blur-sm hover:bg-blue-600/30 transition-all duration-300 z-50"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}

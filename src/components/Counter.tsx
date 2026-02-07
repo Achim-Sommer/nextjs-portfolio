@@ -33,8 +33,8 @@ const iconVariants: Variants = {
 
 // Fallback component for error boundary
 const ErrorFallback = ({ error }: { error: Error }) => (
-  <div className="text-red-500 p-4 rounded-lg bg-red-100">
-    <h2 className="font-bold">Something went wrong:</h2>
+  <div className="text-red-400 p-4 rounded-lg bg-red-900/20 border border-red-800/30">
+    <h2 className="font-bold">Etwas ist schiefgelaufen:</h2>
     <pre className="text-sm">{error.message}</pre>
   </div>
 );
@@ -158,7 +158,7 @@ export default function Counter() {
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/80 to-transparent" />
         
         {/* Content */}
-        <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="relative mx-auto max-w-[1400px] px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:max-w-none">
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
               {stats.map((stat, index) => (

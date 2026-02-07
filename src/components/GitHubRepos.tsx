@@ -94,15 +94,34 @@ export default function GitHubRepos() {
 
   if (error) {
     return (
-      <div className="text-center text-red-500 py-10">
-        <p>{error}</p>
-      </div>
+      <section className="py-20 bg-dot-pattern dark:bg-dot-pattern-dark">
+        <div className="max-w-2xl mx-auto px-4 text-center">
+          <div className="rounded-2xl border border-gray-800/60 bg-gradient-to-br from-gray-900 via-gray-900/70 to-black p-10 shadow-2xl">
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-gray-800">
+              <IconBrandGithub className="h-7 w-7 text-gray-400" />
+            </div>
+            <h3 className="text-xl font-semibold text-white">GitHub Projekte</h3>
+            <p className="mt-2 text-sm text-gray-400">
+              Meine Repositories sind gerade nicht verfügbar. Schau direkt auf meinem GitHub Profil vorbei!
+            </p>
+            <a
+              href="https://github.com/Achim-Sommer"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-flex items-center gap-2 rounded-full border border-blue-500/60 px-5 py-2.5 text-sm font-medium text-blue-100 transition hover:-translate-y-0.5 hover:border-blue-400 hover:bg-blue-500/10"
+            >
+              <IconBrandGithub className="h-4 w-4" />
+              GitHub Profil besuchen
+            </a>
+          </div>
+        </div>
+      </section>
     );
   }
 
   return (
     <Spotlight className="py-20 bg-dot-pattern dark:bg-dot-pattern-dark">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <AnimatedText
             text="Meine GitHub Projekte"
@@ -186,7 +205,7 @@ export default function GitHubRepos() {
                     )}
                   </div>
                   <p className="text-gray-300 mb-4 line-clamp-2 text-left">
-                    {repo.description || 'No description available'}
+                    {repo.description || 'Keine Beschreibung verfügbar'}
                   </p>
                   <div className="flex flex-wrap items-center gap-3 mb-4">
                     {repo.language && (
@@ -206,7 +225,7 @@ export default function GitHubRepos() {
                     </div>
                   </div>
                   <p className="text-sm text-gray-400 mb-4 text-left">
-                    Last updated: {new Date(repo.updated_at).toLocaleDateString()}
+                    Zuletzt aktualisiert: {new Date(repo.updated_at).toLocaleDateString('de-DE')}
                   </p>
                   <div className="flex justify-between items-center">
                     <MagneticButton>
@@ -217,7 +236,7 @@ export default function GitHubRepos() {
                           rel="noopener noreferrer"
                           className="flex items-center justify-center gap-2 px-4 py-2"
                         >
-                          View Project
+                          Projekt ansehen
                           <svg
                             className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
                             fill="none"

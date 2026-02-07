@@ -69,6 +69,13 @@ body {
   animation-play-state: paused;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .animate-scroll,
+  .animate-scroll-reverse {
+    animation: none;
+  }
+}
+
 @layer utilities {
   .perspective-1200 {
     perspective: 1200px;

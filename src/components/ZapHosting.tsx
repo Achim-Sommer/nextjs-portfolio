@@ -124,8 +124,8 @@ export default function ZapHosting() {
     <section className="relative py-20 sm:py-32 bg-slate-900">
       <div className="absolute inset-0 bg-gradient-to-b from-slate-900/40 via-slate-900/80 to-slate-900" />
       
-      {/* Header Content mit max-w-7xl */}
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 mb-16">
+      {/* Header Content mit max-w */}
+      <div className="relative mx-auto max-w-[1400px] px-4 sm:px-6 mb-16">
         <div className="text-center">
           <div className="inline-block mb-4">
             <a 
@@ -166,8 +166,8 @@ export default function ZapHosting() {
         </div>
       </div>
 
-      {/* Button Container mit max-w-7xl */}
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 mt-16">
+      {/* Button Container mit max-w */}
+      <div className="relative mx-auto max-w-[1400px] px-4 sm:px-6 mt-16">
         <div className="text-center">
           <a
             href="https://zap-hosting.com/achim"
