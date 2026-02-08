@@ -32,10 +32,10 @@ const iconVariants: Variants = {
 };
 
 // Fallback component for error boundary
-const ErrorFallback = ({ error }: { error: Error }) => (
+const ErrorFallback = ({ error }: { error: unknown }) => (
   <div className="text-red-400 p-4 rounded-lg bg-red-900/20 border border-red-800/30">
     <h2 className="font-bold">Etwas ist schiefgelaufen:</h2>
-    <pre className="text-sm">{error.message}</pre>
+    <pre className="text-sm">{error instanceof Error ? error.message : 'Unbekannter Fehler'}</pre>
   </div>
 );
 
