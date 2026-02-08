@@ -2,7 +2,6 @@
 
 import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
-import Hero from '@/components/Hero';
 import LatestPosts from '@/components/LatestPosts';
 import type { BlogListItem } from '../../lib/blog';
 
@@ -16,6 +15,15 @@ function SectionSkeleton({ height = 'h-[300px]' }: { height?: string }) {
 }
 
 // Lazy Loading Components
+const Hero = dynamic(() => import('@/components/Hero'), {
+  ssr: true,
+  loading: () => (
+    <section className="relative min-h-screen bg-black flex items-center justify-center">
+      <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl text-white">Hey, ich bin Achim</h1>
+    </section>
+  )
+});
+
 const Navbar = dynamic(() => import('@/components/Navbar'), {
   ssr: true,
   loading: () => <div className="w-full h-[80px] bg-gray-900/50 animate-pulse rounded-lg" />
@@ -29,11 +37,6 @@ const AboutMe = dynamic(() => import('@/components/AboutMe'), {
 const GitHubFeed = dynamic(() => import('@/components/GitHubRepos'), {
   loading: () => <SectionSkeleton height="h-[300px]" />,
   ssr: false
-});
-
-const ProjectShowcase = dynamic(() => import('@/components/ProjectShowcase'), {
-  loading: () => <SectionSkeleton height="h-[400px]" />,
-  ssr: true
 });
 
 const ZapHosting = dynamic(() => import('@/components/ZapHosting'), {
@@ -93,12 +96,6 @@ export default function MainContent({ latestPosts }: MainContentProps) {
 
           <Suspense fallback={<SectionSkeleton height="h-[100px]" />}>
             <Counter />
-          </Suspense>
-
-          <Suspense fallback={<SectionSkeleton height="h-[400px]" />}>
-            <section className="py-20 w-full">
-              <ProjectShowcase />
-            </section>
           </Suspense>
 
           <Suspense fallback={<SectionSkeleton height="h-[300px]" />}>

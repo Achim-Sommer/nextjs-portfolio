@@ -10,7 +10,7 @@ const withPWA = require('next-pwa')({
   disable: process.env.NODE_ENV === 'development',
   register: true,
   skipWaiting: true,
-  buildExcludes: [/middleware-manifest\.json$/, /app-build-manifest\.json$/],
+  buildExcludes: [/middleware-manifest\.json$/, /app-build-manifest\.json$/, /dynamic-css-manifest\.json$/],
   dynamicStartUrl: false,
   fallbacks: {
     document: '/offline',
@@ -157,6 +157,7 @@ const nextConfig = {
     optimizePackageImports: [
       '@tabler/icons-react',
       'react-icons',
+      'react-syntax-highlighter',
     ],
     optimisticClientCache: true,
     webVitalsAttribution: ['CLS', 'LCP'],

@@ -5,33 +5,28 @@ import { HeroHighlight, Highlight } from './ui/hero-highlight';
 import dynamic from 'next/dynamic';
 import { useState, useEffect, useCallback, useRef } from 'react';
 
-// Inline Typewriter – kein separater Import, kein framer-motion
+// Inline Typewriter – rein visueller Effekt, Text ist sofort sichtbar für LCP
 const InlineTypewriter = ({ text }: { text: string }) => {
-  const [displayed, setDisplayed] = useState(0);
-  const [started, setStarted] = useState(false);
+  const [displayed, setDisplayed] = useState(text.length); // sofort alles sichtbar
+  const [animating, setAnimating] = useState(false);
   const ref = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setStarted(true); obs.disconnect(); } },
-      { threshold: 0.3 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!started) return;
+    // Typewriter-Animation startet nach Mount als visueller Effekt
+    // Text bleibt für LCP sofort lesbar
+    setDisplayed(0);
+    setAnimating(true);
     let i = 0;
     const id = setInterval(() => {
       i++;
       setDisplayed(i);
-      if (i >= text.length) clearInterval(id);
+      if (i >= text.length) {
+        clearInterval(id);
+        setAnimating(false);
+      }
     }, 80);
     return () => clearInterval(id);
-  }, [started, text]);
+  }, [text]);
 
   return (
     <span ref={ref} className="inline-flex items-center">
@@ -43,7 +38,9 @@ const InlineTypewriter = ({ text }: { text: string }) => {
           {ch === ' ' ? '\u00A0' : ch}
         </span>
       ))}
-      <span className="inline-block w-[2px] h-[1.1em] bg-white ml-0.5 animate-cursor-blink" />
+      {animating && (
+        <span className="inline-block w-[2px] h-[1.1em] bg-white ml-0.5 animate-cursor-blink" />
+      )}
     </span>
   );
 };
@@ -61,13 +58,13 @@ const BinaryBackground = () => (
         key={i}
         className="absolute text-xs text-blue-500 animate-float whitespace-nowrap"
         style={{
-          left: `${Math.random() * 100}%`,
-          top: `${Math.random() * 100}%`,
-          animationDelay: `${Math.random() * 5}s`,
-          animationDuration: `${15 + Math.random() * 10}s`
+          left: `${((i * 17 + 3) % 100)}%`,
+          top: `${((i * 23 + 7) % 100)}%`,
+          animationDelay: `${(i * 1.3) % 5}s`,
+          animationDuration: `${15 + (i * 2.7) % 10}s`
         }}
       >
-        {Math.random() > 0.5 ? '1' : '0'}
+        {i % 2 === 0 ? '1' : '0'}
       </div>
     ))}
   </div>
@@ -145,7 +142,7 @@ const Hero: React.FC = () => {
           <div className="text-center">
             <div className="inline-block">
               <h1 className="mb-4 text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
-                {/* Conditional Rendering basierend auf Bildschirmgröße */}
+                {/* Mobile: sofort sichtbar für LCP, Desktop: Typewriter-Effekt */}
                 <span className="block sm:hidden text-white">
                   Hey, ich bin Achim
                 </span>

@@ -35,6 +35,7 @@ const CookieBanner = () => {
           exit={{ y: 100, opacity: 0 }}
           transition={{ type: "spring", stiffness: 260, damping: 20 }}
           className="fixed bottom-8 left-0 right-0 mx-auto w-[90%] max-w-4xl z-50 px-4"
+          style={{ containIntrinsicSize: '0 180px', contentVisibility: 'visible' }}
           role="dialog"
           aria-modal="true"
           aria-label="Cookie-Einstellungen"

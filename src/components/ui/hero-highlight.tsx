@@ -1,7 +1,7 @@
 "use client";
 import { cn } from "@/utils/cn";
-import { motion, useScroll, useTransform } from "framer-motion";
-import React, { useRef } from "react";
+import { motion } from "framer-motion";
+import React from "react";
 
 export const Highlight = ({
   children,
@@ -10,27 +10,15 @@ export const Highlight = ({
   children: React.ReactNode;
   className?: string;
 }) => {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-
-  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
-  const y = useTransform(scrollYProgress, [0.1, 0.5, 0.9], ["40%", "0%", "-40%"]);
-
   return (
-    <motion.span
-      ref={ref}
+    <span
       className={cn("relative inline-block", className)}
-      style={{ opacity }}
     >
       {children}
-      <motion.div
-        style={{ y }}
+      <div
         className="absolute -inset-x-2 -inset-y-1 bg-neutral-400/20 dark:bg-neutral-950/[0.2] -z-10 rounded-lg"
-      ></motion.div>
-    </motion.span>
+      ></div>
+    </span>
   );
 };
 
