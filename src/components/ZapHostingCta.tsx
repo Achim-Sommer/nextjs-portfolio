@@ -1,15 +1,5 @@
 'use client';
 
-import {
-  Box,
-  Button,
-  HStack,
-  Icon,
-  Stack,
-  Text,
-  VStack,
-  useColorModeValue,
-} from '@chakra-ui/react';
 import { FiGift, FiExternalLink } from 'react-icons/fi';
 import Image from 'next/image';
 
@@ -38,41 +28,23 @@ export default function ZapHostingCta({
   imageWidth = 280,
   imageHeight = 287,
 }: ZapHostingCtaProps) {
-  const bgColor = useColorModeValue('gray.800', 'gray.800');
-  const borderColor = useColorModeValue('gray.700', 'gray.700');
-  const textColor = useColorModeValue('gray.100', 'gray.100');
-
   const resolvedImageSrc = imageSrc ?? (href.includes('/hytale') ? '/img/blog/hytale-character.png' : undefined);
 
   return (
-    <Box
-      my={8}
-      bg={bgColor}
-      borderRadius="lg"
-      border="1px solid"
-      borderColor={borderColor}
-      p={[4, 6]}
-      position="relative"
-      overflow="hidden"
-      _before={{
-        content: '""',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        height: '2px',
-        background: `linear-gradient(90deg, ${ZAP_GREEN} 0%, ${ZAP_GREEN}80 100%)`,
-      }}
+    <div
+      className="my-8 bg-gray-800 rounded-lg border border-gray-700 p-4 md:p-6 relative overflow-hidden"
     >
-      <VStack align="stretch" spacing={4} position="relative" zIndex={1}>
-        <Stack direction={["column", "row"]} justify="space-between" spacing={[4, 8]} align={["stretch", "center"]}>
-          <HStack spacing={4} align="center" flex={1} minW={0}>
+      {/* Green gradient top border (replaces _before pseudo) */}
+      <div
+        className="absolute top-0 left-0 right-0 h-[2px]"
+        style={{ background: `linear-gradient(90deg, ${ZAP_GREEN} 0%, ${ZAP_GREEN}80 100%)` }}
+      />
+
+      <div className="flex flex-col gap-4 relative z-[1]">
+        <div className="flex flex-col md:flex-row justify-between gap-4 md:gap-8 items-stretch md:items-center">
+          <div className="flex items-center gap-4 flex-1 min-w-0">
             {resolvedImageSrc ? (
-              <Box
-                flexShrink={0}
-                display={{ base: 'none', md: 'block' }}
-                pointerEvents="none"
-              >
+              <div className="shrink-0 hidden md:block pointer-events-none">
                 <Image
                   src={resolvedImageSrc}
                   alt={imageAlt}
@@ -81,50 +53,40 @@ export default function ZapHostingCta({
                   style={{ height: '120px', width: 'auto', objectFit: 'contain' }}
                   priority={false}
                 />
-              </Box>
+              </div>
             ) : null}
 
-            <VStack align="start" spacing={1} minW={0} flex={1}>
-              <Text color={textColor} fontSize={["md", "lg"]} fontWeight="bold" fontFamily="mono">
+            <div className="flex flex-col gap-1 min-w-0 flex-1 items-start">
+              <p className="text-gray-100 text-base md:text-lg font-bold font-mono">
                 {title}
-              </Text>
-              <Text color={textColor} fontSize={["sm", "md"]} opacity={0.9}>
+              </p>
+              <p className="text-gray-100 text-sm md:text-base opacity-90">
                 {description}
-              </Text>
+              </p>
 
-              <HStack spacing={2} pt={2}>
-                <Icon as={FiGift} color={ZAP_GREEN} />
-                <Text color={textColor} fontSize={["xs", "sm"]}>
-                  Rabattcode: <Text as="span" fontFamily="mono" fontWeight="bold">{couponCode}</Text> (20% sparen)
-                </Text>
-              </HStack>
-            </VStack>
-          </HStack>
+              <div className="flex items-center gap-2 pt-2">
+                <FiGift style={{ color: ZAP_GREEN }} className="shrink-0" />
+                <p className="text-gray-100 text-xs md:text-sm">
+                  Rabattcode: <span className="font-mono font-bold">{couponCode}</span> (20% sparen)
+                </p>
+              </div>
+            </div>
+          </div>
 
-          <Button
-            as="a"
+          <a
             href={href}
             target="_blank"
             rel="sponsored noopener noreferrer"
-            bg={ZAP_GREEN}
-            color="white"
-            sx={{
-              color: 'white !important',
-              '&:link': { color: 'white !important' },
-              '&:visited': { color: 'white !important' },
-              '&:hover': { color: 'white !important' },
-              '&:active': { color: 'white !important' },
-            }}
-            _hover={{ bg: `${ZAP_GREEN}90`, textDecoration: 'none' }}
-            _active={{ bg: `${ZAP_GREEN}85` }}
-            rightIcon={<Icon as={FiExternalLink} color="currentColor" />}
-            size={["sm", "md"]}
-            alignSelf={{ base: 'flex-start', md: 'center' }}
+            className="inline-flex items-center gap-2 self-start md:self-center px-3 py-1.5 md:px-4 md:py-2 text-sm md:text-base text-white font-semibold rounded-md no-underline hover:no-underline transition-colors shrink-0"
+            style={{ backgroundColor: ZAP_GREEN, color: 'white' }}
+            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = `${ZAP_GREEN}90`)}
+            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = ZAP_GREEN)}
           >
             {buttonText}
-          </Button>
-        </Stack>
-      </VStack>
-    </Box>
+            <FiExternalLink className="inline-block" />
+          </a>
+        </div>
+      </div>
+    </div>
   );
 }

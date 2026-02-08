@@ -2,8 +2,8 @@
 import { useState, useEffect, useRef, lazy, Suspense, type ReactNode } from 'react';
 import { AnimatedText } from './ui/animated-text';
 import { motion } from 'framer-motion';
-import * as VscIcons from 'react-icons/vsc';
-import * as SiIcons from 'react-icons/si';
+import { VscFiles, VscSearch, VscSourceControl, VscDebugAlt, VscExtensions } from 'react-icons/vsc';
+import { SiTypescript, SiMarkdown, SiJson, SiReact } from 'react-icons/si';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import typescript from 'react-syntax-highlighter/dist/cjs/languages/prism/typescript';
 import { AboutNetworkBackground } from './ui/about-network-background';
@@ -310,7 +310,7 @@ Sprachen: Python, JavaScript, Lua`
     {
       id: 'about.tsx',
       title: 'about.tsx',
-      icon: <SiIcons.SiTypescript className="text-blue-400" />,
+      icon: <SiTypescript className="text-blue-400" />,
       content: (
         <Suspense fallback={<div className="p-4 text-gray-400">Lade about.tsx...</div>}>
           <AboutTab />
@@ -320,7 +320,7 @@ Sprachen: Python, JavaScript, Lua`
     {
       id: 'skills.md',
       title: 'skills.md',
-      icon: <SiIcons.SiMarkdown className="text-[#519aba]" />,
+      icon: <SiMarkdown className="text-[#519aba]" />,
       content: (
         <Suspense fallback={<div className="p-4 text-gray-400">Lade skills.md...</div>}>
           <SkillsTab />
@@ -330,7 +330,7 @@ Sprachen: Python, JavaScript, Lua`
     {
       id: 'projects.json',
       title: 'projects.json',
-      icon: <SiIcons.SiJson className="text-yellow-500" />,
+      icon: <SiJson className="text-yellow-500" />,
       content: (
         <Suspense fallback={<div className="p-4 text-gray-400">Lade projects.json...</div>}>
           <ProjectsTab />
@@ -340,7 +340,7 @@ Sprachen: Python, JavaScript, Lua`
     {
       id: 'experience.tsx',
       title: 'experience.tsx',
-      icon: <SiIcons.SiReact className="text-[#61dafb]" />,
+      icon: <SiReact className="text-[#61dafb]" />,
       content: (
         <Suspense fallback={<div className="p-4 text-gray-400">Lade experience.tsx...</div>}>
           <ExperienceTab />
@@ -351,11 +351,11 @@ Sprachen: Python, JavaScript, Lua`
 
   // Definiere die Sidebar-Items mit VS Code Icons
   const sidebarItems: SideBarItem[] = [
-    { id: 'explorer', icon: <VscIcons.VscFiles className="w-5 h-5" />, label: 'Explorer' },
-    { id: 'search', icon: <VscIcons.VscSearch className="w-5 h-5" />, label: 'Suche' },
-    { id: 'git', icon: <VscIcons.VscSourceControl className="w-5 h-5" />, label: 'Quellcode-Verwaltung' },
-    { id: 'debug', icon: <VscIcons.VscDebugAlt className="w-5 h-5" />, label: 'Ausführen und Debuggen' },
-    { id: 'extensions', icon: <VscIcons.VscExtensions className="w-5 h-5" />, label: 'Erweiterungen' }
+    { id: 'explorer', icon: <VscFiles className="w-5 h-5" />, label: 'Explorer' },
+    { id: 'search', icon: <VscSearch className="w-5 h-5" />, label: 'Suche' },
+    { id: 'git', icon: <VscSourceControl className="w-5 h-5" />, label: 'Quellcode-Verwaltung' },
+    { id: 'debug', icon: <VscDebugAlt className="w-5 h-5" />, label: 'Ausführen und Debuggen' },
+    { id: 'extensions', icon: <VscExtensions className="w-5 h-5" />, label: 'Erweiterungen' }
   ];
 
   const sidebarOpen = true;

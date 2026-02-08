@@ -1,57 +1,36 @@
 'use client';
 
 import Link from 'next/link';
-import { Box, Container, Flex, Button, useColorModeValue } from '@chakra-ui/react';
+import { usePathname } from 'next/navigation';
 import { AiOutlineArrowLeft, AiOutlineHome } from 'react-icons/ai';
 
 export default function BlogNavbar() {
-  const bgColor = useColorModeValue('gray.900', 'gray.900');
-  const borderColor = useColorModeValue('gray.800', 'gray.800');
+  const pathname = usePathname();
 
   return (
-    <Box 
-      as="nav" 
-      position="fixed"
-      top={0}
-      left={0}
-      right={0}
-      h="4rem"
-      zIndex={1000}
-      bg={bgColor}
-      borderBottom="1px"
-      borderColor={borderColor}
-      backdropFilter="blur(8px)"
-      display="flex"
-      alignItems="center"
-    >
-      <Container maxW="6xl">
-        <Flex justify="space-between" align="center">
-          <Flex gap={4}>
-            <Link href="/" passHref>
-              <Button
-                leftIcon={<AiOutlineHome />}
-                variant="ghost"
-                color="blue.400"
-                _hover={{ bg: 'whiteAlpha.100' }}
-              >
-                Home
-              </Button>
+    <nav className="fixed top-0 left-0 right-0 h-16 z-[1000] bg-gray-900 border-b border-gray-800 backdrop-blur-lg flex items-center">
+      <div className="max-w-6xl mx-auto w-full px-4">
+        <div className="flex justify-between items-center">
+          <div className="flex gap-4">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 px-4 py-2 text-blue-400 hover:bg-white/10 rounded-md transition-colors"
+            >
+              <AiOutlineHome />
+              Home
             </Link>
-            {window.location.pathname !== '/blog' && (
-              <Link href="/blog" passHref>
-                <Button
-                  leftIcon={<AiOutlineArrowLeft />}
-                  variant="ghost"
-                  color="blue.400"
-                  _hover={{ bg: 'whiteAlpha.100' }}
-                >
-                  Back to Blog
-                </Button>
+            {pathname !== '/blog' && (
+              <Link
+                href="/blog"
+                className="inline-flex items-center gap-2 px-4 py-2 text-blue-400 hover:bg-white/10 rounded-md transition-colors"
+              >
+                <AiOutlineArrowLeft />
+                Back to Blog
               </Link>
             )}
-          </Flex>
-        </Flex>
-      </Container>
-    </Box>
+          </div>
+        </div>
+      </div>
+    </nav>
   );
 }

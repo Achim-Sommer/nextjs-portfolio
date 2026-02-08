@@ -1,4 +1,3 @@
-import { Box, HStack, Text, useColorModeValue, Circle } from '@chakra-ui/react';
 import CopyButton from './CopyButton';
 
 interface CodeBlockProps {
@@ -6,64 +5,24 @@ interface CodeBlockProps {
 }
 
 const CodeBlock = ({ children }: CodeBlockProps) => {
-  const bgColor = useColorModeValue('gray.800', 'gray.800');
-  const borderColor = useColorModeValue('gray.700', 'gray.700');
-  const textColor = useColorModeValue('gray.100', 'gray.100');
-  const lineNumberColor = useColorModeValue('gray.500', 'gray.500');
-
-  // Split the code into lines and add line numbers
   const normalizedCode = children.replace(/\r\n/g, '\n').replace(/\n+$/, '');
   const lines = normalizedCode.split('\n');
   const maxLineNumberWidth = String(lines.length).length;
 
   return (
-    <Box
-      position="relative"
-      bg={bgColor}
-      borderRadius="lg"
-      overflow="hidden"
-      border="1px solid"
-      borderColor={borderColor}
-      mb={6}
-      boxShadow="lg"
-      mx={['-1rem', 0]}
-    >
+    <div className="relative bg-gray-800 rounded-lg overflow-hidden border border-gray-700 mb-6 shadow-lg mx-[-1rem] sm:mx-0">
       {/* macOS-style window controls */}
-      <HStack
-        bg="gray.900"
-        px={[2, 4]}
-        py={[2, 3]}
-        borderBottom="1px"
-        borderColor={borderColor}
-        spacing={[1.5, 2]}
-        justify="space-between"
-      >
-        <HStack spacing={[1.5, 2]}>
-          <Circle size={['2.5', '3']} bg="red.500" />
-          <Circle size={['2.5', '3']} bg="yellow.500" />
-          <Circle size={['2.5', '3']} bg="green.500" />
-        </HStack>
-
+      <div className="flex items-center justify-between bg-gray-900 px-2 sm:px-4 py-2 sm:py-3 border-b border-gray-700">
+        <div className="flex gap-1.5 sm:gap-2">
+          <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500" />
+          <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-500" />
+          <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500" />
+        </div>
         <CopyButton code={normalizedCode} />
-      </HStack>
+      </div>
 
       {/* Code content */}
-      <Box
-        p={[3, 6]}
-        overflowX="auto"
-        maxW="100vw"
-        sx={{
-          '&::-webkit-scrollbar': {
-            height: '8px',
-            borderRadius: '8px',
-            backgroundColor: `rgba(0, 0, 0, 0.05)`,
-          },
-          '&::-webkit-scrollbar-thumb': {
-            borderRadius: '8px',
-            backgroundColor: `rgba(128, 128, 128, 0.3)`,
-          },
-        }}
-      >
+      <div className="p-3 sm:p-6 overflow-x-auto max-w-[100vw] scrollbar-thin scrollbar-thumb-gray-600">
         <pre
           style={{
             margin: 0,
@@ -77,38 +36,28 @@ const CodeBlock = ({ children }: CodeBlockProps) => {
           }}
         >
           {lines.map((line, i) => (
-            <Box key={i} display="flex" mb="1">
-              <Text
-                as="span"
-                color={lineNumberColor}
-                userSelect="none"
-                w={`${maxLineNumberWidth + 1}ch`}
-                textAlign="right"
-                pr={[2, 4]}
-                fontFamily="inherit"
-                fontSize="inherit"
+            <div key={i} className="flex mb-px">
+              <span
+                className="text-gray-500 select-none text-right pr-2 sm:pr-4"
+                style={{
+                  width: `${maxLineNumberWidth + 1}ch`,
+                  fontFamily: 'inherit',
+                  fontSize: 'inherit',
+                }}
               >
                 {i + 1}
-              </Text>
-              <Text
-                as="span"
-                color={textColor}
-                pl={[2, 4]}
-                borderLeft="1px solid"
-                borderColor={borderColor}
-                width="100%"
-                fontFamily="inherit"
-                fontSize="inherit"
-                overflowX="auto"
-                whiteSpace="pre"
+              </span>
+              <span
+                className="text-gray-100 pl-2 sm:pl-4 border-l border-gray-700 w-full whitespace-pre overflow-x-auto"
+                style={{ fontFamily: 'inherit', fontSize: 'inherit' }}
               >
                 {line || '\n'}
-              </Text>
-            </Box>
+              </span>
+            </div>
           ))}
         </pre>
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 };
 

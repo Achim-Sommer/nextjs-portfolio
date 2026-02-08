@@ -1,5 +1,11 @@
 import { cn } from "@/utils/cn";
-import React from "react";
+import React, { useState } from "react";
+
+// Deterministic seed-based random to avoid hydration mismatch
+function seededRandom(seed: number) {
+  const x = Math.sin(seed) * 10000;
+  return x - Math.floor(x);
+}
 
 export const Meteors = ({
   number = 20,
@@ -8,11 +14,20 @@ export const Meteors = ({
   number?: number;
   className?: string;
 }) => {
-  const meteors = new Array(number || 20).fill(true);
+  const count = number || 20;
+
+  // Generate stable random values using a deterministic seed
+  const [meteorStyles] = useState(() =>
+    Array.from({ length: count }, (_, idx) => ({
+      left: Math.floor(seededRandom(idx * 3 + 1) * 800 - 400) + "px",
+      animationDelay: (seededRandom(idx * 3 + 2) * 0.6 + 0.2).toFixed(4) + "s",
+      animationDuration: Math.floor(seededRandom(idx * 3 + 3) * 8 + 2) + "s",
+    }))
+  );
 
   return (
     <>
-      {meteors.map((el, idx) => (
+      {meteorStyles.map((style, idx) => (
         <span
           key={"meteor" + idx}
           className={cn(
@@ -22,9 +37,9 @@ export const Meteors = ({
           )}
           style={{
             top: 0,
-            left: Math.floor(Math.random() * (400 - -400) + -400) + "px",
-            animationDelay: Math.random() * (0.8 - 0.2) + 0.2 + "s",
-            animationDuration: Math.floor(Math.random() * (10 - 2) + 2) + "s",
+            left: style.left,
+            animationDelay: style.animationDelay,
+            animationDuration: style.animationDuration,
           }}
         ></span>
       ))}

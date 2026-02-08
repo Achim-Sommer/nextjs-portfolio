@@ -1,7 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Box, Flex, Text } from "@chakra-ui/react";
 import { HoverEffect } from "./hover-effect";
 import { ModernShare } from "./modern-share";
 import { MacWindow } from "./mac-window";
@@ -26,10 +25,10 @@ export const BlogCard = ({ post }: BlogCardProps) => {
   const postUrl = `${process.env.NEXT_PUBLIC_SITE_URL || ""}${router.basePath}/blog/${post.slug}`;
 
   return (
-    <Box position="relative">
-      <Box position="absolute" top={14} right={4} zIndex={20}>
+    <div className="relative">
+      <div className="absolute top-14 right-4 z-20">
         <ModernShare url={postUrl} title={post.frontmatter.title} />
-      </Box>
+      </div>
       <Link href={`/blog/${post.slug}`}>
         <HoverEffect>
           <motion.div
@@ -37,31 +36,19 @@ export const BlogCard = ({ post }: BlogCardProps) => {
             className="relative overflow-hidden rounded-xl border border-gray-800 bg-gray-900/50"
           >
             <MacWindow />
-            <Box p={4}>
-              <Flex direction="column" gap={4} height="full" minH="200px">
-                <Box flex="1">
-                  <Text 
-                    className="mb-2 text-xl font-bold text-gray-100"
-                    noOfLines={2}
-                    minH="3.5rem"
-                  >
+            <div className="p-4">
+              <div className="flex flex-col gap-4 h-full min-h-[200px]">
+                <div className="flex-1">
+                  <p className="mb-2 text-xl font-bold text-gray-100 line-clamp-2 min-h-[3.5rem]">
                     {post.frontmatter.title}
-                  </Text>
-                  <Text 
-                    className="text-sm text-gray-400"
-                    noOfLines={2}
-                  >
+                  </p>
+                  <p className="text-sm text-gray-400 line-clamp-2">
                     {post.frontmatter.description}
-                  </Text>
-                </Box>
-                <Box mt="auto">
-                  <Flex 
-                    wrap="wrap" 
-                    gap={2} 
-                    alignItems="center" 
-                    justifyContent="space-between"
-                  >
-                    <Flex gap={2} flexWrap="wrap" flex="1">
+                  </p>
+                </div>
+                <div className="mt-auto">
+                  <div className="flex flex-wrap gap-2 items-center justify-between">
+                    <div className="flex gap-2 flex-wrap flex-1">
                       {post.frontmatter.tags?.map((tag) => (
                         <span
                           key={tag}
@@ -70,17 +57,17 @@ export const BlogCard = ({ post }: BlogCardProps) => {
                           {tag}
                         </span>
                       ))}
-                    </Flex>
-                    <Text className="text-sm text-gray-500 whitespace-nowrap">
+                    </div>
+                    <p className="text-sm text-gray-500 whitespace-nowrap">
                       {post.frontmatter.readingTime} min read
-                    </Text>
-                  </Flex>
-                </Box>
-              </Flex>
-            </Box>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </motion.div>
         </HoverEffect>
       </Link>
-    </Box>
+    </div>
   );
 };

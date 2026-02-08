@@ -10,9 +10,6 @@
     "generate-pwa-assets": "node scripts/generate-pwa-assets.js"
   },
   "dependencies": {
-    "@chakra-ui/react": "^2.10.9",
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
     "@octokit/rest": "^21.0.2",
     "@react-three/drei": "^9.117.0",
     "@react-three/fiber": "^8.17.10",
@@ -24,7 +21,7 @@
     "axios": "^1.8.2",
     "clsx": "^2.1.1",
     "critters": "^0.0.25",
-    "framer-motion": "^12.23.26",
+    "framer-motion": "^11.18.2",
     "gray-matter": "^4.0.3",
     "lru-cache": "^11.0.2",
     "mini-svg-data-uri": "^1.4.4",
@@ -61,6 +58,7 @@
     "@typescript-eslint/eslint-plugin": "^8.50.0",
     "@typescript-eslint/parser": "^8.50.0",
     "autoprefixer": "^10.0.1",
+    "baseline-browser-mapping": "^2.9.19",
     "cross-env": "^7.0.3",
     "css-minimizer-webpack-plugin": "^7.0.0",
     "cssnano": "^7.0.6",

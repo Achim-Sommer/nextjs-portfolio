@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Box, IconButton, useClipboard, useToast, Tooltip } from "@chakra-ui/react";
 import { FiShare2, FiTwitter, FiLinkedin, FiMail, FiCopy } from "react-icons/fi";
 
 interface ModernShareProps {
@@ -35,42 +34,34 @@ const shareOptions = [
 
 export const ModernShare = ({ url, title }: ModernShareProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { onCopy } = useClipboard(url);
-  const toast = useToast();
+  const [copied, setCopied] = useState(false);
 
-  const handleShare = (option: typeof shareOptions[0]) => {
+  const handleShare = (option: (typeof shareOptions)[0]) => {
     if (option.getUrl) {
       window.open(option.getUrl(url, title), "_blank");
     }
   };
 
-  const handleCopy = () => {
-    onCopy();
-    toast({
-      title: "Link kopiert!",
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-      position: "bottom-right",
-    });
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Fallback: do nothing
+    }
   };
 
   return (
-    <Box position="relative" className="share-button-container">
-      <IconButton
+    <div className="share-button-container relative">
+      <button
         aria-label="Share"
-        icon={<FiShare2 />}
-        variant="ghost"
-        color="white"
-        colorScheme="whiteAlpha"
+        title="Share"
         onClick={() => setIsOpen(!isOpen)}
-        className="share-button"
-        _hover={{
-          bg: "blue.900/30",
-          transform: "scale(1.1)",
-        }}
-        transition="all 0.2s"
-      />
+        className="share-button inline-flex items-center justify-center rounded-md bg-transparent p-2 text-white transition-all duration-200 hover:scale-110 hover:bg-blue-900/30"
+      >
+        <FiShare2 />
+      </button>
 
       <AnimatePresence>
         {isOpen && (
@@ -79,59 +70,38 @@ export const ModernShare = ({ url, title }: ModernShareProps) => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 10 }}
             transition={{ duration: 0.2 }}
-            style={{
-              position: "absolute",
-              top: "calc(100% + 8px)",
-              right: 0,
-              zIndex: 50,
-              display: "flex",
-              gap: "0.5rem",
-              background: "rgba(23, 25, 35, 0.8)",
-              backdropFilter: "blur(10px)",
-              padding: "0.75rem",
-              borderRadius: "1rem",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
-            }}
+            className="absolute right-0 top-[calc(100%+8px)] z-50 flex gap-2 rounded-2xl border border-white/10 bg-[rgba(23,25,35,0.8)] p-3 backdrop-blur-[10px]"
           >
             {shareOptions.map((option) => (
-              <Tooltip 
-                key={option.name} 
-                label={option.name}
-                placement="bottom"
-              >
-                <IconButton
-                  aria-label={option.name}
-                  icon={<option.icon />}
-                  variant="ghost"
-                  color="white"
-                  onClick={() => handleShare(option)}
-                  _hover={{
-                    bg: `${option.color}33`,
-                    color: option.color,
-                    transform: "translateY(-2px)",
-                  }}
-                  transition="all 0.2s"
-                />
-              </Tooltip>
-            ))}
-            <Tooltip label="Copy Link" placement="bottom">
-              <IconButton
-                aria-label="Copy Link"
-                icon={<FiCopy />}
-                variant="ghost"
-                color="white"
-                onClick={handleCopy}
-                _hover={{
-                  bg: "purple.900/30",
-                  color: "purple.400",
-                  transform: "translateY(-2px)",
+              <button
+                key={option.name}
+                aria-label={option.name}
+                title={option.name}
+                onClick={() => handleShare(option)}
+                className="inline-flex items-center justify-center rounded-md bg-transparent p-2 text-white transition-all duration-200 hover:-translate-y-0.5"
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = `${option.color}33`;
+                  e.currentTarget.style.color = option.color;
                 }}
-                transition="all 0.2s"
-              />
-            </Tooltip>
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = "transparent";
+                  e.currentTarget.style.color = "white";
+                }}
+              >
+                <option.icon />
+              </button>
+            ))}
+            <button
+              aria-label="Copy Link"
+              title={copied ? "Link kopiert!" : "Copy Link"}
+              onClick={handleCopy}
+              className="inline-flex items-center justify-center rounded-md bg-transparent p-2 text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-purple-900/30 hover:text-purple-400"
+            >
+              <FiCopy />
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
-    </Box>
+    </div>
   );
 };

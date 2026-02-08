@@ -1,6 +1,5 @@
 import React from 'react';
 import { MDXRemote } from 'next-mdx-remote';
-import { Box, Heading, Text, Container } from '@chakra-ui/react';
 
 interface BlogPostProps {
   source: any;
@@ -13,38 +12,17 @@ interface BlogPostProps {
 
 const BlogPost: React.FC<BlogPostProps> = ({ source, frontMatter }) => {
   return (
-    <Container 
-      maxW="container.md" 
-      py={8}
-      sx={{
-        '& > *': {
-          maxWidth: '100% !important',
-          overflow: 'hidden',
-        }
-      }}
-    >
-      <Box 
-        as="article"
-        width="100%"
-        maxWidth="100%"
-      >
-        <Heading as="h1" mb={4}>{frontMatter.title}</Heading>
-        <Text color="gray.600" mb={8}>
-          {new Date(frontMatter.date).toLocaleDateString()}
-        </Text>
-        <Box 
-          className="prose prose-lg markdown-content"
-          sx={{
-            '& > *': {
-              maxWidth: '100% !important',
-              overflow: 'hidden',
-            }
-          }}
-        >
+    <div className="max-w-3xl mx-auto py-8 [&>*]:max-w-full [&>*]:overflow-hidden">
+      <article className="w-full max-w-full">
+        <h1 className="text-3xl font-bold mb-4 text-white">{frontMatter.title}</h1>
+        <p className="text-gray-400 mb-8">
+          {new Date(frontMatter.date).toLocaleDateString('de-DE')}
+        </p>
+        <div className="prose prose-lg prose-invert max-w-none markdown-content [&>*]:max-w-full [&>*]:overflow-hidden">
           <MDXRemote {...source} />
-        </Box>
-      </Box>
-    </Container>
+        </div>
+      </article>
+    </div>
   );
 };
 

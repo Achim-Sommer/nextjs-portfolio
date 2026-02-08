@@ -1,12 +1,4 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
-import {
-  Box,
-  List,
-  ListItem,
-  Link,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react';
 
 interface TOCItem {
   id: string;
@@ -111,55 +103,37 @@ export const TableOfContents = () => {
     }
   }, []);
 
-  const linkColor = useColorModeValue('gray.600', 'gray.400');
-  const activeLinkColor = useColorModeValue('blue.500', 'blue.300');
-  const hoverColor = useColorModeValue('blue.600', 'blue.400');
-
   if (headings.length === 0) return null;
 
   return (
-    <Box
-      as="nav"
+    <nav
       aria-label="Table of Contents"
-      position="sticky"
-      top="2rem"
-      maxHeight="calc(100vh - 4rem)"
-      overflowY="auto"
-      className="toc-container"
-      ml="-12rem"
-      display={{ base: 'none', xl: 'block' }}
-      width="10rem"
+      className="toc-container sticky top-8 max-h-[calc(100vh-4rem)] overflow-y-auto -ml-48 hidden xl:block w-40"
     >
-      <Text
-        as="h2"
-        fontSize="sm"
-        fontWeight="bold"
-        mb={4}
-        color="white"
-      >
+      <h2 className="text-sm font-bold mb-4 text-white">
         Inhaltsverzeichnis
-      </Text>
-      <List spacing={2}>
+      </h2>
+      <ul className="space-y-2">
         {headings.map((heading) => (
-          <ListItem
+          <li
             key={`toc-${heading.id}`}
-            pl={(heading.level - 2) * 4}
-            lineHeight="1.4"
-            transition="all 0.2s"
+            style={{ paddingLeft: `${(heading.level - 2) * 16}px` }}
+            className="leading-snug transition-all duration-200"
           >
-            <Link
+            <a
               href={`#${heading.id}`}
-              color={activeId === heading.id ? activeLinkColor : linkColor}
-              _hover={{ color: hoverColor }}
-              fontWeight={activeId === heading.id ? 'medium' : 'normal'}
               onClick={(e) => handleClick(e, heading.id)}
-              transition="all 0.2s"
+              className={`transition-all duration-200 hover:text-blue-400 ${
+                activeId === heading.id
+                  ? 'text-blue-300 font-medium'
+                  : 'text-gray-400 font-normal'
+              }`}
             >
               {heading.text}
-            </Link>
-          </ListItem>
+            </a>
+          </li>
         ))}
-      </List>
-    </Box>
+      </ul>
+    </nav>
   );
 };

@@ -3,16 +3,50 @@
 import * as React from 'react';
 import { HeroHighlight, Highlight } from './ui/hero-highlight';
 import dynamic from 'next/dynamic';
-import { Suspense, useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 
-// Dynamically import TypewriterEffectSmooth with no SSR
-const TypewriterEffectSmooth = dynamic(
-  () => import('./ui/typewriter-effect').then(mod => mod.TypewriterEffectSmooth),
-  { 
-    ssr: false,
-    loading: () => <div className="h-[1.2em] bg-transparent">Loading...</div>
-  }
-);
+// Inline Typewriter – kein separater Import, kein framer-motion
+const InlineTypewriter = ({ text }: { text: string }) => {
+  const [displayed, setDisplayed] = useState(0);
+  const [started, setStarted] = useState(false);
+  const ref = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setStarted(true); obs.disconnect(); } },
+      { threshold: 0.3 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!started) return;
+    let i = 0;
+    const id = setInterval(() => {
+      i++;
+      setDisplayed(i);
+      if (i >= text.length) clearInterval(id);
+    }, 80);
+    return () => clearInterval(id);
+  }, [started, text]);
+
+  return (
+    <span ref={ref} className="inline-flex items-center">
+      {text.split('').map((ch, idx) => (
+        <span
+          key={idx}
+          className={`inline-block transition-opacity duration-75 ${idx < displayed ? 'opacity-100' : 'opacity-0'}`}
+        >
+          {ch === ' ' ? '\u00A0' : ch}
+        </span>
+      ))}
+      <span className="inline-block w-[2px] h-[1.1em] bg-white ml-0.5 animate-cursor-blink" />
+    </span>
+  );
+};
 
 // Lazy load Particles
 const Particles = dynamic(() => import('./ui/particles'), {
@@ -100,12 +134,6 @@ const LazyLineNumbers = dynamic(() => Promise.resolve(LineNumbers), {
 });
 
 const Hero: React.FC = () => {
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
   return (
     <section id="top" className="relative min-h-screen bg-black overflow-hidden">
       <div 
@@ -121,25 +149,9 @@ const Hero: React.FC = () => {
                 <span className="block sm:hidden text-white">
                   Hey, ich bin Achim
                 </span>
-                {!isClient ? (
-                  <span className="hidden sm:block text-white">
-                    Hey, ich bin Achim
-                  </span>
-                ) : (
-                  <span className="hidden sm:block">
-                    <Suspense fallback={<div className="text-center">Loading...</div>}>
-                      <TypewriterEffectSmooth
-                        words={[
-                          { text: "Hey,", className: "text-white" },
-                          { text: "ich", className: "text-white" },
-                          { text: "bin", className: "text-white" },
-                          { text: "Achim", className: "text-white" }
-                        ]}
-                        cursorClassName="bg-white"
-                      />
-                    </Suspense>
-                  </span>
-                )}
+                <span className="hidden sm:block text-white">
+                  <InlineTypewriter text="Hey, ich bin Achim" />
+                </span>
               </h1>
             </div>
 

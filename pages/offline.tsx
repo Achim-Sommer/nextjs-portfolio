@@ -1,4 +1,3 @@
-import { Box, Heading, Text, Container } from '@chakra-ui/react';
 import Head from 'next/head';
 import { generateNextSeo } from 'next-seo/pages';
 
@@ -11,23 +10,16 @@ export default function Offline() {
           noindex: true,
         })}
       </Head>
-      <Container maxW="container.md" py={10}>
-        <Box textAlign="center" py={10} px={6}>
-          <Heading
-            display="inline-block"
-            as="h1"
-            size="xl"
-            bgGradient="linear(to-r, blue.400, blue.600)"
-            backgroundClip="text"
-            mb={4}
-          >
+      <div className="max-w-3xl mx-auto py-10">
+        <div className="text-center py-10 px-6">
+          <h1 className="inline-block text-3xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent mb-4">
             Offline
-          </Heading>
-          <Text fontSize="lg" mb={6}>
+          </h1>
+          <p className="text-lg mb-6 text-gray-300">
             Es scheint, dass Sie offline sind. Bitte überprüfen Sie Ihre Internetverbindung.
-          </Text>
-        </Box>
-      </Container>
+          </p>
+        </div>
+      </div>
     </>
   );
 }

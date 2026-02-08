@@ -40,7 +40,7 @@ export const BoxesCore = ({ className, ...props }: { className?: string }) => {
                   key={j}
                   className="ml-32 mb-32"
                   style={{
-                    transform: `translateZ(${Math.random() * 400 + 200}px)`,
+                    transform: `translateZ(${((i * 4 + j) * 37 % 400) + 200}px)`,
                   }}
                 >
                   <div

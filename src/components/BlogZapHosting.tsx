@@ -1,189 +1,124 @@
 'use client';
 
-import { Box, VStack, HStack, Text, Button, Icon, useColorModeValue, Link, Stack } from '@chakra-ui/react';
 import { FiServer, FiShield, FiCpu, FiCode, FiGift } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 
-const MotionBox = motion(Box);
 const ZAP_GREEN = '#57BB54';
 
 export default function BlogZapHosting() {
-  const bgColor = useColorModeValue('gray.800', 'gray.800');
-  const borderColor = useColorModeValue('gray.700', 'gray.700');
-  const textColor = useColorModeValue('gray.100', 'gray.100');
-
   return (
-    <VStack spacing={8} width="full" my={8}>
+    <div className="flex flex-col gap-8 w-full my-8">
       {/* Smart Context Banner */}
-      <MotionBox
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        width="full"
-        bg={bgColor}
-        borderRadius="lg"
-        p={[4, 6]}
-        border="1px solid"
-        borderColor={borderColor}
-        position="relative"
-        overflow="hidden"
-        _before={{
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: '2px',
-          background: `linear-gradient(90deg, ${ZAP_GREEN} 0%, ${ZAP_GREEN}80 100%)`,
-        }}
+        className="w-full bg-gray-800 rounded-lg p-4 md:p-6 border border-gray-700 relative overflow-hidden"
       >
-        <VStack align="stretch" spacing={4}>
-          <HStack spacing={4}>
-            <Icon as={FiServer} color={ZAP_GREEN} boxSize={[5, 6]} />
-            <Text color={textColor} fontSize={["md", "lg"]} fontWeight="bold" fontFamily="mono">
-              Jetzt bei Zap-Hosting deployen
-            </Text>
-          </HStack>
+        {/* Top gradient bar (_before replacement) */}
+        <div
+          className="absolute top-0 left-0 right-0 h-[2px]"
+          style={{ background: `linear-gradient(90deg, ${ZAP_GREEN} 0%, ${ZAP_GREEN}80 100%)` }}
+        />
 
-          <Stack 
-            direction={["column", "row"]} 
-            spacing={[4, 8]} 
-            pl={[4, 10]}
-          >
-            <VStack align="start" spacing={2}>
-              <HStack>
-                <Icon as={FiShield} color={ZAP_GREEN} boxSize={[4, 5]} />
-                <Text color={textColor} fontSize={["sm", "md"]}>DDoS Schutz</Text>
-              </HStack>
-              <HStack>
-                <Icon as={FiCpu} color={ZAP_GREEN} boxSize={[4, 5]} />
-                <Text color={textColor} fontSize={["sm", "md"]}>Root Zugriff</Text>
-              </HStack>
-            </VStack>
-            <VStack align="start" spacing={2}>
-              <HStack>
-                <Icon as={FiCode} color={ZAP_GREEN} boxSize={[4, 5]} />
-                <Text color={textColor} fontSize={["sm", "md"]}>Sofort Verfügbar</Text>
-              </HStack>
-              <HStack>
-                <Icon as={FiServer} color={ZAP_GREEN} boxSize={[4, 5]} />
-                <Text color={textColor} fontSize={["sm", "md"]}>24/7 Support</Text>
-              </HStack>
-            </VStack>
-          </Stack>
-        </VStack>
-      </MotionBox>
+        <div className="flex flex-col gap-4">
+          <div className="flex items-center gap-4">
+            <FiServer className="w-5 h-5 md:w-6 md:h-6 shrink-0" style={{ color: ZAP_GREEN }} />
+            <p className="text-gray-100 text-base md:text-lg font-bold font-mono">
+              Jetzt bei Zap-Hosting deployen
+            </p>
+          </div>
+
+          <div className="flex flex-col md:flex-row gap-4 md:gap-8 pl-4 md:pl-10">
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2">
+                <FiShield className="w-4 h-4 md:w-5 md:h-5 shrink-0" style={{ color: ZAP_GREEN }} />
+                <span className="text-gray-100 text-sm md:text-base">DDoS Schutz</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <FiCpu className="w-4 h-4 md:w-5 md:h-5 shrink-0" style={{ color: ZAP_GREEN }} />
+                <span className="text-gray-100 text-sm md:text-base">Root Zugriff</span>
+              </div>
+            </div>
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2">
+                <FiCode className="w-4 h-4 md:w-5 md:h-5 shrink-0" style={{ color: ZAP_GREEN }} />
+                <span className="text-gray-100 text-sm md:text-base">Sofort Verfügbar</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <FiServer className="w-4 h-4 md:w-5 md:h-5 shrink-0" style={{ color: ZAP_GREEN }} />
+                <span className="text-gray-100 text-sm md:text-base">24/7 Support</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
 
       {/* Try it yourself Section */}
-      <MotionBox
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        width="full"
-        bg={bgColor}
-        borderRadius="lg"
-        p={[4, 6]}
-        border="1px solid"
-        borderColor={borderColor}
-        fontFamily="mono"
+        className="w-full bg-gray-800 rounded-lg p-4 md:p-6 border border-gray-700 font-mono"
       >
-        <VStack align="stretch" spacing={6}>
-          <Text color={textColor} fontSize={["xs", "sm"]}>
+        <div className="flex flex-col gap-6">
+          <p className="text-gray-100 text-xs md:text-sm">
             Starte deinen eigenen vServer/VPS (Linux oder Windows)
-          </Text>
-          
-          <Stack 
-            direction={["column", "row"]} 
-            spacing={[4, 6]} 
-            width="full"
-          >
+          </p>
+
+          <div className="flex flex-col md:flex-row gap-4 md:gap-6 w-full">
             {/* Monthly Plan */}
-            <VStack 
-              flex={1} 
-              bg="gray.900" 
-              p={4} 
-              borderRadius="md" 
-              border="1px solid"
-              borderColor={borderColor}
-              spacing={2}
-              width="full"
-            >
-              <Text color={textColor} fontSize={["md", "lg"]}>Monatlich</Text>
-              <Text color={ZAP_GREEN} fontSize={["xl", "2xl"]} fontWeight="bold">ab 7,90€</Text>
-              <Text color={textColor} fontSize={["xs", "sm"]}>/Monat</Text>
-              <Link 
-                href="https://zap-hosting.com/vserverhomepage" 
-                isExternal 
-                width="full"
-                _hover={{ textDecoration: 'none' }}
+            <div className="flex-1 flex flex-col items-center gap-2 bg-gray-900 p-4 rounded-md border border-gray-700 w-full">
+              <p className="text-gray-100 text-base md:text-lg">Monatlich</p>
+              <p className="text-xl md:text-2xl font-bold" style={{ color: ZAP_GREEN }}>ab 7,90€</p>
+              <p className="text-gray-100 text-xs md:text-sm">/Monat</p>
+              <a
+                href="https://zap-hosting.com/vserverhomepage"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full text-center text-white text-xs md:text-sm py-3 md:py-4 rounded-md font-semibold transition-opacity hover:opacity-80"
+                style={{ backgroundColor: ZAP_GREEN }}
               >
-                <Button 
-                  width="full"
-                  bg={ZAP_GREEN}
-                  color="white"
-                  _hover={{ bg: `${ZAP_GREEN}90` }}
-                  size={["xs", "sm"]}
-                  py={[3, 4]}
-                >
-                  Jetzt Starten
-                </Button>
-              </Link>
-            </VStack>
+                Jetzt Starten
+              </a>
+            </div>
 
             {/* Lifetime Plan */}
-            <VStack 
-              flex={1} 
-              bg="gray.900" 
-              p={4} 
-              borderRadius="md" 
-              border="1px solid"
-              borderColor={ZAP_GREEN}
-              spacing={2}
-              position="relative"
-              width="full"
-              _before={{
-                content: '"Bester Deal"',
-                position: 'absolute',
-                top: -3,
-                bg: ZAP_GREEN,
-                px: 2,
-                py: 0.5,
-                borderRadius: 'md',
-                fontSize: ["2xs", "xs"],
-                color: 'white',
-              }}
+            <div
+              className="flex-1 flex flex-col items-center gap-2 bg-gray-900 p-4 rounded-md w-full relative"
+              style={{ borderWidth: '1px', borderStyle: 'solid', borderColor: ZAP_GREEN }}
             >
-              <Text color={textColor} fontSize={["md", "lg"]}>Lifetime</Text>
-              <Text color={ZAP_GREEN} fontSize={["xl", "2xl"]} fontWeight="bold">ab 64,00€</Text>
-              <Text color={textColor} fontSize={["xs", "sm"]}>einmalig</Text>
-              <Link 
-                href="https://zap-hosting.com/vserverhomepage" 
-                isExternal 
-                width="full"
-                _hover={{ textDecoration: 'none' }}
+              {/* "Bester Deal" badge (replaces _before pseudo) */}
+              <span
+                className="absolute -top-3 text-[10px] md:text-xs text-white px-2 py-0.5 rounded-md"
+                style={{ backgroundColor: ZAP_GREEN }}
               >
-                <Button 
-                  width="full"
-                  bg={ZAP_GREEN}
-                  color="white"
-                  _hover={{ bg: `${ZAP_GREEN}90` }}
-                  size={["xs", "sm"]}
-                  py={[3, 4]}
-                >
-                  Lifetime Sichern
-                </Button>
-              </Link>
-            </VStack>
-          </Stack>
+                Bester Deal
+              </span>
 
-          <HStack justify="center" spacing={2}>
-            <Icon as={FiGift} color={ZAP_GREEN} boxSize={[4, 5]} />
-            <Text color={textColor} fontSize={["xs", "sm"]}>
+              <p className="text-gray-100 text-base md:text-lg">Lifetime</p>
+              <p className="text-xl md:text-2xl font-bold" style={{ color: ZAP_GREEN }}>ab 64,00€</p>
+              <p className="text-gray-100 text-xs md:text-sm">einmalig</p>
+              <a
+                href="https://zap-hosting.com/vserverhomepage"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full text-center text-white text-xs md:text-sm py-3 md:py-4 rounded-md font-semibold transition-opacity hover:opacity-80"
+                style={{ backgroundColor: ZAP_GREEN }}
+              >
+                Lifetime Sichern
+              </a>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-center gap-2">
+            <FiGift className="w-4 h-4 md:w-5 md:h-5 shrink-0" style={{ color: ZAP_GREEN }} />
+            <span className="text-gray-100 text-xs md:text-sm">
               Code GERMANGAMING für 20% Rabatt
-            </Text>
-          </HStack>
-        </VStack>
-      </MotionBox>
-    </VStack>
+            </span>
+          </div>
+        </div>
+      </motion.div>
+    </div>
   );
 }

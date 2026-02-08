@@ -2,7 +2,6 @@ import { GetStaticProps } from 'next';
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { Box, Heading, Text, SimpleGrid, VStack, HStack, Icon, Tag } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { FiCalendar, FiClock, FiFileText } from 'react-icons/fi';
 import Link from 'next/link';
@@ -17,8 +16,6 @@ import { generateNextSeo } from 'next-seo/pages';
 import { useRouter } from 'next/router';
 import { BlogPost } from '@/types/blog';
 import { Meteors } from "@/components/ui/meteors";
-
-const MotionBox = motion(Box);
 
 interface Props {
   posts: BlogPost[];
@@ -108,79 +105,51 @@ export default function Blog({ posts }: Props) {
           ],
         })}
       </Head>
-      <Box
-        minH="100vh"
-        bg="gray.900"
-        position="relative"
-        overflow="hidden"
-      >
+      <div className="min-h-screen bg-gray-900 relative overflow-hidden">
         <BackgroundGrid />
 
-        <Box position="relative" zIndex={1}>
-          <Box
-            position="relative"
-            mb={16}
-            px={8}
-            pt={20}
-          >
-            <Box
-              maxW="7xl"
-              mx="auto"
-              pb={10}
-              borderBottom="2px solid"
-              borderColor="whiteAlpha.100"
-            >
-              <VStack spacing={8} align="flex-start">
-                <VStack spacing={6} align="flex-start">
-                  <Heading
-                    as="h1"
-                    fontSize={{ base: "4xl", md: "5xl" }}
-                    fontWeight="bold"
-                    color="blue.400"
-                    fontFamily="mono"
-                    letterSpacing="tight"
-                  >
+        <div className="relative z-[1]">
+          <div className="relative mb-16 px-8 pt-20">
+            <div className="max-w-7xl mx-auto pb-10 border-b-2 border-white/10">
+              <div className="flex flex-col gap-8 items-start">
+                <div className="flex flex-col gap-6 items-start">
+                  <h1 className="text-4xl md:text-5xl font-bold text-blue-400 font-mono tracking-tight">
                     Blog & Tutorials
-                  </Heading>
-                  <Text
-                    fontSize={{ base: "lg", md: "xl" }}
-                    color="gray.400"
-                    maxW="3xl"
-                    lineHeight="tall"
-                  >
+                  </h1>
+                  <p className="text-lg md:text-xl text-gray-400 max-w-3xl leading-relaxed">
                     Entdecke Artikel über Web Development, DevOps und Software Engineering
-                  </Text>
-                </VStack>
+                  </p>
+                </div>
 
-                <SimpleGrid columns={{ base: 2, md: 4 }} spacing={8} w="full" maxW="3xl">
-                  <VStack align="flex-start">
-                    <Text color="blue.400" fontSize="2xl" fontWeight="bold" fontFamily="mono">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 w-full max-w-3xl">
+                  <div className="flex flex-col items-start">
+                    <p className="text-blue-400 text-2xl font-bold font-mono">
                       {posts.length}
-                    </Text>
-                    <Text color="gray.500" fontSize="sm">Artikel</Text>
-                  </VStack>
-                  <VStack align="flex-start">
-                    <Text color="blue.400" fontSize="2xl" fontWeight="bold" fontFamily="mono">
+                    </p>
+                    <p className="text-gray-500 text-sm">Artikel</p>
+                  </div>
+                  <div className="flex flex-col items-start">
+                    <p className="text-blue-400 text-2xl font-bold font-mono">
                       {Array.from(new Set(posts.flatMap(post => post.frontmatter.tags || []))).length}
-                    </Text>
-                    <Text color="gray.500" fontSize="sm">Kategorien</Text>
-                  </VStack>
-                  <VStack align="flex-start">
-                    <Text color="blue.400" fontSize="2xl" fontWeight="bold" fontFamily="mono">
+                    </p>
+                    <p className="text-gray-500 text-sm">Kategorien</p>
+                  </div>
+                  <div className="flex flex-col items-start">
+                    <p className="text-blue-400 text-2xl font-bold font-mono">
                       {posts.reduce((acc, post) => acc + (post.frontmatter.readingTime || 0), 0)}
-                    </Text>
-                    <Text color="gray.500" fontSize="sm">Minuten Lesedauer</Text>
-                  </VStack>
-                  <VStack align="flex-start">
-                    <Text color="blue.400" fontSize="2xl" fontWeight="bold" fontFamily="mono">
+                    </p>
+                    <p className="text-gray-500 text-sm">Minuten Lesedauer</p>
+                  </div>
+                  <div className="flex flex-col items-start">
+                    <p className="text-blue-400 text-2xl font-bold font-mono">
                       {new Date().getFullYear()}
-                    </Text>
-                    <Text color="gray.500" fontSize="sm">Aktiv seit</Text>
-                  </VStack>
-                </SimpleGrid>
+                    </p>
+                    <p className="text-gray-500 text-sm">Aktiv seit</p>
+                  </div>
+                </div>
 
-                <Box w="full" maxW="3xl">
-                  <VStack spacing={6} align="stretch" w="full">
+                <div className="w-full max-w-3xl">
+                  <div className="flex flex-col gap-6 w-full">
                     <BlogSearch
                       searchQuery={searchQuery}
                       onSearchChange={setSearchQuery}
@@ -189,145 +158,99 @@ export default function Blog({ posts }: Props) {
                       sortBy={sortBy}
                       onSortChange={setSortBy}
                     />
-                  </VStack>
-                </Box>
-              </VStack>
-            </Box>
-          </Box>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-          <Box px={8}>
-            <Box maxW="7xl" mx="auto">
+          <div className="px-8">
+            <div className="max-w-7xl mx-auto">
               {featuredPost && (
-                <Box mb={16}>
+                <div className="mb-16">
                   <Link href={`/blog/${featuredPost.slug}`} passHref>
-                    <MotionBox
+                    <motion.div
                       whileHover={{ y: -4 }}
                       transition={{ duration: 0.2 }}
-                      bg="gray.800"
-                      borderRadius="xl"
-                      overflow="hidden"
-                      position="relative"
-                      role="group"
+                      className="bg-gray-800 rounded-xl overflow-hidden relative group"
                     >
-                      <Box p={8}>
-                        <VStack spacing={6} align="flex-start">
-                          <HStack>
-                            <Tag size="md" colorScheme="blue" fontFamily="mono">Featured Post</Tag>
+                      <div className="p-8">
+                        <div className="flex flex-col gap-6 items-start">
+                          <div className="flex items-center gap-2">
+                            <span className="bg-blue-600 text-white text-sm font-mono px-3 py-1 rounded-full">Featured Post</span>
                             {featuredPost.frontmatter.tags?.slice(0, 2).map((tag) => (
-                              <Tag
+                              <span
                                 key={tag}
-                                size="md"
-                                bg="blue.900"
-                                color="blue.200"
-                                fontFamily="mono"
+                                className="bg-blue-900 text-blue-200 text-sm font-mono px-3 py-1 rounded-full"
                               >
                                 {tag}
-                              </Tag>
+                              </span>
                             ))}
-                          </HStack>
+                          </div>
 
-                          <Heading
-                            size="2xl"
-                            color="white"
-                            _groupHover={{ color: 'blue.400' }}
-                          >
+                          <h2 className="text-3xl font-bold text-white group-hover:text-blue-400 transition-colors">
                             {featuredPost.frontmatter.title}
-                          </Heading>
+                          </h2>
 
-                          <Text
-                            color="gray.400"
-                            fontSize="lg"
-                            maxW="3xl"
-                          >
+                          <p className="text-gray-400 text-lg max-w-3xl">
                             {featuredPost.frontmatter.description}
-                          </Text>
+                          </p>
 
-                          <HStack spacing={6} color="gray.500">
-                            <HStack>
-                              <Icon as={FiCalendar} color="blue.400" />
-                              <Text>
+                          <div className="flex items-center gap-6 text-gray-500">
+                            <div className="flex items-center gap-2">
+                              <FiCalendar className="text-blue-400" />
+                              <span>
                                 {new Date(featuredPost.frontmatter.date).toLocaleDateString('de-DE', {
                                   year: 'numeric',
                                   month: 'long',
                                   day: 'numeric'
                                 })}
-                              </Text>
-                            </HStack>
-                            <HStack>
-                              <Icon as={FiClock} color="blue.400" />
-                              <Text>{featuredPost.frontmatter.readingTime} min</Text>
-                            </HStack>
-                          </HStack>
-                        </VStack>
-                      </Box>
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <FiClock className="text-blue-400" />
+                              <span>{featuredPost.frontmatter.readingTime} min</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
 
-                      <Box
-                        position="absolute"
-                        bottom={0}
-                        left={0}
-                        right={0}
-                        h="6px"
-                        bg="blue.500"
-                        transform="scaleX(0)"
-                        transformOrigin="left"
-                        transition="transform 0.3s ease-out"
-                        _groupHover={{
-                          transform: "scaleX(1)"
-                        }}
+                      <div
+                        className="absolute bottom-0 left-0 right-0 h-1.5 bg-blue-500 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"
                       />
 
                       <Meteors number={20} className="opacity-0 group-hover:opacity-100" />
-                    </MotionBox>
+                    </motion.div>
                   </Link>
-                </Box>
+                </div>
               )}
 
               {filteredAndSortedPosts.length > 0 ? (
                 <BlogGrid posts={filteredAndSortedPosts} />
               ) : (
-                <Box
-                  p={12}
-                  textAlign="center"
-                  border="1px dashed"
-                  borderColor="blue.800"
-                  borderRadius="xl"
-                  bg="gray.800"
-                >
-                  <VStack spacing={4}>
-                    <Icon
-                      as={FiFileText}
-                      color="blue.400"
-                      boxSize={10}
-                    />
-                    <Text
-                      fontFamily="mono"
-                      color="gray.400"
-                      fontSize="lg"
-                    >
+                <div className="p-12 text-center border border-dashed border-blue-800 rounded-xl bg-gray-800">
+                  <div className="flex flex-col gap-4 items-center">
+                    <FiFileText className="text-blue-400 w-10 h-10" />
+                    <p className="font-mono text-gray-400 text-lg">
                       Keine Artikel gefunden
-                    </Text>
-                    <Text color="gray.500">
+                    </p>
+                    <p className="text-gray-500">
                       Versuche es mit anderen Suchbegriffen oder Filtern
-                    </Text>
-                  </VStack>
-                </Box>
+                    </p>
+                  </div>
+                </div>
               )}
-            </Box>
-          </Box>
+            </div>
+          </div>
 
-          <Box
-            position="absolute"
-            top={0}
-            left={0}
-            right={0}
-            h="100%"
-            pointerEvents="none"
-            backgroundImage="linear-gradient(to bottom right, rgba(66, 153, 225, 0.05) 0%, transparent 50%, rgba(66, 153, 225, 0.05) 100%)"
-            opacity={0.5}
-            zIndex={0}
+          <div
+            className="absolute top-0 left-0 right-0 h-full pointer-events-none opacity-50 z-0"
+            style={{
+              backgroundImage: 'linear-gradient(to bottom right, rgba(66, 153, 225, 0.05) 0%, transparent 50%, rgba(66, 153, 225, 0.05) 100%)',
+            }}
           />
-        </Box>
-      </Box>
+        </div>
+      </div>
     </>
   );
 }

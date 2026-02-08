@@ -1,8 +1,7 @@
 "use client";
 
 import { cn } from "@/utils/cn";
-import { motion, useAnimate, useInView } from "framer-motion";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export const TypewriterEffectSmooth = ({
   words,
@@ -16,11 +15,11 @@ export const TypewriterEffectSmooth = ({
   className?: string;
   cursorClassName?: string;
 }) => {
-  const [scope, animate] = useAnimate();
-  const isInView = useInView(scope);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [displayedLetters, setDisplayedLetters] = useState(0);
   const [hasPlayed, setHasPlayed] = useState(false);
-  
+  const [isInView, setIsInView] = useState(false);
+
   const getTotalLetters = useCallback(() => {
     let total = 0;
     words.forEach((word, index) => {
@@ -29,94 +28,90 @@ export const TypewriterEffectSmooth = ({
     });
     return total;
   }, [words]);
-  
+
+  // IntersectionObserver to detect when component is in view
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setIsInView(true);
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Typewriter animation via state
   useEffect(() => {
     if (isInView && !hasPlayed) {
-      let currentLetterCount = 0;
+      let count = 0;
+      const total = getTotalLetters();
       const interval = setInterval(() => {
-        if (currentLetterCount < getTotalLetters()) {
-          currentLetterCount++;
-          setDisplayedLetters(currentLetterCount);
-          animate(
-            `span[data-letter="${currentLetterCount - 1}"]`,
-            {
-              opacity: 1,
-            },
-            {
-              duration: 0.1,
-            }
-          );
+        if (count < total) {
+          count++;
+          setDisplayedLetters(count);
         } else {
           clearInterval(interval);
           setHasPlayed(true);
         }
       }, 100);
-
       return () => clearInterval(interval);
     }
-  }, [animate, getTotalLetters, hasPlayed, isInView]);
+  }, [getTotalLetters, hasPlayed, isInView]);
 
   const renderWords = () => {
     let letterCounter = 0;
     return (
-      <motion.div ref={scope} className="inline-flex items-center justify-center">
+      <div ref={containerRef} className="inline-flex items-center justify-center">
         {words.map((word, idx) => (
           <span key={`word-${idx}`} className="inline-flex">
             {word.text.split("").map((char) => {
               const currentCounter = letterCounter++;
               return (
-                <motion.span
-                  data-letter={currentCounter}
-                  initial={{ opacity: 0 }}
+                <span
                   key={`char-${currentCounter}`}
-                  className={cn(`opacity-0 inline-block`, word.className)}
+                  className={cn(
+                    "inline-block transition-opacity duration-100",
+                    currentCounter < displayedLetters ? "opacity-100" : "opacity-0",
+                    word.className
+                  )}
                 >
                   {char}
-                </motion.span>
+                </span>
               );
             })}
-            {idx < words.length - 1 && (
-              <motion.span
-                data-letter={letterCounter++}
-                initial={{ opacity: 0 }}
-                className={cn(`opacity-0 inline-block`, word.className)}
-              >
-                &nbsp;
-              </motion.span>
-            )}
+            {idx < words.length - 1 && (() => {
+              const spaceCounter = letterCounter++;
+              return (
+                <span
+                  key={`space-${spaceCounter}`}
+                  className={cn(
+                    "inline-block transition-opacity duration-100",
+                    spaceCounter < displayedLetters ? "opacity-100" : "opacity-0",
+                    word.className
+                  )}
+                >
+                  &nbsp;
+                </span>
+              );
+            })()}
           </span>
         ))}
-      </motion.div>
+      </div>
     );
-  };
-
-  const getLetterWidth = () => {
-    if (typeof window === 'undefined') return 0.5;
-    const fontSize = window.getComputedStyle(scope.current || document.body).fontSize;
-    return parseFloat(fontSize) * 0.5; 
   };
 
   return (
     <span className={cn("inline-flex items-center justify-center my-6 relative", className)}>
       {renderWords()}
-      <motion.span
-        initial={{ opacity: 0 }}
-        animate={{ opacity: displayedLetters > 0 ? 1 : 0 }}
-        transition={{ 
-          duration: 0.8,
-          repeat: Infinity,
-          repeatType: "reverse",
-          ease: "easeInOut",
-          delay: displayedLetters < getTotalLetters() ? 0 : 0.2
-        }}
+      <span
         className={cn(
-          "inline-block w-[2px] h-[1.1em] bg-white",
+          "inline-block w-[2px] h-[1.1em] bg-white ml-1 animate-cursor-blink",
+          displayedLetters === 0 && "opacity-0",
           cursorClassName
         )}
-        style={{
-          position: 'absolute',
-          left: `${(displayedLetters * getLetterWidth()) + 1}px`
-        }}
       />
     </span>
   );

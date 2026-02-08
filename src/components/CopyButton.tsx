@@ -1,4 +1,6 @@
-import { Button, Tooltip, useBreakpointValue, useClipboard } from '@chakra-ui/react';
+'use client';
+
+import { useState } from 'react';
 import { FiCopy, FiCheck } from 'react-icons/fi';
 
 interface CopyButtonProps {
@@ -6,37 +8,29 @@ interface CopyButtonProps {
 }
 
 const CopyButton = ({ code }: CopyButtonProps) => {
-  const { hasCopied, onCopy } = useClipboard(code);
-  const showText = useBreakpointValue({ base: false, md: true });
-  const label = hasCopied ? 'Kopiert' : 'Kopieren';
+  const [hasCopied, setHasCopied] = useState(false);
+
+  const onCopy = () => {
+    navigator.clipboard.writeText(code).then(() => {
+      setHasCopied(true);
+      setTimeout(() => setHasCopied(false), 2000);
+    });
+  };
 
   return (
-    <Tooltip 
-      label={hasCopied ? 'Kopiert!' : 'Kopieren'}
-      placement="bottom-end"
-      hasArrow
-      bg="gray.700"
-      color="white"
+    <button
+      onClick={onCopy}
+      aria-label={hasCopied ? 'Kopiert' : 'Kopieren'}
+      title={hasCopied ? 'Kopiert!' : 'Kopieren'}
+      className={`inline-flex items-center gap-1.5 px-2 py-1 text-xs rounded-md transition-all ${
+        hasCopied 
+          ? 'text-green-300' 
+          : 'text-blue-300 hover:bg-gray-800 active:bg-gray-700'
+      }`}
     >
-      <Button
-        leftIcon={hasCopied ? <FiCheck /> : <FiCopy />}
-        onClick={onCopy}
-        aria-label={label}
-        size="xs"
-        color={hasCopied ? 'green.300' : 'blue.300'}
-        bg="transparent"
-        _hover={{
-          bg: 'gray.800',
-        }}
-        _active={{
-          bg: 'gray.700',
-        }}
-        transition="all 0.2s"
-        borderRadius="md"
-      >
-        {showText ? label : null}
-      </Button>
-    </Tooltip>
+      {hasCopied ? <FiCheck className="w-3.5 h-3.5" /> : <FiCopy className="w-3.5 h-3.5" />}
+      <span className="hidden md:inline">{hasCopied ? 'Kopiert' : 'Kopieren'}</span>
+    </button>
   );
 };
 

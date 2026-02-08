@@ -7,17 +7,6 @@ import matter from 'gray-matter';
 import { getCompiledMDX } from '../../lib/mdx-cache';
 import dynamic from 'next/dynamic';
 import { getRelatedPosts, BlogListItem } from '../../lib/blog';
-import {
-  Box,
-  Container,
-  Heading,
-  Text,
-  HStack,
-  VStack,
-  Icon,
-  useColorModeValue,
-  SimpleGrid,
-} from '@chakra-ui/react';
 import { FiClock, FiCalendar } from 'react-icons/fi';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -29,7 +18,7 @@ import { TableOfContents } from '@/components/TableOfContents';
 
 // Dynamische Imports für MDX-Komponenten
 const CodeBlock = dynamic(() => import('@/components/CodeBlock'), {
-  loading: () => <Box p={4} bg="gray.800" borderRadius="md"><Text>Loading code...</Text></Box>
+  loading: () => <div className="p-4 bg-gray-800 rounded-md"><span className="text-gray-400">Loading code...</span></div>
 });
 const BlogZapHosting = dynamic(() => import('@/components/BlogZapHosting'));
 const FloatingZapAd = dynamic(() => import('@/components/FloatingZapAd'));
@@ -74,18 +63,12 @@ const components = {
 };
 
 export default function BlogPost({ frontMatter, mdxSource, slug, relatedPosts }: BlogPostProps) {
-  const textColor = useColorModeValue('gray.100', 'gray.100');
-  const headingColor = useColorModeValue('blue.300', 'blue.300');
-  const iconColor = useColorModeValue('blue.400', 'blue.400');
-  const bgColor = useColorModeValue('gray.900', 'gray.900');
-  const tabBg = useColorModeValue('gray.800', 'gray.800');
-  const borderColor = useColorModeValue('gray.700', 'gray.700');
   const router = useRouter();
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://achimsommer.com';
   const currentUrl = `${siteUrl}${router.asPath}`;
 
   if (router.isFallback) {
-    return <div>Loading...</div>;
+    return <div className="min-h-screen flex items-center justify-center text-white">Loading...</div>;
   }
 
   return (
@@ -192,279 +175,121 @@ export default function BlogPost({ frontMatter, mdxSource, slug, relatedPosts }:
           })
         }}
       />
-      <Box 
-        minH="100vh"
-        bg={bgColor}
-        backgroundImage="radial-gradient(circle at 1px 1px, rgba(66, 153, 225, 0.3) 1px, transparent 0)"
-        backgroundSize="40px 40px"
-        position="relative"
-        pt="5rem"
+      <div 
+        className="min-h-screen bg-gray-900 relative pt-20"
+        style={{
+          backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(66, 153, 225, 0.3) 1px, transparent 0)',
+          backgroundSize: '40px 40px',
+        }}
       >
-        <Container maxW="container.xl" pt={8} px={[4, 4, 6, 8]}>
-          <Box position="relative" display="flex" flexDir={["column", "column", "row"]} gap={8}>
+        <div className="max-w-7xl mx-auto pt-8 px-4 sm:px-4 md:px-6 lg:px-8">
+          <div className="relative flex flex-col md:flex-row gap-8">
             {/* TableOfContents nur auf Desktop anzeigen */}
-            <Box display={["none", "none", "block"]}>
+            <div className="hidden md:block">
               <TableOfContents />
-            </Box>
-            <Box flex="1" w={["100%", "100%", "auto"]}>
-              <Box 
-                bg={tabBg} 
-                borderRadius="md" 
-                borderWidth="1px" 
-                borderColor={borderColor}
-                overflow="hidden"
-                position="relative"
-                zIndex={1}
-                mx={[-4, -4, 0]} // Negative margin auf Mobile für volle Breite
-                width={["calc(100% + 2rem)", "calc(100% + 2rem)", "100%"]} // Kompensiere den negativen Margin
-              >
+            </div>
+            <div className="flex-1 w-full md:w-auto">
+              <div className="bg-gray-800 rounded-md border border-gray-700 overflow-hidden relative z-[1] mx-[-1rem] sm:mx-[-1rem] md:mx-0 w-[calc(100%+2rem)] sm:w-[calc(100%+2rem)] md:w-full">
                 {/* File tab */}
-                <HStack 
-                  borderBottom="1px" 
-                  borderColor={borderColor} 
-                  bg="gray.900" 
-                  px={[3, 4]} 
-                  py={2}
-                  spacing={2}
-                >
-                  <Text color={textColor} fontSize={["xs", "sm"]} fontFamily="mono">
-                    {slug}.md
-                  </Text>
-                </HStack>
+                <div className="flex items-center gap-2 border-b border-gray-700 bg-gray-900 px-3 sm:px-4 py-2">
+                  <span className="text-gray-100 text-xs sm:text-sm font-mono">{slug}.md</span>
+                </div>
 
                 {/* Content */}
-                <Box p={[4, 6, 8]} id="article-content">
-                  <VStack align="stretch" spacing={6}>
+                <div className="p-4 sm:p-6 md:p-8" id="article-content">
+                  <div className="flex flex-col gap-6">
                     {/* Header section */}
-                    <Box borderBottom="1px" borderColor={borderColor} pb={6}>
-                      <Heading 
-                        as="h1" 
-                        size={["xl", "2xl"]} 
-                        color={headingColor}
-                        fontFamily="mono"
-                        mb={4}
-                      >
+                    <div className="border-b border-gray-700 pb-6">
+                      <h1 className="text-2xl sm:text-4xl font-bold text-blue-300 font-mono mb-4">
                         {frontMatter.title}
-                      </Heading>
+                      </h1>
                       
-                      <Text 
-                        color={textColor} 
-                        fontSize="lg" 
-                        mb={4}
-                        pl={4}
-                        borderLeft="2px"
-                        borderColor="blue.500"
-                      >
+                      <p className="text-gray-100 text-lg mb-4 pl-4 border-l-2 border-blue-500">
                         {frontMatter.description}
-                      </Text>
+                      </p>
 
-                      <HStack spacing={6} color={textColor} fontSize="sm" fontFamily="mono">
-                        <HStack>
-                          <Icon as={FiCalendar} color={iconColor} />
-                          <Text>
-                            {new Date(frontMatter.date).toLocaleDateString('de-DE', {
-                              year: 'numeric',
-                              month: 'long',
-                              day: 'numeric'
-                            })}
-                          </Text>
-                        </HStack>
-                        <HStack>
-                          <Icon as={FiClock} color={iconColor} />
-                          <Text>{frontMatter.readingTime} min read</Text>
-                        </HStack>
-                      </HStack>
+                      <div className="flex gap-6 text-gray-100 text-sm font-mono">
+                        <span className="inline-flex items-center gap-1.5">
+                          <FiCalendar className="text-blue-400" />
+                          {new Date(frontMatter.date).toLocaleDateString('de-DE', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                          })}
+                        </span>
+                        <span className="inline-flex items-center gap-1.5">
+                          <FiClock className="text-blue-400" />
+                          {frontMatter.readingTime} min read
+                        </span>
+                      </div>
 
                       {/* Top Share Button */}
-                      <Box py={6}>
+                      <div className="py-6">
                         <ArticleShare url={currentUrl} title={frontMatter.title} variant="top" />
-                      </Box>
-                    </Box>
+                      </div>
+                    </div>
 
                     {/* Main content */}
-                    <Box 
-                      className="prose prose-dark max-w-none"
-                      sx={{
-                        'h1, h2, h3, h4, h5, h6': {
-                          color: 'blue.200',
-                          fontFamily: 'mono',
-                          mt: 6,
-                          mb: 4,
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: 2,
-                          '&::before': {
-                            content: '""',
-                            display: 'block',
-                            width: '3px',
-                            height: '1em',
-                            backgroundColor: 'blue.500',
-                            borderRadius: 'sm',
-                          }
-                        },
-                        p: {
-                          color: 'gray.50',
-                          mb: 4,
-                          lineHeight: 1.8,
-                          fontSize: '1.1rem'
-                        },
-                        strong: {
-                          color: 'blue.100',
-                          fontWeight: 'bold'
-                        },
-                        a: {
-                          color: 'blue.200',
-                          textDecoration: 'none',
-                          borderBottom: '1px dashed',
-                          borderColor: 'blue.500',
-                          transition: 'all 0.2s',
-                          _hover: {
-                            color: 'blue.100',
-                            borderStyle: 'solid'
-                          }
-                        },
-                        'ul, ol': {
-                          color: 'gray.50',
-                          pl: 4,
-                          mb: 4,
-                          fontSize: '1.1rem'
-                        },
-                        li: {
-                          mb: 2,
-                          pl: 2,
-                          '&::marker': {
-                            color: 'blue.300'
-                          }
-                        },
-                        pre: {
-                          position: 'relative',
-                          bg: 'gray.800',
-                          color: 'gray.50',
-                          p: 4,
-                          borderRadius: 'md',
-                          overflowX: 'auto',
-                          mb: 4,
-                          border: '1px solid',
-                          borderColor: 'gray.700',
-                          boxShadow: 'lg'
-                        },
-                        code: {
-                          bg: 'gray.800',
-                          color: 'blue.200',
-                          p: 1,
-                          borderRadius: 'sm',
-                          fontSize: '0.9em',
-                          fontFamily: 'mono'
-                        },
-                        blockquote: {
-                          borderLeftWidth: '4px',
-                          borderLeftColor: 'blue.400',
-                          pl: 4,
-                          ml: 0,
-                          color: 'blue.100',
-                          fontStyle: 'italic',
-                          bg: 'whiteAlpha.50',
-                          py: 2,
-                          pr: 2,
-                          borderRadius: '0 md md 0'
-                        },
-                        hr: {
-                          borderColor: 'gray.600',
-                          my: 6
-                        },
-                        table: {
-                          color: 'gray.50',
-                          width: 'full',
-                          mb: 4,
-                          borderCollapse: 'separate',
-                          borderSpacing: 0,
-                          border: '1px solid',
-                          borderColor: 'gray.700',
-                          borderRadius: 'md',
-                          overflow: 'hidden',
-                          fontSize: '1.1rem'
-                        },
-                        'th, td': {
-                          borderColor: 'gray.700',
-                          p: 2,
-                          borderBottom: '1px solid',
-                          borderRight: '1px solid'
-                        },
-                        th: {
-                          bg: 'gray.800',
-                          fontWeight: 'bold',
-                          color: 'blue.200',
-                          textAlign: 'left'
-                        },
-                        img: {
-                          maxW: 'full',
-                          h: 'auto',
-                          mb: 4,
-                          borderRadius: 'md',
-                          border: '1px solid',
-                          borderColor: 'gray.700',
-                          boxShadow: 'lg'
-                        }
-                      }}
-                    >
+                    <div className="prose prose-dark max-w-none
+                      [&_h1]:text-blue-200 [&_h1]:font-mono [&_h1]:mt-6 [&_h1]:mb-4 [&_h1]:flex [&_h1]:items-center [&_h1]:gap-2 [&_h1]:before:content-[''] [&_h1]:before:block [&_h1]:before:w-[3px] [&_h1]:before:h-[1em] [&_h1]:before:bg-blue-500 [&_h1]:before:rounded-sm
+                      [&_h2]:text-blue-200 [&_h2]:font-mono [&_h2]:mt-6 [&_h2]:mb-4 [&_h2]:flex [&_h2]:items-center [&_h2]:gap-2 [&_h2]:before:content-[''] [&_h2]:before:block [&_h2]:before:w-[3px] [&_h2]:before:h-[1em] [&_h2]:before:bg-blue-500 [&_h2]:before:rounded-sm
+                      [&_h3]:text-blue-200 [&_h3]:font-mono [&_h3]:mt-6 [&_h3]:mb-4 [&_h3]:flex [&_h3]:items-center [&_h3]:gap-2 [&_h3]:before:content-[''] [&_h3]:before:block [&_h3]:before:w-[3px] [&_h3]:before:h-[1em] [&_h3]:before:bg-blue-500 [&_h3]:before:rounded-sm
+                      [&_h4]:text-blue-200 [&_h4]:font-mono [&_h4]:mt-6 [&_h4]:mb-4
+                      [&_p]:text-gray-50 [&_p]:mb-4 [&_p]:leading-[1.8] [&_p]:text-[1.1rem]
+                      [&_strong]:text-blue-100 [&_strong]:font-bold
+                      [&_a]:text-blue-200 [&_a]:no-underline [&_a]:border-b [&_a]:border-dashed [&_a]:border-blue-500 [&_a]:transition-all hover:[&_a]:text-blue-100 hover:[&_a]:border-solid
+                      [&_ul]:text-gray-50 [&_ul]:pl-4 [&_ul]:mb-4 [&_ul]:text-[1.1rem]
+                      [&_ol]:text-gray-50 [&_ol]:pl-4 [&_ol]:mb-4 [&_ol]:text-[1.1rem]
+                      [&_li]:mb-2 [&_li]:pl-2 [&_li]:marker:text-blue-300
+                      [&_pre]:relative [&_pre]:bg-gray-800 [&_pre]:text-gray-50 [&_pre]:p-4 [&_pre]:rounded-md [&_pre]:overflow-x-auto [&_pre]:mb-4 [&_pre]:border [&_pre]:border-gray-700 [&_pre]:shadow-lg
+                      [&_code]:bg-gray-800 [&_code]:text-blue-200 [&_code]:p-1 [&_code]:rounded-sm [&_code]:text-[0.9em] [&_code]:font-mono
+                      [&_blockquote]:border-l-4 [&_blockquote]:border-blue-400 [&_blockquote]:pl-4 [&_blockquote]:ml-0 [&_blockquote]:text-blue-100 [&_blockquote]:italic [&_blockquote]:bg-white/5 [&_blockquote]:py-2 [&_blockquote]:pr-2 [&_blockquote]:rounded-r-md
+                      [&_hr]:border-gray-600 [&_hr]:my-6
+                      [&_table]:text-gray-50 [&_table]:w-full [&_table]:mb-4 [&_table]:border-separate [&_table]:border-spacing-0 [&_table]:border [&_table]:border-gray-700 [&_table]:rounded-md [&_table]:overflow-hidden [&_table]:text-[1.1rem]
+                      [&_th]:border-gray-700 [&_th]:p-2 [&_th]:border-b [&_th]:border-r [&_th]:bg-gray-800 [&_th]:font-bold [&_th]:text-blue-200 [&_th]:text-left
+                      [&_td]:border-gray-700 [&_td]:p-2 [&_td]:border-b [&_td]:border-r
+                      [&_img]:max-w-full [&_img]:h-auto [&_img]:mb-4 [&_img]:rounded-md [&_img]:border [&_img]:border-gray-700 [&_img]:shadow-lg
+                    ">
                       <MDXRemote {...mdxSource} components={components} />
-                    </Box>
+                    </div>
 
                     {/* Bottom Share Button */}
-                    <Box pt={6}>
+                    <div className="pt-6">
                       <ArticleShare url={currentUrl} title={frontMatter.title} variant="bottom" />
-                    </Box>
+                    </div>
 
                     {/* Zap-Hosting Werbung */}
                     <BlogZapHosting />
 
                     {relatedPosts && relatedPosts.length > 0 && (
-                      <Box pt={8}>
-                        <Heading
-                          as="h3"
-                          size="md"
-                          color={headingColor}
-                          fontFamily="mono"
-                          mb={4}
-                        >
+                      <div className="pt-8">
+                        <h3 className="text-lg font-bold text-blue-300 font-mono mb-4">
                           Ähnliche Artikel
-                        </Heading>
-                        <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                           {relatedPosts.map((post) => (
                             <Link key={post.slug} href={`/blog/${post.slug}`}>
-                              <Box
+                              <div
                                 role="article"
-                                bg={tabBg}
-                                border="1px solid"
-                                borderColor={borderColor}
-                                borderRadius="md"
-                                p={4}
-                                transition="all 0.2s ease"
-                                _hover={{ borderColor: 'blue.500', transform: 'translateY(-2px)' }}
+                                className="bg-gray-800 border border-gray-700 rounded-md p-4 transition-all duration-200 hover:border-blue-500 hover:-translate-y-0.5"
                               >
-                                <HStack spacing={2} mb={2} flexWrap="wrap">
+                                <div className="flex flex-wrap gap-2 mb-2">
                                   {post.frontmatter.tags?.slice(0, 2).map((tag) => (
-                                    <Box
+                                    <span
                                       key={tag}
-                                      px={2}
-                                      py={1}
-                                      borderRadius="full"
-                                      bg="blue.900"
-                                      color="blue.200"
-                                      fontSize="xs"
-                                      fontFamily="mono"
+                                      className="px-2 py-1 rounded-full bg-blue-900 text-blue-200 text-xs font-mono"
                                     >
                                       {tag}
-                                    </Box>
+                                    </span>
                                   ))}
-                                </HStack>
-                                <Text fontWeight="bold" color={headingColor} mb={1} noOfLines={2}>
+                                </div>
+                                <p className="font-bold text-blue-300 mb-1 line-clamp-2">
                                   {post.frontmatter.title}
-                                </Text>
-                                <Text fontSize="sm" color={textColor} noOfLines={2}>
+                                </p>
+                                <p className="text-sm text-gray-100 line-clamp-2">
                                   {post.frontmatter.description}
-                                </Text>
-                                <Text mt={3} fontSize="xs" color={textColor}>
+                                </p>
+                                <p className="mt-3 text-xs text-gray-100">
                                   {new Date(post.frontmatter.date).toLocaleDateString('de-DE', {
                                     year: 'numeric',
                                     month: 'short',
@@ -472,37 +297,27 @@ export default function BlogPost({ frontMatter, mdxSource, slug, relatedPosts }:
                                   })}
                                   {' • '}
                                   {post.frontmatter.readingTime} min
-                                </Text>
-                              </Box>
+                                </p>
+                              </div>
                             </Link>
                           ))}
-                        </SimpleGrid>
-                      </Box>
+                        </div>
+                      </div>
                     )}
-                  </VStack>
-                </Box>
+                  </div>
+                </div>
 
                 {/* Status bar */}
-                <HStack 
-                  borderTop="1px" 
-                  borderColor={borderColor} 
-                  bg="gray.900" 
-                  px={[3, 4]} 
-                  py={1}
-                  spacing={4}
-                  fontSize="xs"
-                  color={textColor}
-                  fontFamily="mono"
-                >
-                  <Text>markdown</Text>
-                  <Text>UTF-8</Text>
-                  <Text>Ln {mdxSource.compiledSource.split('\n').length}</Text>
-                </HStack>
-              </Box>
-            </Box>
-          </Box>
-        </Container>
-      </Box>
+                <div className="flex items-center gap-4 border-t border-gray-700 bg-gray-900 px-3 sm:px-4 py-1 text-xs text-gray-100 font-mono">
+                  <span>markdown</span>
+                  <span>UTF-8</span>
+                  <span>Ln {mdxSource.compiledSource.split('\n').length}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <FloatingZapAd />
     </>
   );

@@ -1,6 +1,5 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
-import { SimpleGrid, Skeleton } from "@chakra-ui/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BlogCard } from "./blog-card";
 import { BlogPost } from "@/types/blog";
@@ -48,7 +47,7 @@ export const BlogGrid = ({ posts }: BlogGridProps) => {
 
   return (
     <>
-      <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8} w="full" mb={16}>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full mb-16">
         <AnimatePresence mode="popLayout">
           {displayedPosts.map((post, index) => (
             <motion.div
@@ -62,20 +61,17 @@ export const BlogGrid = ({ posts }: BlogGridProps) => {
             </motion.div>
           ))}
         </AnimatePresence>
-      </SimpleGrid>
+      </div>
 
       {loading && (
-        <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8} w="full" mt={8}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full mt-8">
           {[...Array(3)].map((_, i) => (
-            <Skeleton
+            <div
               key={i}
-              height="300px"
-              borderRadius="xl"
-              startColor="gray.800"
-              endColor="gray.700"
+              className="h-[300px] rounded-xl bg-gray-800 animate-pulse"
             />
           ))}
-        </SimpleGrid>
+        </div>
       )}
     </>
   );

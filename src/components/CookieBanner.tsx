@@ -35,6 +35,9 @@ const CookieBanner = () => {
           exit={{ y: 100, opacity: 0 }}
           transition={{ type: "spring", stiffness: 260, damping: 20 }}
           className="fixed bottom-8 left-0 right-0 mx-auto w-[90%] max-w-4xl z-50 px-4"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Cookie-Einstellungen"
         >
           <div className="bg-gray-900/95 backdrop-blur-md border border-gray-700/50 rounded-lg overflow-hidden shadow-xl">
             {/* Terminal Header */}
@@ -76,6 +79,7 @@ const CookieBanner = () => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={handleDecline}
+                    aria-label="Cookies ablehnen"
                     className="px-4 py-2 bg-gray-700/50 hover:bg-gray-700/70 border border-gray-600/50 rounded-md transition-colors text-sm font-mono text-gray-300 whitespace-nowrap"
                   >
                     reject()
@@ -84,6 +88,7 @@ const CookieBanner = () => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={handleAccept}
+                    aria-label="Cookies akzeptieren"
                     className="px-4 py-2 bg-blue-600/80 hover:bg-blue-600 border border-blue-500/50 rounded-md transition-colors text-sm font-mono text-white whitespace-nowrap"
                   >
                     accept()

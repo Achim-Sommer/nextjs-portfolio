@@ -155,8 +155,6 @@ const nextConfig = {
   experimental: {
     optimizeCss: true,
     optimizePackageImports: [
-      '@chakra-ui/react',
-      'framer-motion',
       '@tabler/icons-react',
       'react-icons',
     ],

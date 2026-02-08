@@ -1,42 +1,23 @@
 import Navbar from './Navbar';
 import Footer from './Footer';
-import { Box, useColorModeValue } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
 export default function Layout({ children }: LayoutProps) {
-  const [isBlogPage, setIsBlogPage] = useState(false);
-  const bgColor = useColorModeValue('gray.900', 'gray.900');
-
-  useEffect(() => {
-    setIsBlogPage(window.location.pathname.includes('/blog'));
-  }, []);
+  const router = useRouter();
+  const isBlogPage = router.pathname.includes('/blog');
 
   return (
-    <Box 
-      minH="100vh" 
-      display="flex" 
-      flexDirection="column" 
-      bg={isBlogPage ? 'transparent' : bgColor}
-      position="relative"
-    >
-      <Box 
-        position="absolute"
-        top="0"
-        left="0"
-        right="0"
-        h="4rem"
-        bg="transparent"
-        zIndex={1}
-      />
+    <div className={`min-h-screen flex flex-col relative ${isBlogPage ? 'bg-transparent' : 'bg-gray-900'}`}>
+      <div className="absolute top-0 left-0 right-0 h-16 bg-transparent z-[1]" />
       <Navbar />
-      <Box flex="1">
+      <div className="flex-1">
         {children}
-      </Box>
+      </div>
       <Footer />
-    </Box>
+    </div>
   );
 }

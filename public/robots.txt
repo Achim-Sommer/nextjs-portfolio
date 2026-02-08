@@ -1,5 +1,9 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /_next/static/
+Disallow: /offline
+Disallow: /sw.js
+Disallow: /workbox-*.js
 
 Sitemap: https://achimsommer.com/sitemap.xml

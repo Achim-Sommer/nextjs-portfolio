@@ -105,7 +105,7 @@ const skillsData = [
   }
 ];
 
-const SkillsComponent = () => {
+export default function Skills() {
   return (
     <section id="skills" className="relative py-20 sm:py-32 bg-black">
       {/* Header Content mit max-w */}
@@ -149,6 +149,4 @@ const SkillsComponent = () => {
       </div>
     </section>
   );
-};
-
-export default dynamic(() => Promise.resolve(SkillsComponent), { ssr: false });
+}

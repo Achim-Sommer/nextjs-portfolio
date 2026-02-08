@@ -1,8 +1,6 @@
 'use client';
 
-import { Input, InputGroup, InputLeftElement, Icon } from '@chakra-ui/react';
 import { FiSearch } from 'react-icons/fi';
-import { useColorModeValue } from '@chakra-ui/react';
 
 interface BlogSearchProps {
   searchQuery: string;
@@ -10,32 +8,19 @@ interface BlogSearchProps {
 }
 
 export default function BlogSearch({ searchQuery, onSearchChange }: BlogSearchProps) {
-  const inputBorder = useColorModeValue('gray.700', 'gray.700');
-  const inputColor = useColorModeValue('gray.100', 'gray.100');
-  const iconColor = useColorModeValue('gray.400', 'gray.400');
-
   return (
-    <InputGroup>
-      <InputLeftElement pointerEvents="none">
-        <Icon as={FiSearch} color={iconColor} />
-      </InputLeftElement>
-      <Input
+    <div className="relative flex-1">
+      <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+        <FiSearch className="text-gray-400" />
+      </div>
+      <input
         aria-label="Artikel durchsuchen"
         role="searchbox"
         placeholder="Artikel durchsuchen..."
         value={searchQuery}
         onChange={(e) => onSearchChange(e.target.value)}
-        bg="transparent"
-        border="1px solid"
-        borderColor={inputBorder}
-        color={inputColor}
-        _placeholder={{ color: 'gray.500' }}
-        _hover={{ borderColor: 'blue.500' }}
-        _focus={{ borderColor: 'blue.500', boxShadow: 'none' }}
-        fontSize="sm"
-        fontFamily="mono"
-        className="flex-1"
+        className="w-full bg-transparent border border-gray-700 text-gray-100 placeholder-gray-500 hover:border-blue-500 focus:border-blue-500 focus:outline-none text-sm font-mono pl-10 pr-4 py-2 rounded-md transition-colors"
       />
-    </InputGroup>
+    </div>
   );
 }

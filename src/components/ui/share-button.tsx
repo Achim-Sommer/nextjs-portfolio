@@ -1,7 +1,6 @@
 "use client";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Box, IconButton, HStack, useClipboard, useToast } from "@chakra-ui/react";
 import { FiShare2, FiTwitter, FiLinkedin, FiCopy } from "react-icons/fi";
 
 interface ShareButtonProps {
@@ -11,8 +10,13 @@ interface ShareButtonProps {
 
 export const ShareButton = ({ url, title }: ShareButtonProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { onCopy } = useClipboard(url);
-  const toast = useToast();
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = useCallback(() => {
+    navigator.clipboard.writeText(url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }, [url]);
 
   const shareOptions = [
     {
@@ -41,30 +45,20 @@ export const ShareButton = ({ url, title }: ShareButtonProps) => {
     },
     {
       icon: FiCopy,
-      label: "Copy Link",
-      onClick: () => {
-        onCopy();
-        toast({
-          title: "Link kopiert!",
-          status: "success",
-          duration: 2000,
-          isClosable: true,
-          position: "bottom-right",
-        });
-      },
+      label: copied ? "Kopiert!" : "Copy Link",
+      onClick: handleCopy,
     },
   ];
 
   return (
-    <Box position="relative">
-      <IconButton
+    <div className="relative">
+      <button
         aria-label="Share"
-        icon={<FiShare2 />}
-        variant="ghost"
-        colorScheme="blue"
         onClick={() => setIsOpen(!isOpen)}
-        _hover={{ bg: "blue.900/30" }}
-      />
+        className="p-2 rounded-md text-blue-400 bg-transparent hover:bg-blue-900/30 transition-colors"
+      >
+        <FiShare2 />
+      </button>
 
       <AnimatePresence>
         {isOpen && (
@@ -81,31 +75,24 @@ export const ShareButton = ({ url, title }: ShareButtonProps) => {
               zIndex: 50,
             }}
           >
-            <Box
-              bg="gray.800"
-              borderRadius="lg"
-              border="1px solid"
-              borderColor="gray.700"
-              p={2}
-              shadow="lg"
-            >
-              <HStack spacing={2}>
+            <div className="bg-gray-800 rounded-lg border border-gray-700 p-2 shadow-lg">
+              <div className="flex items-center gap-2">
                 {shareOptions.map((option) => (
-                  <IconButton
+                  <button
                     key={option.label}
                     aria-label={option.label}
-                    icon={<option.icon />}
-                    variant="ghost"
-                    colorScheme="blue"
+                    title={option.label}
                     onClick={option.onClick}
-                    _hover={{ bg: "blue.900/30" }}
-                  />
+                    className="p-2 rounded-md text-blue-400 bg-transparent hover:bg-blue-900/30 transition-colors"
+                  >
+                    <option.icon />
+                  </button>
                 ))}
-              </HStack>
-            </Box>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </Box>
+    </div>
   );
 };
