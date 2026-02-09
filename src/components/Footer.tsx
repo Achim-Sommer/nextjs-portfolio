@@ -30,26 +30,6 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <a
-                  href="https://forum.achimsommer.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-blue-400 transition-colors duration-300 cursor-pointer"
-                >
-                  Forum
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://shop.achimsommer.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-blue-400 transition-colors duration-300 cursor-pointer"
-                >
-                  Shop
-                </a>
-              </li>
-              <li>
-                <a
                   href="https://github.com/Achim-Sommer"
                   target="_blank"
                   rel="noopener noreferrer"

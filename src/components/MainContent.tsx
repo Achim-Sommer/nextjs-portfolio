@@ -44,16 +44,6 @@ const ZapHosting = dynamic(() => import('@/components/ZapHosting'), {
   ssr: true
 });
 
-const Skills = dynamic(() => import('@/components/Skills'), {
-  loading: () => <SectionSkeleton height="h-[300px]" />,
-  ssr: true
-});
-
-const Counter = dynamic(() => import('@/components/Counter'), {
-  loading: () => <SectionSkeleton height="h-[100px]" />,
-  ssr: true
-});
-
 const Footer = dynamic(() => import('@/components/Footer'), {
   loading: () => <SectionSkeleton height="h-[200px]" />,
   ssr: true
@@ -78,28 +68,20 @@ export default function MainContent({ latestPosts }: MainContentProps) {
             <AboutMe />
           </Suspense>
 
-          <div className="w-full">
-            <Suspense fallback={<SectionSkeleton height="h-[300px]" />}>
-              <Skills />
-            </Suspense>
-          </div>
-
-          <Suspense fallback={<SectionSkeleton height="h-[400px]" />}>
-            <section className="py-20 w-full">
-              <ZapHosting />
-            </section>
-          </Suspense>
-
           {latestPosts && latestPosts.length > 0 && (
             <LatestPosts posts={latestPosts} />
           )}
 
-          <Suspense fallback={<SectionSkeleton height="h-[100px]" />}>
-            <Counter />
+          <Suspense fallback={<SectionSkeleton height="h-[300px]" />}>
+            <div id="github-section">
+              <GitHubFeed />
+            </div>
           </Suspense>
 
-          <Suspense fallback={<SectionSkeleton height="h-[300px]" />}>
-            <GitHubFeed />
+          <Suspense fallback={<SectionSkeleton height="h-[400px]" />}>
+            <div id="zap-hosting">
+              <ZapHosting />
+            </div>
           </Suspense>
 
           <Suspense fallback={<SectionSkeleton height="h-[200px]" />}>

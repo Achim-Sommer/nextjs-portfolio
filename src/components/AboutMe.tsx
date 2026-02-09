@@ -1,15 +1,46 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import { motion, useInView, animate } from 'framer-motion';
+import dynamic from 'next/dynamic';
 import {
   SiTypescript, SiReact, SiNextdotjs, SiTailwindcss,
   SiNodedotjs, SiDocker, SiMongodb, SiGit,
   SiPython, SiJavascript, SiLua, SiMysql,
   SiGithub, SiPostgresql
 } from 'react-icons/si';
+import {
+  FaReact, FaNodeJs, FaGitAlt, FaHtml5, FaCss3Alt,
+} from 'react-icons/fa';
+import {
+  SiDjango, SiExpress,
+} from 'react-icons/si';
 import { FiMapPin, FiCoffee, FiMail, FiCode, FiTerminal, FiHeadphones, FiMoon } from 'react-icons/fi';
 import { IoGameControllerOutline } from 'react-icons/io5';
 import { HiOutlineBriefcase } from 'react-icons/hi2';
+
+const InfiniteMovingCards = dynamic(
+  () => import('./ui/infinite-moving-cards').then(mod => mod.InfiniteMovingCards),
+  { ssr: false }
+);
+
+// ─── Skills-Daten für Hintergrund-Karten ─────────────────────
+const BG_SKILLS = [
+  { name: 'TypeScript', icon: <SiTypescript className="text-3xl text-blue-500" />, color: 'from-blue-500/20 via-blue-500/10 to-transparent' },
+  { name: 'React', icon: <FaReact className="text-3xl text-cyan-500" />, color: 'from-cyan-500/20 via-cyan-500/10 to-transparent' },
+  { name: 'Next.js', icon: <SiNextdotjs className="text-3xl text-white" />, color: 'from-white/20 via-white/10 to-transparent' },
+  { name: 'Django', icon: <SiDjango className="text-3xl text-green-500" />, color: 'from-green-500/20 via-green-500/10 to-transparent' },
+  { name: 'Tailwind CSS', icon: <SiTailwindcss className="text-3xl text-teal-500" />, color: 'from-teal-500/20 via-teal-500/10 to-transparent' },
+  { name: 'Node.js', icon: <FaNodeJs className="text-3xl text-green-500" />, color: 'from-green-500/20 via-green-500/10 to-transparent' },
+  { name: 'JavaScript', icon: <SiJavascript className="text-3xl text-yellow-500" />, color: 'from-yellow-500/20 via-yellow-500/10 to-transparent' },
+  { name: 'Git', icon: <FaGitAlt className="text-3xl text-orange-500" />, color: 'from-orange-500/20 via-orange-500/10 to-transparent' },
+  { name: 'HTML5', icon: <FaHtml5 className="text-3xl text-orange-600" />, color: 'from-orange-600/20 via-orange-600/10 to-transparent' },
+  { name: 'CSS3', icon: <FaCss3Alt className="text-3xl text-blue-600" />, color: 'from-blue-600/20 via-blue-600/10 to-transparent' },
+  { name: 'PostgreSQL', icon: <SiPostgresql className="text-3xl text-blue-400" />, color: 'from-blue-400/20 via-blue-400/10 to-transparent' },
+  { name: 'MySQL', icon: <SiMysql className="text-3xl text-blue-500" />, color: 'from-blue-500/20 via-blue-500/10 to-transparent' },
+  { name: 'MongoDB', icon: <SiMongodb className="text-3xl text-green-500" />, color: 'from-green-500/20 via-green-500/10 to-transparent' },
+  { name: 'Docker', icon: <SiDocker className="text-3xl text-blue-500" />, color: 'from-blue-500/20 via-blue-500/10 to-transparent' },
+  { name: 'Express', icon: <SiExpress className="text-3xl text-white" />, color: 'from-white/20 via-white/10 to-transparent' },
+];
 
 // ─── Terminal-Zeilen (außerhalb für stabile Referenz) ────────
 const TERMINAL_LINES = [
@@ -229,6 +260,47 @@ export default function AboutMe() {
             animation: 'gradientShift 16s ease infinite',
           }}
         />
+        {/* Infinite Moving Cards als dezentes Hintergrund-Designelement — verteilt über die gesamte Sektion */}
+        <div className="absolute top-[5%] left-0 w-full opacity-[0.05] pointer-events-none select-none">
+          <InfiniteMovingCards
+            items={BG_SKILLS}
+            direction="left"
+            speed="slow"
+            pauseOnHover={false}
+            showName={true}
+            cardClassName="w-[220px]"
+          />
+        </div>
+        <div className="absolute top-[28%] left-0 w-full opacity-[0.04] pointer-events-none select-none">
+          <InfiniteMovingCards
+            items={[...BG_SKILLS].reverse()}
+            direction="right"
+            speed="slow"
+            pauseOnHover={false}
+            showName={true}
+            cardClassName="w-[220px]"
+          />
+        </div>
+        <div className="absolute top-[52%] left-0 w-full opacity-[0.05] pointer-events-none select-none">
+          <InfiniteMovingCards
+            items={BG_SKILLS}
+            direction="left"
+            speed="slow"
+            pauseOnHover={false}
+            showName={true}
+            cardClassName="w-[220px]"
+          />
+        </div>
+        <div className="absolute top-[76%] left-0 w-full opacity-[0.04] pointer-events-none select-none">
+          <InfiniteMovingCards
+            items={[...BG_SKILLS].reverse()}
+            direction="right"
+            speed="slow"
+            pauseOnHover={false}
+            showName={true}
+            cardClassName="w-[220px]"
+          />
+        </div>
       </div>
 
       {/* Keyframes werden inline injected */}
@@ -245,7 +317,7 @@ export default function AboutMe() {
       <section id="about-me" className="relative py-14 sm:py-24">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           {/* ── Überschrift ────────────────────────────────── */}
-          <div className="text-center mb-12 sm:mb-16">
+          <div className="text-center mb-10 sm:mb-14">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -254,22 +326,13 @@ export default function AboutMe() {
               className="relative inline-block"
             >
               {/* Glow hinter dem Text */}
-              <div className="absolute inset-0 blur-[60px] bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-blue-500/20 rounded-full scale-150" />
-              <h2 className="relative text-3xl sm:text-5xl font-extrabold tracking-tight mb-3">
-                <span className="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
+              <div className="absolute inset-0 blur-[50px] bg-gradient-to-r from-blue-500/15 via-purple-500/15 to-blue-500/15 rounded-full scale-150" />
+              <h2 className="relative text-2xl sm:text-3xl font-bold tracking-tight">
+                <span className="bg-gradient-to-r from-white/80 via-blue-100/90 to-white/80 bg-clip-text text-transparent">
                   Über Mich
                 </span>
               </h2>
             </motion.div>
-            <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-gray-500 text-sm sm:text-base max-w-md mx-auto"
-            >
-              Full Stack Entwickler aus Leidenschaft, Gamer aus Überzeugung.
-            </motion.p>
           </div>
 
           {/* ── Bento Grid ─────────────────────────────────── */}
@@ -336,7 +399,7 @@ export default function AboutMe() {
                     GitHub
                   </a>
                   <a
-                    href="mailto:contact@achimsommer.com"
+                    href="mailto:dev@achimsommer.com"
                     className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.09] hover:border-white/[0.18] transition-all text-sm text-gray-300"
                   >
                     <FiMail className="w-4 h-4" />

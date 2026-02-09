@@ -121,8 +121,8 @@ const hostingProducts = [
 
 export default function ZapHosting() {
   return (
-    <section className="relative py-20 sm:py-32 bg-slate-900">
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-900/40 via-slate-900/80 to-slate-900" />
+    <section className="relative py-20 sm:py-32 bg-black">
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-slate-900/60 to-black" />
       
       {/* Header Content mit max-w */}
       <div className="relative mx-auto max-w-[1400px] px-4 sm:px-6 mb-16">
