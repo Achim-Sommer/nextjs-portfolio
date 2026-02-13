@@ -2,18 +2,18 @@
 
 import * as React from 'react';
 import { HeroHighlight, Highlight } from './ui/hero-highlight';
+import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { MainHero3DElements } from './ui/main-hero-3d';
 
 // Inline Typewriter – rein visueller Effekt, Text ist sofort sichtbar für LCP
-const InlineTypewriter = ({ text }: { text: string }) => {
+const InlineTypewriter = ({ text, onComplete }: { text: string; onComplete?: () => void }) => {
   const [displayed, setDisplayed] = useState(text.length); // sofort alles sichtbar
   const [animating, setAnimating] = useState(false);
   const ref = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    // Typewriter-Animation startet nach Mount als visueller Effekt
-    // Text bleibt für LCP sofort lesbar
     setDisplayed(0);
     setAnimating(true);
     let i = 0;
@@ -23,17 +23,18 @@ const InlineTypewriter = ({ text }: { text: string }) => {
       if (i >= text.length) {
         clearInterval(id);
         setAnimating(false);
+        onComplete?.();
       }
-    }, 80);
+    }, 60);
     return () => clearInterval(id);
-  }, [text]);
+  }, [text, onComplete]);
 
   return (
     <span ref={ref} className="inline-flex items-center">
       {text.split('').map((ch, idx) => (
         <span
           key={idx}
-          className={`inline-block transition-opacity duration-75 ${idx < displayed ? 'opacity-100' : 'opacity-0'}`}
+          className={`inline-block transition-opacity duration-100 ${idx < displayed ? 'opacity-100' : 'opacity-0'}`}
         >
           {ch === ' ' ? '\u00A0' : ch}
         </span>
@@ -44,12 +45,6 @@ const InlineTypewriter = ({ text }: { text: string }) => {
     </span>
   );
 };
-
-// Lazy load Particles
-const Particles = dynamic(() => import('./ui/particles'), {
-  ssr: false,
-  loading: () => <div className="absolute inset-0" />
-});
 
 const BinaryBackground = () => (
   <div className="absolute inset-0 opacity-5">
@@ -131,6 +126,9 @@ const LazyLineNumbers = dynamic(() => Promise.resolve(LineNumbers), {
 });
 
 const Hero: React.FC = () => {
+  const [typewriterDone, setTypewriterDone] = useState(false);
+  const handleTypewriterComplete = useCallback(() => setTypewriterDone(true), []);
+
   return (
     <section id="top" className="relative min-h-screen bg-black overflow-hidden">
       <div 
@@ -141,30 +139,46 @@ const Hero: React.FC = () => {
         <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
           <div className="text-center">
             <div className="inline-block">
-              <h1 className="mb-4 text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
+              <h1 className="mb-2 text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
                 {/* Mobile: sofort sichtbar für LCP, Desktop: Typewriter-Effekt */}
                 <span className="block sm:hidden text-white">
-                  Hey, ich bin Achim
+                  Achim Sommer
                 </span>
                 <span className="hidden sm:block text-white">
-                  <InlineTypewriter text="Hey, ich bin Achim" />
+                  <InlineTypewriter text="Achim Sommer" onComplete={handleTypewriterComplete} />
                 </span>
               </h1>
             </div>
 
-            <HeroHighlight>
-              <h2
-                className="hero-title text-2xl px-4 md:text-4xl font-bold text-white leading-relaxed text-center mx-auto"
-                style={{
-                  willChange: 'transform',
-                  transform: 'translateZ(0)'
-                }}
-              >
-                <Highlight>
-                Wirtschaftsinformatik (B.Sc.)
-                </Highlight>
-              </h2>
-            </HeroHighlight>
+            <motion.p
+              initial={{ opacity: 0, y: 8 }}
+              animate={typewriterDone ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className={`text-lg md:text-xl text-blue-300/60 font-mono tracking-[0.3em] uppercase mb-6 ${!typewriterDone ? 'opacity-0' : ''}`}
+            >
+              Code · Deploy · Connect
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={typewriterDone ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
+              className={!typewriterDone ? 'opacity-0' : ''}
+            >
+              <HeroHighlight>
+                <h2
+                  className="hero-title text-2xl px-4 md:text-4xl font-bold text-white leading-relaxed text-center mx-auto"
+                  style={{
+                    willChange: 'transform',
+                    transform: 'translateZ(0)'
+                  }}
+                >
+                  <Highlight>
+                  Full Stack Developer & UniFi Specialist
+                  </Highlight>
+                </h2>
+              </HeroHighlight>
+            </motion.div>
 
             <div className="flex flex-col items-center mt-8">
               <button
@@ -195,10 +209,6 @@ const Hero: React.FC = () => {
 
         {/* Hintergrund-Effekte mit niedrigerer Priorität */}
         <div className="absolute inset-0 z-0">
-          {/* Particles nur auf Desktop laden */}
-          <div className="hidden md:block">
-            <Particles className="absolute inset-0" />
-          </div>
           {/* BinaryBackground nur auf Desktop laden */}
           <div className="hidden md:block">
             <LazyBinaryBackground />
@@ -221,18 +231,8 @@ const Hero: React.FC = () => {
           />
         </div>
 
-        {/* Scanning Lines */}
-        <div className="absolute inset-0 pointer-events-none z-0">
-          {/* Horizontal Lines */}
-          <div className="absolute h-[1px] w-full top-1/4 bg-gradient-to-r from-transparent via-blue-500/20 to-transparent animate-scan-x" />
-          <div className="absolute h-[1px] w-full top-2/4 bg-gradient-to-r from-transparent via-blue-500/20 to-transparent animate-scan-x-reverse" />
-          <div className="absolute h-[1px] w-full top-3/4 bg-gradient-to-r from-transparent via-blue-500/20 to-transparent animate-scan-x" />
-          
-          {/* Vertical Lines */}
-          <div className="absolute w-[1px] h-full left-1/4 bg-gradient-to-b from-transparent via-blue-500/20 to-transparent animate-scan-y" />
-          <div className="absolute w-[1px] h-full left-2/4 bg-gradient-to-b from-transparent via-blue-500/20 to-transparent animate-scan-y-reverse" />
-          <div className="absolute w-[1px] h-full left-3/4 bg-gradient-to-b from-transparent via-blue-500/20 to-transparent animate-scan-y" />
-        </div>
+        {/* 3D Floating Tech Icons */}
+        <MainHero3DElements />
 
         {/* Code Comments */}
         <div className="absolute right-4 top-24 md:top-4 w-[calc(100%-2rem)] md:w-64 text-xs font-mono opacity-20 z-10 hidden md:block">

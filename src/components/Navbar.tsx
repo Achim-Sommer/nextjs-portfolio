@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { FloatingNav } from './ui/floating-navbar';
 import { AiOutlineUser, AiOutlineProject, AiOutlineRead } from 'react-icons/ai';
 import { FaServer } from 'react-icons/fa';
+import { MdRouter } from 'react-icons/md';
 import BlogNavbar from './BlogNavbar';
 import { usePathname } from 'next/navigation';
 
@@ -25,7 +26,6 @@ export default function Navbar() {
     return <BlogNavbar />;
   }
 
-  // Keine Floating Navbar auf der Services-Seite
   if (isServicesPage) {
     return null;
   }
@@ -45,6 +45,11 @@ export default function Navbar() {
       name: 'Zap-Hosting',
       link: '#zap-hosting',
       icon: <FaServer className="w-4 h-4" />,
+    },
+    {
+      name: 'Services',
+      link: '/services',
+      icon: <MdRouter className="w-4 h-4" />,
     },
     {
       name: 'Blog',

@@ -37,8 +37,8 @@ export const HeroHighlight = ({
           initial={{ width: 0 }}
           animate={{ width: "100%" }}
           transition={{
-            delay: 0.5,
-            duration: 0.5,
+            delay: 1.2,
+            duration: 0.6,
             ease: "easeOut",
           }}
           className="absolute -inset-x-2 -inset-y-1 -z-10 rounded-lg bg-gradient-to-r from-violet-500/50 to-pink-500/50"

@@ -1,16 +1,81 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { AnimatedCard } from './ui/animated-card';
+import React, { useEffect, useState, useRef } from 'react';
 import { AnimatedText } from './ui/animated-text';
 import { Spotlight } from './ui/spotlight';
-import { ShimmerButton } from './ui/shimmer-button';
-import { MagneticButton } from './ui/magnetic-button';
 import { motion } from 'framer-motion';
 import { GitHubCalendar } from 'react-github-calendar';
 import { Tooltip } from 'react-tooltip';
 import Link from 'next/link';
 import { IconBrandGithub, IconGitFork, IconStar } from '@tabler/icons-react';
+
+// ─── Sprach-Farben (GitHub-Style) ────────────────────────────
+const LANG_COLORS: Record<string, string> = {
+  TypeScript: '#3178C6',
+  JavaScript: '#F7DF1E',
+  Python: '#3572A5',
+  Java: '#B07219',
+  'C#': '#239120',
+  'C++': '#F34B7D',
+  Go: '#00ADD8',
+  Rust: '#DEA584',
+  HTML: '#E34C26',
+  CSS: '#563D7C',
+  Shell: '#89E051',
+  Lua: '#000080',
+  PHP: '#4F5D95',
+  Ruby: '#701516',
+  Dart: '#00B4AB',
+  Swift: '#F05138',
+  Kotlin: '#A97BFF',
+  Vue: '#41B883',
+  SCSS: '#C6538C',
+};
+
+function getLangColor(lang: string | null): string {
+  if (!lang) return '#6B7280';
+  return LANG_COLORS[lang] || '#6B7280';
+}
+
+// ─── 3D-Tilt Repo Card ──────────────────────────────────────
+function TiltRepoCard({ children, langColor }: { children: React.ReactNode; langColor: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width;
+    const py = (e.clientY - rect.top) / rect.height;
+    setTilt({ x: (0.5 - py) * 10, y: (px - 0.5) * 10 });
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={() => setTilt({ x: 0, y: 0 })}
+      style={{
+        transformStyle: 'preserve-3d',
+        transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+        transition: 'transform 0.15s ease-out',
+      }}
+      className="relative group rounded-xl border border-gray-800 bg-gray-900/80 backdrop-blur-sm overflow-hidden hover:border-gray-700 hover:shadow-xl transition-[border-color,box-shadow] duration-300"
+    >
+      {/* Farbiger Top-Accent basierend auf Sprache */}
+      <div
+        className="absolute top-0 left-0 right-0 h-[2px]"
+        style={{ background: `linear-gradient(to right, ${langColor}, transparent)` }}
+      />
+      {/* Dezenter Sprach-Glow */}
+      <div
+        className="absolute top-0 left-0 w-32 h-32 opacity-[0.04] blur-[40px] pointer-events-none"
+        style={{ background: langColor }}
+      />
+      {children}
+    </motion.div>
+  );
+}
 
 interface Repository {
   id: number;
@@ -181,81 +246,88 @@ export default function GitHubRepos() {
 
           <motion.div 
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            style={{ perspective: 800 }}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            {repos.map((repo) => (
-              <AnimatedCard key={repo.id} className="relative group hover:shadow-xl transition-all duration-300 border border-gray-800 bg-gray-900/80 backdrop-blur-sm">
+            {repos.map((repo, i) => (
+              <TiltRepoCard key={repo.id} langColor={getLangColor(repo.language)}>
                 <div className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <Link 
-                      href={repo.html_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent hover:from-blue-300 hover:to-purple-300"
-                    >
-                      {repo.name}
-                    </Link>
+                  {/* Header: Icon + Name + Private Badge */}
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <div
+                        className="flex items-center justify-center w-9 h-9 rounded-lg border"
+                        style={{
+                          backgroundColor: `${getLangColor(repo.language)}12`,
+                          borderColor: `${getLangColor(repo.language)}25`,
+                        }}
+                      >
+                        <IconBrandGithub className="w-4 h-4 text-gray-400" />
+                      </div>
+                      <Link
+                        href={repo.html_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-lg font-semibold text-white hover:text-blue-400 transition-colors duration-200 truncate max-w-[200px]"
+                      >
+                        {repo.name}
+                      </Link>
+                    </div>
                     {repo.private && (
-                      <span className="px-2 py-1 text-xs rounded-full bg-yellow-500/10 text-yellow-300 border border-yellow-500/20">
+                      <span className="px-2 py-0.5 text-[10px] uppercase tracking-wider rounded-full bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 font-medium">
                         Private
                       </span>
                     )}
                   </div>
-                  <p className="text-gray-300 mb-4 line-clamp-2 text-left">
+
+                  {/* Beschreibung */}
+                  <p className="text-sm text-gray-400 mb-5 line-clamp-2 text-left leading-relaxed">
                     {repo.description || 'Keine Beschreibung verfügbar'}
                   </p>
-                  <div className="flex flex-wrap items-center gap-3 mb-4">
-                    {repo.language && (
-                      <span className="px-3 py-1 text-sm rounded-full bg-gradient-to-r from-blue-900 to-purple-900 text-blue-100 font-medium border border-blue-700/30">
-                        {repo.language}
+
+                  {/* Footer: Sprache + Stats + Link */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      {repo.language && (
+                        <span className="inline-flex items-center gap-1.5 text-xs font-medium text-gray-400">
+                          <span
+                            className="w-2.5 h-2.5 rounded-full ring-2"
+                            style={{
+                              backgroundColor: getLangColor(repo.language),
+                              boxShadow: `0 0 6px ${getLangColor(repo.language)}40`,
+                              // @ts-ignore
+                              '--tw-ring-color': `${getLangColor(repo.language)}30`,
+                            }}
+                          />
+                          {repo.language}
+                        </span>
+                      )}
+                      <span className="flex items-center gap-1 text-xs text-gray-500">
+                        <IconStar className="w-3.5 h-3.5 text-yellow-500" />
+                        {repo.stargazers_count}
                       </span>
-                    )}
-                    <div className="flex items-center space-x-4">
-                      <span className="flex items-center space-x-1 text-gray-300">
-                        <IconStar className="w-5 h-5 text-yellow-400" />
-                        <span className="font-medium">{repo.stargazers_count}</span>
-                      </span>
-                      <span className="flex items-center space-x-1 text-gray-300">
-                        <IconGitFork className="w-5 h-5 text-blue-400" />
-                        <span className="font-medium">{repo.forks_count}</span>
+                      <span className="flex items-center gap-1 text-xs text-gray-500">
+                        <IconGitFork className="w-3.5 h-3.5" />
+                        {repo.forks_count}
                       </span>
                     </div>
-                  </div>
-                  <p className="text-sm text-gray-400 mb-4 text-left">
-                    Zuletzt aktualisiert: {new Date(repo.updated_at).toLocaleDateString('de-DE')}
-                  </p>
-                  <div className="flex justify-between items-center">
-                    <MagneticButton>
-                      <ShimmerButton className="transform transition-transform duration-300 hover:scale-105 hover:bg-gray-800" asChild>
-                        <a
-                          href={repo.html_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center justify-center gap-2 px-4 py-2"
-                        >
-                          Projekt ansehen
-                          <svg
-                            className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                            />
-                          </svg>
-                        </a>
-                      </ShimmerButton>
-                    </MagneticButton>
+                    <a
+                      href={repo.html_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 text-xs font-medium text-gray-500 hover:text-white transition-colors duration-200"
+                    >
+                      Ansehen
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </a>
                   </div>
                 </div>
-              </AnimatedCard>
+              </TiltRepoCard>
             ))}
           </motion.div>
 
