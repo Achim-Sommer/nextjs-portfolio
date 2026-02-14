@@ -1,50 +1,9 @@
 'use client';
 
 import * as React from 'react';
-import { HeroHighlight, Highlight } from './ui/hero-highlight';
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
-import { useState, useEffect, useCallback, useRef } from 'react';
 import { MainHero3DElements } from './ui/main-hero-3d';
-
-// Inline Typewriter – rein visueller Effekt, Text ist sofort sichtbar für LCP
-const InlineTypewriter = ({ text, onComplete }: { text: string; onComplete?: () => void }) => {
-  const [displayed, setDisplayed] = useState(text.length); // sofort alles sichtbar
-  const [animating, setAnimating] = useState(false);
-  const ref = useRef<HTMLSpanElement>(null);
-
-  useEffect(() => {
-    setDisplayed(0);
-    setAnimating(true);
-    let i = 0;
-    const id = setInterval(() => {
-      i++;
-      setDisplayed(i);
-      if (i >= text.length) {
-        clearInterval(id);
-        setAnimating(false);
-        onComplete?.();
-      }
-    }, 60);
-    return () => clearInterval(id);
-  }, [text, onComplete]);
-
-  return (
-    <span ref={ref} className="inline-flex items-center">
-      {text.split('').map((ch, idx) => (
-        <span
-          key={idx}
-          className={`inline-block transition-opacity duration-100 ${idx < displayed ? 'opacity-100' : 'opacity-0'}`}
-        >
-          {ch === ' ' ? '\u00A0' : ch}
-        </span>
-      ))}
-      {animating && (
-        <span className="inline-block w-[2px] h-[1.1em] bg-white ml-0.5 animate-cursor-blink" />
-      )}
-    </span>
-  );
-};
 
 const BinaryBackground = () => (
   <div className="absolute inset-0 opacity-5">
@@ -126,8 +85,6 @@ const LazyLineNumbers = dynamic(() => Promise.resolve(LineNumbers), {
 });
 
 const Hero: React.FC = () => {
-  const [typewriterDone, setTypewriterDone] = useState(false);
-  const handleTypewriterComplete = useCallback(() => setTypewriterDone(true), []);
 
   return (
     <section id="top" className="relative min-h-screen bg-black overflow-hidden">
@@ -139,46 +96,21 @@ const Hero: React.FC = () => {
         <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
           <div className="text-center">
             <div className="inline-block">
-              <h1 className="mb-2 text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
-                {/* Mobile: sofort sichtbar für LCP, Desktop: Typewriter-Effekt */}
-                <span className="block sm:hidden text-white">
-                  Achim Sommer
-                </span>
-                <span className="hidden sm:block text-white">
-                  <InlineTypewriter text="Achim Sommer" onComplete={handleTypewriterComplete} />
-                </span>
+              <h1 className="mb-2 text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl text-white">
+                Achim Sommer
               </h1>
             </div>
 
             <motion.p
               initial={{ opacity: 0, y: 8 }}
-              animate={typewriterDone ? { opacity: 1, y: 0 } : {}}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
-              className={`text-lg md:text-xl text-blue-300/60 font-mono tracking-[0.3em] uppercase mb-6 ${!typewriterDone ? 'opacity-0' : ''}`}
+              className="text-lg md:text-xl text-blue-300/60 font-mono tracking-[0.3em] uppercase mb-6"
             >
               Code · Deploy · Connect
             </motion.p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={typewriterDone ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
-              className={!typewriterDone ? 'opacity-0' : ''}
-            >
-              <HeroHighlight>
-                <h2
-                  className="hero-title text-2xl px-4 md:text-4xl font-bold text-white leading-relaxed text-center mx-auto"
-                  style={{
-                    willChange: 'transform',
-                    transform: 'translateZ(0)'
-                  }}
-                >
-                  <Highlight>
-                  Full Stack Developer & UniFi Specialist
-                  </Highlight>
-                </h2>
-              </HeroHighlight>
-            </motion.div>
+
 
             <div className="flex flex-col items-center mt-8">
               <button

@@ -39,6 +39,11 @@ const GitHubFeed = dynamic(() => import('@/components/GitHubRepos'), {
   ssr: false
 });
 
+const ServicesOverview = dynamic(() => import('@/components/ServicesOverview'), {
+  loading: () => <SectionSkeleton height="h-[400px]" />,
+  ssr: true
+});
+
 const ZapHosting = dynamic(() => import('@/components/ZapHosting'), {
   loading: () => <SectionSkeleton height="h-[400px]" />,
   ssr: true
@@ -66,6 +71,10 @@ export default function MainContent({ latestPosts }: MainContentProps) {
         <div className="content-wrapper">
           <Suspense fallback={<SectionSkeleton height="h-[400px]" />}>
             <AboutMe />
+          </Suspense>
+
+          <Suspense fallback={<SectionSkeleton height="h-[400px]" />}>
+            <ServicesOverview />
           </Suspense>
 
           {latestPosts && latestPosts.length > 0 && (
