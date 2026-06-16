@@ -43,7 +43,7 @@ const config: DefaultSeoProps = {
     },
     {
       name: 'theme-color',
-      content: '#1e3a8a',
+      content: '#000000',
     },
     {
       name: 'robots',

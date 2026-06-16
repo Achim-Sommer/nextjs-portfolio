@@ -16,6 +16,11 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://achimsommer.com';
 const umamiUrl = process.env.NEXT_PUBLIC_UMAMI_URL;
 const umamiWebsiteId = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
 
+const siteTitle = 'Achim Sommer (achimsommer) | Full Stack Developer & FiveM Entwickler';
+const siteDescription =
+  'Achim Sommer (achimsommer) – Full Stack Developer aus Aachen, spezialisiert auf TypeScript, React, Next.js und FiveM Entwicklung. Dualer Student der Wirtschaftsinformatik.';
+const ogImage = `${siteUrl}/api/og?title=${encodeURIComponent('Achim Sommer – Full Stack Developer')}`;
+
 export const viewport = {
   themeColor: '#000000',
   width: 'device-width',
@@ -25,8 +30,28 @@ export const viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'Achim Sommer - Portfolio',
-  description: 'Portfolio von Achim Sommer - Dualer Student, Full Stack Developer und YouTuber',
+  title: {
+    default: siteTitle,
+    template: '%s | Achim Sommer',
+  },
+  description: siteDescription,
+  keywords: [
+    'Achim Sommer',
+    'achimsommer',
+    'Full Stack Developer',
+    'FiveM Entwickler',
+    'TypeScript',
+    'React',
+    'Next.js',
+    'Node.js',
+    'Webentwicklung',
+    'Aachen',
+    'Portfolio',
+    'Software Engineer',
+    'Wirtschaftsinformatik',
+  ],
+  authors: [{ name: 'Achim Sommer', url: siteUrl }],
+  creator: 'Achim Sommer',
   metadataBase: new URL(siteUrl),
   manifest: '/manifest.json',
   icons: {
@@ -38,16 +63,16 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'website',
-    title: 'Achim Sommer - Portfolio',
-    description: 'Portfolio von Achim Sommer - Dualer Student, Full Stack Developer und YouTuber',
+    title: siteTitle,
+    description: siteDescription,
     url: siteUrl,
-    siteName: 'Achim Sommer',
+    siteName: 'Achim Sommer Portfolio',
     images: [
       {
-        url: `${siteUrl}/api/og?title=${encodeURIComponent('Achim Sommer - Portfolio')}`,
+        url: ogImage,
         width: 1200,
         height: 630,
-        alt: 'Achim Sommer Portfolio',
+        alt: 'Achim Sommer - Full Stack Developer Portfolio',
       },
     ],
     locale: 'de_DE',
@@ -56,9 +81,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@achimsommer',
     creator: '@achimsommer',
-    title: 'Achim Sommer - Portfolio',
-    description: 'Portfolio von Achim Sommer - Dualer Student, Full Stack Developer und YouTuber',
-    images: [`${siteUrl}/api/og?title=${encodeURIComponent('Achim Sommer - Portfolio')}`],
+    title: siteTitle,
+    description: siteDescription,
+    images: [ogImage],
   },
 }
 
@@ -126,35 +151,12 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebSite",
+              "name": "Achim Sommer Portfolio",
               "url": "https://achimsommer.com",
-              "breadcrumb": {
-                "@type": "BreadcrumbList",
-                "itemListElement": [
-                  {
-                    "@type": "ListItem",
-                    "position": 1,
-                    "name": "Startseite",
-                    "item": "https://achimsommer.com"
-                  },
-                  {
-                    "@type": "ListItem",
-                    "position": 2,
-                    "name": "Blog",
-                    "item": "https://achimsommer.com/blog"
-                  },
-                  {
-                    "@type": "ListItem",
-                    "position": 3,
-                    "name": "Services",
-                    "item": "https://achimsommer.com/services"
-                  },
-                  {
-                    "@type": "ListItem",
-                    "position": 4,
-                    "name": "FiveM Template Server",
-                    "item": "https://achimsommer.com/fivem-template-server"
-                  }
-                ]
+              "inLanguage": "de-DE",
+              "publisher": {
+                "@type": "Person",
+                "name": "Achim Sommer"
               }
             })
           }}

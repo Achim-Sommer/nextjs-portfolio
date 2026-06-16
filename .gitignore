@@ -2,7 +2,15 @@ node_modules
 .next
 .env
 .env.local
-.env
+
+# next-pwa generierte Artefakte (Hash ändert sich bei jedem Build)
 public/sw.js
-public/workbox-4754cb34.js
+public/sw.js.map
+public/workbox-*.js
+public/workbox-*.js.map
+public/fallback-*.js
+
+# Build-/Analyse-Artefakte
+analyze/
 lighthouse-report.json
+*.tsbuildinfo

@@ -21,7 +21,7 @@ const staticPages: PageConfig[] = [
   },
   {
     path: '/services',
-    priority: 1.0,
+    priority: 0.9,
     changefreq: 'weekly',
     lastmod: new Date().toISOString().split('T')[0],
   },
@@ -32,8 +32,8 @@ const staticPages: PageConfig[] = [
   },
   {
     path: '/fivem-template-server',
-    priority: 0.9,
-    changefreq: 'weekly',
+    priority: 0.8,
+    changefreq: 'yearly',
   },
   {
     path: '/impressum',

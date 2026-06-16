@@ -93,7 +93,7 @@ export default function FiveMTemplateServer() {
               'FiveM Template Server kostenlos downloaden - Das beste kostenlose ESX Legacy Template für deinen GTA Roleplay Server. Inklusive Jobs, Shops, Casino & mehr.',
             images: [
               {
-                url: 'https://achimsommer.com/images/fivem-template-preview.jpg',
+                url: `https://achimsommer.com/api/og?title=${encodeURIComponent('FiveM Template Server Kostenlos')}`,
                 width: 1200,
                 height: 630,
                 alt: 'FiveM Template Server Kostenlos - Bestes ESX Legacy Template',
