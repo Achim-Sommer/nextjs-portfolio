@@ -14,7 +14,7 @@ Den passenden Palworld-Server bekommst du hier ab **7,14 € im Monat**:
 
 - [Palworld Server bei ZAP-Hosting holen](https://zap-hosting.com/serverpalworld)
 
-Mit dem Code `GermanGaming` sparst du zusätzlich 20%.
+Mit dem Code `GermanGaming` sparst du zusätzlich 20% auf den Mietpreis.
 
 
 ## Inhaltsverzeichnis
@@ -116,6 +116,8 @@ Beim Checkout den Rabattcode eintragen:
 
 - Code: `GermanGaming`
 
+Der Code gilt für die Miet-Laufzeiten (nicht für die Lifetime-Option).
+
 ### Schritt 5: Bestellen und loslegen
 
 Nach der Bestellung wird der Server automatisch eingerichtet. Sobald er bereit ist, bekommst du Zugang zum Panel und die Serverdaten (IP + Port), die du in Palworld unter „Community-Server beitreten" bzw. per Direktverbindung eingibst.
@@ -158,7 +160,7 @@ Ein dedizierter Server unterstützt bis zu 32 Spieler gleichzeitig – deutlich 
 
 ### Was kostet ein Palworld Server?
 
-Bei ZAP-Hosting ab **7,14 € im Monat**, mit dem Code `GermanGaming` nochmal 20% günstiger. Alternativ gibt es die Lifetime-Option ab 60 € einmalig.
+Bei ZAP-Hosting ab **7,14 € im Monat**, mit dem Code `GermanGaming` nochmal 20% günstiger. Alternativ gibt es die Lifetime-Option ab 60 € einmalig (dort gilt der Code allerdings nicht).
 
 ### Kann ich später upgraden?
 
@@ -185,6 +187,6 @@ Zum **Palworld 1.0 Release** ist ein Mietserver der schnellste und flexibelste E
 
 <ZapHostingCta href="https://zap-hosting.com/serverpalworld" buttonText="Palworld Server jetzt starten" />
 
-Mit dem Code `GermanGaming` sparst du 20%.
+Mit dem Code `GermanGaming` sparst du 20% auf den Mietpreis.
 
 Weiterführende Artikel: [Palworld Server kaufen statt mieten (Lifetime)](/blog/palworld-server-kaufen-statt-mieten-lifetime), [ZAP-Hosting Lifetime Server](/blog/zap-hosting-lifetime) und [vServer kaufen statt mieten](/blog/vserver-kaufen-statt-mieten).
