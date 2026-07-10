@@ -8,7 +8,7 @@ featured: false
 
 Palworld ist mit **Version 1.0** endlich offiziell erschienen – und wer jetzt mit Freunden auf einer gemeinsamen Welt spielen will, braucht einen **Palworld Server**. Der schnellste Weg dahin: einen **Palworld Server mieten**. Keine eigene Hardware, kein Portforwarding, kein PC, der 24/7 laufen muss – dafür ein Panel, in dem du Start/Stop, Backups und Einstellungen bequem verwaltest.
 
-<ZapHostingCta href="https://zap-hosting.com/serverpalworld" buttonText="Palworld Server jetzt mieten" />
+<ZapHostingCta href="https://zap-hosting.com/serverpalworld" title="Palworld Server in Minuten starten" buttonText="Palworld Server jetzt mieten" />
 
 Den passenden Palworld-Server bekommst du hier ab **7,14 € im Monat**:
 
@@ -122,7 +122,7 @@ Der Code gilt für die Miet-Laufzeiten (nicht für die Lifetime-Option).
 
 Nach der Bestellung wird der Server automatisch eingerichtet. Sobald er bereit ist, bekommst du Zugang zum Panel und die Serverdaten (IP + Port), die du in Palworld unter „Community-Server beitreten" bzw. per Direktverbindung eingibst.
 
-<ZapHostingCta href="https://zap-hosting.com/serverpalworld" buttonText="Jetzt Palworld Server holen" />
+<ZapHostingCta href="https://zap-hosting.com/serverpalworld" title="Palworld Server in Minuten starten" buttonText="Jetzt Palworld Server holen" />
 
 ## Wichtige Einstellungen nach der Bestellung
 
@@ -185,7 +185,7 @@ Wenn du langfristig planst, ist ein **Lifetime-Server (einmal zahlen, dauerhaft 
 
 Zum **Palworld 1.0 Release** ist ein Mietserver der schnellste und flexibelste Einstieg: ab **7,14 € im Monat**, in Minuten online, jederzeit anpassbar. Wenn sich abzeichnet, dass eure Welt dauerhaft laufen soll, rechne die Lifetime-Option durch – ab dem Break-even spielt ihr quasi kostenlos.
 
-<ZapHostingCta href="https://zap-hosting.com/serverpalworld" buttonText="Palworld Server jetzt starten" />
+<ZapHostingCta href="https://zap-hosting.com/serverpalworld" title="Palworld Server in Minuten starten" buttonText="Palworld Server jetzt starten" />
 
 Mit dem Code `GermanGaming` sparst du 20% auf den Mietpreis.
 

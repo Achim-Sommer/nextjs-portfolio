@@ -14,7 +14,7 @@ Den passenden Hytale-Server bekommst du hier:
 
 - [Hytale Server bei ZAP-Hosting holen](https://zap-hosting.com/hytale)
 
-Mit dem Code `GermanGaming` sparst du 20%.
+Mit dem Code `GermanGaming` sparst du 20% auf den Mietpreis.
 
 
 ## Inhaltsverzeichnis
@@ -86,6 +86,8 @@ Wähle eine Region, die für deine Spieler am besten ist.
 Beim Checkout kannst du den Rabattcode eintragen:
 
 - Code: `GermanGaming`
+
+Der Code gilt für die Miet-Laufzeiten (nicht für die Lifetime-Option).
 
 ### Schritt 4: Bestellen und Provisionieren lassen
 

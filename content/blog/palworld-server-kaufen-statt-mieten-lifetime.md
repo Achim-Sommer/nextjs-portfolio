@@ -8,7 +8,7 @@ featured: false
 
 Palworld 1.0 ist da – und viele Gruppen starten jetzt eine Welt, die **dauerhaft** laufen soll. Genau dann lohnt sich die Frage: **Palworld Server kaufen statt mieten?** Mit der **Lifetime-Option** zahlst du **einmalig ab 60 €** und nutzt den Server danach dauerhaft – ohne monatliche Kosten. Ab etwa 8–9 Monaten Laufzeit bist du damit günstiger als mit einem Mietserver.
 
-<ZapHostingCta href="https://zap-hosting.com/serverpalworld" buttonText="Palworld Lifetime-Server sichern" />
+<ZapHostingCta href="https://zap-hosting.com/serverpalworld" title="Palworld Server: Einmal zahlen, für immer nutzen" description="Lifetime-Server ab 60 € – keine monatlichen Kosten, gleiche Leistung wie beim Mietserver." couponCode="" buttonText="Palworld Lifetime-Server sichern" />
 
 Den Palworld-Server (mieten oder Lifetime) bekommst du hier:
 
@@ -107,7 +107,7 @@ Mit dem 1.0 Release ist Palworld aus dem Early Access raus – das Spiel ist „
 3. Wähle bei der Laufzeit die **Lifetime-Option** (einmal zahlen statt monatlich)
 4. Bestellen, automatisch einrichten lassen, Serverdaten ins Spiel eintragen – fertig
 
-<ZapHostingCta href="https://zap-hosting.com/serverpalworld" buttonText="Jetzt Lifetime-Option prüfen" />
+<ZapHostingCta href="https://zap-hosting.com/serverpalworld" title="Palworld Server: Einmal zahlen, für immer nutzen" description="Lifetime-Server ab 60 € – keine monatlichen Kosten, gleiche Leistung wie beim Mietserver." couponCode="" buttonText="Jetzt Lifetime-Option prüfen" />
 
 ## Risiken & Dinge, die du beachten solltest
 
@@ -148,7 +148,7 @@ Ja: Wenn du neben Palworld noch andere Dienste betreiben willst (Website, Discor
 
 Wenn deine Palworld-Welt **länger als den Break-even von ca. 8–9 Monaten** laufen soll, ist die Lifetime-Option die klar bessere Rechnung: **einmal ab 60 € zahlen, für immer nutzen** – nach zwei Jahren hast du gegenüber der Miete schon über 110 € gespart. Für den Einstieg oder zum Testen bleibt [Mieten](/blog/palworld-server-mieten) die flexibelste Option.
 
-<ZapHostingCta href="https://zap-hosting.com/serverpalworld" buttonText="Palworld Server jetzt kaufen" />
+<ZapHostingCta href="https://zap-hosting.com/serverpalworld" title="Palworld Server: Einmal zahlen, für immer nutzen" description="Lifetime-Server ab 60 € – keine monatlichen Kosten, gleiche Leistung wie beim Mietserver." couponCode="" buttonText="Palworld Server jetzt kaufen" />
 
 Wenn du erst mieten willst: Mit dem Code `GermanGaming` sparst du 20% auf den Mietpreis.
 

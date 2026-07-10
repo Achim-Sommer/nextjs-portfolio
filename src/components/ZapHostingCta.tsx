@@ -64,12 +64,14 @@ export default function ZapHostingCta({
                 {description}
               </p>
 
-              <div className="flex items-center gap-2 pt-2">
-                <FiGift style={{ color: ZAP_GREEN }} className="shrink-0" />
-                <p className="text-gray-100 text-xs md:text-sm">
-                  Rabattcode: <span className="font-mono font-bold">{couponCode}</span> (20% sparen)
-                </p>
-              </div>
+              {couponCode ? (
+                <div className="flex items-center gap-2 pt-2">
+                  <FiGift style={{ color: ZAP_GREEN }} className="shrink-0" />
+                  <p className="text-gray-100 text-xs md:text-sm">
+                    Rabattcode: <span className="font-mono font-bold">{couponCode}</span> (20% sparen)
+                  </p>
+                </div>
+              ) : null}
             </div>
           </div>
 
