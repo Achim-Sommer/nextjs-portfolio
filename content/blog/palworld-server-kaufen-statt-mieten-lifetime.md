@@ -152,4 +152,6 @@ Wenn deine Palworld-Welt **länger als den Break-even von ca. 8–9 Monaten** la
 
 Wenn du erst mieten willst: Mit dem Code `GermanGaming` sparst du 20% auf den Mietpreis.
 
+Den schnellen Überblick mit Preisvergleich findest du auf der [Palworld Server Übersichtsseite](/palworld).
+
 Weiterführende Artikel: [Palworld Server mieten (Guide)](/blog/palworld-server-mieten), [ZAP-Hosting Lifetime Server](/blog/zap-hosting-lifetime) und [vServer kaufen statt mieten](/blog/vserver-kaufen-statt-mieten).

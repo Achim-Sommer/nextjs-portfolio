@@ -36,6 +36,12 @@ const staticPages: PageConfig[] = [
     changefreq: 'yearly',
   },
   {
+    path: '/palworld',
+    priority: 0.9,
+    changefreq: 'weekly',
+    lastmod: new Date().toISOString().split('T')[0],
+  },
+  {
     path: '/impressum',
     priority: 0.3,
     changefreq: 'yearly',

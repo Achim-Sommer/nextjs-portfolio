@@ -189,4 +189,6 @@ Zum **Palworld 1.0 Release** ist ein Mietserver der schnellste und flexibelste E
 
 Mit dem Code `GermanGaming` sparst du 20% auf den Mietpreis.
 
+Den schnellen Überblick mit Preisvergleich findest du auf der [Palworld Server Übersichtsseite](/palworld).
+
 Weiterführende Artikel: [Palworld Server kaufen statt mieten (Lifetime)](/blog/palworld-server-kaufen-statt-mieten-lifetime), [ZAP-Hosting Lifetime Server](/blog/zap-hosting-lifetime) und [vServer kaufen statt mieten](/blog/vserver-kaufen-statt-mieten).
