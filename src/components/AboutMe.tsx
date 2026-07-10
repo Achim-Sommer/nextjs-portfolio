@@ -372,10 +372,12 @@ export default function AboutMe() {
                   <div className="space-y-1.5">
                     {[
                       { note: '1,0', title: 'Generative KI zur Erstellung von Management-Summaries aus SAP S/4HANA' },
+                      { note: '1,0', title: 'OrbRush — Technische Dokumentation eines server-autoritativen Echtzeit-Multiplayer-Browserspiels mit TypeScript, Node.js, Socket.IO und Phaser 3' },
+                      { note: '1,0', title: 'Joiner–Mover–Leaver-Prozess in hybrider AD/Entra-ID-Umgebung' },
+                      { note: '1,3', title: 'Pragmatische Adaption von ITIL 4 bei einem internen IT-Dienstleister einer mittelständischen Unternehmensgruppe — Konzept und Bewertung am Beispiel einer Logistikgruppe' },
                       { note: '1,3', title: 'No-Code/Low-Code Plattformen für Unternehmen' },
                       { note: '1,7', title: 'EU KI Act — Auswirkungen auf KMU' },
-                      { note: '1,7', title: 'Java-Anwendung: Wertpapier-Depot-Rechner zur KPI-Berechnung' },
-                      { note: '2,3', title: 'Joiner–Mover–Leaver-Prozess in hybrider AD/Entra-ID-Umgebung' },
+                      { note: '2,0', title: 'Java-Anwendung: Wertpapier-Depot-Rechner zur KPI-Berechnung' },
                     ].map((a, i) => (
                       <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm">
                         <span className="shrink-0 text-emerald-400 font-mono font-bold bg-emerald-400/10 px-1.5 py-0.5 rounded">
