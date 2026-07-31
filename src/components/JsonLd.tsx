@@ -72,8 +72,8 @@ const JsonLd = () => {
     "@type": "Person",
     name: "Achim Sommer",
     url: "https://achimsommer.com",
-    jobTitle: "Full Stack Developer",
-    description: "Dualer Student, Full Stack Developer und YouTuber",
+    jobTitle: "Head of IT",
+    description: "Head of IT bei amber Tech GmbH, Wirtschaftsinformatik-Student an der FOM Köln und Full-Stack-Entwickler aus Leidenschaft",
     image: "https://achimsommer.com/api/og",
     sameAs: [
       "https://github.com/Achim-Sommer",

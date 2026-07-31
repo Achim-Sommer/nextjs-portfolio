@@ -34,7 +34,7 @@ export default function Footer() {
         >
           <h3 className="text-2xl font-bold text-white mb-2">Achim Sommer</h3>
           <p className="text-sm text-gray-500 mb-8 max-w-md">
-            Full Stack Developer · Aachen, Deutschland
+            Head of IT @ amber Tech GmbH · Aachen, Deutschland
           </p>
 
           {/* Social Icons */}
@@ -76,6 +76,10 @@ export default function Footer() {
             <FaEnvelope className="w-3.5 h-3.5" />
             dev@achimsommer.com
           </a>
+          <span className="hidden sm:inline text-gray-700">·</span>
+          <Link href="/kontakt" className="hover:text-blue-400 transition-colors duration-300">
+            Kontakt
+          </Link>
           <span className="hidden sm:inline text-gray-700">·</span>
           <Link href="/impressum" className="hover:text-blue-400 transition-colors duration-300">
             Impressum

@@ -31,7 +31,12 @@ export default function ImpressumContent() {
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-white mb-4">Kontakt</h2>
-              <p>E-Mail: imprint@achimsommer.com</p>
+              <p>E-Mail: <a href="mailto:imprint@achimsommer.com" className="text-blue-400 hover:text-blue-300">imprint@achimsommer.com</a></p>
+              <p>Kontaktformular: <a href="/kontakt" className="text-blue-400 hover:text-blue-300">achimsommer.com/kontakt</a></p>
+              <p className="mt-2 text-sm text-gray-400">
+                Über das Kontaktformular ist eine unmittelbare elektronische Kontaktaufnahme möglich; Anfragen werden
+                in der Regel innerhalb von 48 Stunden beantwortet.
+              </p>
             </section>
 
             <section className="mb-8">

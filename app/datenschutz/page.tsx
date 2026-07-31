@@ -93,7 +93,34 @@ export default function DatenschutzPage() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-white mb-4">4. Externe Dienste und Integrationen</h2>
+              <h2 className="text-2xl font-semibold text-white mb-4">4. Kontaktformular</h2>
+              <h3 className="text-xl font-semibold text-white mb-2">Umfang der Verarbeitung</h3>
+              <p className="mb-4">Wenn Sie uns über das <Link href="/kontakt" className="text-blue-400 hover:text-blue-300">Kontaktformular</Link> eine Nachricht senden, verarbeiten wir folgende Daten:</p>
+              <ul className="list-disc pl-6 mb-4">
+                <li className="mb-2">Name (Pflichtangabe)</li>
+                <li className="mb-2">E-Mail-Adresse (Pflichtangabe)</li>
+                <li className="mb-2">Betreff (freiwillige Angabe)</li>
+                <li className="mb-2">Inhalt Ihrer Nachricht (Pflichtangabe)</li>
+                <li className="mb-2">Zeitpunkt der Absendung</li>
+                <li className="mb-2">Ihre IP-Adresse – ausschließlich flüchtig im Arbeitsspeicher zur Begrenzung der Anfragen pro Stunde (Spam-Schutz). Es findet keine dauerhafte Speicherung statt.</li>
+              </ul>
+
+              <h3 className="text-xl font-semibold text-white mb-2">Zweck und Rechtsgrundlage</h3>
+              <p className="mb-4">Die Verarbeitung erfolgt ausschließlich zur Bearbeitung und Beantwortung Ihrer Anfrage. Rechtsgrundlage ist Ihre Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO, die Sie über die Checkbox im Formular erteilen. Sofern Ihre Anfrage auf den Abschluss oder die Durchführung eines Vertrages gerichtet ist, ist zusätzlich Art. 6 Abs. 1 lit. b DSGVO Rechtsgrundlage. Das Interesse an einem funktionsfähigen Spam-Schutz stützt sich auf Art. 6 Abs. 1 lit. f DSGVO.</p>
+              <p className="mb-4">Ihre Einwilligung können Sie jederzeit mit Wirkung für die Zukunft widerrufen, etwa per formloser E-Mail an imprint@achimsommer.com. Die Rechtmäßigkeit der bis zum Widerruf erfolgten Verarbeitung bleibt davon unberührt.</p>
+
+              <h3 className="text-xl font-semibold text-white mb-2">Versanddienstleister (Auftragsverarbeitung)</h3>
+              <p className="mb-4">Für die technische Zustellung der Formularnachrichten als E-Mail nutzen wir den Dienst Resend der Resend, Inc., 2261 Market Street #5039, San Francisco, CA 94114, USA. Die von Ihnen eingegebenen Daten werden zu diesem Zweck an Resend übermittelt. Mit Resend besteht ein Auftragsverarbeitungsvertrag nach Art. 28 DSGVO; die Übermittlung in die USA erfolgt auf Grundlage der EU-Standardvertragsklauseln nach Art. 46 Abs. 2 lit. c DSGVO. Weitere Informationen finden Sie in der <a href="https://resend.com/legal/privacy-policy" className="text-blue-400 hover:text-blue-300" target="_blank" rel="noopener noreferrer">Datenschutzerklärung von Resend</a>.</p>
+
+              <h3 className="text-xl font-semibold text-white mb-2">Speicherdauer</h3>
+              <p className="mb-4">Die Formulardaten werden nicht in einer Datenbank auf dieser Website gespeichert, sondern unmittelbar als E-Mail an unser Postfach zugestellt. Dort verbleiben sie, bis der Zweck der Speicherung entfällt – also bis Ihre Anfrage abschließend bearbeitet ist und keine gesetzlichen Aufbewahrungspflichten (insbesondere handels- und steuerrechtliche Fristen) entgegenstehen. Anschließend werden die Daten gelöscht.</p>
+
+              <h3 className="text-xl font-semibold text-white mb-2">Erforderlichkeit</h3>
+              <p className="mb-4">Die Angabe der Pflichtfelder ist erforderlich, damit wir Ihre Anfrage bearbeiten und beantworten können. Die Nutzung des Formulars ist freiwillig – Sie können uns alternativ jederzeit direkt per E-Mail an imprint@achimsommer.com kontaktieren.</p>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="text-2xl font-semibold text-white mb-4">5. Externe Dienste und Integrationen</h2>
               <h3 className="text-xl font-semibold text-white mb-2">GitHub API-Integration</h3>
               <p className="mb-4">Wir nutzen die GitHub API, um Repositories und Beitragsstatistiken anzuzeigen. Dabei werden folgende Daten verarbeitet:</p>
               <ul className="list-disc pl-6 mb-4">
@@ -131,7 +158,7 @@ export default function DatenschutzPage() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-white mb-4">5. Technische Details</h2>
+              <h2 className="text-2xl font-semibold text-white mb-4">6. Technische Details</h2>
               <h3 className="text-xl font-semibold text-white mb-2">Server-Log-Files</h3>
               <p className="mb-4">Bei jedem Zugriff auf unsere Website werden automatisch Informationen in Server-Log-Files gespeichert. Diese beinhalten:</p>
               <ul className="list-disc pl-6 mb-4">
@@ -145,7 +172,7 @@ export default function DatenschutzPage() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-white mb-4">6. Kontakt für Datenschutzanfragen</h2>
+              <h2 className="text-2xl font-semibold text-white mb-4">7. Kontakt für Datenschutzanfragen</h2>
               <p className="mb-4">Für Anfragen zum Thema Datenschutz können Sie sich jederzeit an uns wenden:</p>
               <p className="mb-4">
                 Achim Sommer<br />
@@ -155,7 +182,7 @@ export default function DatenschutzPage() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-white mb-4">7. Ihre Rechte</h2>
+              <h2 className="text-2xl font-semibold text-white mb-4">8. Ihre Rechte</h2>
               <p className="mb-4">Sie haben folgende Rechte bezüglich Ihrer personenbezogenen Daten:</p>
               <ul className="list-disc pl-6 mb-4">
                 <li className="mb-2">Recht auf Auskunft (Art. 15 DSGVO)</li>
@@ -169,13 +196,13 @@ export default function DatenschutzPage() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-white mb-4">8. Datensicherheit</h2>
+              <h2 className="text-2xl font-semibold text-white mb-4">9. Datensicherheit</h2>
               <p className="mb-4">Diese Website nutzt aus Sicherheitsgründen und zum Schutz der Übertragung vertraulicher Inhalte eine SSL-bzw. TLS-Verschlüsselung. Eine verschlüsselte Verbindung erkennen Sie daran, dass die Adresszeile des Browsers von "http://" auf "https://" wechselt und an dem Schloss-Symbol in Ihrer Browserzeile.</p>
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold text-white mb-4">9. Aktualität und Änderung dieser Datenschutzerklärung</h2>
-              <p className="mb-4">Diese Datenschutzerklärung ist aktuell gültig und hat den Stand Januar 2024. Durch die Weiterentwicklung unserer Website und Angebote oder aufgrund geänderter gesetzlicher beziehungsweise behördlicher Vorgaben kann es notwendig werden, diese Datenschutzerklärung zu ändern. Die jeweils aktuelle Datenschutzerklärung kann jederzeit auf dieser Website von Ihnen abgerufen und ausgedruckt werden.</p>
+              <h2 className="text-2xl font-semibold text-white mb-4">10. Aktualität und Änderung dieser Datenschutzerklärung</h2>
+              <p className="mb-4">Diese Datenschutzerklärung ist aktuell gültig und hat den Stand August 2026. Durch die Weiterentwicklung unserer Website und Angebote oder aufgrund geänderter gesetzlicher beziehungsweise behördlicher Vorgaben kann es notwendig werden, diese Datenschutzerklärung zu ändern. Die jeweils aktuelle Datenschutzerklärung kann jederzeit auf dieser Website von Ihnen abgerufen und ausgedruckt werden.</p>
             </section>
             
           </article>

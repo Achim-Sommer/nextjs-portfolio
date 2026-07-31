@@ -44,9 +44,10 @@ const BG_SKILLS = [
 
 // ─── Terminal-Zeilen (außerhalb für stabile Referenz) ────────
 const TERMINAL_LINES = [
-  { prompt: '~/portfolio', cmd: 'whoami', output: 'Achim Sommer — Full Stack Developer' },
+  { prompt: '~/portfolio', cmd: 'whoami', output: 'Achim Sommer — Head of IT @ amber Tech GmbH' },
+  { prompt: '~/portfolio', cmd: 'cat studium.txt', output: 'B.Sc. Wirtschaftsinformatik @ FOM Köln · Bachelorarbeit läuft' },
   { prompt: '~/portfolio', cmd: 'cat interests.txt', output: 'Web Dev, System Architecture, UI/UX, Open Source' },
-  { prompt: '~/portfolio', cmd: 'git log --oneline -1', output: 'a1b2c3d feat: Building amazing web experiences ✨' },
+  { prompt: '~/portfolio', cmd: 'git log --oneline -1', output: 'a1b2c3d feat: Coden aus Leidenschaft, nach Feierabend ✨' },
   { prompt: '~/portfolio', cmd: 'uptime', output: 'coding since 2016 · 8+ years experience' },
 ];
 
@@ -353,7 +354,7 @@ export default function AboutMe() {
                     Achim Sommer
                   </h3>
                   <p className="text-blue-400 font-semibold mt-1.5 text-sm sm:text-base">
-                    Dualer Wirtschaftsinformatik-Student &amp; Full Stack Entwickler
+                    Head of IT @ amber Tech GmbH · Wirtschaftsinformatik-Student
                   </p>
                 </div>
 
@@ -546,11 +547,18 @@ export default function AboutMe() {
               </div>
 
               <div className="space-y-4">
+                {/* Head of IT */}
+                <div className="relative pl-4 border-l-2 border-amber-500/40">
+                  <div className="absolute -left-[5px] top-[5px] w-2 h-2 rounded-full bg-amber-500 ring-[3px] ring-amber-500/20" />
+                  <p className="text-sm font-semibold text-white">Head of IT</p>
+                  <p className="text-[11px] text-gray-500 mt-0.5">amber Tech GmbH · Aug 2026 — Heute</p>
+                </div>
+
                 {/* IT-Leiter */}
-                <div className="relative pl-4 border-l-2 border-emerald-500/40">
-                  <div className="absolute -left-[5px] top-[5px] w-2 h-2 rounded-full bg-emerald-500 ring-[3px] ring-emerald-500/20" />
+                <div className="relative pl-4 border-l-2 border-rose-500/40">
+                  <div className="absolute -left-[5px] top-[5px] w-2 h-2 rounded-full bg-rose-500 ring-[3px] ring-rose-500/20" />
                   <p className="text-sm font-semibold text-white">IT-Leiter</p>
-                  <p className="text-[11px] text-gray-500 mt-0.5">Schumacher Gruppe · Juli 2025 — Heute</p>
+                  <p className="text-[11px] text-gray-500 mt-0.5">Schumacher Gruppe · Juli 2025 — Juli 2026</p>
                 </div>
 
                 {/* SAP-Entwickler */}

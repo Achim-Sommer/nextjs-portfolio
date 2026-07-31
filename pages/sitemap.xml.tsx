@@ -42,6 +42,11 @@ const staticPages: PageConfig[] = [
     lastmod: new Date().toISOString().split('T')[0],
   },
   {
+    path: '/kontakt',
+    priority: 0.6,
+    changefreq: 'yearly',
+  },
+  {
     path: '/impressum',
     priority: 0.3,
     changefreq: 'yearly',

@@ -18,7 +18,7 @@ const umamiWebsiteId = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
 
 const siteTitle = 'Achim Sommer (achimsommer) | Full Stack Developer & FiveM Entwickler';
 const siteDescription =
-  'Achim Sommer (achimsommer) – Full Stack Developer aus Aachen, spezialisiert auf TypeScript, React, Next.js und FiveM Entwicklung. Dualer Student der Wirtschaftsinformatik.';
+  'Achim Sommer (achimsommer) – Head of IT bei amber Tech GmbH in Aachen und Full Stack Developer mit Fokus auf TypeScript, React, Next.js und FiveM Entwicklung. Wirtschaftsinformatik-Student an der FOM Köln.';
 const ogImage = `${siteUrl}/api/og?title=${encodeURIComponent('Achim Sommer – Full Stack Developer')}`;
 
 export const viewport = {
@@ -114,10 +114,11 @@ export default function RootLayout({
               "name": "Achim Sommer",
               "url": "https://achimsommer.com",
               "image": "https://achimsommer.com/logo.png",
-              "jobTitle": "Full Stack Developer & FiveM Entwickler",
+              "jobTitle": "Head of IT",
               "worksFor": {
                 "@type": "Organization",
-                "name": "Achim Sommer Portfolio"
+                "name": "amber Tech GmbH",
+                "url": "https://ambersearch.de/"
               },
               "alumniOf": {
                 "@type": "EducationalOrganization",
