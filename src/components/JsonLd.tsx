@@ -103,6 +103,11 @@ const JsonLd = () => {
       }
     },
     knowsAbout: [
+      "IT-Leitung",
+      "Netzwerktechnik",
+      "Server-Architektur",
+      "IT-Infrastruktur",
+      "Systemadministration",
       "TypeScript",
       "React",
       "Next.js",

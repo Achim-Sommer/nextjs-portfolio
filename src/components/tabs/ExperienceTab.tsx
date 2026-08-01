@@ -22,7 +22,7 @@ const erfahrungen: Erfahrung[] = [
   {
     position: "Selbstständiger Entwickler",
     unternehmen: "Freiberuflich",
-    zeitraum: "2016 - Heute",
+    zeitraum: "2018 - Heute",
     technologien: ["Lua", "JavaScript", "React", "Node.js"],
     highlights: [
       "Erfolgreicher YouTube-Kanal mit Fokus auf Entwicklung",

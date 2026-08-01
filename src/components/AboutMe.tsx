@@ -17,6 +17,7 @@ import {
 import { FiMapPin, FiCoffee, FiMail, FiCode, FiTerminal, FiHeadphones, FiMoon } from 'react-icons/fi';
 import { IoGameControllerOutline } from 'react-icons/io5';
 import { HiOutlineBriefcase } from 'react-icons/hi2';
+import { careerStations, education } from '@/data/career';
 
 const InfiniteMovingCards = dynamic(
   () => import('./ui/infinite-moving-cards').then(mod => mod.InfiniteMovingCards),
@@ -46,9 +47,9 @@ const BG_SKILLS = [
 const TERMINAL_LINES = [
   { prompt: '~/portfolio', cmd: 'whoami', output: 'Achim Sommer — Head of IT @ amber Tech GmbH' },
   { prompt: '~/portfolio', cmd: 'cat studium.txt', output: 'B.Sc. Wirtschaftsinformatik @ FOM Köln · Bachelorarbeit läuft' },
-  { prompt: '~/portfolio', cmd: 'cat interests.txt', output: 'Web Dev, System Architecture, UI/UX, Open Source' },
+  { prompt: '~/portfolio', cmd: 'cat interests.txt', output: 'Netzwerktechnik, Server-Architektur, IT-Infrastruktur, Web Dev, Open Source' },
   { prompt: '~/portfolio', cmd: 'git log --oneline -1', output: 'a1b2c3d feat: Coden aus Leidenschaft, nach Feierabend ✨' },
-  { prompt: '~/portfolio', cmd: 'uptime', output: 'coding since 2016 · 8+ years experience' },
+  { prompt: '~/portfolio', cmd: 'uptime', output: 'coding since 2018 · 8+ years experience' },
 ];
 
 // ─── Tech Stack Daten ────────────────────────────────────────
@@ -359,7 +360,7 @@ export default function AboutMe() {
                 </div>
 
                 <p className="text-gray-400 text-sm sm:text-[15px] leading-relaxed max-w-lg">
-                  Seit 2016 entwickle ich leidenschaftlich Webanwendungen und
+                  Seit 2018 entwickle ich leidenschaftlich Webanwendungen und
                   Gaming-Projekte. Von React-Apps über FiveM-Server bis hin zu
                   System-Architekturen&nbsp;– ich liebe es, technische
                   Herausforderungen in elegante Lösungen zu verwandeln.
@@ -546,47 +547,32 @@ export default function AboutMe() {
                 </h4>
               </div>
 
+              {/* Stationen kommen aus src/data/career.ts — dieselbe Quelle wie die
+                  ausführliche Werdegang-Sektion, damit nichts auseinanderläuft. */}
               <div className="space-y-4">
-                {/* Head of IT */}
-                <div className="relative pl-4 border-l-2 border-amber-500/40">
-                  <div className="absolute -left-[5px] top-[5px] w-2 h-2 rounded-full bg-amber-500 ring-[3px] ring-amber-500/20" />
-                  <p className="text-sm font-semibold text-white">Head of IT</p>
-                  <p className="text-[11px] text-gray-500 mt-0.5">amber Tech GmbH · Aug 2026 — Heute</p>
-                </div>
+                {careerStations.map((station) => (
+                  <div
+                    key={station.id}
+                    className={`relative pl-4 border-l-2 ${station.accent.border}`}
+                  >
+                    <div
+                      className={`absolute -left-[5px] top-[5px] w-2 h-2 rounded-full ${station.accent.dot} ring-[3px] ${station.accent.ring}`}
+                    />
+                    <p className="text-sm font-semibold text-white">{station.role}</p>
+                    <p className="text-[11px] text-gray-500 mt-0.5">
+                      {station.company} · {station.periodShort}
+                    </p>
+                  </div>
+                ))}
 
-                {/* IT-Leiter */}
-                <div className="relative pl-4 border-l-2 border-rose-500/40">
-                  <div className="absolute -left-[5px] top-[5px] w-2 h-2 rounded-full bg-rose-500 ring-[3px] ring-rose-500/20" />
-                  <p className="text-sm font-semibold text-white">IT-Leiter</p>
-                  <p className="text-[11px] text-gray-500 mt-0.5">Schumacher Gruppe · Juli 2025 — Juli 2026</p>
-                </div>
-
-                {/* SAP-Entwickler */}
-                <div className="relative pl-4 border-l-2 border-blue-500/40">
-                  <div className="absolute -left-[5px] top-[5px] w-2 h-2 rounded-full bg-blue-500 ring-[3px] ring-blue-500/20" />
-                  <p className="text-sm font-semibold text-white">SAP-Entwickler</p>
-                  <p className="text-[11px] text-gray-500 mt-0.5">ROOS IT · Mrz — Jun 2025</p>
-                </div>
-
-                {/* Sysadmin */}
-                <div className="relative pl-4 border-l-2 border-purple-500/40">
-                  <div className="absolute -left-[5px] top-[5px] w-2 h-2 rounded-full bg-purple-500 ring-[3px] ring-purple-500/20" />
-                  <p className="text-sm font-semibold text-white">Systemadministrator</p>
-                  <p className="text-[11px] text-gray-500 mt-0.5">Johanniter · Aug 2023 — Feb 2025</p>
-                </div>
-
-                {/* Studium */}
-                <div className="relative pl-4 border-l-2 border-cyan-500/40">
-                  <div className="absolute -left-[5px] top-[5px] w-2 h-2 rounded-full bg-cyan-500 ring-[3px] ring-cyan-500/20" />
-                  <p className="text-sm font-semibold text-white">B.Sc. Wirtschaftsinformatik</p>
-                  <p className="text-[11px] text-gray-500 mt-0.5">FOM Köln · 2023 — Heute</p>
-                </div>
-
-                {/* Selbstständig */}
-                <div className="relative pl-4 border-l-2 border-gray-600/40">
-                  <div className="absolute -left-[5px] top-[5px] w-2 h-2 rounded-full bg-gray-500 ring-[3px] ring-gray-500/20" />
-                  <p className="text-sm font-semibold text-white">Selbstständiger Entwickler</p>
-                  <p className="text-[11px] text-gray-500 mt-0.5">Seit 2016</p>
+                <div className={`relative pl-4 border-l-2 ${education.accent.border}`}>
+                  <div
+                    className={`absolute -left-[5px] top-[5px] w-2 h-2 rounded-full ${education.accent.dot} ring-[3px] ${education.accent.ring}`}
+                  />
+                  <p className="text-sm font-semibold text-white">{education.degree}</p>
+                  <p className="text-[11px] text-gray-500 mt-0.5">
+                    {education.institution} · {education.periodShort}
+                  </p>
                 </div>
               </div>
             </BentoCard>

@@ -5,6 +5,7 @@ import { FloatingNav } from './ui/floating-navbar';
 import { AiOutlineUser, AiOutlineProject, AiOutlineRead } from 'react-icons/ai';
 import { FaServer } from 'react-icons/fa';
 import { MdRouter } from 'react-icons/md';
+import { HiOutlineBriefcase } from 'react-icons/hi2';
 import BlogNavbar from './BlogNavbar';
 import { usePathname } from 'next/navigation';
 
@@ -35,6 +36,11 @@ export default function Navbar() {
       name: 'Über Mich',
       link: '#about-me',
       icon: <AiOutlineUser className="w-4 h-4" />,
+    },
+    {
+      name: 'Werdegang',
+      link: '#erfahrung',
+      icon: <HiOutlineBriefcase className="w-4 h-4" />,
     },
     {
       name: 'Projekte',

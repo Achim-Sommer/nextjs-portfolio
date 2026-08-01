@@ -58,7 +58,8 @@ const TerminalWindow = () => (
         <span className="text-blue-300/80 ml-2">cat about.md</span>
       </div>
       <div className="text-green-400/80">### About Me</div>
-      <div className="text-green-400/80">• Dualer Student @ FOM Köln</div>
+      <div className="text-green-400/80">• Head of IT</div>
+      <div className="text-green-400/80">• Wirtschaftsinformatik @ FOM Köln</div>
       <div className="text-green-400/80">• Full Stack Developer</div>
       <div className="text-green-400/80">• Tech Content Creator</div>
     </div>

@@ -3,6 +3,7 @@
 import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import LatestPosts from '@/components/LatestPosts';
+import CareerTimeline from '@/components/CareerTimeline';
 import type { BlogListItem } from '../../lib/blog';
 
 /** Einheitliche Skeleton-Ladekomponente */
@@ -71,6 +72,10 @@ export default function MainContent({ latestPosts }: MainContentProps) {
         <div className="content-wrapper">
           <Suspense fallback={<SectionSkeleton height="h-[400px]" />}>
             <AboutMe />
+          </Suspense>
+
+          <Suspense fallback={<SectionSkeleton height="h-[600px]" />}>
+            <CareerTimeline />
           </Suspense>
 
           <Suspense fallback={<SectionSkeleton height="h-[400px]" />}>

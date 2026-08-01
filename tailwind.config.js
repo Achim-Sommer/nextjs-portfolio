@@ -3,7 +3,9 @@ module.exports = {
   // next-themes nutzt attribute="class" → dark: Varianten müssen über die Klasse greifen
   darkMode: 'class',
   content: [
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    // Bewusst das gesamte src/ — Klassennamen stehen nicht nur in Komponenten,
+    // sondern auch in Datendateien wie src/data/career.ts.
+    './src/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
   ],
