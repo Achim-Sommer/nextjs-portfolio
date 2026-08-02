@@ -11,7 +11,10 @@ const withPWA = require('next-pwa')({
   register: true,
   skipWaiting: true,
   buildExcludes: [/middleware-manifest\.json$/, /app-build-manifest\.json$/, /dynamic-css-manifest\.json$/],
-  dynamicStartUrl: false,
+  // true: Die Startseite wird zur Laufzeit mit NetworkFirst behandelt statt
+  // fest vorgecacht. Dadurch sehen wiederkehrende Besucher nach einem Deploy
+  // sofort die aktuelle Version; offline greift weiterhin der Laufzeit-Cache.
+  dynamicStartUrl: true,
   fallbacks: {
     document: '/offline',
   },
@@ -246,15 +249,24 @@ const nextConfig = {
           },
         ],
       },
-      {
-        source: '/_next/static/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
+      // Nur in Produktion: dort tragen die Dateien einen Inhalts-Hash im Namen,
+      // "immutable" ist also korrekt. Im Dev-Modus sind die Chunk-Namen stabil
+      // (z. B. _app-pages-browser_src_components_Navbar_tsx.js) — mit diesem
+      // Header würde der Browser sie ein Jahr lang cachen und Codeänderungen
+      // erst nach einem Hard Reload anzeigen.
+      ...(process.env.NODE_ENV === 'production'
+        ? [
+            {
+              source: '/_next/static/:path*',
+              headers: [
+                {
+                  key: 'Cache-Control',
+                  value: 'public, max-age=31536000, immutable',
+                },
+              ],
+            },
+          ]
+        : []),
       {
         source: '/api/:path*',
         headers: [

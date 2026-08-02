@@ -3,7 +3,6 @@
 import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import LatestPosts from '@/components/LatestPosts';
-import CareerTimeline from '@/components/CareerTimeline';
 import type { BlogListItem } from '../../lib/blog';
 
 /** Einheitliche Skeleton-Ladekomponente */
@@ -35,14 +34,14 @@ const AboutMe = dynamic(() => import('@/components/AboutMe'), {
   ssr: true
 });
 
+const CareerTimeline = dynamic(() => import('@/components/CareerTimeline'), {
+  loading: () => <SectionSkeleton height="h-[600px]" />,
+  ssr: true
+});
+
 const GitHubFeed = dynamic(() => import('@/components/GitHubRepos'), {
   loading: () => <SectionSkeleton height="h-[300px]" />,
   ssr: false
-});
-
-const ServicesOverview = dynamic(() => import('@/components/ServicesOverview'), {
-  loading: () => <SectionSkeleton height="h-[400px]" />,
-  ssr: true
 });
 
 const ZapHosting = dynamic(() => import('@/components/ZapHosting'), {
@@ -76,10 +75,6 @@ export default function MainContent({ latestPosts }: MainContentProps) {
 
           <Suspense fallback={<SectionSkeleton height="h-[600px]" />}>
             <CareerTimeline />
-          </Suspense>
-
-          <Suspense fallback={<SectionSkeleton height="h-[400px]" />}>
-            <ServicesOverview />
           </Suspense>
 
           {latestPosts && latestPosts.length > 0 && (
