@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { FiCalendar, FiClock, FiFileText } from 'react-icons/fi';
 import Link from 'next/link';
 import { useState, useMemo } from 'react';
+import { ogImageUrl } from '@/lib/og-image';
 import BlogSearch from '@/components/BlogSearch';
 import BlogFilter from '@/components/BlogFilter';
 import { BackgroundGrid } from "@/components/ui/background-grid";
@@ -74,7 +75,11 @@ export default function Blog({ posts }: Props) {
               'Technische Tutorials, Guides und Best Practices zu Web Development, Server-Hosting, und Software Engineering von Full Stack Developer Achim Sommer.',
             images: [
               {
-                url: `${siteUrl}/api/og?title=${encodeURIComponent('Blog - Tutorials & Guides')}`,
+                url: ogImageUrl({
+                  title: 'Blog',
+                  subtitle: 'Tutorials & Guides zu Web Development und Server-Hosting',
+                  baseUrl: siteUrl,
+                }),
                 width: 1200,
                 height: 630,
                 alt: 'Achim Sommer Blog',

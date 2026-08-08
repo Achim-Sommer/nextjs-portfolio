@@ -2,6 +2,7 @@ import Head from 'next/head';
 import { generateNextSeo } from 'next-seo/pages';
 import { motion } from 'framer-motion';
 import { SparklesCore } from '@/components/ui/sparkles-core';
+import { ogImageUrl } from '@/lib/og-image';
 import Link from 'next/link';
 import {
   FaServer,
@@ -156,7 +157,11 @@ export default function PalworldServer() {
             url: `${SITE_URL}/palworld`,
             images: [
               {
-                url: `${SITE_URL}/api/og?title=${encodeURIComponent('Palworld Server mieten oder kaufen')}`,
+                url: ogImageUrl({
+                  title: 'Palworld Server mieten oder kaufen',
+                  subtitle: 'ab 7,14 €/Monat oder 60 € Lifetime · deutsche Standorte',
+                  baseUrl: SITE_URL,
+                }),
                 width: 1200,
                 height: 630,
                 alt: 'Palworld Server mieten oder kaufen - ab 7,14 €/Monat oder 60 € Lifetime',

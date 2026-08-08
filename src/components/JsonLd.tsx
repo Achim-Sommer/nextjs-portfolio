@@ -74,7 +74,7 @@ const JsonLd = () => {
     url: "https://achimsommer.com",
     jobTitle: "Head of IT",
     description: "Head of IT bei amber Tech GmbH, Wirtschaftsinformatik-Student an der FOM Köln und Full-Stack-Entwickler aus Leidenschaft",
-    image: "https://achimsommer.com/api/og",
+    image: "https://achimsommer.com/logo.png",
     sameAs: [
       "https://github.com/Achim-Sommer",
       "https://www.facebook.com/achim.sommer1",
@@ -178,7 +178,7 @@ const JsonLd = () => {
     "@type": "Organization",
     name: "Achim Sommer Development",
     url: "https://achimsommer.com",
-    logo: "https://achimsommer.com/api/og",
+    logo: "https://achimsommer.com/logo.png",
     description: "Full Stack Development und FiveM Entwicklung",
     founder: {
       "@type": "Person",

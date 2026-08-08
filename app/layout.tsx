@@ -5,6 +5,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Providers } from './providers'
 import ClientWidgets from './client-widgets'
+import { ogImageUrl } from '@/lib/og-image'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -19,7 +20,11 @@ const umamiWebsiteId = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
 const siteTitle = 'Achim Sommer (achimsommer) | Head of IT & Full Stack Developer';
 const siteDescription =
   'Achim Sommer (achimsommer) – Head of IT aus Aachen mit Schwerpunkt Netzwerktechnik, Server-Architektur und IT-Infrastruktur. Full Stack Developer mit TypeScript, React, Next.js und FiveM Entwicklung. Wirtschaftsinformatik-Student an der FOM Köln.';
-const ogImage = `${siteUrl}/api/og?title=${encodeURIComponent('Achim Sommer – Full Stack Developer')}`;
+const ogImage = ogImageUrl({
+  title: 'Achim Sommer',
+  subtitle: 'Head of IT & Full Stack Developer',
+  baseUrl: siteUrl,
+});
 
 export const viewport = {
   themeColor: '#000000',

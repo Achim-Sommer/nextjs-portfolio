@@ -11,6 +11,7 @@ import { FiClock, FiCalendar } from 'react-icons/fi';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ArticleShare } from '@/components/ui/article-share';
+import { ogImageUrl } from '@/lib/og-image';
 import Head from 'next/head';
 import { generateNextSeo } from 'next-seo/pages';
 import { ArticleJsonLd } from 'next-seo';
@@ -92,7 +93,7 @@ export default function BlogPost({ frontMatter, mdxSource, slug, relatedPosts }:
             description: frontMatter.description,
             images: [
               {
-                url: `${siteUrl}/api/og?title=${encodeURIComponent(frontMatter.title)}&cache=1`,
+                url: ogImageUrl({ title: frontMatter.title, baseUrl: siteUrl }),
                 width: 1200,
                 height: 630,
                 alt: frontMatter.title,
@@ -132,7 +133,7 @@ export default function BlogPost({ frontMatter, mdxSource, slug, relatedPosts }:
         type="BlogPosting"
         url={currentUrl}
         headline={frontMatter.title}
-        image={[`${siteUrl}/api/og?title=${encodeURIComponent(frontMatter.title)}&cache=1`]}
+        image={[ogImageUrl({ title: frontMatter.title, baseUrl: siteUrl })]}
         datePublished={frontMatter.date}
         dateModified={frontMatter.lastModified || frontMatter.date}
         author={{

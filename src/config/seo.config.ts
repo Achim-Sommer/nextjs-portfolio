@@ -1,4 +1,5 @@
 import type { DefaultSeoProps } from 'next-seo/pages';
+import { ogImageUrl } from '@/lib/og-image';
 
 const config: DefaultSeoProps = {
   titleTemplate: '%s | Achim Sommer (achimsommer)',
@@ -14,7 +15,7 @@ const config: DefaultSeoProps = {
     description: 'Full Stack Developer aus Aachen, spezialisiert auf TypeScript, React, Next.js und FiveM Entwicklung. Dualer Student der Wirtschaftsinformatik.',
     images: [
       {
-        url: 'https://achimsommer.com/api/og',
+        url: ogImageUrl({ title: 'Achim Sommer', subtitle: 'Head of IT & Full Stack Developer' }),
         width: 1200,
         height: 630,
         alt: 'Achim Sommer - Full Stack Developer Portfolio',

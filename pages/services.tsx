@@ -2,6 +2,7 @@ import Head from 'next/head';
 import { generateNextSeo } from 'next-seo/pages';
 import { motion } from "framer-motion";
 import { Iso3DIcon } from "@/components/ui/iso-3d-icon";
+import { ogImageUrl } from "@/lib/og-image";
 import { Hero3DElements, Stat3DCard } from "@/components/ui/hero-3d-elements";
 import {
   FaWhatsapp, FaEnvelope, FaCode, FaArrowRight,
@@ -436,7 +437,10 @@ export default function Services() {
               "Moderne Webentwicklung mit Next.js und professionelle UniFi Netzwerklösungen – Planung, Installation, Überwachung und Wartung aus einer Hand.",
             images: [
               {
-                url: `https://achimsommer.com/api/og?title=${encodeURIComponent("Webentwicklung & UniFi Netzwerke")}`,
+                url: ogImageUrl({
+                  title: "Webentwicklung & UniFi Netzwerke",
+                  subtitle: "IT Services aus Aachen – Next.js, React & Ubiquiti UniFi"
+                }),
                 width: 1200,
                 height: 630,
                 alt: "Achim Sommer – Webentwicklung & UniFi Netzwerklösungen"
@@ -463,7 +467,10 @@ export default function Services() {
             "@context": "https://schema.org",
             "@type": "ProfessionalService",
             name: "Achim Sommer – Webentwicklung & UniFi Netzwerklösungen",
-            image: `https://achimsommer.com/api/og?title=${encodeURIComponent("Webentwicklung & UniFi Netzwerke")}`,
+            image: ogImageUrl({
+              title: "Webentwicklung & UniFi Netzwerke",
+              subtitle: "IT Services aus Aachen – Next.js, React & Ubiquiti UniFi",
+            }),
             description:
               "Professionelle Webentwicklung mit Next.js und Ubiquiti UniFi Netzwerklösungen in Aachen und NRW.",
             address: {

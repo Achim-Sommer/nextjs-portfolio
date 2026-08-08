@@ -3,6 +3,7 @@ import { generateNextSeo } from 'next-seo/pages';
 import { motion } from "framer-motion";
 import { SparklesCore } from "@/components/ui/sparkles-core";
 import { cn } from "@/utils/cn";
+import { ogImageUrl } from '@/lib/og-image';
 import { FaGamepad, FaWhatsapp, FaServer, FaCode, FaUsers, FaDownload, FaPlane, FaShip, FaTruck, FaCar, FaCarCrash, FaTshirt, FaStore, FaGasPump, FaWrench, FaCut, FaAmbulance, FaBus, FaTaxi, FaFish, FaDice, FaBuilding, FaMobileAlt, FaDog, FaKey, FaLanguage, FaHeadset, FaGithub } from "react-icons/fa";
 import { GiPoliceOfficerHead, GiPokerHand, GiBank, GiCardPlay, GiSteeringWheel } from "react-icons/gi";
 import Link from "next/link";
@@ -93,7 +94,10 @@ export default function FiveMTemplateServer() {
               'FiveM Template Server kostenlos downloaden - Das beste kostenlose ESX Legacy Template für deinen GTA Roleplay Server. Inklusive Jobs, Shops, Casino & mehr.',
             images: [
               {
-                url: `https://achimsommer.com/api/og?title=${encodeURIComponent('FiveM Template Server Kostenlos')}`,
+                url: ogImageUrl({
+                  title: 'FiveM Template Server Kostenlos',
+                  subtitle: 'Free ESX Legacy Template für GTA Roleplay',
+                }),
                 width: 1200,
                 height: 630,
                 alt: 'FiveM Template Server Kostenlos - Bestes ESX Legacy Template',
