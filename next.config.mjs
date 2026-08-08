@@ -1,136 +1,54 @@
-const path = require('path');
-const crypto = require('crypto');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
+import crypto from 'node:crypto';
+import { readdirSync, readFileSync } from 'node:fs';
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
+import bundleAnalyzer from '@next/bundle-analyzer';
+import withSerwistInit from '@serwist/next';
+
+const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 });
 
-const withPWA = require('next-pwa')({
-  dest: 'public',
+// Serwist precacht ohne Zutun alles aus public/ - hier waeren das 8 MB,
+// vor allem die grossen PNGs unter img/ und die Inter-TTFs, die
+// ausschliesslich die OG-Route braucht. Deshalb die Liste von Hand:
+// nur was die installierte PWA sofort braucht. Alles andere landet ueber
+// defaultCache zur Laufzeit im Cache, wenn es angefragt wird.
+//
+// Achtung: additionalPrecacheEntries ERSETZT den public-Glob, es ergaenzt
+// ihn nicht. Was hier nicht steht, wird nicht vorgecacht.
+const publicPrecacheFiles = [
+  'favicon.ico',
+  'apple-touch-icon.png',
+  'logo.png',
+  'manifest.json',
+  ...readdirSync(new URL('./public/icons', import.meta.url)).map((file) => `icons/${file}`),
+];
+
+const fileRevision = (relativePath) =>
+  crypto
+    .createHash('sha256')
+    .update(readFileSync(new URL(`./public/${relativePath}`, import.meta.url)))
+    .digest('hex')
+    .slice(0, 16);
+
+const precacheEntries = [
+  // next-pwa hat die Offline-Seite vorgecacht, Serwist tut das nicht von
+  // selbst. Ohne diesen Eintrag greift der document-Fallback nur, wenn
+  // /offline vorher schon einmal besucht wurde - also praktisch nie.
+  // Die Revision wechselt pro Build, damit ein Deploy die Seite erneuert.
+  { url: '/offline', revision: crypto.randomUUID() },
+  ...publicPrecacheFiles.map((file) => ({ url: `/${file}`, revision: fileRevision(file) })),
+];
+
+// Loest next-pwa ab. Die Caching-Strategien stehen jetzt in app/sw.ts,
+// nicht mehr hier - Serwist bringt sie als defaultCache mit.
+const withSerwist = withSerwistInit({
+  swSrc: 'app/sw.ts',
+  swDest: 'public/sw.js',
   disable: process.env.NODE_ENV === 'development',
   register: true,
-  skipWaiting: true,
-  buildExcludes: [/middleware-manifest\.json$/, /app-build-manifest\.json$/, /dynamic-css-manifest\.json$/],
-  // true: Die Startseite wird zur Laufzeit mit NetworkFirst behandelt statt
-  // fest vorgecacht. Dadurch sehen wiederkehrende Besucher nach einem Deploy
-  // sofort die aktuelle Version; offline greift weiterhin der Laufzeit-Cache.
-  dynamicStartUrl: true,
-  fallbacks: {
-    document: '/offline',
-  },
-  runtimeCaching: [
-    {
-      urlPattern: /^https:\/\/fonts\.(?:gstatic)\.com\/.*/i,
-      handler: 'CacheFirst',
-      options: {
-        cacheName: 'google-fonts-webfonts',
-        expiration: {
-          maxEntries: 4,
-          maxAgeSeconds: 365 * 24 * 60 * 60
-        }
-      }
-    },
-    {
-      urlPattern: /^https:\/\/fonts\.(?:googleapis)\.com\/.*/i,
-      handler: 'StaleWhileRevalidate',
-      options: {
-        cacheName: 'google-fonts-stylesheets',
-        expiration: {
-          maxEntries: 4,
-          maxAgeSeconds: 7 * 24 * 60 * 60
-        }
-      }
-    },
-    {
-      urlPattern: /\.(?:eot|otf|ttc|ttf|woff|woff2|font.css)$/i,
-      handler: 'StaleWhileRevalidate',
-      options: {
-        cacheName: 'static-font-assets',
-        expiration: {
-          maxEntries: 4,
-          maxAgeSeconds: 7 * 24 * 60 * 60
-        }
-      }
-    },
-    {
-      urlPattern: /\.(?:jpg|jpeg|gif|png|svg|ico|webp)$/i,
-      handler: 'StaleWhileRevalidate',
-      options: {
-        cacheName: 'static-image-assets',
-        expiration: {
-          maxEntries: 64,
-          maxAgeSeconds: 24 * 60 * 60
-        }
-      }
-    },
-    {
-      urlPattern: /\/_next\/image\?url=.+$/i,
-      handler: 'StaleWhileRevalidate',
-      options: {
-        cacheName: 'next-image',
-        expiration: {
-          maxEntries: 64,
-          maxAgeSeconds: 24 * 60 * 60
-        }
-      }
-    },
-    {
-      urlPattern: /\.(?:mp3|wav|ogg)$/i,
-      handler: 'CacheFirst',
-      options: {
-        rangeRequests: true,
-        cacheName: 'static-audio-assets',
-        expiration: {
-          maxEntries: 32,
-          maxAgeSeconds: 24 * 60 * 60
-        }
-      }
-    },
-    {
-      urlPattern: /\.(?:js)$/i,
-      handler: 'StaleWhileRevalidate',
-      options: {
-        cacheName: 'static-js-assets',
-        expiration: {
-          maxEntries: 32,
-          maxAgeSeconds: 24 * 60 * 60
-        }
-      }
-    },
-    {
-      urlPattern: /\.(?:css|less)$/i,
-      handler: 'StaleWhileRevalidate',
-      options: {
-        cacheName: 'static-style-assets',
-        expiration: {
-          maxEntries: 32,
-          maxAgeSeconds: 24 * 60 * 60
-        }
-      }
-    },
-    {
-      urlPattern: /\/_next\/data\/.+\/.+\.json$/i,
-      handler: 'StaleWhileRevalidate',
-      options: {
-        cacheName: 'next-data',
-        expiration: {
-          maxEntries: 32,
-          maxAgeSeconds: 24 * 60 * 60
-        }
-      }
-    },
-    {
-      urlPattern: /\.(?:json|xml|csv)$/i,
-      handler: 'StaleWhileRevalidate',
-      options: {
-        cacheName: 'static-data-assets',
-        expiration: {
-          maxEntries: 32,
-          maxAgeSeconds: 24 * 60 * 60
-        }
-      }
-    }
-  ]
+  reloadOnOnline: true,
+  additionalPrecacheEntries: precacheEntries,
 });
 
 /** @type {import('next').NextConfig} */
@@ -319,5 +237,4 @@ const nextConfig = {
     ]
   },
 };
-
-module.exports = withBundleAnalyzer(withPWA(nextConfig));
+export default withBundleAnalyzer(withSerwist(nextConfig));
