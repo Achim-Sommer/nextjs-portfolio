@@ -12,5 +12,7 @@ public/fallback-*.js
 
 # Build-/Analyse-Artefakte
 analyze/
-lighthouse-report.json
 *.tsbuildinfo
+
+# Claude Code (u.a. Worktrees unter .claude/worktrees/)
+.claude/

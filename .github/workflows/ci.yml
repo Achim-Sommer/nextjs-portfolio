@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Ein laufender Build pro Branch reicht – ältere abbrechen.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run lint
+
+      # next build fuehrt den TypeScript-Check selbst aus. Ein separates
+      # `tsc --noEmit` davor wuerde fehlschlagen, weil next-env.d.ts auf
+      # generierte Typen unter .next/ verweist, die es dann noch nicht gibt.
+      - run: npm run build

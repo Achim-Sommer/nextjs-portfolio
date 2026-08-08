@@ -298,7 +298,7 @@ export default function GitHubRepos() {
                             style={{
                               backgroundColor: getLangColor(repo.language),
                               boxShadow: `0 0 6px ${getLangColor(repo.language)}40`,
-                              // @ts-ignore
+                              // @ts-expect-error CSS-Custom-Property, von React.CSSProperties nicht abgedeckt
                               '--tw-ring-color': `${getLangColor(repo.language)}30`,
                             }}
                           />

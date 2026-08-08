@@ -1,0 +1,35 @@
+version: 2
+
+updates:
+  # Ohne Gruppierung erzeugt Dependabot bei diesem Projekt zweistellige
+  # PR-Zahlen pro Woche. Die Gruppen buendeln das auf wenige Pull Requests.
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    groups:
+      next:
+        patterns:
+          - "next"
+          - "@next/*"
+          - "eslint-config-next"
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+      dev-dependencies:
+        dependency-type: development
+      production-minor-patch:
+        dependency-type: production
+        update-types:
+          - minor
+          - patch
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly

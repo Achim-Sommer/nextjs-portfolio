@@ -34,6 +34,9 @@ module.exports = [
       '**/out/**',
       'public/**',
       'analyze/**',
+      // Claude-Code-Worktrees liegen im Repo; ohne das lintet `eslint .`
+      // jede Datei doppelt – einmal hier, einmal in der Worktree-Kopie.
+      '.claude/**',
     ],
   },
   ...nextConfig,
