@@ -24,7 +24,8 @@ module.exports = {
         surface: '#111111',
         fg: '#ecebe8',
         muted: '#8e8d89',
-        faint: '#5a5955',
+        // hell genug für 4,5:1 Kontrast auf dem Hintergrund (WCAG AA)
+        faint: '#83827d',
         line: '#1f1f1f',
         accent: {
           DEFAULT: '#ff6a2b',

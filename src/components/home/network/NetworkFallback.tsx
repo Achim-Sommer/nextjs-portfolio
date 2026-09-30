@@ -85,7 +85,7 @@ const nodeShapes = NODES.map((node) => {
 const PACKET_SPEED = 0.9; // Welteinheiten pro Sekunde
 const packets = (() => {
   const rand = seededRandom(7);
-  return Array.from({ length: 14 }, (_, i) => {
+  return Array.from({ length: 14 }, () => {
     const route = ROUTES[Math.floor(rand() * ROUTES.length)];
     const points = route.map((id) => project(nodeCenter(NODE_BY_ID[id])));
     let length = 0;
@@ -93,13 +93,56 @@ const packets = (() => {
       length += Math.hypot(points[k].x - points[k - 1].x, points[k].y - points[k - 1].y);
     }
     return {
-      key: i,
-      path: 'M' + points.map((p) => `${p.x.toFixed(3)},${p.y.toFixed(3)}`).join('L'),
+      points,
+      length,
       duration: Math.max(2.4, length / PACKET_SPEED),
       delay: rand() * 6,
     };
   });
 })();
+
+/**
+ * Datenpakete für die Handy-Variante als reine CSS-Animation: Jedes Paket ist
+ * eine unsichtbare Ebene in Größe der Grafik, die per translate() in Prozent
+ * ihrer eigenen Größe die Route abfährt. transform und opacity laufen komplett
+ * auf dem Compositor, der Hauptthread bleibt frei (früher SMIL bzw. Canvas,
+ * beides hat auf Handys dauerhaft Rechenzeit gekostet).
+ */
+const packetCss = packets
+  .map((p, i) => {
+    let acc = 0;
+    const frames = p.points.map((pt, k) => {
+      if (k > 0) acc += Math.hypot(pt.x - p.points[k - 1].x, pt.y - p.points[k - 1].y);
+      const at = ((acc / p.length) * 100).toFixed(2);
+      const x = (((pt.x + EXTENT.width / 2) / EXTENT.width) * 100).toFixed(2);
+      const y = (((pt.y + EXTENT.height / 2) / EXTENT.height) * 100).toFixed(2);
+      return `${at}%{transform:translate(${x}%,${y}%)}`;
+    });
+    return `@keyframes nf-pk${i}{${frames.join('')}}`;
+  })
+  .join('');
+
+const PACKET_STYLE = `${packetCss}@keyframes nf-fade{0%,100%{opacity:0}8%,92%{opacity:1}}`;
+
+function Packets() {
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+      <style>{PACKET_STYLE}</style>
+      {packets.map((p, i) => {
+        const timing = `${p.duration.toFixed(2)}s linear ${p.delay.toFixed(2)}s infinite both`;
+        return (
+          <div
+            key={i}
+            className="absolute inset-0 will-change-transform"
+            style={{ animation: `nf-pk${i} ${timing}, nf-fade ${timing}` }}
+          >
+            <span className="absolute left-0 top-0 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent" />
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 export const pinnedLabels = NODES.filter((n) => n.pinned).map((n) => ({
   id: n.id,
@@ -154,26 +197,9 @@ export default function NetworkFallback({
           </g>
         ))}
 
-        {animated &&
-          packets.map((packet) => (
-            <circle key={packet.key} r="0.035" fill={COLORS.accent} opacity="0">
-              <animateMotion
-                path={packet.path}
-                dur={`${packet.duration}s`}
-                begin={`${packet.delay}s`}
-                repeatCount="indefinite"
-              />
-              <animate
-                attributeName="opacity"
-                values="0;1;1;0"
-                keyTimes="0;0.08;0.92;1"
-                dur={`${packet.duration}s`}
-                begin={`${packet.delay}s`}
-                repeatCount="indefinite"
-              />
-            </circle>
-          ))}
       </svg>
+
+      {animated && <Packets />}
 
       {showLabels && (
         <div className="pointer-events-none absolute inset-0 font-mono" aria-hidden="true">
