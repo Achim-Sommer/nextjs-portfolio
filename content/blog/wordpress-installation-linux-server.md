@@ -1,24 +1,11 @@
 ---
-title: 'WordPress auf Linux-Server installieren 2024: Ultimative Schritt-für-Schritt Anleitung'
+title: 'WordPress auf eigenem Linux-Server installieren'
+description: 'WordPress auf Debian oder Ubuntu installieren: LAMP-Stack, Datenbank, SSL-Zertifikat und Absicherung. Schritt für Schritt für den eigenen Server.'
 date: '2024-11-27'
-description: '🚀 WordPress Installation auf Linux [2024] ➜ Komplette Anleitung für Debian & Ubuntu ✓ LAMP-Stack ✓ Sicherheit ✓ Performance-Optimierung ✓ SEO-freundlich'
-image: '/images/blog/wordpress-linux-installation.jpg'
-tags: ['WordPress', 'Linux', 'Server', 'Web-Hosting', 'LAMP-Stack', 'Webentwicklung', 'Tutorial', 'SEO', 'Performance', 'Debian', 'Ubuntu']
+lastModified: '2026-09-30'
+tags: ['Linux', 'Webentwicklung']
 featured: false
 ---
-
-# WordPress auf Linux-Server installieren 2024: Der ultimative Leitfaden
-
-## Inhaltsverzeichnis
-1. [Einleitung](#einleitung)
-2. [Voraussetzungen](#voraussetzungen)
-3. [LAMP-Stack Installation](#lamp-stack-installation)
-4. [Datenbank-Vorbereitung](#datenbank-vorbereitung)
-5. [WordPress Download und Installation](#wordpress-download-und-installation)
-6. [Konfiguration und Sicherheit](#konfiguration-und-sicherheit)
-7. [Performance-Optimierung](#performance-optimierung)
-8. [Häufige Probleme und Lösungen](#häufige-probleme-und-lösungen)
-9. [Fazit](#fazit)
 
 ## Einleitung
 
@@ -31,6 +18,8 @@ WordPress ist das beliebteste Content-Management-System weltweit:
 - Höchste Flexibilität und Anpassungsmöglichkeiten
 - SEO-freundliche Struktur
 - Umfangreiche Plugin-Ökosystem
+
+<Figure src="/img/blog/wordpress-installation-linux-server/wordpress-anfrage.webp" alt="WordPress-Seitenaufruf: Apache nimmt die HTTPS-Anfrage an, PHP führt Core, Theme und Plugins aus und fragt MariaDB nach den Inhalten" width={1600} height={900} caption="Bei jedem Seitenaufruf baut WordPress die HTML-Seite aus Datenbankinhalten zusammen, Medien kommen direkt aus wp-content/uploads." />
 
 ## Voraussetzungen
 
@@ -69,27 +58,28 @@ sudo systemctl start apache2
 ```
 
 ### PHP Installation
+Installiere PHP mit den Modulen, die WordPress braucht. Die Pakete ohne Versionsnummer funktionieren unter Debian und Ubuntu gleichermaßen und installieren die PHP-Version deiner Distribution:
 ```bash
-sudo apt install software-properties-common
-sudo add-apt-repository ppa:ondrej/php
-sudo apt update
-sudo apt install php8.2 php8.2-cli php8.2-common php8.2-mysql php8.2-xml php8.2-xmlrpc php8.2-curl php8.2-gd php8.2-imagick php8.2-cli php8.2-dev php8.2-imap php8.2-mbstring php8.2-opcache php8.2-soap php8.2-zip -y
+sudo apt install php libapache2-mod-php php-mysql php-xml php-curl php-gd php-imagick php-mbstring php-intl php-zip php-soap -y
+php -v
 ```
+
+Brauchst du unter Debian eine neuere PHP-Version als die mitgelieferte, zeige ich dir in meiner Anleitung zum [LAMP-Stack unter Debian](/blog/debian-lamp-stack), wie du dafür eine zusätzliche Paketquelle einbindest.
 
 ### MariaDB Installation
 ```bash
 sudo apt install mariadb-server mariadb-client -y
-sudo mysql_secure_installation
+sudo mariadb-secure-installation
 ```
 
 ## Datenbank-Vorbereitung
 
 ### Datenbank und Benutzer erstellen
 ```bash
-sudo mysql -u root -p
+sudo mariadb
 ```
 
-Führe in der MySQL-Konsole aus:
+Führe in der MariaDB-Konsole aus:
 ```sql
 CREATE DATABASE wordpress;
 CREATE USER 'wpuser'@'localhost' IDENTIFIED BY 'sicheres_passwort';
@@ -122,6 +112,8 @@ define( 'DB_USER', 'wpuser' );
 define( 'DB_PASSWORD', 'sicheres_passwort' );
 ```
 
+Ersetze in derselben Datei außerdem die Platzhalter bei den Sicherheitsschlüsseln (`AUTH_KEY` und folgende). Frische Werte erzeugt dir der offizielle [Generator von WordPress.org](https://api.wordpress.org/secret-key/1.1/salt/).
+
 ### Berechtigungen setzen
 ```bash
 sudo chown -R www-data:www-data /var/www/html/mywordpress
@@ -142,8 +134,24 @@ Konfiguriere Virtual Host:
     DocumentRoot /var/www/html/mywordpress
     ServerName example.com
     ServerAlias www.example.com
+
+    <Directory /var/www/html/mywordpress>
+        AllowOverride All
+    </Directory>
 </VirtualHost>
 ```
+
+`AllowOverride All` erlaubt WordPress, eigene Regeln in der `.htaccess` abzulegen. Das ist zum Beispiel für sprechende Permalinks nötig.
+
+Aktiviere anschließend die neue Seite und das Rewrite-Modul, deaktiviere die Standardseite von Apache und lade die Konfiguration neu:
+```bash
+sudo a2ensite wordpress.conf
+sudo a2enmod rewrite
+sudo a2dissite 000-default.conf
+sudo systemctl reload apache2
+```
+
+Danach rufst du deine Domain im Browser auf und schließt die Installation im WordPress-Assistenten ab.
 
 ### SSL-Verschlüsselung mit Let's Encrypt
 ```bash
@@ -156,6 +164,7 @@ sudo certbot --apache -d example.com -d www.example.com
 - Starke Passwörter
 - Zwei-Faktor-Authentifizierung
 - Sicherheits-Plugins
+- Regelmäßige Backups von Dateien und Datenbank. Worauf es dabei ankommt, erkläre ich in meinem Artikel zur [Backup-Strategie](/blog/backup-strategie-mittelstand)
 
 ## Performance-Optimierung
 
@@ -174,7 +183,7 @@ sudo certbot --apache -d example.com -d www.example.com
 
 ### Fehlerbehandlung
 - Überprüfe Apache-Logs: `sudo tail -f /var/log/apache2/error.log`
-- PHP-Fehler anzeigen: `sudo nano /etc/php/8.2/apache2/php.ini`
+- PHP-Fehler anzeigen: `sudo nano /etc/php/VERSION/apache2/php.ini` (ersetze `VERSION` durch deine PHP-Version, etwa 8.3; `php -v` zeigt sie dir an)
 
 ### Troubleshooting
 - Berechtigungsprobleme
@@ -189,8 +198,6 @@ WordPress auf einem Linux-Server zu installieren erfordert Sorgfalt und Verstän
 - Vollständige Kontrolle über deine Webseite
 
 ## Weiterführende Ressourcen
-- [vServer vs Dedicated Server](/blog/vserver-vs-dedicated-server)
-- [Docker Installation](/blog/docker-installation-linux)
-- [LAMP-Stack Tutorial](/blog/debian-lamp-stack)
-
-*Letzte Aktualisierung: November 2024*
+- [vServer oder Dedicated Server: Welcher Server passt zu dir?](/blog/vserver-vs-dedicated-server)
+- [Docker auf Linux installieren](/blog/docker-installation-linux)
+- [LAMP-Stack unter Debian einrichten](/blog/debian-lamp-stack)

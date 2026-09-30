@@ -9,13 +9,8 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: #ecebe8;
+  background: #0a0a0a;
 }
 
 .prose {
@@ -94,4 +89,131 @@ body {
   border-left: 4px solid #e5e7eb;
   color: #4b5563;
   font-style: italic;
+}
+
+/*
+ * Artikeltext im Blog (Markdown/MDX). Alles in :where(), damit Tailwind-Klassen
+ * in eingebetteten Komponenten gewinnen; Elemente in .not-article bleiben unberührt.
+ */
+@layer components {
+  .article {
+    color: #cfcdc8;
+    font-size: 1.0625rem;
+    line-height: 1.8;
+  }
+  .article :where(p, ul, ol, blockquote, table, figure, pre):not(:where(.not-article *)) {
+    margin-top: 0;
+    margin-bottom: 1.4em;
+  }
+  .article :where(h2, h3, h4):not(:where(.not-article *)) {
+    color: #ecebe8;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    scroll-margin-top: 6rem;
+  }
+  .article :where(h2):not(:where(.not-article *)) {
+    font-size: 1.75rem;
+    margin: 2.6em 0 0.8em;
+    padding-top: 1.1em;
+    border-top: 1px solid #1f1f1f;
+  }
+  .article :where(h3):not(:where(.not-article *)) {
+    font-size: 1.3rem;
+    margin: 2em 0 0.6em;
+  }
+  .article :where(h4):not(:where(.not-article *)) {
+    font-size: 1.1rem;
+    margin: 1.6em 0 0.5em;
+  }
+  .article :where(a):not(:where(.not-article *)) {
+    color: #ecebe8;
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 106, 43, 0.6);
+    text-underline-offset: 3px;
+    transition: color 0.2s;
+  }
+  .article :where(a:hover):not(:where(.not-article *)) {
+    color: #ff6a2b;
+  }
+  .article :where(strong):not(:where(.not-article *)) {
+    color: #ecebe8;
+    font-weight: 600;
+  }
+  .article :where(ul, ol):not(:where(.not-article *)) {
+    padding-left: 1.25em;
+  }
+  .article :where(ul):not(:where(.not-article *)) {
+    list-style: square;
+  }
+  .article :where(ol):not(:where(.not-article *)) {
+    list-style: decimal;
+  }
+  .article :where(li):not(:where(.not-article *)) {
+    margin: 0.35em 0;
+    padding-left: 0.25em;
+  }
+  .article :where(li)::marker {
+    color: #ff6a2b;
+  }
+  .article :where(li > ul, li > ol) {
+    margin: 0.35em 0 0;
+  }
+  .article :where(ul.contains-task-list) {
+    list-style: none;
+    padding-left: 0;
+  }
+  .article :where(input[type='checkbox']) {
+    accent-color: #ff6a2b;
+    margin-right: 0.5em;
+  }
+  .article :where(blockquote):not(:where(.not-article *)) {
+    border-left: 2px solid #ff6a2b;
+    padding: 0.2em 0 0.2em 1.1em;
+    color: #b5b3ae;
+  }
+  .article :where(blockquote p:last-child) {
+    margin-bottom: 0;
+  }
+  .article :where(code):not(:where(pre *, .not-article *)) {
+    font-family: var(--font-plex-mono, ui-monospace), monospace;
+    font-size: 0.86em;
+    color: #ecebe8;
+    background: #161615;
+    border: 1px solid #242422;
+    padding: 0.1em 0.35em;
+    word-break: break-word;
+  }
+  .article :where(table):not(:where(.not-article *)) {
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
+  .article :where(th, td):not(:where(.not-article *)) {
+    border-bottom: 1px solid #1f1f1f;
+    padding: 0.7em 0.9em 0.7em 0;
+    text-align: left;
+    vertical-align: top;
+  }
+  .article :where(th):not(:where(.not-article *)) {
+    color: #ecebe8;
+    font-weight: 500;
+    font-family: var(--font-plex-mono, ui-monospace), monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-bottom-color: #33332f;
+  }
+  .article :where(hr):not(:where(.not-article *)) {
+    border: 0;
+    border-top: 1px solid #1f1f1f;
+    margin: 2.5em 0;
+  }
+  .article :where(img):not(:where(.not-article *)) {
+    max-width: 100%;
+    height: auto;
+  }
 }

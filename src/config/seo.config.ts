@@ -2,23 +2,28 @@ import type { DefaultSeoProps } from 'next-seo/pages';
 import { ogImageUrl } from '@/lib/og-image';
 
 const config: DefaultSeoProps = {
-  titleTemplate: '%s | Achim Sommer (achimsommer)',
-  defaultTitle: 'Achim Sommer (achimsommer) | Full Stack Developer & FiveM Entwickler',
-  description: 'Achim Sommer (achimsommer) - Full Stack Developer aus Aachen, spezialisiert auf TypeScript, React, Next.js und FiveM Entwicklung. Dualer Student der Wirtschaftsinformatik.',
+  titleTemplate: '%s | Achim Sommer',
+  defaultTitle: 'Achim Sommer (achimsommer) | Head of IT in Aachen',
+  description: 'Achim Sommer, Head of IT in Aachen: IT-Infrastruktur, Security und Microsoft 365. Nebenbei Web-Apps mit Next.js.',
+  robotsProps: {
+    maxImagePreview: 'large',
+    maxSnippet: -1,
+    maxVideoPreview: -1,
+  },
   canonical: 'https://achimsommer.com',
   openGraph: {
     type: 'website',
     locale: 'de_DE',
     url: 'https://achimsommer.com',
     siteName: 'Achim Sommer Portfolio',
-    title: 'Achim Sommer | Full Stack Developer & FiveM Entwickler',
-    description: 'Full Stack Developer aus Aachen, spezialisiert auf TypeScript, React, Next.js und FiveM Entwicklung. Dualer Student der Wirtschaftsinformatik.',
+    title: 'Achim Sommer | Head of IT in Aachen',
+    description: 'Achim Sommer, Head of IT in Aachen: IT-Infrastruktur, Security und Microsoft 365. Nebenbei Web-Apps mit Next.js.',
     images: [
       {
-        url: ogImageUrl({ title: 'Achim Sommer', subtitle: 'Head of IT & Full Stack Developer' }),
+        url: ogImageUrl({ title: 'Achim Sommer', subtitle: 'Head of IT in Aachen' }),
         width: 1200,
         height: 630,
-        alt: 'Achim Sommer - Full Stack Developer Portfolio',
+        alt: 'Achim Sommer, Head of IT in Aachen',
         type: 'image/png',
       },
     ],
@@ -40,19 +45,11 @@ const config: DefaultSeoProps = {
     },
     {
       name: 'keywords',
-      content: 'Achim Sommer, achimsommer, Full Stack Developer, FiveM Entwickler, TypeScript, React, Next.js, Node.js, Webentwicklung, Aachen, Portfolio, Software Engineer, Wirtschaftsinformatik',
+      content: 'Achim Sommer, achimsommer, Head of IT, IT-Infrastruktur, IT-Sicherheit, Microsoft 365, Linux, Docker, Next.js, Aachen',
     },
     {
       name: 'theme-color',
       content: '#000000',
-    },
-    {
-      name: 'robots',
-      content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
-    },
-    {
-      property: 'article:author',
-      content: 'https://www.linkedin.com/in/achim-sommer-b898a2185/',
     },
     {
       name: 'format-detection',

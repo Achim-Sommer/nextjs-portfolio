@@ -1,124 +1,73 @@
-'use client';
+import Image from 'next/image';
+import { FiArrowUpRight } from 'react-icons/fi';
 
-import { FiServer, FiShield, FiCpu, FiCode, FiGift } from 'react-icons/fi';
-import { motion } from 'framer-motion';
+const ZAP_VSERVER_URL = 'https://zap-hosting.com/vserverhomepage';
 
-const ZAP_GREEN = '#57BB54';
+const PLANS = [
+  { name: 'Monatlich', price: 'ab 7,90 €', unit: 'pro Monat', cta: 'Jetzt starten', highlight: false },
+  { name: 'Lifetime', price: 'ab 64,00 €', unit: 'einmalig', cta: 'Lifetime sichern', highlight: true },
+];
 
+const FEATURES = ['DDoS-Schutz', 'Root-Zugriff', 'Sofort verfügbar', 'Support rund um die Uhr'];
+
+/** Werbung für ZAP-Hosting am Ende jedes Artikels (Partnerlinks) */
 export default function BlogZapHosting() {
   return (
-    <div className="flex flex-col gap-8 w-full my-8">
-      {/* Smart Context Banner */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full bg-gray-800 rounded-lg p-4 md:p-6 border border-gray-700 relative overflow-hidden"
-      >
-        {/* Top gradient bar (_before replacement) */}
-        <div
-          className="absolute top-0 left-0 right-0 h-[2px]"
-          style={{ background: `linear-gradient(90deg, ${ZAP_GREEN} 0%, ${ZAP_GREEN}80 100%)` }}
-        />
-
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-4">
-            <FiServer className="w-5 h-5 md:w-6 md:h-6 shrink-0" style={{ color: ZAP_GREEN }} />
-            <p className="text-gray-100 text-base md:text-lg font-bold font-mono">
-              Jetzt bei Zap-Hosting deployen
-            </p>
-          </div>
-
-          <div className="flex flex-col md:flex-row gap-4 md:gap-8 pl-4 md:pl-10">
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2">
-                <FiShield className="w-4 h-4 md:w-5 md:h-5 shrink-0" style={{ color: ZAP_GREEN }} />
-                <span className="text-gray-100 text-sm md:text-base">DDoS Schutz</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <FiCpu className="w-4 h-4 md:w-5 md:h-5 shrink-0" style={{ color: ZAP_GREEN }} />
-                <span className="text-gray-100 text-sm md:text-base">Root Zugriff</span>
-              </div>
-            </div>
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2">
-                <FiCode className="w-4 h-4 md:w-5 md:h-5 shrink-0" style={{ color: ZAP_GREEN }} />
-                <span className="text-gray-100 text-sm md:text-base">Sofort Verfügbar</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <FiServer className="w-4 h-4 md:w-5 md:h-5 shrink-0" style={{ color: ZAP_GREEN }} />
-                <span className="text-gray-100 text-sm md:text-base">24/7 Support</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Try it yourself Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="w-full bg-gray-800 rounded-lg p-4 md:p-6 border border-gray-700 font-mono"
-      >
-        <div className="flex flex-col gap-6">
-          <p className="text-gray-100 text-xs md:text-sm">
-            Starte deinen eigenen vServer/VPS (Linux oder Windows)
+    <aside className="not-article mt-14 border border-line bg-surface" aria-label="Anzeige: ZAP-Hosting">
+      <div className="flex flex-wrap items-start justify-between gap-6 border-b border-line p-5 sm:p-7">
+        <div className="max-w-md">
+          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-faint">
+            Empfehlung <span className="text-[#4a4946]">/</span> Anzeige
           </p>
+          <p className="mt-2 text-2xl font-medium tracking-[-0.02em] text-fg">Eigenen vServer starten</p>
+          <p className="mt-2 text-[15px] leading-relaxed text-muted">
+            Linux oder Windows, mit Root-Zugriff. Genau das, was du für die Anleitungen hier im Blog brauchst.
+          </p>
+        </div>
+        <Image src="/img/zap-hosting-logo.png" alt="ZAP-Hosting" width={2574} height={1022} sizes="120px" className="h-9 w-auto opacity-90" />
+      </div>
 
-          <div className="flex flex-col md:flex-row gap-4 md:gap-6 w-full">
-            {/* Monthly Plan */}
-            <div className="flex-1 flex flex-col items-center gap-2 bg-gray-900 p-4 rounded-md border border-gray-700 w-full">
-              <p className="text-gray-100 text-base md:text-lg">Monatlich</p>
-              <p className="text-xl md:text-2xl font-bold" style={{ color: ZAP_GREEN }}>ab 7,90€</p>
-              <p className="text-gray-100 text-xs md:text-sm">/Monat</p>
-              <a
-                href="https://zap-hosting.com/vserverhomepage"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full text-center text-white text-xs md:text-sm py-3 md:py-4 rounded-md font-semibold transition-opacity hover:opacity-80"
-                style={{ backgroundColor: ZAP_GREEN }}
-              >
-                Jetzt Starten
-              </a>
-            </div>
+      <ul className="flex flex-wrap gap-x-6 gap-y-2 border-b border-line px-5 py-4 font-mono text-[11px] uppercase tracking-[0.12em] text-muted sm:px-7">
+        {FEATURES.map((f) => (
+          <li key={f} className="flex items-center gap-2">
+            <span className="h-1.5 w-1.5 bg-accent" aria-hidden="true" />
+            {f}
+          </li>
+        ))}
+      </ul>
 
-            {/* Lifetime Plan */}
-            <div
-              className="flex-1 flex flex-col items-center gap-2 bg-gray-900 p-4 rounded-md w-full relative"
-              style={{ borderWidth: '1px', borderStyle: 'solid', borderColor: ZAP_GREEN }}
-            >
-              {/* "Bester Deal" badge (replaces _before pseudo) */}
-              <span
-                className="absolute -top-3 text-[10px] md:text-xs text-white px-2 py-0.5 rounded-md"
-                style={{ backgroundColor: ZAP_GREEN }}
-              >
+      <div className="grid sm:grid-cols-2">
+        {PLANS.map((plan) => (
+          <div
+            key={plan.name}
+            className={`relative flex flex-col gap-1 p-5 sm:p-7 ${plan.highlight ? 'bg-[#141312]' : 'border-b border-line sm:border-b-0 sm:border-r'}`}
+          >
+            {plan.highlight && (
+              <span className="absolute right-5 top-5 bg-accent px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-canvas sm:right-7 sm:top-7">
                 Bester Deal
               </span>
-
-              <p className="text-gray-100 text-base md:text-lg">Lifetime</p>
-              <p className="text-xl md:text-2xl font-bold" style={{ color: ZAP_GREEN }}>ab 64,00€</p>
-              <p className="text-gray-100 text-xs md:text-sm">einmalig</p>
-              <a
-                href="https://zap-hosting.com/vserverhomepage"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full text-center text-white text-xs md:text-sm py-3 md:py-4 rounded-md font-semibold transition-opacity hover:opacity-80"
-                style={{ backgroundColor: ZAP_GREEN }}
-              >
-                Lifetime Sichern
-              </a>
-            </div>
+            )}
+            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">{plan.name}</p>
+            <p className="mt-2 text-3xl font-medium tracking-[-0.03em] text-fg">{plan.price}</p>
+            <p className="text-sm text-faint">{plan.unit}</p>
+            <a
+              href={ZAP_VSERVER_URL}
+              target="_blank"
+              rel="sponsored noopener noreferrer"
+              className={`group mt-5 inline-flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium transition-colors duration-200 ${
+                plan.highlight ? 'bg-accent text-canvas hover:bg-accent-strong' : 'bg-fg text-canvas hover:bg-accent'
+              }`}
+            >
+              {plan.cta}
+              <FiArrowUpRight className="h-4 w-4" aria-hidden="true" />
+            </a>
           </div>
+        ))}
+      </div>
 
-          <div className="flex items-center justify-center gap-2">
-            <FiGift className="w-4 h-4 md:w-5 md:h-5 shrink-0" style={{ color: ZAP_GREEN }} />
-            <span className="text-gray-100 text-xs md:text-sm">
-              Code GERMANGAMING für 20% Rabatt
-            </span>
-          </div>
-        </div>
-      </motion.div>
-    </div>
+      <p className="border-t border-line px-5 py-4 font-mono text-xs text-muted sm:px-7">
+        Code <span className="tracking-[0.1em] text-fg">GERMANGAMING</span> für <span className="text-accent">20 %</span> Rabatt
+      </p>
+    </aside>
   );
 }

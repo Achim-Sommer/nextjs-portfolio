@@ -633,7 +633,7 @@ export default function PalworldServer() {
                 viewport={{ once: true }}
               >
                 <Link
-                  href="/blog/palworld-server-kaufen-statt-mieten-lifetime"
+                  href="/blog/zap-hosting-lifetime"
                   className="block p-6 rounded-xl bg-zinc-900/50 border border-zinc-800 hover:border-emerald-500/40 transition-all duration-300 hover:shadow-[0_0_20px_rgba(52,211,153,0.15)] group h-full"
                 >
                   <div className="flex items-center gap-3 text-emerald-400 mb-3">
@@ -641,7 +641,7 @@ export default function PalworldServer() {
                     <span className="text-xs font-mono uppercase tracking-widest text-gray-500">Guide</span>
                   </div>
                   <h3 className="text-white font-bold font-mono mb-2 group-hover:text-emerald-300 transition-colors">
-                    Palworld Server kaufen statt mieten (Lifetime)
+                    Server kaufen statt mieten: Lifetime im Vergleich
                   </h3>
                   <p className="text-gray-400 text-sm leading-relaxed">
                     Der komplette Kostenvergleich: Break-even-Rechnung, Risiken und für wen sich die

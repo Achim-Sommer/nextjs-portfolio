@@ -11,13 +11,15 @@ function buildRss() {
     .map((post) => {
       const url = `${siteUrl}/blog/${post.slug}`;
       const pubDate = new Date(post.frontmatter.date).toUTCString();
+      const escapedTitle = post.frontmatter.title.replace(/]]>/g, ']]&gt;');
       const categories = (post.frontmatter.tags || [])
         .map((tag: string) => `          <category><![CDATA[${tag}]]></category>`)
         .join('\n');
 
       return `
         <item>
-          <title><![CDATA[${post.frontmatter.title}]]></title>
+          <title><![CDATA[${escapedTitle}]]></title>
+          <author>dev@achimsommer.com (Achim Sommer)</author>
           <link>${url}</link>
           <guid isPermaLink="true">${url}</guid>
           <description><![CDATA[${post.frontmatter.description}]]></description>
@@ -34,7 +36,7 @@ ${categories}
       <title>Achim Sommer Blog</title>
       <link>${siteUrl}/blog</link>
       <atom:link href="${siteUrl}/rss.xml" rel="self" type="application/rss+xml" />
-      <description>Technische Tutorials, Guides und Best Practices von Achim Sommer.</description>
+      <description>Anleitungen und Praxiswissen zu IT-Infrastruktur, Security, Microsoft 365, Linux und Webentwicklung von Achim Sommer.</description>
       <language>de-de</language>
       <lastBuildDate>${lastBuildDate}</lastBuildDate>
       ${items}

@@ -1,62 +1,53 @@
-import CopyButton from './CopyButton';
+'use client';
+
+import { useState } from 'react';
 
 interface CodeBlockProps {
   children: string;
+  language?: string;
 }
 
-const CodeBlock = ({ children }: CodeBlockProps) => {
-  const normalizedCode = children.replace(/\r\n/g, '\n').replace(/\n+$/, '');
-  const lines = normalizedCode.split('\n');
-  const maxLineNumberWidth = String(lines.length).length;
+/** Codeblock im Artikel: Zeilennummern, Kopieren-Knopf, horizontal scrollbar */
+const CodeBlock = ({ children, language }: CodeBlockProps) => {
+  const [copied, setCopied] = useState(false);
+  const code = children.replace(/\r\n/g, '\n').replace(/\n+$/, '');
+  const lines = code.split('\n');
+  const gutter = `${String(lines.length).length + 1}ch`;
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1600);
+    } catch {
+      // Zwischenablage nicht verfügbar
+    }
+  };
 
   return (
-    <div className="relative bg-gray-800 rounded-lg overflow-hidden border border-gray-700 mb-6 shadow-lg mx-[-1rem] sm:mx-0">
-      {/* macOS-style window controls */}
-      <div className="flex items-center justify-between bg-gray-900 px-2 sm:px-4 py-2 sm:py-3 border-b border-gray-700">
-        <div className="flex gap-1.5 sm:gap-2">
-          <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500" />
-          <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-500" />
-          <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500" />
-        </div>
-        <CopyButton code={normalizedCode} />
-      </div>
-
-      {/* Code content */}
-      <div className="p-3 sm:p-6 overflow-x-auto max-w-[100vw] scrollbar-thin scrollbar-thumb-gray-600">
-        <pre
-          style={{
-            margin: 0,
-            padding: 0,
-            overflow: 'auto',
-            fontFamily: 'JetBrains Mono, Menlo, Monaco, Consolas, monospace',
-            fontSize: '0.8rem',
-            lineHeight: '1.5',
-            whiteSpace: 'pre',
-            width: '100%',
-          }}
+    <div className="not-article my-7 border border-line bg-[#0d0d0c]">
+      <div className="flex items-center justify-between border-b border-line px-4 py-2">
+        <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-faint">{language || 'Code'}</span>
+        <button
+          type="button"
+          onClick={copy}
+          className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted transition-colors duration-200 hover:text-accent"
         >
+          {copied ? 'Kopiert' : 'Kopieren'}
+        </button>
+      </div>
+      <pre className="overflow-x-auto px-4 py-4 font-mono text-[13px] leading-[1.7] text-fg">
+        <code>
           {lines.map((line, i) => (
-            <div key={i} className="flex mb-px">
-              <span
-                className="text-gray-500 select-none text-right pr-2 sm:pr-4"
-                style={{
-                  width: `${maxLineNumberWidth + 1}ch`,
-                  fontFamily: 'inherit',
-                  fontSize: 'inherit',
-                }}
-              >
+            <span key={i} className="flex">
+              <span className="select-none pr-4 text-right text-[#4a4946]" style={{ minWidth: gutter }} aria-hidden="true">
                 {i + 1}
               </span>
-              <span
-                className="text-gray-100 pl-2 sm:pl-4 border-l border-gray-700 w-full whitespace-pre overflow-x-auto"
-                style={{ fontFamily: 'inherit', fontSize: 'inherit' }}
-              >
-                {line || '\n'}
-              </span>
-            </div>
+              <span className="whitespace-pre">{line || ' '}</span>
+            </span>
           ))}
-        </pre>
-      </div>
+        </code>
+      </pre>
     </div>
   );
 };

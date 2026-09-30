@@ -1,19 +1,18 @@
 ---
-title: 'MedusaJS: Die Open-Source-Alternative zu Shopify für 2024'
+title: 'MedusaJS: Open-Source-Alternative zu Shopify'
+description: 'MedusaJS als kostenlose Open-Source-Alternative zu Shopify: Funktionen, Vorteile, Grenzen und für welche Shops sich das Headless-Framework eignet.'
 date: '2024-12-01'
-description: 'Entdecke MedusaJS, die kostenlose und Open-Source-Alternative zu Shopify. Eine detaillierte Einführung, Vorteile, Feature-Vergleich und warum MedusaJS die perfekte Lösung für dein E-Commerce-Projekt ist.'
-image: '/images/blog/medusajs-alternative-zu-shopify.jpg'
-tags: ["MedusaJS", "Shopify Alternative", "Open Source E-Commerce", "Kostenlose E-Commerce-Lösungen", "E-Commerce", "Online-Shop", "Headless CMS", "E-Commerce-Frameworks", "SEO", "Webentwicklung"]
+lastModified: '2026-09-30'
+tags: ['Webentwicklung']
 featured: false
 ---
-
-# MedusaJS: Die Open-Source-Alternative zu Shopify für 2024
 
 ## Einleitung
 
 In der heutigen digitalen Landschaft ist die Wahl der richtigen E-Commerce-Plattform entscheidend für den Erfolg deines Online-Geschäfts. Während Shopify eine der bekanntesten und am weitesten verbreiteten Plattformen ist, suchen viele Unternehmer und Entwickler nach **kostenlosen** und **Open-Source** Alternativen, die mehr Flexibilität und Kontrolle bieten. **MedusaJS** tritt genau an diese Stelle und bietet eine leistungsstarke, anpassbare Lösung für moderne E-Commerce-Anforderungen. 
 
 Wenn du auch an der Erstellung von Websites und Online-Stores mit Next.js interessiert bist, schau dir unsere [Dienstleistungen](/kontakt) an.
+
 ## Was ist MedusaJS?
 
 MedusaJS ist ein **Open-Source** E-Commerce-Framework, das Entwicklern die Möglichkeit bietet, maßgeschneiderte Online-Shops zu erstellen. Es ist headless, was bedeutet, dass es das Backend von der Frontend-Präsentation trennt, wodurch eine höhere Flexibilität und Skalierbarkeit erreicht wird. MedusaJS ist vollständig selbst gehostet und daher komplett **kostenlos**, abgesehen von den Hosting-Kosten.
@@ -28,7 +27,7 @@ MedusaJS ist ein **Open-Source** E-Commerce-Framework, das Entwicklern die Mögl
 - **Multi-Channel Verkauf**: Unterstützung für den Verkauf über verschiedene Kanäle wie Web, Mobile und soziale Medien.
 - **Internationalisierung**: Mehrsprachige Unterstützung und Währungsoptionen für den globalen Markt.
 - **Zahlungs- und Versandintegrationen**: Einfache Integration mit gängigen Zahlungsdiensten und Versandanbietern.
-- **Analytik und Reporting**: Integrierte Tools zur Überwachung von Verkäufen, Kundenverhalten und Leistungskennzahlen.
+- **Analytik und Reporting**: Anbindung von Analyse-Tools über Integrationen, um Verkäufe, Kundenverhalten und Leistungskennzahlen auszuwerten.
 
 ## Vorteile von MedusaJS gegenüber Shopify
 
@@ -52,7 +51,7 @@ MedusaJS ist API-first, was eine nahtlose Integration mit Drittanbieterdiensten 
 
 Als Open-Source-Projekt hat MedusaJS eine engagierte Community, die kontinuierlich an Verbesserungen arbeitet, Fehler behebt und neue Features hinzufügt. Shopify bietet zwar umfangreichen Support, aber die Community-getriebene Entwicklung von MedusaJS fördert Innovation und Flexibilität.
 
-### 6. **Wohlfahrtskosten**
+### 6. **Planbare Kosten**
 
 Während Shopify langfristig Kosten verursacht, insbesondere bei wachsenden Geschäften, bleiben die Kosten bei MedusaJS kontrollierbar, da sie hauptsächlich durch Hosting und eventuelle zusätzliche Services entstehen.
 
@@ -64,7 +63,7 @@ MedusaJS lässt sich leicht mit anderen Tools und Services integrieren. Du kanns
 
 MedusaJS ermöglicht eine detailliertere Steuerung der Kundenverwaltung, einschließlich benutzerdefinierter Felder und spezifischer Kundenrollen. Dies ermöglicht eine personalisierte Ansprache und bessere Kundensegmentierung.
 
-### 9. **Verbessernde Performance durch Optimierungen**
+### 9. **Bessere Performance durch Optimierungen**
 
 Durch die Möglichkeit, den gesamten Stack selbst zu optimieren, können Entwickler die Performance ihres Online-Shops gezielt verbessern. Dies umfasst Caching-Strategien, Datenbankoptimierungen und serverseitige Performance-Tuning-Maßnahmen.
 
@@ -89,154 +88,73 @@ Durch die Möglichkeit, den gesamten Stack selbst zu optimieren, können Entwick
 
 ### 1. Systemanforderungen
 
-Bevor du mit der Installation von MedusaJS beginnst, stelle sicher, dass dein System die folgenden Anforderungen erfüllt:
+Bevor du mit der Installation von MedusaJS beginnst, stelle sicher, dass dein System die folgenden Anforderungen erfüllt. Die Angaben beziehen sich auf die aktuelle Hauptversion Medusa v2:
 
-- **Node.js**: Version 14 oder höher
-- **Datenbank**: PostgreSQL oder MongoDB
-- **Hosting**: Eigener Server oder Plattform wie Heroku, Vercel, etc.
+- **Node.js**: Version 20 oder höher (am besten eine aktuelle LTS-Version)
+- **Datenbank**: PostgreSQL
+- **Git**: für das Anlegen des Projekts
+- **Hosting**: Eigener Server oder eine Plattform für Node.js-Anwendungen; der Next.js-Storefront kann auch separat laufen, zum Beispiel auf Vercel
 - **Speicherplatz**: Mindestens 5 GB freier Speicher
 - **RAM**: Mindestens 2 GB (mehr für größere Shops)
-- **Betriebssystem**: Linux (Ubuntu, Debian, CentOS)
+- **Betriebssystem**: Linux, macOS oder Windows für die Entwicklung; im Produktivbetrieb meist Linux
+
+Für den Produktivbetrieb empfiehlt Medusa zusätzlich Redis, etwa für Caching und Hintergrundaufgaben.
 
 ### 2. Installation von MedusaJS
 
-#### 2.1 Medusa installieren
+#### Schritt 1: Neue Medusa-Anwendung erstellen
 
-Um eine Medusa-Anwendung zu erstellen und auszuführen, folge diesen Schritten:
-
-##### Schritt 1: Medusa CLI installieren
-
-Stelle sicher, dass Node.js und npm auf deinem System installiert sind. Installiere dann das Medusa CLI global:
-
-```bash
-npm install -g @medusajs/medusa-cli
-```
-
-##### Schritt 2: Neue Medusa-Anwendung erstellen
-
-Verwende das Medusa CLI, um ein neues Projekt zu erstellen:
+Stelle sicher, dass Node.js, Git und PostgreSQL auf deinem System installiert sind. Eine global installierte Medusa CLI brauchst du dafür nicht. Lege das Projekt direkt mit folgendem Befehl an:
 
 ```bash
 npx create-medusa-app@latest
 ```
 
-Während der Erstellung wirst du nach dem Projektnamen gefragt und ob du das Next.js-Storefront gleichzeitig installieren möchtest.
+Während der Erstellung wirst du nach dem Projektnamen gefragt und ob du den Next.js Starter Storefront gleichzeitig installieren möchtest. Das Skript richtet die Datenbank ein und installiert alle Abhängigkeiten.
 
-##### Schritt 3: Projektverzeichnis betreten und Abhängigkeiten installieren
+#### Schritt 2: Medusa im Entwicklungsmodus starten
+
+Wechsle in das Projektverzeichnis und starte den Entwicklungsserver:
 
 ```bash
 cd my-medusa-store
-npm install
-```
-
-##### Schritt 4: Medusa-Server starten
-
-Starte den Medusa-Server im Entwicklungsmodus:
-
-```bash
-npm run develop
-```
-
-Deine Medusa-Anwendung läuft nun unter [http://localhost:9000](http://localhost:9000).
-
-#### 2.2 Medusa in der Entwicklung ausführen
-
-Um die Medusa-Anwendung in der Entwicklung auszuführen, wechsle in das Anwendungsverzeichnis und starte den Entwicklungsserver:
-
-```bash
 npm run dev
 ```
 
-Dies startet deine Medusa-Anwendung unter [http://localhost:9000](http://localhost:9000) und das Admin-Dashboard unter [http://localhost:9000/app](http://localhost:9000/app). Beim ersten Start öffnet sich das Admin-Dashboard automatisch in deinem Browser, um einen Admin-Benutzer zu erstellen.
+Deine Medusa-Anwendung läuft nun unter [http://localhost:9000](http://localhost:9000) und das Admin-Dashboard unter [http://localhost:9000/app](http://localhost:9000/app). Beim ersten Start öffnet sich das Admin-Dashboard in deinem Browser, damit du einen Admin-Benutzer anlegen kannst.
 
-##### Tipp
+### 3. Der Next.js Starter Storefront
 
-Für Details zum Starten und Konfigurieren des Next.js-Storefronts konsultiere die [offizielle Medusa-Dokumentation](https://github.com/medusajs/vercel-commerce).
+Medusa liefert kein fertiges Shop-Frontend mit, sondern ist headless. Der offizielle **Next.js Starter Storefront** ist die schnellste Möglichkeit, trotzdem sofort einen funktionierenden Shop zu haben. Wenn du ihn bei `create-medusa-app` mit auswählst, legt das Skript ihn in einem eigenen Ordner neben dem Backend an. Du startest ihn dort ebenfalls mit `npm run dev`, er ist dann unter [http://localhost:8000](http://localhost:8000) erreichbar.
 
-### 3. Next.js Commerce x Medusa
+Der Storefront nutzt den App Router von Next.js, React Server Components und Tailwind CSS und deckt die typischen Shop-Funktionen ab: Produktseiten, Warenkorb, Checkout und Kundenkonto. Du kannst ihn als Ausgangspunkt nehmen und nach deinen Wünschen anpassen. Da der Storefront auf Next.js basiert, profitierst du von dessen Möglichkeiten zur Suchmaschinenoptimierung. Welche Maßnahmen dabei wirklich zählen, zeige ich dir in meinem Artikel [SEO für Next.js](/blog/seo-optimierung-nextjs-websites-best-practices-2025).
 
-#### Next.js Commerce x Medusa
+Die ältere Vorlage "Next.js Commerce x Medusa" stammt aus der Zeit von Medusa v1. Für neue Projekte ist der Next.js Starter Storefront der empfohlene Weg.
 
-[Next.js Commerce x Medusa](https://github.com/medusajs/vercel-commerce) ist eine Next.js 13 und App Router-fähige E-Commerce-Vorlage, die mit Medusa erstellt wurde. Sie bietet eine optimierte SEO-Integration, React Server Components (RSCs) und Suspense, Server Actions für Mutationen, Edge Runtime, neue Fetching- und Caching-Paradigmen, dynamische OG-Bilder, Styling mit Tailwind CSS und automatische Licht/Dunkel-Modi basierend auf den Systemeinstellungen.
+## Für wen eignet sich MedusaJS?
 
-##### Hauptmerkmale
+MedusaJS spielt seine Stärken vor allem dort aus, wo ein Standard-Shop an Grenzen stößt und ein Entwicklerteam zur Verfügung steht. Typische Einsatzszenarien sind:
 
-- **Next.js App Router**: Effiziente Navigation und Architektur für moderne Webanwendungen.
-- **SEO-Optimierung**: Verwendung der Metadaten-Funktionen von Next.js zur Verbesserung der Sichtbarkeit in Suchmaschinen.
-- **React Server Components (RSCs)** und **Suspense**: Verbesserte Performance und Nutzererfahrung durch serverseitige Rendering-Techniken.
-- **Server Actions**: Direkte Mutationen und Datenmanipulationen auf dem Server für eine nahtlose Benutzererfahrung.
-- **Edge Runtime**: Nutzung von Edge-Technologien für schnellere Ladezeiten und bessere globale Verfügbarkeit.
-- **Neue Fetching- und Caching-Paradigmen**: Effizientes Datenladen und Caching für verbesserte Performance.
-- **Dynamische OG-Bilder**: Automatische Generierung von OG-Bildern für soziale Medien zur Verbesserung der Link-Preview.
-- **Styling mit Tailwind CSS**: Schnelles und flexibles Styling mit einem modernen CSS-Framework.
-- **Automatische Licht/Dunkel-Modi**: Anpassung des Designs basierend auf den Systemeinstellungen des Nutzers.
+### Szenario: Händler mit individuellen Anforderungen
 
-#### Installation und Einrichtung
+Ein Händler, dessen Prozesse sich mit Standard-Apps nur umständlich abbilden lassen, kann mit MedusaJS eigene Features entwickeln lassen. Dank der **Open-Source** Natur ist das Entwicklerteam dabei nicht auf die Schnittstellen einer fremden Plattform angewiesen.
 
-##### 1. Medusa Commerce App mit Next.js Commerce Starter ausführen
+### Szenario: Shop als Teil einer bestehenden Software
 
-```bash
-npx create-medusa-app@nextjs-commerce
-```
+Ein Unternehmen mit einer eigenen SaaS-Plattform kann den Shop über die API-First Architektur von MedusaJS direkt in sein Produkt integrieren, statt ein separates Shopsystem anzubinden.
 
-Dies erstellt einen neuen Hauptordner mit zwei Unterordnern für Medusa und Next.js Commerce.
+### Szenario: Internationaler Verkauf
 
-##### 2. PostgreSQL-Datenbank erstellen
+Wer in mehreren Ländern verkauft, kann Sprachen, Währungen, Regionen und Steuerregeln im Backend selbst steuern und bei Bedarf gezielt anpassen.
 
-Erstelle eine PostgreSQL-Datenbank namens `vercel-commerce` und stelle sicher, dass der PostgreSQL-Server lokal läuft.
+## Grenzen von MedusaJS
 
-##### 3. Datenbank seedieren
+So flexibel MedusaJS ist, es passt nicht zu jedem Projekt:
 
-Wechsle in das neu erstellte `nextjs-commerce/medusa` Verzeichnis und seediere die Datenbank:
-
-```bash
-cd nextjs-commerce/medusa
-yarn seed
-```
-
-Dies fügt einige Demo-Produkte und die notwendigen Produktkategorien hinzu, um die Homepage zu füllen.
-
-##### 4. Medusa ausführen
-
-Wechsle in das `medusa`-Unterverzeichnis und starte den Medusa-Server:
-
-```bash
-yarn start
-```
-
-Dein Medusa-Server läuft nun unter [http://localhost:9000](http://localhost:9000).
-
-##### 5. Next.js Commerce ausführen
-
-1. Du musst die Umgebungsvariablen aus `.env.example` in eine `.env`-Datei im Root-Verzeichnis deines Next.js Commerce Projekts kopieren. Stelle sicher, dass die Variable `NEXT_PUBLIC_MEDUSA_BACKEND_API` auf deine Medusa-Backend-Domain zeigt (Standard: [http://localhost:9000](http://localhost:9000)).
-
-   ```bash
-   cp .env.example .env
-   ```
-
-2. Wechsle in das `nextjs-commerce`-Unterverzeichnis und starte das Next.js Commerce Frontend:
-
-   ```bash
-   yarn dev
-   ```
-
-Deine Anwendung läuft nun unter [http://localhost:3000](http://localhost:3000).
-
-## Erfolgreiche Projekte mit MedusaJS
-
-Viele Unternehmen haben bereits auf MedusaJS gesetzt und von der Flexibilität und den Kostenersparnissen profitiert. Durch die Möglichkeit, den gesamten Stack selbst zu kontrollieren, konnten sie maßgeschneiderte Lösungen entwickeln, die perfekt auf ihre Geschäftsanforderungen abgestimmt sind.
-
-### Beispiel: Ein mittelständischer Einzelhandel
-
-Ein mittelständischer Einzelhändler entschied sich für MedusaJS, um seinen Online-Shop zu erstellen. Dank der **Open-Source** Natur konnte das Entwicklerteam benutzerdefinierte Features implementieren, die auf Shopify nicht verfügbar waren. Dies führte zu einer verbesserten Benutzererfahrung und höheren Konversionsraten.
-
-### Beispiel: Ein Start-up im Tech-Bereich
-
-Ein aufstrebendes Start-up im Tech-Bereich verwendete MedusaJS, um einen skalierbaren Online-Shop zu entwickeln, der nahtlos mit ihrer bestehenden SaaS-Plattform integriert werden konnte. Die API-First Architektur von MedusaJS erleichterte die Integration und ermöglichte schnelle Iterationen, wodurch das Unternehmen schnell auf Marktveränderungen reagieren konnte.
-
-### Beispiel: Ein global agierender Modehändler
-
-Ein internationaler Modehändler nutzte MedusaJS, um eine mehrsprachige und mehrwährungsfähige E-Commerce-Plattform zu entwickeln. Durch die vollständige Kontrolle über das Backend konnte das Team spezifische Anpassungen vornehmen, die auf die einzigartigen Bedürfnisse des globalen Marktes zugeschnitten waren. Dies trug wesentlich zur Steigerung der globalen Reichweite und des Umsatzes bei.
+- **Entwickler-Know-how nötig**: Ohne Kenntnisse in JavaScript/TypeScript, Node.js und Datenbanken kommst du nicht weit. Für einen einfachen Shop ohne Entwicklerteam ist Shopify meist der schnellere Weg.
+- **Frontend ist eigene Arbeit**: Als Headless-System liefert Medusa kein fertiges Theme-System wie Shopify. Der Starter Storefront ist ein guter Anfang, das endgültige Design musst du aber selbst umsetzen.
+- **Betrieb liegt bei dir**: Hosting, Updates, Backups, Monitoring und Sicherheit übernimmst du selbst oder vergibst sie an einen Dienstleister. Diese Aufwände gehören in jede Kostenrechnung.
+- **Kleineres Ökosystem**: Für Shopify gibt es deutlich mehr fertige Apps und Themes. Bei Medusa musst du manche Integration selbst entwickeln.
 
 ## Technische Details und Best Practices
 
@@ -273,9 +191,9 @@ Um die Leistung deiner MedusaJS-Plattform zu maximieren, solltest du folgende Be
 
 ## Verknüpfungen und Empfehlungen
 
-Für eine einfache und effektive Deployment-Option kannst du [Coolify](./coolify-installation.md) verwenden, um MedusaJS nahtlos auf deinem Server zu deployen. Coolify bietet eine benutzerfreundliche Oberfläche zur Verwaltung deiner Deployments und unterstützt moderne Technologien wie Docker. Weitere Informationen zur Installation und Nutzung von Coolify findest du in meinem Artikel [Coolify auf Linux Server installieren 2024 - Die ultimative Anleitung](./coolify-installation.md).
+Für eine einfache und effektive Deployment-Option kannst du Coolify verwenden, um MedusaJS auf deinem eigenen Server zu deployen. Coolify bietet eine benutzerfreundliche Oberfläche zur Verwaltung deiner Deployments und setzt auf Docker. Wie du die Plattform einrichtest, zeige ich dir in meiner Anleitung [Coolify installieren](/blog/coolify-installation).
 
-Darüber hinaus empfehle ich [ZAP-Hosting](https://zap-hosting.com/achim) für dein Hosting-Bedürfnis. Bei ZAP-Hosting hast du die Möglichkeit, [Lifetime-Server](./vserver-kaufen-statt-mieten.md) zu erwerben, was langfristig erhebliche Kostenersparnisse ermöglicht. Mit einer einmaligen Zahlung kannst du deinen Server dauerhaft nutzen, ohne monatliche Gebühren befürchten zu müssen. Erfahre mehr über die [Lifetime-Server Option](./vserver-kaufen-statt-mieten.md) in diesem ausführlichen Vergleichsartikel.
+Darüber hinaus empfehle ich [ZAP-Hosting](https://zap-hosting.com/achim) für dein Hosting-Bedürfnis. Bei ZAP-Hosting hast du die Möglichkeit, Lifetime-Server zu erwerben, was langfristig erhebliche Kostenersparnisse ermöglicht. Mit einer einmaligen Zahlung kannst du deinen Server dauerhaft nutzen, ohne monatliche Gebühren befürchten zu müssen. Mehr dazu erfährst du in meinem Artikel über [Lifetime-Server: kaufen statt mieten](/blog/zap-hosting-lifetime).
 
 ### Warum ZAP-Hosting?
 
@@ -285,98 +203,22 @@ Darüber hinaus empfehle ich [ZAP-Hosting](https://zap-hosting.com/achim) für d
 - **Lifetime-Option**: Langfristige Kostenersparnis durch einmalige Zahlungen.
 - **Zuverlässigkeit**: Hohe Verfügbarkeitsraten und robuste Infrastruktur.
 
-## Next.js Commerce x Medusa
-
-### Next.js Commerce x Medusa
-
-[Next.js Commerce x Medusa](https://github.com/medusajs/vercel-commerce) ist eine Next.js 13 und App Router-fähige E-Commerce-Vorlage, die mit Medusa erstellt wurde. Sie bietet eine optimierte SEO-Integration, React Server Components (RSCs) und Suspense, Server Actions für Mutationen, Edge Runtime, neue Fetching- und Caching-Paradigmen, dynamische OG-Bilder, Styling mit Tailwind CSS und automatische Licht/Dunkel-Modi basierend auf den Systemeinstellungen.
-
-#### Hauptmerkmale
-
-- **Next.js App Router**: Effiziente Navigation und Architektur für moderne Webanwendungen.
-- **SEO-Optimierung**: Verwendung der Metadaten-Funktionen von Next.js zur Verbesserung der Sichtbarkeit in Suchmaschinen.
-- **React Server Components (RSCs)** und **Suspense**: Verbesserte Performance und Nutzererfahrung durch serverseitige Rendering-Techniken.
-- **Server Actions**: Direkte Mutationen und Datenmanipulationen auf dem Server für eine nahtlose Benutzererfahrung.
-- **Edge Runtime**: Nutzung von Edge-Technologien für schnellere Ladezeiten und bessere globale Verfügbarkeit.
-- **Neue Fetching- und Caching-Paradigmen**: Effizientes Datenladen und Caching für verbesserte Performance.
-- **Dynamische OG-Bilder**: Automatische Generierung von OG-Bildern für soziale Medien zur Verbesserung der Link-Preview.
-- **Styling mit Tailwind CSS**: Schnelles und flexibles Styling mit einem modernen CSS-Framework.
-- **Automatische Licht/Dunkel-Modi**: Anpassung des Designs basierend auf den Systemeinstellungen des Nutzers.
-
-#### Installation und Einrichtung
-
-##### 1. Medusa Commerce App mit Next.js Commerce Starter ausführen
-
-```bash
-npx create-medusa-app@nextjs-commerce
-```
-
-Dies erstellt einen neuen Hauptordner mit zwei Unterordnern für Medusa und Next.js Commerce.
-
-##### 2. PostgreSQL-Datenbank erstellen
-
-Erstelle eine PostgreSQL-Datenbank namens `vercel-commerce` und stelle sicher, dass der PostgreSQL-Server lokal läuft.
-
-##### 3. Datenbank seedieren
-
-Wechsle in das neu erstellte `nextjs-commerce/medusa` Verzeichnis und seediere die Datenbank:
-
-```bash
-cd nextjs-commerce/medusa
-yarn seed
-```
-
-Dies fügt einige Demo-Produkte und die notwendigen Produktkategorien hinzu, um die Homepage zu füllen.
-
-##### 4. Medusa ausführen
-
-Wechsle in das `medusa`-Unterverzeichnis und starte den Medusa-Server:
-
-```bash
-yarn start
-```
-
-Dein Medusa-Server läuft nun unter [http://localhost:9000](http://localhost:9000).
-
-##### 5. Next.js Commerce ausführen
-
-1. Du musst die Umgebungsvariablen aus `.env.example` in eine `.env`-Datei im Root-Verzeichnis deines Next.js Commerce Projekts kopieren. Stelle sicher, dass die Variable `NEXT_PUBLIC_MEDUSA_BACKEND_API` auf deine Medusa-Backend-Domain zeigt (Standard: [http://localhost:9000](http://localhost:9000)).
-
-   ```bash
-   cp .env.example .env
-   ```
-
-2. Wechsle in das `nextjs-commerce`-Unterverzeichnis und starte das Next.js Commerce Frontend:
-
-   ```bash
-   yarn dev
-   ```
-
-Deine Anwendung läuft nun unter [http://localhost:3000](http://localhost:3000).
-
 ## Ressourcen
 
 - [MedusaJS offizielle Website](https://medusajs.com/)
 - [MedusaJS GitHub Repository](https://github.com/medusajs/medusa)
 - [Next.js Dokumentation](https://nextjs.org/docs)
 - [MedusaJS Dokumentation](https://docs.medusajs.com/)
-- [Coolify Installation](./coolify-installation.md)
-- [Lifetime-Server kaufen statt mieten](./vserver-kaufen-statt-mieten.md)
 - [ZAP-Hosting](https://zap-hosting.com/achim)
-- [MedusaJS Tutorials](https://docs.medusajs.com/tutorial/introduction)
-- [MedusaJS Plugins](https://docs.medusajs.com/plugins/overview)
-- [Headless E-Commerce Best Practices](https://example.com/headless-ecommerce-best-practices)
-- [SEO für E-Commerce](https://example.com/seo-for-ecommerce)
-- [Sicherheitsrichtlinien für E-Commerce-Plattformen](https://example.com/ecommerce-security-best-practices)
 
 ## Weiterführende Artikel
 
 Um das Potenzial von MedusaJS voll auszuschöpfen, empfehle ich dir, auch folgende Artikel zu lesen:
 
-- [Coolify auf Linux Server installieren 2024 - Die ultimative Anleitung](./coolify-installation.md)
-- [vServer kaufen statt mieten 2024: Lifetime Server im Vergleich](./vserver-kaufen-statt-mieten.md)
-- [Docker auf Linux installieren 2024 - Die ultimative Schritt-für-Schritt Anleitung](./docker-installation-linux.md)
+- [Coolify installieren: Anleitung für Debian und Ubuntu](/blog/coolify-installation)
+- [Lifetime-Server: kaufen statt mieten](/blog/zap-hosting-lifetime)
+- [Docker auf Linux installieren](/blog/docker-installation-linux)
 
 ## Abschluss
 
-Mit dieser erweiterten und detaillierten Anleitung hast du nun ein umfassendes Verständnis davon, warum MedusaJS eine ausgezeichnete Alternative zu Shopify darstellt und wie du es erfolgreich in deinem E-Commerce-Projekt einsetzen kannst. Profitiere von den zahlreichen Vorteilen, die MedusaJS bietet, und starte noch heute deinen eigenen, flexiblen und leistungsstarken Online-Shop!
+Mit dieser Anleitung hast du nun ein umfassendes Verständnis davon, warum MedusaJS eine ausgezeichnete Alternative zu Shopify sein kann, wo die Grenzen liegen und wie du es in deinem E-Commerce-Projekt einsetzen kannst. Wenn dein Team die nötige Entwicklungserfahrung mitbringt, bekommst du einen flexiblen und leistungsstarken Online-Shop ohne Lizenzkosten.

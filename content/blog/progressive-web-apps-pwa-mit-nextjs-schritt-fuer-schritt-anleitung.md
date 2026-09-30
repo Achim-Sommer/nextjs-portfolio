@@ -1,13 +1,11 @@
 ---
-title: 'Progressive Web Apps (PWA) mit Next.js: Schritt-für-Schritt Anleitung'
+title: 'PWA mit Next.js erstellen: Schritt für Schritt'
+description: 'So machst du aus einer Next.js-App eine Progressive Web App: Manifest, Service Worker, Offline-Fähigkeit und Installation Schritt für Schritt erklärt.'
 date: '2024-12-28'
-description: 'Erfahre, wie du mit Next.js eine Progressive Web App (PWA) erstellst. Diese Schritt-für-Schritt Anleitung zeigt dir, wie du deine Next.js-Anwendung in eine leistungsstarke PWA verwandelst.'
-image: '/images/blog/pwa-nextjs.jpg'
-tags: ['PWA', 'Next.js', 'Webentwicklung', 'Progressive Web Apps', 'Mobile Entwicklung', 'SEO', 'Performance']
+lastModified: '2026-09-30'
+tags: ['Next.js', 'Webentwicklung']
 featured: false
 ---
-
-# Progressive Web Apps (PWA) mit Next.js: Schritt-für-Schritt Anleitung
 
 ## Einleitung
 
@@ -20,10 +18,12 @@ Progressive Web Apps (PWAs) kombinieren die besten Eigenschaften von Web- und na
 - **Installierbar**: Nutzer können PWAs auf ihrem Startbildschirm installieren.
 - **SEO-freundlich**: Next.js bietet integrierte SEO-Optimierungen.
 
+Falls du noch abwägst, ob Next.js überhaupt das richtige Werkzeug für dein Projekt ist, hilft dir mein Vergleich [Next.js vs. React](/blog/nextjs-vs-react-welches-framework-ist-2025-die-bessere-wahl).
+
 ## Voraussetzungen
 
-- Node.js (Version 18 oder höher)
-- Ein Next.js-Projekt (falls noch nicht vorhanden, erstelle eines mit `npx create-next-app`)
+- Node.js in einer aktuellen LTS-Version (Next.js 16 setzt mindestens Node.js 20.9 voraus)
+- Ein Next.js-Projekt mit App Router (falls noch nicht vorhanden, erstelle eines mit `npx create-next-app@latest`)
 - Grundkenntnisse in React und Next.js
 
 ## Schritt 1: Next.js-Projekt erstellen
@@ -35,126 +35,126 @@ npx create-next-app@latest meine-pwa
 cd meine-pwa
 ```
 
-Dieser Befehl erstellt ein neues Next.js-Projekt mit allen notwendigen Abhängigkeiten. Wähle während der Installation die gewünschten Optionen (TypeScript, ESLint, etc.) entsprechend deinen Anforderungen.
+Dieser Befehl erstellt ein neues Next.js-Projekt mit allen notwendigen Abhängigkeiten. Wähle während der Installation die gewünschten Optionen (TypeScript, App Router etc.) entsprechend deinen Anforderungen. Die folgenden Beispiele gehen von TypeScript und dem App Router aus.
 
 ## Schritt 2: PWA-Pakete installieren
 
-Installiere die notwendigen Pakete, um deine Next.js-Anwendung in eine PWA zu verwandeln:
+Für den Service Worker nutzt du [Serwist](https://serwist.pages.dev). Serwist ist der Nachfolger des früher verbreiteten Pakets `next-pwa`, das nicht mehr gepflegt wird und mit aktuellen Next.js-Versionen Probleme macht. Installiere die notwendigen Pakete:
 
 ```bash
-npm install next-pwa
+npm install @serwist/next
+npm install -D serwist
 ```
 
-`next-pwa` ist ein offizielles Paket, das die PWA-Funktionalität in Next.js integriert. Es erstellt automatisch einen Service Worker und kümmert sich um das Caching.
+`@serwist/next` bindet Serwist in den Build von Next.js ein, erzeugt den Service Worker und legt eine Liste der Dateien an, die vorab gecacht werden.
 
-## Schritt 3: Konfiguration von `next-pwa`
+## Schritt 3: Serwist konfigurieren
 
-Erstelle oder aktualisiere die `next.config.js` Datei, um `next-pwa` zu konfigurieren:
+Erstelle oder aktualisiere die Datei `next.config.mjs`, um Serwist zu konfigurieren:
 
 ```javascript
-const withPWA = require('next-pwa')({
-  dest: 'public',
+import withSerwistInit from '@serwist/next';
+
+const withSerwist = withSerwistInit({
+  // Quelldatei deines Service Workers
+  swSrc: 'app/sw.ts',
+  // Hier landet der fertige Service Worker
+  swDest: 'public/sw.js',
+  // Im Entwicklungsmodus deaktivieren, damit der Cache beim Debuggen nicht stört
   disable: process.env.NODE_ENV === 'development',
-  register: true,
-  skipWaiting: true,
-  runtimeCaching: [
-    {
-      urlPattern: /^https?.*/,
-      handler: 'NetworkFirst',
-      options: {
-        cacheName: 'offlineCache',
-        expiration: {
-          maxEntries: 200,
-          maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Tage
-        },
-      },
-    },
-  ],
 });
 
-module.exports = withPWA({
+export default withSerwist({
   // Deine bestehende Next.js Konfiguration
   reactStrictMode: true,
-  swcMinify: true,
 });
 ```
 
-Diese Konfiguration aktiviert das PWA-Plugin mit folgenden Features:
+Diese Konfiguration aktiviert Serwist mit folgenden Features:
 - Automatische Service Worker Registrierung
-- Offline-Caching von Netzwerkanfragen
+- Precaching der statischen Dateien aus dem Build
 - Deaktivierung im Entwicklungsmodus für einfacheres Debugging
-- Erweiterte Caching-Strategien
+
+**Wichtig:** `@serwist/next` arbeitet als Webpack-Plugin. Seit Next.js 16 ist Turbopack der Standard-Bundler, deshalb baust du dein Projekt mit `next build --webpack`. Passe dazu das Build-Skript in deiner `package.json` an. Alternativ bietet Serwist mit `@serwist/turbopack` eine eigene Variante für Turbopack an, die Serwist selbst als experimentell kennzeichnet.
 
 ## Schritt 4: Manifest-Datei erstellen
 
-Erstelle eine `manifest.json` Datei im `public` Verzeichnis:
+Das Web App Manifest beschreibt deine App gegenüber dem Browser: Name, Icons, Farben und Startseite. Im App Router legst du es als Datei `app/manifest.ts` an. Next.js erzeugt daraus automatisch die Datei `/manifest.webmanifest` und verlinkt sie im Head jeder Seite:
 
-```json
-{
-  "short_name": "MeinePWA",
-  "name": "Meine Progressive Web App",
-  "description": "Eine moderne PWA erstellt mit Next.js",
-  "icons": [
-    {
-      "src": "/icons/icon-72x72.png",
-      "type": "image/png",
-      "sizes": "72x72"
-    },
-    {
-      "src": "/icons/icon-96x96.png",
-      "type": "image/png",
-      "sizes": "96x96"
-    },
-    {
-      "src": "/icons/icon-128x128.png",
-      "type": "image/png",
-      "sizes": "128x128"
-    },
-    {
-      "src": "/icons/icon-144x144.png",
-      "type": "image/png",
-      "sizes": "144x144"
-    },
-    {
-      "src": "/icons/icon-152x152.png",
-      "type": "image/png",
-      "sizes": "152x152"
-    },
-    {
-      "src": "/icons/icon-192x192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "/icons/icon-384x384.png",
-      "type": "image/png",
-      "sizes": "384x384"
-    },
-    {
-      "src": "/icons/icon-512x512.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    }
-  ],
-  "start_url": "/",
-  "display": "standalone",
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
-  "scope": "/",
-  "orientation": "portrait-primary",
-  "prefer_related_applications": false
+```typescript
+import type { MetadataRoute } from 'next';
+
+export default function manifest(): MetadataRoute.Manifest {
+  return {
+    name: 'Meine Progressive Web App',
+    short_name: 'MeinePWA',
+    description: 'Eine moderne PWA erstellt mit Next.js',
+    start_url: '/',
+    scope: '/',
+    display: 'standalone',
+    orientation: 'portrait-primary',
+    theme_color: '#ffffff',
+    background_color: '#ffffff',
+    icons: [
+      { src: '/icons/icon-192x192.png', sizes: '192x192', type: 'image/png' },
+      { src: '/icons/icon-512x512.png', sizes: '512x512', type: 'image/png' },
+      {
+        src: '/icons/icon-512x512-maskable.png',
+        sizes: '512x512',
+        type: 'image/png',
+        purpose: 'maskable',
+      },
+    ],
+  };
 }
 ```
 
-Stelle sicher, dass du alle benötigten Icons im `public/icons` Verzeichnis hast. Du kannst Tools wie [RealFaviconGenerator](https://realfavicongenerator.net/) verwenden, um alle notwendigen Icon-Größen zu erstellen.
+Nutzt du noch den Pages Router, legst du stattdessen eine `manifest.json` mit denselben Feldern im Ordner `public` an und bindest sie selbst im Head ein:
 
-## Schritt 5: Service Worker konfigurieren
+```html
+<link rel="manifest" href="/manifest.json" />
+```
 
-`next-pwa` erstellt automatisch einen Service Worker für dich. Du kannst das Verhalten des Service Workers durch die Konfiguration in `next.config.js` anpassen. Hier sind einige wichtige Aspekte:
+Stelle sicher, dass du alle benötigten Icons im `public/icons` Verzeichnis hast. Wichtig sind vor allem die Größen 192 × 192 und 512 × 512 Pixel sowie ein Icon mit `purpose: 'maskable'`, das Android in verschiedene Formen zuschneiden kann. Du kannst Tools wie [RealFaviconGenerator](https://realfavicongenerator.net/) verwenden, um alle notwendigen Icon-Größen zu erstellen.
 
-- **Caching-Strategien**: Verwende `NetworkFirst` für API-Aufrufe und `CacheFirst` für statische Assets
+## Schritt 5: Service Worker schreiben
+
+Mit Serwist schreibst du den Service Worker selbst, bekommst aber fertige Bausteine für das Caching. Lege die Datei `app/sw.ts` an:
+
+```typescript
+/// <reference lib="webworker" />
+import { defaultCache } from '@serwist/next/worker';
+import type { PrecacheEntry, SerwistGlobalConfig } from 'serwist';
+import { Serwist } from 'serwist';
+
+declare global {
+  interface WorkerGlobalScope extends SerwistGlobalConfig {
+    // Wird beim Build durch die Liste der vorab zu cachenden Dateien ersetzt
+    __SW_MANIFEST: (PrecacheEntry | string)[] | undefined;
+  }
+}
+
+declare const self: ServiceWorkerGlobalScope;
+
+const serwist = new Serwist({
+  precacheEntries: self.__SW_MANIFEST,
+  skipWaiting: true,
+  clientsClaim: true,
+  navigationPreload: true,
+  // Sinnvolle Standard-Strategien für Seiten, Bilder, Schriften, Skripte und APIs
+  runtimeCaching: defaultCache,
+});
+
+serwist.addEventListeners();
+```
+
+Hier sind einige wichtige Aspekte:
+
+- **Caching-Strategien**: `defaultCache` bringt passende Strategien mit, zum Beispiel `NetworkFirst` für Seiten und API-Aufrufe und `CacheFirst` für unveränderliche Dateien wie die JavaScript-Bundles von Next.js. Eigene Regeln kannst du ergänzen.
 - **Precaching**: Automatisches Caching von statischen Assets während des Build-Prozesses
 - **Runtime Caching**: Dynamisches Caching von Netzwerkanfragen während der Laufzeit
+
+Füge außerdem die generierten Dateien (`public/sw.js`, `public/sw.js.map` und `public/swe-worker-*.js`) zu deiner `.gitignore` hinzu, da sie bei jedem Build neu erzeugt werden.
 
 ## Schritt 6: PWA testen
 
@@ -167,19 +167,19 @@ npm run start
 
 Öffne deine Anwendung im Browser und überprüfe folgende PWA-Kriterien:
 
-1. **Installierbarkeit**: Überprüfe, ob die "Add to Home Screen" Aufforderung erscheint
+1. **Installierbarkeit**: Überprüfe, ob der Browser die Installation anbietet (in Chrome über das Installationssymbol in der Adressleiste)
 2. **Offline-Fähigkeit**: Deaktiviere das Internet und teste die Anwendung
-3. **Performance**: Verwende Lighthouse in den Chrome DevTools, um die PWA-Performance zu bewerten
-4. **Manifest**: Überprüfe, ob das Web App Manifest korrekt geladen wird
+3. **Manifest und Service Worker**: Prüfe im Tab "Application" der Chrome DevTools, ob das Manifest korrekt geladen wird und der Service Worker aktiv ist
+4. **Performance**: Verwende Lighthouse in den Chrome DevTools, um die Performance zu bewerten. Eine eigene PWA-Kategorie gibt es in Lighthouse nicht mehr, die PWA-Prüfung erledigst du deshalb im Tab "Application"
 
 ## Schritt 7: PWA optimieren
 
 ### Offline-Fähigkeit
 
-Nutze das Caching von `next-pwa`, um deine Anwendung offline-fähig zu machen. Hier sind einige zusätzliche Tipps:
+Nutze das Caching von Serwist, um deine Anwendung offline-fähig zu machen. Hier sind einige zusätzliche Tipps:
 
 - Cache wichtige API-Endpunkte
-- Implementiere einen Offline-Fallback
+- Implementiere einen Offline-Fallback, etwa eine eigene Seite unter `/offline`, die Serwist über die Option `fallbacks` ausliefert, wenn keine Verbindung besteht
 - Verwende Background Sync für Daten-Synchronisation
 
 ### Performance-Optimierung
@@ -187,15 +187,17 @@ Nutze das Caching von `next-pwa`, um deine Anwendung offline-fähig zu machen. H
 Nutze Next.js Funktionen für maximale Performance:
 
 - `next/image` für optimierte Bilder
-- `next/head` für SEO-Metadaten
+- Die Metadata API für SEO-Metadaten
 - Dynamische Imports für Code-Splitting
-- Middleware für Edge-Funktionen
+- Server Components, damit weniger JavaScript im Browser landet
+
+Welche weiteren Maßnahmen für die Sichtbarkeit in Suchmaschinen zählen, zeige ich dir in meinem Artikel [SEO für Next.js](/blog/seo-optimierung-nextjs-websites-best-practices-2025).
 
 ### Push-Benachrichtigungen
 
 Integriere Push-Benachrichtigungen, um die Benutzerbindung zu erhöhen:
 
-1. Erstelle einen Service Worker für Push-Events
+1. Erweitere deinen Service Worker um einen Handler für Push-Events
 2. Implementiere die Push-API
 3. Verwende Firebase Cloud Messaging (FCM) für plattformübergreifende Benachrichtigungen
 4. Achte auf die Datenschutzbestimmungen (DSGVO)
@@ -204,7 +206,7 @@ Integriere Push-Benachrichtigungen, um die Benutzerbindung zu erhöhen:
 
 Implementiere zusätzliche PWA-Features:
 
-- Add to Home Screen Banner
+- Eigene Installationsaufforderung in der App
 - Splash Screen
 - App Shortcuts
 - File System Access API
@@ -212,19 +214,18 @@ Implementiere zusätzliche PWA-Features:
 
 ### Testing und Monitoring
 
-- Verwende Lighthouse für regelmäßige Audits
+- Verwende Lighthouse für regelmäßige Performance-Audits
 - Implementiere Error Tracking
 - Überwache die Service Worker Performance
 - Teste auf verschiedenen Geräten und Browsern
 
 ## Fazit
 
-Mit Next.js kannst du einfach und effizient eine Progressive Web App erstellen, die nicht nur leistungsstark, sondern auch SEO-freundlich ist. Diese Schritt-für-Schritt Anleitung zeigt dir, wie du deine Next.js-Anwendung in eine PWA verwandelst, die auf allen Geräten eine hervorragende Benutzererfahrung bietet.
+Mit Next.js kannst du einfach und effizient eine Progressive Web App erstellen, die nicht nur leistungsstark, sondern auch SEO-freundlich ist. Diese Schritt-für-Schritt Anleitung zeigt dir, wie du deine Next.js-Anwendung mit Manifest und Serwist in eine PWA verwandelst, die auf allen Geräten eine hervorragende Benutzererfahrung bietet.
 
 ## Weiterführende Ressourcen
 
 - [Next.js Dokumentation](https://nextjs.org/docs)
+- [PWA-Anleitung in der Next.js Dokumentation](https://nextjs.org/docs/app/guides/progressive-web-apps)
 - [PWA Dokumentation](https://web.dev/progressive-web-apps/)
-- [next-pwa GitHub Repository](https://github.com/shadowwalker/next-pwa)
-
-*Letzte Aktualisierung: Dezember 2024*
+- [Serwist Dokumentation](https://serwist.pages.dev)

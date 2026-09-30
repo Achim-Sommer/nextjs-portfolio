@@ -227,7 +227,7 @@ const nextConfig = {
       },
       {
         source: '/apache2-php-7-4-mariadb-und-phpmyadmin-auf-linux-server-installieren-mysql-datenbank-erstellen',
-        destination: '/debian-lamp-stack',
+        destination: '/blog/debian-lamp-stack',
         permanent: true,
       },
       {
@@ -238,6 +238,27 @@ const nextConfig = {
       {
         source: '/fivem-esx-scoreboard',
         destination: '/fivem-template-server',
+        permanent: true,
+      },
+      // Zusammengelegte Hosting-Artikel: je Thema ein starker Artikel statt mehrerer ähnlicher
+      {
+        source: '/blog/vserver-kaufen-statt-mieten',
+        destination: '/blog/zap-hosting-lifetime',
+        permanent: true,
+      },
+      {
+        source: '/blog/dedicated-server-kaufen-statt-mieten',
+        destination: '/blog/zap-hosting-lifetime',
+        permanent: true,
+      },
+      {
+        source: '/blog/hytale-server-kaufen-statt-mieten-lifetime',
+        destination: '/blog/hytale-server-mieten',
+        permanent: true,
+      },
+      {
+        source: '/blog/palworld-server-kaufen-statt-mieten-lifetime',
+        destination: '/blog/palworld-server-mieten',
         permanent: true,
       },
     ]

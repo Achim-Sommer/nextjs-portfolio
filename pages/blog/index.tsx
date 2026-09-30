@@ -1,31 +1,30 @@
 import { GetStaticProps } from 'next';
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
-import { motion } from 'framer-motion';
-import { FiCalendar, FiClock, FiFileText } from 'react-icons/fi';
+import { getAllPosts, getTagPages } from '../../lib/blog';
+import { SITE_URL } from '@/lib/schema';
+import { FiArrowUpRight } from 'react-icons/fi';
 import Link from 'next/link';
 import { useState, useMemo } from 'react';
 import { ogImageUrl } from '@/lib/og-image';
 import BlogSearch from '@/components/BlogSearch';
 import BlogFilter from '@/components/BlogFilter';
-import { BackgroundGrid } from "@/components/ui/background-grid";
-import { BlogGrid } from "@/components/ui/blog-grid";
-import "@/styles/grid-pattern.css";
+import PostList from '@/components/blog/PostList';
+import { Container, Eyebrow } from '@/components/home/primitives';
 import Head from 'next/head';
 import { generateNextSeo } from 'next-seo/pages';
-import { useRouter } from 'next/router';
 import { BlogPost } from '@/types/blog';
-import { Meteors } from "@/components/ui/meteors";
 
 interface Props {
   posts: BlogPost[];
+  topics: { name: string; slug: string; count: number }[];
 }
 
-export default function Blog({ posts }: Props) {
-  const router = useRouter();
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://achimsommer.com';
-  const currentUrl = `${siteUrl}${router.asPath}`;
+const BLOG_TITLE = 'Blog: Anleitungen zu IT, Linux und Webentwicklung';
+const BLOG_DESCRIPTION =
+  'Anleitungen und Praxiswissen von Achim Sommer: IT-Sicherheit, Microsoft 365, Linux-Server, Docker, Self-Hosting und Webentwicklung mit Next.js.';
+
+export default function Blog({ posts, topics }: Props) {
+  const siteUrl = SITE_URL;
+  const currentUrl = `${siteUrl}/blog`;
 
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('date-desc');
@@ -63,21 +62,24 @@ export default function Blog({ posts }: Props) {
     <>
       <Head>
         {generateNextSeo({
-          title: 'Blog - Tutorials & Guides zu Web Development und Server-Hosting',
-          description:
-            'Technische Tutorials, Guides und Best Practices zu Web Development, Server-Hosting, und Software Engineering von Full Stack Developer Achim Sommer.',
+          title: BLOG_TITLE,
+          description: BLOG_DESCRIPTION,
           canonical: currentUrl,
+          robotsProps: {
+            maxImagePreview: 'large',
+            maxSnippet: -1,
+            maxVideoPreview: -1,
+          },
           openGraph: {
             type: 'website',
             url: currentUrl,
-            title: 'Blog - Tutorials & Guides zu Web Development und Server-Hosting',
-            description:
-              'Technische Tutorials, Guides und Best Practices zu Web Development, Server-Hosting, und Software Engineering von Full Stack Developer Achim Sommer.',
+            title: BLOG_TITLE,
+            description: BLOG_DESCRIPTION,
             images: [
               {
                 url: ogImageUrl({
                   title: 'Blog',
-                  subtitle: 'Tutorials & Guides zu Web Development und Server-Hosting',
+                  subtitle: 'Anleitungen zu IT, Linux und Webentwicklung',
                   baseUrl: siteUrl,
                 }),
                 width: 1200,
@@ -100,193 +102,99 @@ export default function Blog({ posts }: Props) {
             },
             {
               name: 'keywords',
-              content:
-                'Web Development, Server-Hosting, Tutorials, Programming, Software Engineering, Full Stack Development',
-            },
-            {
-              name: 'robots',
-              content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+              content: topics.map((topic) => topic.name).join(', '),
             },
           ],
         })}
       </Head>
-      <div className="min-h-screen bg-gray-900 relative overflow-hidden">
-        <BackgroundGrid />
+      <header className="border-b border-line">
+        <Container className="pb-14 pt-28 sm:pb-20 sm:pt-36">
+          <Eyebrow>Blog</Eyebrow>
+          <h1 className="mt-6 max-w-4xl text-[clamp(2.4rem,6vw,4.75rem)] font-medium leading-[1.02] tracking-[-0.04em] text-fg">
+            Anleitungen aus dem IT&#8209;Alltag.
+          </h1>
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">
+            Praxiswissen zu IT-Sicherheit, Microsoft 365, Linux-Servern, Docker und Webentwicklung mit Next.js.
+            Geschrieben so, dass du es direkt nachbauen kannst.
+          </p>
 
-        <div className="relative z-[1]">
-          <div className="relative mb-16 px-8 pt-20">
-            <div className="max-w-7xl mx-auto pb-10 border-b-2 border-white/10">
-              <div className="flex flex-col gap-8 items-start">
-                <div className="flex flex-col gap-6 items-start">
-                  <h1 className="text-4xl md:text-5xl font-bold text-blue-400 font-mono tracking-tight">
-                    Blog & Tutorials
-                  </h1>
-                  <p className="text-lg md:text-xl text-gray-400 max-w-3xl leading-relaxed">
-                    Entdecke Artikel über Web Development, DevOps und Software Engineering
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 w-full max-w-3xl">
-                  <div className="flex flex-col items-start">
-                    <p className="text-blue-400 text-2xl font-bold font-mono">
-                      {posts.length}
-                    </p>
-                    <p className="text-gray-500 text-sm">Artikel</p>
-                  </div>
-                  <div className="flex flex-col items-start">
-                    <p className="text-blue-400 text-2xl font-bold font-mono">
-                      {Array.from(new Set(posts.flatMap(post => post.frontmatter.tags || []))).length}
-                    </p>
-                    <p className="text-gray-500 text-sm">Kategorien</p>
-                  </div>
-                  <div className="flex flex-col items-start">
-                    <p className="text-blue-400 text-2xl font-bold font-mono">
-                      {posts.reduce((acc, post) => acc + (post.frontmatter.readingTime || 0), 0)}
-                    </p>
-                    <p className="text-gray-500 text-sm">Minuten Lesedauer</p>
-                  </div>
-                  <div className="flex flex-col items-start">
-                    <p className="text-blue-400 text-2xl font-bold font-mono">
-                      {new Date().getFullYear()}
-                    </p>
-                    <p className="text-gray-500 text-sm">Aktiv seit</p>
-                  </div>
-                </div>
-
-                <div className="w-full max-w-3xl">
-                  <div className="flex flex-col gap-6 w-full">
-                    <BlogSearch
-                      searchQuery={searchQuery}
-                      onSearchChange={setSearchQuery}
-                    />
-                    <BlogFilter
-                      sortBy={sortBy}
-                      onSortChange={setSortBy}
-                    />
-                  </div>
-                </div>
+          <dl className="mt-10 flex flex-wrap gap-x-12 gap-y-4">
+            {[
+              { label: 'Artikel', value: posts.length },
+              { label: 'Themen', value: topics.length },
+              { label: 'Minuten Lesestoff', value: posts.reduce((acc, post) => acc + (post.frontmatter.readingTime || 0), 0) },
+            ].map((stat) => (
+              <div key={stat.label}>
+                <dt className="font-mono text-[11px] uppercase tracking-[0.16em] text-faint">{stat.label}</dt>
+                <dd className="mt-1 text-3xl font-medium tracking-[-0.03em] text-fg">{stat.value}</dd>
               </div>
-            </div>
-          </div>
+            ))}
+          </dl>
 
-          <div className="px-8">
-            <div className="max-w-7xl mx-auto">
-              {featuredPost && (
-                <div className="mb-16">
-                  <Link href={`/blog/${featuredPost.slug}`} passHref>
-                    <motion.div
-                      whileHover={{ y: -4 }}
-                      transition={{ duration: 0.2 }}
-                      className="bg-gray-800 rounded-xl overflow-hidden relative group"
-                    >
-                      <div className="p-8">
-                        <div className="flex flex-col gap-6 items-start">
-                          <div className="flex items-center gap-2">
-                            <span className="bg-blue-600 text-white text-sm font-mono px-3 py-1 rounded-full">Featured Post</span>
-                            {featuredPost.frontmatter.tags?.slice(0, 2).map((tag) => (
-                              <span
-                                key={tag}
-                                className="bg-blue-900 text-blue-200 text-sm font-mono px-3 py-1 rounded-full"
-                              >
-                                {tag}
-                              </span>
-                            ))}
-                          </div>
-
-                          <h2 className="text-3xl font-bold text-white group-hover:text-blue-400 transition-colors">
-                            {featuredPost.frontmatter.title}
-                          </h2>
-
-                          <p className="text-gray-400 text-lg max-w-3xl">
-                            {featuredPost.frontmatter.description}
-                          </p>
-
-                          <div className="flex items-center gap-6 text-gray-500">
-                            <div className="flex items-center gap-2">
-                              <FiCalendar className="text-blue-400" />
-                              <span>
-                                {new Date(featuredPost.frontmatter.date).toLocaleDateString('de-DE', {
-                                  year: 'numeric',
-                                  month: 'long',
-                                  day: 'numeric'
-                                })}
-                              </span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <FiClock className="text-blue-400" />
-                              <span>{featuredPost.frontmatter.readingTime} min</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div
-                        className="absolute bottom-0 left-0 right-0 h-1.5 bg-blue-500 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"
-                      />
-
-                      <Meteors number={20} className="opacity-0 group-hover:opacity-100" />
-                    </motion.div>
+          <nav aria-label="Themen" className="mt-10">
+            <ul className="flex flex-wrap gap-2">
+              {topics.map((topic) => (
+                <li key={topic.slug}>
+                  <Link
+                    href={`/blog/tag/${topic.slug}`}
+                    className="inline-flex items-center gap-2 border border-line px-3 py-1.5 font-mono text-[11px] text-muted transition-colors duration-200 hover:border-accent hover:text-fg"
+                  >
+                    {topic.name}
+                    <span className="text-faint">{topic.count}</span>
                   </Link>
-                </div>
-              )}
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </Container>
+      </header>
 
-              {filteredAndSortedPosts.length > 0 ? (
-                <BlogGrid posts={filteredAndSortedPosts} />
-              ) : (
-                <div className="p-12 text-center border border-dashed border-blue-800 rounded-xl bg-gray-800">
-                  <div className="flex flex-col gap-4 items-center">
-                    <FiFileText className="text-blue-400 w-10 h-10" />
-                    <p className="font-mono text-gray-400 text-lg">
-                      Keine Artikel gefunden
-                    </p>
-                    <p className="text-gray-500">
-                      Versuche es mit anderen Suchbegriffen oder Filtern
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
+      {featuredPost && (
+        <section className="border-b border-line" aria-label="Empfohlener Artikel">
+          <Container className="py-12 sm:py-16">
+            <Link
+              href={`/blog/${featuredPost.slug}`}
+              className="group relative block overflow-hidden border border-line bg-surface p-6 transition-colors duration-200 hover:border-[#3a3a37] sm:p-10"
+            >
+              <span className="absolute inset-x-0 top-0 h-px bg-accent/70" aria-hidden="true" />
+              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">Empfohlen</p>
+              <h2 className="mt-4 max-w-3xl text-3xl font-medium leading-tight tracking-[-0.03em] text-fg transition-colors duration-200 group-hover:text-accent sm:text-4xl">
+                {featuredPost.frontmatter.title}
+              </h2>
+              <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">{featuredPost.frontmatter.description}</p>
+              <p className="mt-6 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-fg">
+                Artikel lesen
+                <FiArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
+              </p>
+            </Link>
+          </Container>
+        </section>
+      )}
+
+      <section aria-label="Alle Artikel">
+        <Container className="py-12 sm:py-16">
+          <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <BlogSearch searchQuery={searchQuery} onSearchChange={setSearchQuery} />
+            <BlogFilter sortBy={sortBy} onSortChange={setSortBy} />
           </div>
 
-          <div
-            className="absolute top-0 left-0 right-0 h-full pointer-events-none opacity-50 z-0"
-            style={{
-              backgroundImage: 'linear-gradient(to bottom right, rgba(66, 153, 225, 0.05) 0%, transparent 50%, rgba(66, 153, 225, 0.05) 100%)',
-            }}
-          />
-        </div>
-      </div>
+          {filteredAndSortedPosts.length > 0 ? (
+            <PostList posts={filteredAndSortedPosts} />
+          ) : (
+            <div className="border border-dashed border-line px-6 py-16 text-center">
+              <p className="text-lg text-fg">Keine Artikel gefunden.</p>
+              <p className="mt-2 text-sm text-muted">Versuche es mit einem anderen Suchbegriff.</p>
+            </div>
+          )}
+        </Container>
+      </section>
     </>
   );
 }
 
-export const getStaticProps: GetStaticProps<Props> = async () => {
-  const files = fs.readdirSync(path.join(process.cwd(), 'content/blog'));
-
-  const posts = files.map((filename) => {
-    const markdownWithMeta = fs.readFileSync(
-      path.join(process.cwd(), 'content/blog', filename),
-      'utf-8'
-    );
-
-    const { data: frontmatter, content } = matter(markdownWithMeta);
-
-    const readingTime = Math.ceil(content.split(/\s+/).length / 200);
-
-    return {
-      slug: filename.replace('.md', ''),
-      frontmatter: {
-        ...frontmatter,
-        readingTime,
-      },
-    } as BlogPost;
-  });
-
-  return {
-    props: {
-      posts: posts.sort((a, b) => {
-        return new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime();
-      }),
-    },
-  };
-};
+export const getStaticProps: GetStaticProps<Props> = async () => ({
+  props: {
+    posts: getAllPosts() as BlogPost[],
+    topics: getTagPages().map(({ name, slug, count }) => ({ name, slug, count })),
+  },
+});
