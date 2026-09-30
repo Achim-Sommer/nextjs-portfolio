@@ -35,6 +35,8 @@ Du bekommst:
 - volle Kontrolle über Konfiguration und Sicherheit
 - dafür mehr Verantwortung und aufwendigere Hardware-Upgrades
 
+<Figure src="/img/blog/vserver-vs-dedicated-server/vserver-vs-dedicated.webp" alt="Vergleich: vServer teilen sich über einen Hypervisor einen physischen Server, ein Dedicated Server gehört mit seiner Hardware komplett dir" width={1600} height={900} caption="Beim vServer teilst du dir die Hardware mit Nachbarn, beim Dedicated Server gehört dir die ganze Maschine." />
+
 ## Und was ist ein Rootserver?
 
 Der Begriff sagt vor allem, dass du Root-Rechte hast. Manche Anbieter meinen damit einen Dedicated Server, andere einen virtuellen Server mit fest zugesicherten Ressourcen. Bei ZAP-Hosting ist der Rootserver eine eigene Produktlinie, preislich zwischen vServer und Dedicated Server. Lies im Zweifel die Produktbeschreibung. Entscheidend ist, ob CPU-Kerne fest zugeteilt oder mit anderen geteilt sind.

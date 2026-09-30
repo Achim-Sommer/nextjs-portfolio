@@ -33,6 +33,8 @@ Deshalb hat sich eine erweiterte Form durchgesetzt:
 
 Die zweite Eins heißt: Mindestens eine Kopie ist physisch getrennt (etwa ein Band im Tresor) oder technisch unveränderbar. Die Null bedeutet, dass du Wiederherstellungen regelmäßig prüfst und dabei keine Fehler auftreten. Ein nie getestetes Backup ist eine Annahme, kein Backup.
 
+<Figure src="/img/blog/backup-strategie-mittelstand/3-2-1-1-0-regel.webp" alt="Die 3-2-1-1-0-Regel: drei Kopien, zwei Speichermedien, eine Kopie außer Haus, eine offline oder unveränderbar und null Fehler beim Restore" width={1600} height={900} caption="Die 3-2-1-1-0-Regel ergänzt das klassische 3-2-1-Prinzip um eine unveränderbare Kopie und geprüfte Wiederherstellungen." />
+
 ## RPO und RTO verständlich erklärt
 
 **RPO (Recovery Point Objective)** beschreibt, wie viel Datenverlust maximal akzeptabel ist, gemessen in Zeit. Ein RPO von 24 Stunden bedeutet: Im schlimmsten Fall ist die Arbeit eines Tages verloren. Das RPO bestimmt, wie oft du sicherst.
@@ -63,7 +65,7 @@ Achte bei Datenbanken auf anwendungskonsistente Sicherungen, unter Windows etwa 
 
 ### Clients
 
-Auf Clients sollten keine unersetzlichen Daten liegen. Leite Desktop und Dokumente zum Beispiel über die OneDrive-Funktion zum Verschieben bekannter Ordner um und sichere dann OneDrive. Standard-Clients installierst du im Ernstfall neu, etwa über Intune und Autopilot. Ausnahmen wie Messrechner in der Produktion brauchen ein eigenes Image-Backup.
+Auf Clients sollten keine unersetzlichen Daten liegen. Leite Desktop und Dokumente zum Beispiel über die OneDrive-Funktion zum Verschieben bekannter Ordner um und sichere dann OneDrive. Standard-Clients installierst du im Ernstfall neu, etwa über [Intune und Autopilot](/blog/intune-fuer-kleine-unternehmen). Ausnahmen wie Messrechner in der Produktion brauchen ein eigenes Image-Backup.
 
 ### Microsoft 365 und andere SaaS-Dienste
 

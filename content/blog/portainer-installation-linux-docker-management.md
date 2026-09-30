@@ -1,17 +1,13 @@
 ---
-title: 'Portainer auf Linux Server installieren 2024 - Die ultimative Anleitung'
+title: 'Portainer installieren: Docker im Browser verwalten'
+description: 'Portainer auf Debian und Ubuntu installieren und Container, Images und Volumes bequem im Browser verwalten. Mit Firewall-Regeln und Tipps zur Absicherung.'
 date: '2024-11-27'
-description: '🚀 Portainer auf Linux installieren [2024] ➜ Komplette Schritt-für-Schritt Anleitung für Docker Management ✓ Debian & Ubuntu ✓ Webbasierte Container-Verwaltung ✓ Kostenlos & Open Source ✓ Inkl. Sicherheitstipps'
-image: '/images/blog/portainer-installation.jpg'
-tags: ['Docker', 'Linux', 'Server', 'Portainer', 'Container', 'DevOps', 'Tutorial', 'Anleitung', 'Installation', 'Debian', 'Ubuntu', 'VPS', 'Server Management', 'Hosting']
+lastModified: '2026-09-30'
+tags: ['Docker', 'Linux', 'Self-Hosting']
 featured: false
 ---
 
-# Portainer auf Linux Server installieren 2024 - Die ultimative Anleitung
-
 > **TL;DR**: Portainer ist ein leistungsstarkes, webbasiertes Management-Tool für Docker-Container. Diese Anleitung zeigt dir Schritt für Schritt, wie du Portainer auf einem Linux-Server installierst und für professionelles Container-Management nutzt.
-
-🎥 **Video Tutorial**: Ein ausführliches Video-Tutorial zu dieser Anleitung findest du [hier auf YouTube](https://youtube.com/@achimsommer) (Coming Soon).
 
 ## Was ist Portainer?
 
@@ -34,6 +30,8 @@ Mit Portainer kannst du deine gesamte Container-Infrastruktur zentral und intuit
 - [Troubleshooting](#troubleshooting)
 - [FAQ](#häufig-gestellte-fragen-faq)
 
+<Figure src="/img/blog/portainer-installation-linux-docker-management/portainer-aufbau.webp" alt="Portainer-Aufbau: Der Browser greift per HTTPS auf Port 9443 auf den Portainer-Container zu, der über docker.sock die Docker Engine steuert" width={1600} height={900} caption="Portainer läuft selbst als Container und steuert Docker über den Socket, Port 8000 ist nur für Edge Agents nötig." />
+
 ## Voraussetzungen
 
 ### Hardware-Anforderungen
@@ -43,10 +41,10 @@ Mit Portainer kannst du deine gesamte Container-Infrastruktur zentral und intuit
 - 64-bit Linux-System
 
 ### Software-Voraussetzungen
-- Linux-Betriebssystem:
-  - Debian (Version 10+)
-  - Ubuntu (Version 20.04+)
-  - CentOS/Rocky Linux (Version 8+)
+- Linux-Betriebssystem in einer aktuellen, noch unterstützten Version:
+  - Debian
+  - Ubuntu
+  - Rocky Linux oder AlmaLinux
 - Root- oder Sudo-Zugriff
 - Aktive Internetverbindung
 - SSH-Client ([Termius](https://termius.com) empfohlen)
@@ -57,6 +55,8 @@ Mit Portainer kannst du deine gesamte Container-Infrastruktur zentral und intuit
 
 ## 1. Docker Installation
 
+Portainer läuft selbst als Container, deshalb brauchst du zuerst Docker. Ausführliche Erklärungen zu jedem Schritt findest du in meiner Anleitung [Docker auf Linux installieren](/blog/docker-installation-linux). Hier die Kurzfassung über die offizielle Paketquelle von Docker.
+
 ### Debian/Ubuntu Installation
 
 ```bash
@@ -64,48 +64,52 @@ Mit Portainer kannst du deine gesamte Container-Infrastruktur zentral und intuit
 sudo apt update
 sudo apt upgrade -y
 
-# Docker-Abhängigkeiten installieren
-sudo apt install -y apt-transport-https ca-certificates curl software-properties-common gnupg lsb-release
+# Benötigte Pakete installieren
+sudo apt install -y ca-certificates curl
 
-# Docker GPG-Schlüssel hinzufügen
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+# Docker GPG-Schlüssel hinzufügen (unter Ubuntu: linux/ubuntu statt linux/debian)
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-# Docker Repository einrichten
+# Docker Repository einrichten (unter Ubuntu: linux/ubuntu statt linux/debian)
 echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 # Docker installieren
 sudo apt update
-sudo apt install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 # Docker-Dienst starten und aktivieren
-sudo systemctl start docker
-sudo systemctl enable docker
+sudo systemctl enable --now docker
 
-# Aktuelle Benutzer zur Docker-Gruppe hinzufügen
+# Aktuellen Benutzer zur Docker-Gruppe hinzufügen (danach einmal ab- und wieder anmelden)
 sudo usermod -aG docker $USER
 ```
 
-### CentOS/Rocky Linux Installation
+### Rocky Linux/AlmaLinux Installation
 
 ```bash
 # System aktualisieren
 sudo dnf update -y
 
-# Docker-Repository hinzufügen
-sudo dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+# Plugin für config-manager installieren und Docker-Repository hinzufügen
+sudo dnf install -y dnf-plugins-core
+sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 
 # Docker installieren
-sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 # Docker-Dienst starten und aktivieren
-sudo systemctl start docker
-sudo systemctl enable docker
+sudo systemctl enable --now docker
 
-# Aktuelle Benutzer zur Docker-Gruppe hinzufügen
+# Aktuellen Benutzer zur Docker-Gruppe hinzufügen (danach einmal ab- und wieder anmelden)
 sudo usermod -aG docker $USER
 ```
+
+Beachte: Mitglieder der Gruppe `docker` haben faktisch Root-Rechte auf dem Server. Nimm dort nur Benutzer auf, denen du entsprechend vertraust.
 
 ## 2. Portainer Installation
 
@@ -131,11 +135,13 @@ docker run -d \
 ## 3. Erstes Setup und Konfiguration
 
 1. Öffne in deinem Browser: `https://DEINE_SERVER_IP:9443`
-2. Ignoriere anfängliche SSL-Warnungen
+2. Bestätige die Warnung zum selbstsignierten Zertifikat
 3. Erstelle einen Admin-Benutzer
    - Starkes Passwort verwenden
    - Mindestens 12 Zeichen
    - Kombination aus Groß-/Kleinbuchstaben, Zahlen und Sonderzeichen
+
+**Wichtig:** Lege das Admin-Konto direkt nach dem ersten Start an. Aus Sicherheitsgründen schließt Portainer die Ersteinrichtung nach wenigen Minuten. Ist das passiert, startest du den Container mit `docker restart portainer` neu und rufst die Seite erneut auf.
 
 ## 4. Sicherheitshinweise
 
@@ -179,7 +185,7 @@ Ja, Portainer Community Edition ist komplett kostenlos und Open Source.
 - Kubernetes (mit Einschränkungen in CE)
 
 ### Kann ich mehrere Docker-Hosts verwalten?
-In der Community Edition nur lokal. Für Remote-Management benötigen Sie die kostenpflichtige Enterprise Edition.
+Ja, auch mit der kostenlosen Community Edition. Weitere Server bindest du über den Portainer Agent oder den Edge Agent als zusätzliche Umgebung ein. Die kostenpflichtige Business Edition ergänzt vor allem Funktionen für Teams und Unternehmen, etwa eine feinere Rechteverwaltung.
 
 ## Zusätzliche Ressourcen
 
@@ -189,7 +195,7 @@ In der Community Edition nur lokal. Für Remote-Management benötigen Sie die ko
 
 ## Fazit
 
-Portainer vereinfacht die Docker-Container-Verwaltung erheblich. Mit dieser Anleitung hast du nun eine leistungsstarke, webbasierte Administrationsoberfläche für deine Container-Infrastruktur.
+Portainer vereinfacht die Docker-Container-Verwaltung erheblich. Mit dieser Anleitung hast du nun eine leistungsstarke, webbasierte Administrationsoberfläche für deine Container-Infrastruktur. Möchtest du nicht nur Container, sondern den ganzen Server im Browser verwalten, passt [Cockpit für die Linux-Serververwaltung](/blog/cockpit-installation) gut dazu. Und wenn du Anwendungen direkt aus einem Git-Repository deployen willst, schau dir an, wie du [Coolify installierst](/blog/coolify-installation).
 
 **Vorteile auf einen Blick:**
 - 🚀 Einfache Installation

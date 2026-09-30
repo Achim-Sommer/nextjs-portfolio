@@ -9,6 +9,8 @@ featured: false
 
 Ein neuer Microsoft 365 Tenant funktioniert sofort, ist aber nicht automatisch sicher konfiguriert. Diese Checkliste richtet sich an Admins und IT-Verantwortliche in kleinen und mittleren Unternehmen, die ihren Tenant systematisch härten wollen. Sie geht die wichtigen Bereiche in einer sinnvollen Reihenfolge durch: Admin-Konten, MFA, E-Mail-Schutz, Freigaben, Protokollierung und Backup.
 
+<Figure src="/img/blog/microsoft-365-tenant-absichern/schutzschichten.webp" alt="Sechs Schutzschichten für Microsoft 365: Identitäten mit MFA, Geräte mit Intune, E-Mail mit DMARC, Datenfreigaben, Überwachung und Backup" width={1600} height={900} caption="Ein sicherer Microsoft 365 Tenant entsteht aus mehreren Schichten, die wichtigste davon ist die Absicherung der Identitäten." />
+
 ## Bevor du anfängst: Lizenzen klären
 
 Viele Schutzfunktionen hängen an der Lizenz. Kläre deshalb zuerst, was in deinem Tenant vorhanden ist.

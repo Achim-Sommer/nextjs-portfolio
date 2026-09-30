@@ -2,6 +2,7 @@ import { LRUCache } from 'lru-cache';
 import { serialize } from 'next-mdx-remote/serialize';
 import { createHash } from 'crypto';
 import remarkGfm from 'remark-gfm';
+import rehypeSlug from 'rehype-slug';
 
 const mdxCache = new LRUCache<string, any>({
   max: 50, // Maximale Anzahl gecachter Einträge
@@ -19,7 +20,9 @@ export async function getCompiledMDX(source: string) {
     parseFrontmatter: true,
     mdxOptions: {
       development: process.env.NODE_ENV === 'development',
-      remarkPlugins: [remarkGfm]
+      remarkPlugins: [remarkGfm],
+      // Überschriften bekommen schon im HTML eine id: Sprungmarken funktionieren ohne JavaScript
+      rehypePlugins: [rehypeSlug]
     }
   });
   

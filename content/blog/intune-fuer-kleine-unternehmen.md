@@ -17,6 +17,8 @@ Benutzer und Gruppen kommen aus Microsoft Entra ID. Intune liefert den Gerätest
 
 In der Praxis registrierst du mit Intune Geräte, verteilst Einstellungen, prüfst Mindeststandards (Compliance), installierst Apps, steuerst Windows-Updates und kannst Geräte aus der Ferne sperren oder zurücksetzen. Für kleine Unternehmen ersetzt Intune damit vieles, was früher Gruppenrichtlinien, WSUS und ein Softwareverteilungs-Tool erledigt haben.
 
+<Figure src="/img/blog/intune-fuer-kleine-unternehmen/intune-ablauf.webp" alt="Intune-Ablauf: Ein Windows-Laptop wird per Autopilot und Entra Join registriert, Intune prüft Compliance, Conditional Access gibt M365 frei" width={1600} height={900} caption="Nur konforme Firmengeräte erhalten Zugriff auf Microsoft 365, private Smartphones werden über App-Schutzrichtlinien abgesichert." />
+
 ## Lizenz: Was du brauchst
 
 Intune Plan 1 ist in Microsoft 365 Business Premium enthalten, ebenso in Microsoft 365 E3 und E5. Business Basic und Business Standard enthalten kein Intune. Für kleine Unternehmen ist Business Premium meist die passende Wahl, weil es zusätzlich Microsoft Entra ID P1 mitbringt.

@@ -1,13 +1,11 @@
 ---
-title: 'Umami: Die datenschutzfreundliche Open-Source Alternative zu Google Analytics'
+title: 'Umami: Google-Analytics-Alternative ohne Cookies'
+description: 'Umami ist eine kostenlose Open-Source-Alternative zu Google Analytics: selbst gehostet, cookielos und datenschutzfreundlich. Funktionen und Installation.'
 date: '2024-11-29'
-description: 'Entdecke Umami, die kostenlose und Open-Source Alternative zu Google Analytics. Selbst gehostet, datenschutzfreundlich und ohne Tracking-Cookies.'
-image: '/images/blog/umami-open-source-alternative.jpg'
-tags: ["Umami", "Open Source", "Google Analytics Alternative", "Datenschutz", "Web Analytics", "Selbst gehostet", "SEO", "Website Tracking"]
+lastModified: '2026-09-30'
+tags: ['Self-Hosting', 'Webentwicklung']
 featured: false
 ---
-
-# Umami: Die datenschutzfreundliche Open-Source Alternative zu Google Analytics
 
 > **TL;DR**: Umami ist eine leistungsstarke, selbst gehostete Open-Source Web Analytics Lösung, die Datenschutz in den Mittelpunkt stellt und eine echte Alternative zu Google Analytics bietet.
 
@@ -41,7 +39,7 @@ Google Analytics sammelt umfangreiche Nutzerdaten, die weit über das hinausgehe
 - Keine Erstellung von Nutzerprofilen
 - Keine Weitergabe von Daten an Dritte
 - Keine Verwendung von Tracking-Cookies
-- Sofortige DSGVO-Konformität
+- Deutlich einfacherer DSGVO-konformer Betrieb
 
 ### 2. Technische Überlegenheit
 
@@ -118,7 +116,7 @@ DATABASE_URL=postgresql://username:mypassword@localhost:5432/mydb
 yarn build
 ```
 
-Bei der ersten Build-Ausführung werden automatisch alle erforderlichen Datenbanktabellen erstellt. Zusätzlich wird ein Administratorkonto mit dem Benutzernamen "admin" und dem Passwort "umami" angelegt.
+Bei der ersten Build-Ausführung werden automatisch alle erforderlichen Datenbanktabellen erstellt. Zusätzlich wird ein Administratorkonto mit dem Benutzernamen "admin" und dem Passwort "umami" angelegt. Ändere dieses Standardpasswort direkt nach der ersten Anmeldung.
 
 #### 5. Umami starten
 
@@ -141,11 +139,11 @@ pm2 save
 
 ## Docker-Installation
 
-Für Docker-Enthusiasten bietet Umami eine einfache Docker Compose Konfiguration:
+Für Docker-Enthusiasten bietet Umami eine einfache Docker Compose Konfiguration. Falls Docker auf deinem Server noch fehlt, findest du in meiner Anleitung [Docker auf Linux installieren](/blog/docker-installation-linux) alle nötigen Schritte. Die Datei `docker-compose.yml` liegt im geklonten Umami-Repository, den folgenden Befehl führst du also in diesem Verzeichnis aus:
 
 ```bash
 # Mit PostgreSQL
-docker-compose up -d
+docker compose up -d
 
 # Alternativ vorgefertigte Images
 docker pull docker.umami.is/umami-software/umami:postgresql-latest
@@ -167,18 +165,18 @@ Umami bietet umfangreiche Analysemöglichkeiten:
 
 - Keine Verwendung von Cookies
 - Keine Sammlung personenbezogener Daten
-- DSGVO-konform
+- Gute Grundlage für einen DSGVO-konformen Betrieb (Datenschutzerklärung und Auftragsverarbeitung musst du trotzdem selbst prüfen)
 - Vollständige Transparenz durch Open-Source
 
 ## Fazit
 
 Umami ist mehr als nur eine Alternative zu Google Analytics. Es ist eine Lösung für alle, die Wert auf Datenschutz, Transparenz und Kontrolle legen. Mit der Möglichkeit zum Selbst-Hosting und einer aktiven Community ist Umami die perfekte Wahl für datenbewusste Entwickler und Website-Betreiber.
 
+Gerade wenn du deine Website für Suchmaschinen optimierst, hilft dir Umami dabei, die Wirkung deiner Maßnahmen zu messen. Welche Stellschrauben es bei Next.js-Projekten gibt, zeige ich dir in meinem Artikel [SEO für Next.js](/blog/seo-optimierung-nextjs-websites-best-practices-2025).
+
 ## Weiterführende Ressourcen
 
 - [Umami GitHub Repository](https://github.com/umami-software/umami)
 - [Offizielle Umami Dokumentation](https://umami.is/docs)
-- [Docker Installation](/blog/docker-installation-linux)
-- [Coolify für Hosting](/blog/coolify-installation)
-
-*Letzte Aktualisierung: Dezember 2024*
+- [Docker auf Linux installieren](/blog/docker-installation-linux)
+- [Coolify installieren: Umami und andere Dienste per Weboberfläche hosten](/blog/coolify-installation)
