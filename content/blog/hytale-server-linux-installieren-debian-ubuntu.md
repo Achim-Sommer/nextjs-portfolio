@@ -1,12 +1,11 @@
 ---
-title: 'Hytale Server auf Linux installieren (Debian/Ubuntu): vServer/VPS/Rootserver Setup 2026'
+title: 'Hytale Server auf Linux installieren'
+description: 'Hytale Server auf einem Linux-vServer oder Rootserver installieren: Java (Temurin), Hytale Downloader und systemd-Service für Debian und Ubuntu.'
 date: '2026-01-15'
-description: 'Hytale Server auf einem Linux vServer/VPS/Rootserver installieren: Schritt-für-Schritt Guide für Debian & Ubuntu inkl. Java (Temurin), Hytale Downloader, systemd Service, Updates und Troubleshooting. Mit Video-Anleitung.'
-tags: ['Hytale', 'Linux', 'Debian', 'Ubuntu', 'vServer', 'VPS', 'Rootserver', 'Selfhosting', 'systemd', 'Java', 'Tutorial', 'Guide', 'SEO']
+lastModified: '2026-01-15'
+tags: ['Gameserver', 'Linux', 'Self-Hosting']
 featured: false
 ---
-
-# Hytale Server auf Linux installieren (Debian/Ubuntu): vServer/VPS/Rootserver Setup 2026
 
 Wenn du deinen Hytale-Server **selbst hosten** willst (vServer/VPS/Rootserver), bekommst du maximale Kontrolle: Updates, Files, Logs, Automatisierung und sauberes Deployment per `systemd`.
 
@@ -16,20 +15,9 @@ Wenn du lieber **ohne Linux-Setup** sofort loslegen willst, geht es in Minuten p
 
 <ZapHostingCta href="https://zap-hosting.com/hytale" buttonText="Hytale Server jetzt mieten" />
 
-## Video-Anleitung (YouTube)
+## Video-Anleitung
 
 <iframe width="100%" height="415" src="https://www.youtube.com/embed/DwAv8a1ceNg" title="Hytale Server auf Linux installieren (Debian/Ubuntu)" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-
-## Inhaltsverzeichnis
-
-- Voraussetzungen
-- System vorbereiten (Debian/Ubuntu)
-- Benutzer + Verzeichnis anlegen
-- Java (Temurin) installieren
-- Hytale Server downloaden (Downloader)
-- systemd Service einrichten
-- Updates, Logs & Troubleshooting
-- FAQ
 
 ## Voraussetzungen
 
@@ -40,7 +28,7 @@ Wenn du lieber **ohne Linux-Setup** sofort loslegen willst, geht es in Minuten p
 
 > Tipp: Wenn du noch keinen Linux-Server hast: vServer/Rootserver bekommst du z.B. hier: [ZAP-Hosting vServer](https://zap-hosting.com/vserverhomepage)
 
-## System vorbereiten (Debian/Ubuntu)
+## System vorbereiten
 
 Führe die folgenden Befehle als Root aus (oder jeweils mit `sudo`):
 
@@ -61,7 +49,7 @@ Falls `unzip` bei dir noch nicht installiert ist:
 apt install -y unzip
 ```
 
-## Benutzer + Verzeichnis anlegen
+## Benutzer und Verzeichnis anlegen
 
 Wir legen einen System-User an, unter dem der Server später läuft (sicherer als Root).
 
@@ -106,7 +94,7 @@ Optional prüfen:
 java -version
 ```
 
-## Hytale Server downloaden (Downloader)
+## Hytale Server herunterladen
 
 Am einfachsten ist es, wenn du die nächsten Schritte direkt im Server-Ordner machst:
 
@@ -153,7 +141,7 @@ chown -R root:hytale /opt/hytale-server
 chmod -R 770 /opt/hytale-server
 ```
 
-## systemd Service einrichten
+## systemd-Service einrichten
 
 Damit der Server beim Boot automatisch startet und sauber neu startet, nutzen wir `systemd`.
 
@@ -208,7 +196,7 @@ Mit folgendem Befehl kommst du in die Konsole vom Hytale Server:
 journalctl -u hytale -f
 ```
 
-## Updates, Logs & Troubleshooting
+## Server verwalten und Fehler beheben
 
 ### Server neu starten
 
@@ -228,16 +216,16 @@ systemctl stop hytale
 - **Permission denied**: Rechte unter `/opt/hytale-server` prüfen (`chown/chmod` wie oben).
 - **Java fehlt**: `java -version` prüfen, ggf. Temurin neu installieren.
 
-## FAQ
+## Häufige Fragen
 
 ### Geht das auf Debian und Ubuntu?
-Ja – die Schritte funktionieren für beide Distributionen, solange APT verfügbar ist.
+Ja, die Schritte funktionieren für beide Distributionen, solange APT verfügbar ist.
 
 ### Was ist der Unterschied zu „Hytale Server mieten“?
 Beim Selfhosting hast du maximale Kontrolle, musst aber Setup, Security, Updates und Monitoring selbst machen. Wenn du in Minuten starten willst: [Hytale Server mieten](/blog/hytale-server-mieten)
 
 ### Lohnt sich ein Lifetime-Server?
-Wenn du langfristig hosten willst und monatliche Kosten vermeiden möchtest, schau dir das an: [Hytale Server kaufen statt mieten (Lifetime)](/blog/hytale-server-kaufen-statt-mieten-lifetime)
+Wenn du langfristig hosten willst und monatliche Kosten vermeiden möchtest, schau dir das an: [Server kaufen statt mieten](/blog/zap-hosting-lifetime)
 
 ---
 
