@@ -33,9 +33,9 @@ export function Reveal({
 /** Kleine Mono-Zeile mit Nummer und Name der Sektion */
 export function Eyebrow({ index, children }: { index?: string; children: React.ReactNode }) {
   return (
-    <p className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.16em] text-muted">
+    <p className="flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.16em] text-muted">
       {index && <span className="text-accent">{index}</span>}
-      {index && <span className="h-px w-8 bg-[#2a2a28]" aria-hidden="true" />}
+      {index && <span className="text-faint" aria-hidden="true">/</span>}
       <span>{children}</span>
     </p>
   );

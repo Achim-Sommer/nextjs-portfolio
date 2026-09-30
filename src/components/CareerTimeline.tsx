@@ -111,7 +111,7 @@ export default function CareerTimeline() {
                     <ul className="mt-7 grid gap-x-10 gap-y-3 xl:grid-cols-2">
                       {station.highlights.map((highlight) => (
                         <li key={highlight} className="flex gap-3 text-[15px] leading-relaxed text-muted">
-                          <span className="mt-[0.7em] h-px w-3 shrink-0 bg-faint" aria-hidden="true" />
+                          <span className="mt-[0.6em] h-1 w-1 shrink-0 bg-faint" aria-hidden="true" />
                           <span>{highlight}</span>
                         </li>
                       ))}
