@@ -5,27 +5,31 @@ export const config = {
   runtime: 'edge',
 };
 
-// Die TTF wird vom Bundler in die Edge-Function inlined – kein Netzwerk-Call zur Laufzeit.
+// Schrift und Foto werden vom Bundler in die Edge-Function inlined, kein Netzwerk-Call zur Laufzeit.
 // Bewusst nur ein Schnitt: jede weitere Inter-Datei kostet ~165 KB gzip im Edge-Bundle
-// und das Limit liegt bei 1 MB. SemiBold trägt Headline und Kleintext gleichermaßen.
+// und das Limit liegt bei 1 MB.
 const interSemiBold = fetch(new URL('../../public/fonts/Inter-SemiBold.ttf', import.meta.url)).then((res) =>
   res.arrayBuffer()
 );
+const photo = fetch(new URL('../../public/img/achim-sommer.jpg', import.meta.url)).then((res) => res.arrayBuffer());
 
-const BG = '#070B16';
-const ACCENT = '#3B82F6';
-const ACCENT_LIGHT = '#60A5FA';
-const CYAN = '#22D3EE';
+// Farben der Seite (tailwind.config.js)
+const CANVAS = '#0a0a0a';
+const FG = '#ecebe8';
+const MUTED = '#8e8d89';
+const FAINT = '#83827d';
+const LINE = '#1f1f1f';
+const ACCENT = '#ff6a2b';
 
-const STACK = ['TypeScript', 'React', 'Next.js', 'Node.js', 'FiveM'];
+const PHOTO_WIDTH = 440;
 
-/** Lange Blog-Titel dürfen das Layout nicht sprengen – Größe skaliert mit der Länge. */
+/** Lange Blog-Titel dürfen das Layout nicht sprengen: Größe skaliert mit der Länge. */
 function titleFontSize(length: number) {
-  if (length <= 20) return 88;
-  if (length <= 32) return 74;
-  if (length <= 46) return 62;
-  if (length <= 64) return 52;
-  return 44;
+  if (length <= 20) return 84;
+  if (length <= 32) return 66;
+  if (length <= 46) return 54;
+  if (length <= 64) return 46;
+  return 40;
 }
 
 function truncate(value: string, max: number) {
@@ -40,11 +44,11 @@ export default async function handler(req: NextRequest) {
 
     const title = truncate(rawTitle || 'Achim Sommer', 96);
     const subtitle = truncate(
-      rawSubtitle || (rawTitle ? 'Achim Sommer · Head of IT & Full Stack Developer' : 'Head of IT & Full Stack Developer'),
-      74
+      rawSubtitle || (rawTitle ? 'Achim Sommer · Head of IT in Aachen' : 'Head of IT in Aachen'),
+      64
     );
 
-    const fontData = await interSemiBold;
+    const [fontData, photoData] = await Promise.all([interSemiBold, photo]);
 
     return new ImageResponse(
       (
@@ -53,214 +57,108 @@ export default async function handler(req: NextRequest) {
             height: '100%',
             width: '100%',
             display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            padding: '68px 72px 76px 72px',
-            background: BG,
+            background: CANVAS,
             position: 'relative',
             fontFamily: 'Inter',
           }}
         >
-          {/* Glow oben links */}
+          {/* Warmes Licht oben links, wie im Hero */}
           <div
             style={{
               position: 'absolute',
-              top: -280,
-              left: -180,
-              width: 900,
-              height: 900,
+              top: -360,
+              left: -260,
+              width: 980,
+              height: 980,
               display: 'flex',
-              background: 'radial-gradient(circle at center, rgba(37, 99, 235, 0.42), rgba(7, 11, 22, 0) 62%)',
+              background: 'radial-gradient(circle at center, rgba(255, 106, 43, 0.16), rgba(10, 10, 10, 0) 60%)',
             }}
           />
 
-          {/* Glow unten rechts */}
-          <div
-            style={{
-              position: 'absolute',
-              bottom: -340,
-              right: -220,
-              width: 820,
-              height: 820,
-              display: 'flex',
-              background: 'radial-gradient(circle at center, rgba(34, 211, 238, 0.24), rgba(7, 11, 22, 0) 62%)',
-            }}
-          />
-
-          {/* Feines Raster */}
-          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex' }}>
-            {Array.from({ length: 11 }).map((_, i) => (
-              <div
-                key={`v${i}`}
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  bottom: 0,
-                  left: (i + 1) * 100,
-                  width: 1,
-                  display: 'flex',
-                  background: 'rgba(148, 163, 184, 0.06)',
-                }}
-              />
-            ))}
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div
-                key={`h${i}`}
-                style={{
-                  position: 'absolute',
-                  left: 0,
-                  right: 0,
-                  top: (i + 1) * 90,
-                  height: 1,
-                  display: 'flex',
-                  background: 'rgba(148, 163, 184, 0.06)',
-                }}
-              />
-            ))}
-          </div>
-
-          {/* Akzentkante links */}
-          <div
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              bottom: 0,
-              width: 10,
-              display: 'flex',
-              background: `linear-gradient(to bottom, ${ACCENT}, ${CYAN})`,
-            }}
-          />
-
-          {/* Kopfzeile */}
+          {/* Textspalte */}
           <div
             style={{
               display: 'flex',
-              alignItems: 'center',
+              flexDirection: 'column',
               justifyContent: 'space-between',
+              width: 1200 - PHOTO_WIDTH,
+              padding: '64px 64px 60px 72px',
               position: 'relative',
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14, color: FAINT, fontSize: 20, letterSpacing: '0.18em' }}>
+              <div style={{ display: 'flex', width: 12, height: 12, background: ACCENT }} />
+              ACHIMSOMMER.COM
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
               <div
                 style={{
                   display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: 92,
-                  height: 92,
-                  borderRadius: 24,
-                  background: `linear-gradient(135deg, ${ACCENT} 0%, #1D4ED8 100%)`,
-                  border: '1px solid rgba(191, 219, 254, 0.35)',
-                  boxShadow: '0 18px 45px rgba(37, 99, 235, 0.45)',
-                  color: '#FFFFFF',
-                  fontSize: 38,
-                  letterSpacing: '-0.02em',
+                  fontSize: titleFontSize(title.length),
+                  color: FG,
+                  lineHeight: 1.05,
+                  letterSpacing: '-0.035em',
                 }}
               >
-                <span style={{ display: 'flex', opacity: 0.65 }}>{'{'}</span>
-                <span style={{ display: 'flex', padding: '0 6px' }}>AS</span>
-                <span style={{ display: 'flex', opacity: 0.65 }}>{'}'}</span>
+                {title}
               </div>
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                <div style={{ display: 'flex', fontSize: 30, color: '#F1F5F9' }}>achimsommer.com</div>
-                <div style={{ display: 'flex', fontSize: 19, color: ACCENT_LIGHT, letterSpacing: '0.22em' }}>
-                  PORTFOLIO
-                </div>
-              </div>
+              <div style={{ display: 'flex', fontSize: 30, color: ACCENT, lineHeight: 1.3 }}>{subtitle}</div>
             </div>
 
             <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: 12,
-                padding: '12px 24px',
-                borderRadius: 999,
-                border: '1px solid rgba(96, 165, 250, 0.32)',
-                background: 'rgba(37, 99, 235, 0.14)',
-                color: '#DBEAFE',
-                fontSize: 22,
+                gap: 16,
+                paddingTop: 22,
+                borderTop: `1px solid ${LINE}`,
+                color: MUTED,
+                fontSize: 21,
               }}
             >
-              <div style={{ display: 'flex', width: 10, height: 10, borderRadius: 999, background: CYAN }} />
-              Aachen · Deutschland
+              <span style={{ display: 'flex' }}>IT-Infrastruktur</span>
+              <span style={{ display: 'flex', color: '#3a3a37' }}>/</span>
+              <span style={{ display: 'flex' }}>Security</span>
+              <span style={{ display: 'flex', color: '#3a3a37' }}>/</span>
+              <span style={{ display: 'flex' }}>Microsoft 365</span>
+              <span style={{ display: 'flex', color: '#3a3a37' }}>/</span>
+              <span style={{ display: 'flex' }}>Next.js</span>
             </div>
           </div>
 
-          {/* Titelblock */}
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 22,
-              position: 'relative',
-              maxWidth: 1000,
-            }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                width: 104,
-                height: 7,
-                borderRadius: 999,
-                background: `linear-gradient(to right, ${ACCENT}, ${CYAN})`,
-              }}
+          {/* Foto rechts, weich in den Hintergrund auslaufend */}
+          <div style={{ display: 'flex', position: 'relative', width: PHOTO_WIDTH, height: '100%' }}>
+            {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text -- Satori rendert nur <img> */}
+            <img
+              src={photoData as unknown as string}
+              width={PHOTO_WIDTH}
+              height={630}
+              style={{ width: PHOTO_WIDTH, height: 630, objectFit: 'cover', objectPosition: 'center top' }}
             />
             <div
               style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                bottom: 0,
+                width: 180,
                 display: 'flex',
-                fontSize: titleFontSize(title.length),
-                color: '#F8FAFC',
-                lineHeight: 1.12,
-                letterSpacing: '-0.025em',
+                background: `linear-gradient(to right, ${CANVAS}, rgba(10, 10, 10, 0))`,
               }}
-            >
-              {title}
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                fontSize: 30,
-                color: '#94A3B8',
-                lineHeight: 1.35,
-              }}
-            >
-              {subtitle}
-            </div>
+            />
           </div>
 
-          {/* Fußzeile */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14, position: 'relative' }}>
-            {STACK.map((tech) => (
-              <div
-                key={tech}
-                style={{
-                  display: 'flex',
-                  padding: '11px 22px',
-                  borderRadius: 999,
-                  border: '1px solid rgba(148, 163, 184, 0.22)',
-                  background: 'rgba(148, 163, 184, 0.08)',
-                  color: '#CBD5E1',
-                  fontSize: 22,
-                }}
-              >
-                {tech}
-              </div>
-            ))}
-          </div>
-
-          {/* Abschlusskante unten */}
+          {/* Akzentkante unten */}
           <div
             style={{
               position: 'absolute',
               bottom: 0,
               left: 0,
               right: 0,
-              height: 8,
+              height: 6,
               display: 'flex',
-              background: `linear-gradient(to right, ${ACCENT}, ${CYAN} 55%, #8B5CF6)`,
+              background: ACCENT,
             }}
           />
         </div>

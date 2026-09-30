@@ -5,7 +5,7 @@ const DEFAULT_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://achimsomme
  * pro URL sehr lange – nach einer Layout-Änderung hochzählen, damit die Crawler
  * das neue Bild wirklich holen.
  */
-const OG_VERSION = '2';
+const OG_VERSION = '3';
 
 type OgImageOptions = {
   title?: string;

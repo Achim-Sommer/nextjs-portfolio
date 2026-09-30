@@ -24,12 +24,12 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://achimsommer.com';
 const umamiUrl = process.env.NEXT_PUBLIC_UMAMI_URL;
 const umamiWebsiteId = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
 
-const siteTitle = 'Achim Sommer (achimsommer) | Head of IT & Full Stack Developer';
+const siteTitle = 'Achim Sommer (achimsommer) | Head of IT in Aachen';
 const siteDescription =
-  'Achim Sommer (achimsommer) – Head of IT aus Aachen mit Schwerpunkt Netzwerktechnik, Server-Architektur und IT-Infrastruktur. Full Stack Developer mit TypeScript, React, Next.js und FiveM Entwicklung. Wirtschaftsinformatik-Student an der FOM Köln.';
+  'Achim Sommer, Head of IT in Aachen: IT-Infrastruktur, Security und Microsoft 365. Nebenbei Web-Apps mit Next.js.';
 const ogImage = ogImageUrl({
   title: 'Achim Sommer',
-  subtitle: 'Head of IT & Full Stack Developer',
+  subtitle: 'Head of IT in Aachen',
   baseUrl: siteUrl,
 });
 
@@ -84,7 +84,7 @@ export const metadata: Metadata = {
         url: ogImage,
         width: 1200,
         height: 630,
-        alt: 'Achim Sommer - Full Stack Developer Portfolio',
+        alt: 'Achim Sommer, Head of IT in Aachen',
       },
     ],
     locale: 'de_DE',
@@ -125,7 +125,7 @@ export default function RootLayout({
               "@type": "Person",
               "name": "Achim Sommer",
               "url": "https://achimsommer.com",
-              "image": "https://achimsommer.com/logo.png",
+              "image": "https://achimsommer.com/img/achim-sommer.jpg",
               "jobTitle": "Head of IT",
               "worksFor": {
                 "@type": "Organization",
