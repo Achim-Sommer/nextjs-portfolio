@@ -39,11 +39,11 @@ const ROPE_LEN = ANCHOR.y - (-HALF_H + 0.28 + BODY_LEN); // Karte hängt knapp �
 const SEG_LEN = ROPE_LEN / ROPE_SEGMENTS;
 
 const GRAVITY = 36;
-const DAMPING = 1.4; // pro Sekunde
+const DAMPING = 1.8; // pro Sekunde
 const STEP = 1 / 120;
 const ITERATIONS = 14;
 /** Leichter Biegewiderstand, damit das Band nicht zu einer Zickzack-Schlaufe faltet */
-const BEND_STIFFNESS = 0.02;
+const BEND_STIFFNESS = 0.08;
 /** Höchstgeschwindigkeit pro Schritt, damit ein kräftiger Wurf nicht davonfliegt */
 const MAX_STEP_MOVE = 0.04;
 /** Die Karte kippt höchstens so weit aus der Senkrechten (sonst hinge sie kopfüber) */
@@ -155,6 +155,15 @@ function limitTilt(sim: Sim) {
   p1.set(p0.x + Math.sin(a) * BODY_LEN, p0.y - Math.cos(a) * BODY_LEN, p0.z);
 }
 
+/** Ring nicht höher als MAX_PIVOT_Y, sonst stützt das lose Band die Karte nach oben */
+function limitLift(sim: Sim) {
+  const p = sim.pos[PIVOT];
+  if (p.y > MAX_PIVOT_Y) {
+    p.y = MAX_PIVOT_Y;
+    sim.prev[PIVOT].y = Math.min(sim.prev[PIVOT].y, p.y);
+  }
+}
+
 /** Karte seitlich im sichtbaren Bereich halten; die Wand schluckt den Schwung nach außen */
 function limitSides(sim: Sim) {
   const limit = Math.max(sim.halfW - (CARD.width / 2) * Math.abs(Math.cos(sim.twist)) - 0.04, 0);
@@ -182,6 +191,7 @@ function step(sim: Sim, dt: number) {
     for (let i = 0; i < ROPE_SEGMENTS; i++) satisfy(sim, i, i + 1, SEG_LEN);
     for (let i = 0; i < ROPE_SEGMENTS - 1; i++) satisfy(sim, i, i + 2, SEG_LEN * 2, BEND_STIFFNESS);
     satisfy(sim, PIVOT, BOTTOM, BODY_LEN);
+    limitLift(sim);
     limitTilt(sim);
   }
   limitSides(sim);
@@ -376,6 +386,7 @@ function Lanyard({
   const card = useRef<THREE.Group>(null!);
   const firstFrame = useRef(true);
   const teardown = useRef<(() => void) | null>(null);
+  const hovered = useRef(false);
   const flipTimer = useRef<number | undefined>(undefined);
   const live = useRef({ active, started, reducedMotion });
   live.current = { active, started, reducedMotion };
@@ -432,6 +443,7 @@ function Lanyard({
   useEffect(() => {
     if (flipSignal === lastFlipSignal.current) return;
     lastFlipSignal.current = flipSignal;
+    if (!live.current.started) onStart();
     flip();
     // flip liest nur Refs und stabile Werte
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -545,7 +557,7 @@ function Lanyard({
       }
       sim.grab = null;
       sim.calm = 0;
-      setCursor('grab');
+      setCursor(hovered.current ? 'grab' : 'default');
       invalidate();
       teardown.current?.();
     };
@@ -686,8 +698,14 @@ function Lanyard({
         <group
           position={[0, cardCenter, 0]}
           onPointerDown={onPointerDown}
-          onPointerOver={() => !sim.grab && setCursor('grab')}
-          onPointerOut={() => !sim.grab && setCursor('default')}
+          onPointerOver={() => {
+            hovered.current = true;
+            if (!sim.grab) setCursor('grab');
+          }}
+          onPointerOut={() => {
+            hovered.current = false;
+            if (!sim.grab) setCursor('default');
+          }}
         >
           <mesh geometry={assets.body} material={assets.materials.body} />
           <mesh geometry={assets.face} material={assets.materials.front} position={[0, 0, CARD.depth / 2 + 0.001]} />
@@ -716,6 +734,8 @@ export default function BadgeScene({
   const [fonts, setFonts] = useState<BadgeFonts | null>(null);
   const [active, setActive] = useState(true);
   const [started, setStarted] = useState(false);
+  /** Erstes Bild steht (Ruhelage, deckungsgleich mit der statischen Karte) */
+  const [shown, setShown] = useState(false);
   const [cursor, setCursor] = useState<'default' | 'grab' | 'grabbing'>('default');
 
   useEffect(() => {
@@ -727,20 +747,26 @@ export default function BadgeScene({
   }, []);
 
   // Nur rechnen, solange die Karte zu sehen ist. Einschwingen erst, wenn der
-  // Bereich fast ganz im Bild ist (die Karte sitzt in der unteren Hälfte).
+  // Bereich fast ganz im Bild ist (die Karte sitzt in der unteren Hälfte). Ist
+  // der Bildschirm niedriger als der Bereich (Handy quer), zählt die Bildhöhe.
   useEffect(() => {
     const el = container.current;
     if (!el) return;
-    const visibility = new IntersectionObserver(([entry]) => setActive(entry.isIntersecting));
+    const visibility = new IntersectionObserver((entries) => {
+      setActive(entries[entries.length - 1].isIntersecting);
+    });
     visibility.observe(el);
     const start = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.intersectionRatio >= 0.8) {
+      (entries) => {
+        const entry = entries[entries.length - 1];
+        const viewport = entry.rootBounds?.height ?? window.innerHeight;
+        const needed = 0.8 * Math.min(entry.boundingClientRect.height, viewport);
+        if (entry.isIntersecting && entry.intersectionRect.height >= needed - 1) {
           setStarted(true);
           start.disconnect();
         }
       },
-      { threshold: [0, 0.8] },
+      { threshold: Array.from({ length: 21 }, (_, i) => i / 20) },
     );
     start.observe(el);
     return () => {
@@ -758,7 +784,7 @@ export default function BadgeScene({
       {fonts && (
         <Canvas
           flat
-          frameloop={active ? 'demand' : 'never'}
+          frameloop={active || !shown ? 'demand' : 'never'}
           dpr={[1, 2]}
           camera={{ position: [0, 0, CAMERA_Z], fov: FOV, near: 0.1, far: 100 }}
           gl={{ antialias: true, alpha: true, powerPreference: 'low-power' }}
@@ -771,10 +797,13 @@ export default function BadgeScene({
             fonts={fonts}
             reducedMotion={reducedMotion}
             active={active}
-            started={started}
+            started={started && shown}
             flipSignal={flipSignal}
             onStart={() => setStarted(true)}
-            onFirstFrame={onReady}
+            onFirstFrame={() => {
+              setShown(true);
+              onReady();
+            }}
             setCursor={setCursor}
           />
         </Canvas>

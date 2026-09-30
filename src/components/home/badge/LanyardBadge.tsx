@@ -54,18 +54,18 @@ export default function LanyardBadge({ className = '' }: { className?: string })
 
     let idle: number | undefined;
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
         observer.disconnect();
         // WebGL erst jetzt prüfen und dann in einer ruhigen Phase laden
         if (!supportsWebGL2()) return;
         const start = () => setLoad(true);
         idle =
           typeof window.requestIdleCallback === 'function'
-            ? window.requestIdleCallback(start, { timeout: 1200 })
+            ? window.requestIdleCallback(start, { timeout: 3000 })
             : window.setTimeout(start, 200);
       },
-      { rootMargin: '250px 0px' },
+      { rootMargin: '150px 0px' },
     );
     observer.observe(el);
     return () => {
@@ -93,7 +93,8 @@ export default function LanyardBadge({ className = '' }: { className?: string })
         {!interactive && <StaticBadge />}
         {showScene && (
           <ErrorBoundary fallback={null} onError={() => setFailed(true)}>
-            <div className={`absolute inset-0 transition-opacity duration-300 ${ready ? 'opacity-100' : 'opacity-0'}`}>
+            {/* Kein Überblenden: das erste 3D-Bild zeigt exakt die ruhende statische Karte */}
+            <div className={`absolute inset-0 ${ready ? 'opacity-100' : 'opacity-0'}`}>
               <BadgeScene reducedMotion={reducedMotion} flipSignal={flipSignal} onReady={() => setReady(true)} />
             </div>
           </ErrorBoundary>
@@ -104,7 +105,7 @@ export default function LanyardBadge({ className = '' }: { className?: string })
         <button
           type="button"
           onClick={() => setFlipSignal((n) => n + 1)}
-          className="sr-only left-1/2 top-[96%] -translate-x-1/2 whitespace-nowrap border border-[#2e2e2c] bg-canvas px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-fg focus:not-sr-only focus:absolute"
+          className="sr-only left-1/2 top-[calc(100%-2.5rem)] -translate-x-1/2 border border-[#2e2e2c] bg-canvas font-mono text-[11px] uppercase tracking-[0.14em] text-fg focus:not-sr-only focus:absolute focus:whitespace-nowrap focus:px-3 focus:py-1.5"
         >
           Ausweis umdrehen
         </button>
