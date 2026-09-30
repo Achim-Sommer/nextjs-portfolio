@@ -1,664 +1,77 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
-import { motion, useInView, animate } from 'framer-motion';
-import dynamic from 'next/dynamic';
-import {
-  SiTypescript, SiReact, SiNextdotjs, SiTailwindcss,
-  SiNodedotjs, SiDocker, SiMongodb, SiGit,
-  SiPython, SiJavascript, SiLua, SiMysql,
-  SiGithub, SiPostgresql
-} from 'react-icons/si';
-import {
-  FaReact, FaNodeJs, FaGitAlt, FaHtml5, FaCss3Alt,
-} from 'react-icons/fa';
-import {
-  SiDjango, SiExpress,
-} from 'react-icons/si';
-import { FiMapPin, FiCoffee, FiMail, FiCode, FiTerminal, FiHeadphones, FiMoon } from 'react-icons/fi';
-import { IoGameControllerOutline } from 'react-icons/io5';
-import { HiOutlineBriefcase } from 'react-icons/hi2';
-import { careerStations, education } from '@/data/career';
 
-const InfiniteMovingCards = dynamic(
-  () => import('./ui/infinite-moving-cards').then(mod => mod.InfiniteMovingCards),
-  { ssr: false }
-);
+import { Reveal, Section, SectionHeading } from './home/primitives';
 
-// ─── Skills-Daten für Hintergrund-Karten ─────────────────────
-const BG_SKILLS = [
-  { name: 'TypeScript', icon: <SiTypescript className="text-3xl text-blue-500" />, color: 'from-blue-500/20 via-blue-500/10 to-transparent' },
-  { name: 'React', icon: <FaReact className="text-3xl text-cyan-500" />, color: 'from-cyan-500/20 via-cyan-500/10 to-transparent' },
-  { name: 'Next.js', icon: <SiNextdotjs className="text-3xl text-white" />, color: 'from-white/20 via-white/10 to-transparent' },
-  { name: 'Django', icon: <SiDjango className="text-3xl text-green-500" />, color: 'from-green-500/20 via-green-500/10 to-transparent' },
-  { name: 'Tailwind CSS', icon: <SiTailwindcss className="text-3xl text-teal-500" />, color: 'from-teal-500/20 via-teal-500/10 to-transparent' },
-  { name: 'Node.js', icon: <FaNodeJs className="text-3xl text-green-500" />, color: 'from-green-500/20 via-green-500/10 to-transparent' },
-  { name: 'JavaScript', icon: <SiJavascript className="text-3xl text-yellow-500" />, color: 'from-yellow-500/20 via-yellow-500/10 to-transparent' },
-  { name: 'Git', icon: <FaGitAlt className="text-3xl text-orange-500" />, color: 'from-orange-500/20 via-orange-500/10 to-transparent' },
-  { name: 'HTML5', icon: <FaHtml5 className="text-3xl text-orange-600" />, color: 'from-orange-600/20 via-orange-600/10 to-transparent' },
-  { name: 'CSS3', icon: <FaCss3Alt className="text-3xl text-blue-600" />, color: 'from-blue-600/20 via-blue-600/10 to-transparent' },
-  { name: 'PostgreSQL', icon: <SiPostgresql className="text-3xl text-blue-400" />, color: 'from-blue-400/20 via-blue-400/10 to-transparent' },
-  { name: 'MySQL', icon: <SiMysql className="text-3xl text-blue-500" />, color: 'from-blue-500/20 via-blue-500/10 to-transparent' },
-  { name: 'MongoDB', icon: <SiMongodb className="text-3xl text-green-500" />, color: 'from-green-500/20 via-green-500/10 to-transparent' },
-  { name: 'Docker', icon: <SiDocker className="text-3xl text-blue-500" />, color: 'from-blue-500/20 via-blue-500/10 to-transparent' },
-  { name: 'Express', icon: <SiExpress className="text-3xl text-white" />, color: 'from-white/20 via-white/10 to-transparent' },
+const FOCUS = [
+  {
+    title: 'Infrastruktur und Netzwerk',
+    text: 'Server, Virtualisierung, Netzwerke und Backups, die zuverlässig laufen und mit dem Unternehmen mitwachsen.',
+    tools: ['Hyper-V', 'Docker', 'Linux', 'Switching', 'Backup'],
+  },
+  {
+    title: 'Identität und Security',
+    text: 'Zugriffe sauber regeln, Angriffsflächen klein halten und Standards einführen, die im Alltag auch gelebt werden.',
+    tools: ['Entra ID', 'Active Directory', 'MFA', 'Patch-Management', 'PingCastle'],
+  },
+  {
+    title: 'Moderner Arbeitsplatz',
+    text: 'Geräte, Tools und Abläufe, mit denen Teams gerne arbeiten: vom ersten Arbeitstag bis zur Rückgabe des Laptops.',
+    tools: ['Microsoft 365', 'Atlassian', 'NinjaOne', 'MDM', 'macOS', 'Windows'],
+  },
+  {
+    title: 'Softwareentwicklung',
+    text: 'Web-Apps, Automatisierungen und Integrationen. Was sich wiederholt, wird ein Skript.',
+    tools: ['Next.js', 'React', 'TypeScript', 'Python', 'PowerShell', 'Graph API'],
+  },
 ];
 
-// ─── Terminal-Zeilen (außerhalb für stabile Referenz) ────────
-const TERMINAL_LINES = [
-  { prompt: '~/portfolio', cmd: 'whoami', output: 'Achim Sommer — Head of IT @ amber Tech GmbH' },
-  { prompt: '~/portfolio', cmd: 'cat studium.txt', output: 'B.Sc. Wirtschaftsinformatik @ FOM Köln · Bachelorarbeit läuft' },
-  { prompt: '~/portfolio', cmd: 'cat interests.txt', output: 'Netzwerktechnik, Server-Architektur, IT-Infrastruktur, Web Dev, Open Source' },
-  { prompt: '~/portfolio', cmd: 'git log --oneline -1', output: 'a1b2c3d feat: Coden aus Leidenschaft, nach Feierabend ✨' },
-  { prompt: '~/portfolio', cmd: 'uptime', output: 'coding since 2018 · 8+ years experience' },
-];
-
-// ─── Tech Stack Daten ────────────────────────────────────────
-const TECH_ITEMS = [
-  { name: 'React', icon: SiReact, color: '#61DAFB' },
-  { name: 'Next.js', icon: SiNextdotjs, color: '#ffffff' },
-  { name: 'TypeScript', icon: SiTypescript, color: '#3178C6' },
-  { name: 'JavaScript', icon: SiJavascript, color: '#F7DF1E' },
-  { name: 'Tailwind', icon: SiTailwindcss, color: '#06B6D4' },
-  { name: 'Node.js', icon: SiNodedotjs, color: '#339933' },
-  { name: 'Python', icon: SiPython, color: '#3776AB' },
-  { name: 'MongoDB', icon: SiMongodb, color: '#47A248' },
-];
-
-const TECH_TAGS = [
-  { name: 'Docker', icon: SiDocker, color: '#2496ED' },
-  { name: 'Git', icon: SiGit, color: '#F05032' },
-  { name: 'Lua', icon: SiLua, color: '#2C2D72' },
-  { name: 'MySQL', icon: SiMysql, color: '#4479A1' },
-  { name: 'PostgreSQL', icon: SiPostgresql, color: '#4169E1' },
-  { name: 'GitHub', icon: SiGithub, color: '#ffffff' },
-];
-
-// ═══════════════════════════════════════════════════════════════
-// Animated Counter — zählt beim Scrollen hoch
-// ═══════════════════════════════════════════════════════════════
-function AnimatedCounter({ target, duration = 2 }: { target: number; duration?: number }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: '-40px' });
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (!inView || target === 0) return;
-    const controls = animate(0, target, {
-      duration,
-      ease: 'easeOut',
-      onUpdate: (v: number) => setCount(Math.floor(v)),
-    });
-    return () => controls.stop();
-  }, [inView, target, duration]);
-
-  return <span ref={ref}>{count}</span>;
-}
-
-// ═══════════════════════════════════════════════════════════════
-// Mini Terminal — auto-typing Effekt
-// ═══════════════════════════════════════════════════════════════
-function MiniTerminal() {
-  const [currentLine, setCurrentLine] = useState(0);
-  const [currentChar, setCurrentChar] = useState(0);
-  const [showOutput, setShowOutput] = useState(false);
-  const [completed, setCompleted] = useState<typeof TERMINAL_LINES>([]);
-
-  useEffect(() => {
-    if (currentLine >= TERMINAL_LINES.length) {
-      const t = setTimeout(() => {
-        setCompleted([]);
-        setCurrentLine(0);
-        setCurrentChar(0);
-        setShowOutput(false);
-      }, 4000);
-      return () => clearTimeout(t);
-    }
-
-    const line = TERMINAL_LINES[currentLine];
-
-    // Tippen
-    if (currentChar < line.cmd.length) {
-      const t = setTimeout(() => setCurrentChar((c) => c + 1), 45 + Math.random() * 35);
-      return () => clearTimeout(t);
-    }
-
-    // Output anzeigen
-    if (!showOutput) {
-      const t = setTimeout(() => setShowOutput(true), 250);
-      return () => clearTimeout(t);
-    }
-
-    // Nächste Zeile
-    const t = setTimeout(() => {
-      setCompleted((prev) => [...prev, TERMINAL_LINES[currentLine]]);
-      setCurrentLine((l) => l + 1);
-      setCurrentChar(0);
-      setShowOutput(false);
-    }, 1400);
-    return () => clearTimeout(t);
-  }, [currentLine, currentChar, showOutput]);
-
-  return (
-    <div className="font-mono text-[11px] sm:text-xs leading-relaxed space-y-1.5 select-none">
-      {completed.map((l, i) => (
-        <div key={i}>
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-blue-400 shrink-0">{l.prompt}</span>
-            <span className="text-emerald-400 shrink-0">$</span>
-            <span className="text-gray-300">{l.cmd}</span>
-          </div>
-          <p className="text-gray-500 pl-2 sm:pl-4 break-words">{l.output}</p>
-        </div>
-      ))}
-
-      {currentLine < TERMINAL_LINES.length && (
-        <div>
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-blue-400 shrink-0">{TERMINAL_LINES[currentLine].prompt}</span>
-            <span className="text-emerald-400 shrink-0">$</span>
-            <span className="text-gray-300">
-              {TERMINAL_LINES[currentLine].cmd.slice(0, currentChar)}
-            </span>
-            <span className="inline-block w-[7px] h-[14px] bg-gray-300 animate-pulse" />
-          </div>
-          {showOutput && (
-            <motion.p
-              initial={{ opacity: 0, y: -3 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-gray-500 pl-2 sm:pl-4 break-words"
-            >
-              {TERMINAL_LINES[currentLine].output}
-            </motion.p>
-          )}
-        </div>
-      )}
-    </div>
-  );
-}
-
-// ═══════════════════════════════════════════════════════════════
-// Bento Card — wiederverwendbare Karte mit Glasmorphismus
-// ═══════════════════════════════════════════════════════════════
-function BentoCard({
-  children,
-  className = '',
-  delay = 0,
-  hover = true,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  delay?: number;
-  hover?: boolean;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 24, scale: 0.96 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.55, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
-      whileHover={hover ? { y: -5, transition: { duration: 0.3 } } : undefined}
-      className={`
-        relative overflow-hidden rounded-3xl
-        bg-gradient-to-b from-white/[0.05] to-white/[0.02]
-        backdrop-blur-2xl
-        border border-white/[0.07]
-        shadow-[0_2px_40px_rgba(0,0,0,0.35)]
-        hover:border-white/[0.14]
-        hover:shadow-[0_8px_50px_rgba(59,130,246,0.06)]
-        transition-[border-color,box-shadow] duration-500
-        ${className}
-      `}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-// ═══════════════════════════════════════════════════════════════
-// GitHub-Stats Typ
-// ═══════════════════════════════════════════════════════════════
-interface GitHubData {
-  stats?: {
-    repos: number;
-    stars: number;
-    contributions: number;
-    mainLanguages: Record<string, number>;
-  };
-}
-
-// ═══════════════════════════════════════════════════════════════
-// Haupt-Komponente
-// ═══════════════════════════════════════════════════════════════
 export default function AboutMe() {
-  const [github, setGithub] = useState<GitHubData>({});
-
-  useEffect(() => {
-    fetch('/api/github')
-      .then((r) => r.json())
-      .then((d) => { if (!d.error) setGithub(d); })
-      .catch(() => {});
-  }, []);
-
-  const stats = github.stats;
-
   return (
-    <div className="relative w-full overflow-hidden">
-      {/* Subtiler Hintergrund: Dot-Grid + langsam fließender Gradient */}
-      <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
-        {/* Dot-Pattern */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px)',
-            backgroundSize: '24px 24px',
-          }}
-        />
-        {/* Slow Gradient Shift — fließt langsam wie bei Apple Keynotes */}
-        <div
-          className="absolute inset-0 opacity-[0.07]"
-          style={{
-            background: 'linear-gradient(135deg, #3b82f6, #8b5cf6, #06b6d4, #8b5cf6, #3b82f6)',
-            backgroundSize: '400% 400%',
-            animation: 'gradientShift 16s ease infinite',
-          }}
-        />
-        {/* Infinite Moving Cards als dezentes Hintergrund-Designelement — verteilt über die gesamte Sektion */}
-        <div className="absolute top-[5%] left-0 w-full opacity-[0.05] pointer-events-none select-none">
-          <InfiniteMovingCards
-            items={BG_SKILLS}
-            direction="left"
-            speed="slow"
-            pauseOnHover={false}
-            showName={true}
-            cardClassName="w-[220px]"
-          />
+    <Section id="about-me">
+      <SectionHeading
+        index="01"
+        label="Profil"
+        title="Ich sorge dafür, dass IT im Hintergrund einfach funktioniert."
+      >
+        <p>
+          Als Head of IT bei der amber Tech GmbH verantworte ich die interne IT eines wachsenden
+          KI-Startups: Microsoft 365 und Entra ID, Geräteverwaltung, Security-Standards und Backups.
+          Davor habe ich die IT der Schumacher Gruppe geleitet, SAP-Anwendungen entwickelt und bei den
+          Johannitern Netzwerke und Arbeitsplätze betreut.
+        </p>
+        <p className="mt-5">
+          Programmiert habe ich schon vorher. Seit 2018 entwickle ich Webanwendungen und
+          Gaming-Projekte, heute vor allem mit Next.js und TypeScript. Parallel schließe ich mein
+          Studium der Wirtschaftsinformatik an der FOM ab.
+        </p>
+      </SectionHeading>
+
+      <div className="mt-20 lg:grid lg:grid-cols-12 lg:gap-10">
+        <div className="lg:col-span-4">
+          <Reveal>
+            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-faint">Schwerpunkte</p>
+          </Reveal>
         </div>
-        <div className="absolute top-[28%] left-0 w-full opacity-[0.04] pointer-events-none select-none">
-          <InfiniteMovingCards
-            items={[...BG_SKILLS].reverse()}
-            direction="right"
-            speed="slow"
-            pauseOnHover={false}
-            showName={true}
-            cardClassName="w-[220px]"
-          />
-        </div>
-        <div className="absolute top-[52%] left-0 w-full opacity-[0.05] pointer-events-none select-none">
-          <InfiniteMovingCards
-            items={BG_SKILLS}
-            direction="left"
-            speed="slow"
-            pauseOnHover={false}
-            showName={true}
-            cardClassName="w-[220px]"
-          />
-        </div>
-        <div className="absolute top-[76%] left-0 w-full opacity-[0.04] pointer-events-none select-none">
-          <InfiniteMovingCards
-            items={[...BG_SKILLS].reverse()}
-            direction="right"
-            speed="slow"
-            pauseOnHover={false}
-            showName={true}
-            cardClassName="w-[220px]"
-          />
-        </div>
+
+        <ol className="mt-6 lg:col-span-8 lg:mt-0">
+          {FOCUS.map((item, i) => (
+            <li key={item.title} className="border-t border-line last:border-b">
+              <Reveal delay={i * 0.05} className="grid gap-3 py-7 sm:grid-cols-8 sm:gap-6">
+                <div className="flex gap-4 sm:col-span-3">
+                  <span className="pt-1 font-mono text-[11px] text-accent">0{i + 1}</span>
+                  <h3 className="text-lg font-medium tracking-[-0.01em] text-fg">{item.title}</h3>
+                </div>
+                <div className="pl-8 sm:col-span-5 sm:pl-0">
+                  <p className="text-[15px] leading-relaxed text-muted">{item.text}</p>
+                  <p className="mt-3 font-mono text-xs leading-relaxed text-faint">
+                    {item.tools.join(' / ')}
+                  </p>
+                </div>
+              </Reveal>
+            </li>
+          ))}
+        </ol>
       </div>
-
-      {/* Keyframes werden inline injected */}
-      <style jsx>{`
-        @keyframes gradientShift {
-          0% { background-position: 0% 50%; }
-          25% { background-position: 100% 50%; }
-          50% { background-position: 100% 100%; }
-          75% { background-position: 0% 100%; }
-          100% { background-position: 0% 50%; }
-        }
-      `}</style>
-
-      <section id="about-me" className="relative py-14 sm:py-24">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          {/* ── Überschrift ────────────────────────────────── */}
-          <div className="text-center mb-10 sm:mb-14">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="relative inline-block"
-            >
-              {/* Glow hinter dem Text */}
-              <div className="absolute inset-0 blur-[50px] bg-gradient-to-r from-blue-500/15 via-purple-500/15 to-blue-500/15 rounded-full scale-150" />
-              <h2 className="relative text-2xl sm:text-3xl font-bold tracking-tight">
-                <span className="bg-gradient-to-r from-white/80 via-blue-100/90 to-white/80 bg-clip-text text-transparent">
-                  Über Mich
-                </span>
-              </h2>
-            </motion.div>
-          </div>
-
-          {/* ── Bento Grid ─────────────────────────────────── */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-
-            {/* ╔═══ Über Mich — groß (2 Spalten, 2 Zeilen) ═══╗ */}
-            <BentoCard className="sm:col-span-2 lg:row-span-2 p-7 sm:p-9" delay={0}>
-              {/* Deko-Dots */}
-              <div className="flex gap-2 mb-7">
-                <div className="w-3 h-3 rounded-full bg-[#FF5F56]" />
-                <div className="w-3 h-3 rounded-full bg-[#FFBD2E]" />
-                <div className="w-3 h-3 rounded-full bg-[#27C93F]" />
-              </div>
-
-              <div className="space-y-5">
-                <div>
-                  <h3 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
-                    Achim Sommer
-                  </h3>
-                  <p className="text-blue-400 font-semibold mt-1.5 text-sm sm:text-base">
-                    Head of IT @ amber Tech GmbH · Wirtschaftsinformatik-Student
-                  </p>
-                </div>
-
-                <p className="text-gray-400 text-sm sm:text-[15px] leading-relaxed max-w-lg">
-                  Seit 2018 entwickle ich leidenschaftlich Webanwendungen und
-                  Gaming-Projekte. Von React-Apps über FiveM-Server bis hin zu
-                  System-Architekturen&nbsp;– ich liebe es, technische
-                  Herausforderungen in elegante Lösungen zu verwandeln.
-                </p>
-
-                {/* Wissenschaftliche Arbeiten */}
-                <div className="pt-1 space-y-2">
-                  <p className="text-[11px] uppercase tracking-widest text-gray-600 font-semibold">
-                    Wissenschaftliche Arbeiten
-                  </p>
-                  <div className="space-y-1.5">
-                    {[
-                      { note: '1,0', title: 'Generative KI zur Erstellung von Management-Summaries aus SAP S/4HANA' },
-                      { note: '1,0', title: 'OrbRush — Technische Dokumentation eines server-autoritativen Echtzeit-Multiplayer-Browserspiels mit TypeScript, Node.js, Socket.IO und Phaser 3' },
-                      { note: '1,0', title: 'Joiner–Mover–Leaver-Prozess in hybrider AD/Entra-ID-Umgebung' },
-                      { note: '1,3', title: 'Pragmatische Adaption von ITIL 4 bei einem internen IT-Dienstleister einer mittelständischen Unternehmensgruppe — Konzept und Bewertung am Beispiel einer Logistikgruppe' },
-                      { note: '1,3', title: 'No-Code/Low-Code Plattformen für Unternehmen' },
-                      { note: '1,7', title: 'EU KI Act — Auswirkungen auf KMU' },
-                      { note: '2,0', title: 'Java-Anwendung: Wertpapier-Depot-Rechner zur KPI-Berechnung' },
-                    ].map((a, i) => (
-                      <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm">
-                        <span className="shrink-0 text-emerald-400 font-mono font-bold bg-emerald-400/10 px-1.5 py-0.5 rounded">
-                          {a.note}
-                        </span>
-                        <span className="text-gray-400">{a.title}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Kontakt */}
-                <div className="flex flex-wrap items-center gap-2.5 pt-3">
-                  <a
-                    href="https://github.com/Achim-Sommer"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.09] hover:border-white/[0.18] transition-all text-sm text-gray-300"
-                  >
-                    <SiGithub className="w-4 h-4" />
-                    GitHub
-                  </a>
-                  <a
-                    href="mailto:dev@achimsommer.com"
-                    className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.09] hover:border-white/[0.18] transition-all text-sm text-gray-300"
-                  >
-                    <FiMail className="w-4 h-4" />
-                    Email
-                  </a>
-                </div>
-              </div>
-
-              {/* Deko-Code im Hintergrund */}
-              <span className="absolute -bottom-6 -right-3 text-[100px] font-mono text-white/[0.02] font-black select-none pointer-events-none leading-none">
-                {'</>'}
-              </span>
-            </BentoCard>
-
-            {/* ╔═══ Tech Stack ══════════════════════════════╗ */}
-            <BentoCard className="p-5 sm:p-6" delay={0.08}>
-              <div className="flex items-center gap-2 mb-5">
-                <FiCode className="w-4 h-4 text-blue-400" />
-                <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest">
-                  Tech Stack
-                </h4>
-              </div>
-
-              {/* Icon-Grid */}
-              <div className="grid grid-cols-4 gap-3">
-                {TECH_ITEMS.map((tech) => (
-                  <motion.div
-                    key={tech.name}
-                    whileHover={{ scale: 1.12, y: -3 }}
-                    className="group flex flex-col items-center gap-1.5"
-                  >
-                    <div
-                      className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.07] flex items-center justify-center group-hover:border-white/[0.2] transition-all duration-300"
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.boxShadow = `0 0 18px ${tech.color}25`;
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.boxShadow = 'none';
-                      }}
-                    >
-                      <tech.icon className="w-[18px] h-[18px]" style={{ color: tech.color }} />
-                    </div>
-                    <span className="text-[10px] text-gray-600 group-hover:text-gray-300 transition-colors duration-200">
-                      {tech.name}
-                    </span>
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* Tags */}
-              <div className="flex flex-wrap gap-1.5 mt-4 pt-4 border-t border-white/[0.05]">
-                {TECH_TAGS.map((t) => (
-                  <span
-                    key={t.name}
-                    className="px-2 py-0.5 text-[10px] rounded-lg bg-white/[0.04] border border-white/[0.06] text-gray-500 hover:text-gray-300 hover:border-white/[0.14] transition-all cursor-default"
-                  >
-                    {t.name}
-                  </span>
-                ))}
-              </div>
-            </BentoCard>
-
-            {/* ╔═══ GitHub Stats ════════════════════════════╗ */}
-            <BentoCard className="p-5 sm:p-6" delay={0.14}>
-              <div className="flex items-center justify-between mb-5">
-                <div className="flex items-center gap-2">
-                  <SiGithub className="w-4 h-4 text-gray-400" />
-                  <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest">
-                    GitHub
-                  </h4>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-                  </span>
-                  <span className="text-[10px] text-emerald-500/80 font-medium">live</span>
-                </div>
-              </div>
-
-              <div className="space-y-5">
-                {/* Zahlen */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-3xl font-extrabold text-white font-mono tracking-tight">
-                      <AnimatedCounter target={stats?.repos ?? 0} />
-                    </p>
-                    <p className="text-[11px] text-gray-600 mt-0.5">Repositories</p>
-                  </div>
-                  <div>
-                    <p className="text-3xl font-extrabold text-white font-mono tracking-tight">
-                      <AnimatedCounter target={stats?.stars ?? 0} />
-                    </p>
-                    <p className="text-[11px] text-gray-600 mt-0.5">Stars</p>
-                  </div>
-                </div>
-
-                <div>
-                  <p className="text-xl font-bold text-white font-mono">
-                    <AnimatedCounter target={stats?.contributions ?? 0} />
-                  </p>
-                  <p className="text-[11px] text-gray-600 mt-0.5">Contributions</p>
-                </div>
-
-                {/* Sprachen-Balken */}
-                {stats?.mainLanguages && Object.keys(stats.mainLanguages).length > 0 && (
-                  <div className="space-y-2 pt-1">
-                    {Object.entries(stats.mainLanguages)
-                      .sort(([, a], [, b]) => b - a)
-                      .slice(0, 3)
-                      .map(([lang, count]) => {
-                        const total = Object.values(stats.mainLanguages).reduce((s, v) => s + v, 0);
-                        const pct = Math.round((count / total) * 100);
-                        return (
-                          <div key={lang} className="flex items-center gap-2.5">
-                            <span className="text-[10px] text-gray-500 w-[60px] truncate">{lang}</span>
-                            <div className="flex-1 h-1 bg-white/[0.06] rounded-full overflow-hidden">
-                              <motion.div
-                                initial={{ width: 0 }}
-                                whileInView={{ width: `${pct}%` }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 1.2, delay: 0.4, ease: 'easeOut' }}
-                                className="h-full rounded-full bg-gradient-to-r from-blue-500 to-purple-500"
-                              />
-                            </div>
-                            <span className="text-[10px] text-gray-600 w-7 text-right font-mono">{pct}%</span>
-                          </div>
-                        );
-                      })}
-                  </div>
-                )}
-              </div>
-            </BentoCard>
-
-            {/* ╔═══ Erfahrung & Bildung ════════════════════╗ */}
-            <BentoCard className="p-5 sm:p-6" delay={0.18}>
-              <div className="flex items-center gap-2 mb-5">
-                <HiOutlineBriefcase className="w-4 h-4 text-purple-400" />
-                <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest">
-                  Erfahrung
-                </h4>
-              </div>
-
-              {/* Stationen kommen aus src/data/career.ts — dieselbe Quelle wie die
-                  ausführliche Werdegang-Sektion, damit nichts auseinanderläuft. */}
-              <div className="space-y-4">
-                {careerStations.map((station) => (
-                  <div
-                    key={station.id}
-                    className={`relative pl-4 border-l-2 ${station.accent.border}`}
-                  >
-                    <div
-                      className={`absolute -left-[5px] top-[5px] w-2 h-2 rounded-full ${station.accent.dot} ring-[3px] ${station.accent.ring}`}
-                    />
-                    <p className="text-sm font-semibold text-white">{station.role}</p>
-                    <p className="text-[11px] text-gray-500 mt-0.5">
-                      {station.company} · {station.periodShort}
-                    </p>
-                  </div>
-                ))}
-
-                <div className={`relative pl-4 border-l-2 ${education.accent.border}`}>
-                  <div
-                    className={`absolute -left-[5px] top-[5px] w-2 h-2 rounded-full ${education.accent.dot} ring-[3px] ${education.accent.ring}`}
-                  />
-                  <p className="text-sm font-semibold text-white">{education.degree}</p>
-                  <p className="text-[11px] text-gray-500 mt-0.5">
-                    {education.institution} · {education.periodShort}
-                  </p>
-                </div>
-              </div>
-            </BentoCard>
-
-            {/* ╔═══ Standort & Status ══════════════════════╗ */}
-            <BentoCard className="p-5 sm:p-6" delay={0.22}>
-              <div className="flex items-center gap-2 mb-4">
-                <FiMapPin className="w-4 h-4 text-red-400" />
-                <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest">
-                  Standort
-                </h4>
-              </div>
-
-              <div className="space-y-4">
-                <div>
-                  <p className="text-xl font-bold text-white">Aachen</p>
-                  <p className="text-sm text-gray-500">Deutschland 🇩🇪</p>
-                </div>
-
-                <div className="flex items-center gap-2.5">
-                  <span className="relative flex h-2.5 w-2.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-50" />
-                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
-                  </span>
-                  <span className="text-xs text-gray-400">Verfügbar für Projekte</span>
-                </div>
-
-                <div className="pt-2 space-y-2 border-t border-white/[0.05]">
-                  <div className="flex items-center gap-2.5">
-                    <FiCoffee className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                    <span className="text-xs text-gray-400">
-                      <span className="text-amber-400 font-mono font-bold">3+</span> Kaffee am Tag
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <FiTerminal className="w-3.5 h-3.5 text-blue-400 shrink-0" />
-                    <span className="text-xs text-gray-400">
-                      <span className="text-blue-400 font-medium">VS Code</span> Enthusiast
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <IoGameControllerOutline className="w-3.5 h-3.5 text-purple-400 shrink-0" />
-                    <span className="text-xs text-gray-400">
-                      <span className="text-purple-400 font-medium">Gamer</span> seit Tag 1
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <FiMoon className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
-                    <span className="text-xs text-gray-400">
-                      <span className="text-indigo-400 font-medium">Dark Mode</span> only
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <FiHeadphones className="w-3.5 h-3.5 text-rose-400 shrink-0" />
-                    <span className="text-xs text-gray-400">
-                      Coden mit <span className="text-rose-400 font-medium">Lo-Fi Beats</span>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </BentoCard>
-
-            {/* ╔═══ Mini Terminal — volle Breite ════════════╗ */}
-            <BentoCard
-              className="col-span-1 sm:col-span-2 lg:col-span-4 p-5 sm:p-6"
-              delay={0.26}
-              hover={false}
-            >
-              {/* Terminal-Header */}
-              <div className="flex items-center gap-3 mb-4">
-                <div className="flex gap-1.5">
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#27C93F]" />
-                </div>
-                <span className="text-[11px] text-gray-600 font-mono">~/achim-sommer — zsh</span>
-              </div>
-
-              {/* Terminal-Body */}
-              <div className="bg-black/40 rounded-2xl p-4 sm:p-5 h-[180px] sm:h-[200px] overflow-hidden">
-                <MiniTerminal />
-              </div>
-            </BentoCard>
-          </div>
-        </div>
-      </section>
-    </div>
+    </Section>
   );
 }

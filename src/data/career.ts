@@ -1,11 +1,7 @@
 /**
  * Zentrale Datenquelle für den beruflichen Werdegang.
  *
- * Wird an zwei Stellen gelesen:
- *  - src/components/CareerTimeline.tsx  (ausführliche Sektion auf der Startseite)
- *  - src/components/AboutMe.tsx         (kompakte "Erfahrung"-Kachel in der Bento-Grid)
- *
- * Dadurch muss eine Station nur an einer Stelle gepflegt werden.
+ * Wird von src/components/CareerTimeline.tsx gelesen (Werdegang auf der Startseite).
  *
  * Hinweis zu den Farbklassen: Tailwind erkennt nur vollständige Klassennamen im
  * Quelltext. Deshalb stehen hier komplette Strings statt zusammengesetzter Namen
@@ -24,15 +20,13 @@ export interface CareerStation {
   id: string;
   /** Positionsbezeichnung */
   role: string;
-  /** Kurzform für die Bento-Kachel */
+  /** Kurzform des Firmennamens */
   company: string;
   /** Vollständiger Firmenname für die Timeline */
   companyFull: string;
   companyUrl?: string;
-  /** Ausgeschriebener Zeitraum für die Timeline */
+  /** Zeitraum, Anfang und Ende durch " bis " getrennt */
   period: string;
-  /** Kurzform für die Bento-Kachel */
-  periodShort: string;
   location: string;
   /** Vor Ort / Hybrid / Remote */
   workMode?: string;
@@ -51,7 +45,7 @@ export interface EducationStation {
   id: string;
   degree: string;
   institution: string;
-  periodShort: string;
+  period: string;
   accent: Accent;
 }
 
@@ -126,9 +120,8 @@ export const careerStations: CareerStation[] = [
     company: 'amber Tech GmbH',
     companyFull: 'amber Tech GmbH',
     companyUrl: 'https://ambersearch.de/',
-    period: 'Aug 2026 — Heute',
-    periodShort: 'Aug 2026 — Heute',
-    location: 'Aachen',
+    period: 'Aug 2026 bis heute',
+      location: 'Aachen',
     workMode: 'Hybrid',
     employment: 'Vollzeit',
     current: true,
@@ -149,9 +142,8 @@ export const careerStations: CareerStation[] = [
     company: 'Schumacher Gruppe',
     companyFull: 'Schumacher Gruppe',
     companyUrl: 'https://schumacher.ac/',
-    period: 'Juli 2025 — Juli 2026',
-    periodShort: 'Juli 2025 — Juli 2026',
-    location: 'Würselen',
+    period: 'Juli 2025 bis Juli 2026',
+      location: 'Würselen',
     workMode: 'Vor Ort',
     employment: 'Vollzeit',
     accent: accents.schumacher,
@@ -181,9 +173,8 @@ export const careerStations: CareerStation[] = [
     company: 'ROOS IT',
     companyFull: 'ROOS IT GmbH & Co. KG',
     companyUrl: 'https://roos-it.de/',
-    period: 'März 2025 — Juni 2025',
-    periodShort: 'Mrz — Jun 2025',
-    location: 'Städteregion Aachen',
+    period: 'März 2025 bis Juni 2025',
+      location: 'Städteregion Aachen',
     workMode: 'Hybrid',
     employment: 'Vollzeit',
     accent: accents.roos,
@@ -200,9 +191,8 @@ export const careerStations: CareerStation[] = [
     company: 'Johanniter',
     companyFull: 'Johanniter-Unfall-Hilfe e.V.',
     companyUrl: 'https://www.johanniter.de/juh/lv-nrw/rv-aachen-dueren-heinsberg/',
-    period: 'Aug 2023 — Feb 2025',
-    periodShort: 'Aug 2023 — Feb 2025',
-    location: 'Städteregion Aachen',
+    period: 'Aug 2023 bis Feb 2025',
+      location: 'Städteregion Aachen',
     workMode: 'Vor Ort',
     employment: 'Vollzeit',
     accent: accents.johanniter,
@@ -220,9 +210,8 @@ export const careerStations: CareerStation[] = [
     role: 'Software Engineer & Content Creator',
     company: 'Selbstständig',
     companyFull: 'Achim Sommer | Softwareentwicklung',
-    period: 'Aug 2018 — Heute',
-    periodShort: 'Seit 2018',
-    location: 'Städteregion Aachen',
+    period: 'Aug 2018 bis heute',
+      location: 'Städteregion Aachen',
     employment: 'Selbstständig',
     current: true,
     accent: accents.gray,
@@ -240,6 +229,6 @@ export const education: EducationStation = {
   id: 'fom',
   degree: 'B.Sc. Wirtschaftsinformatik',
   institution: 'FOM Köln',
-  periodShort: '2023 — Heute',
+  period: '2023 bis heute',
   accent: accents.fom,
 };
