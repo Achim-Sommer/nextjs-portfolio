@@ -7,7 +7,6 @@ import matter from 'gray-matter';
 import { getCompiledMDX } from '../../lib/mdx-cache';
 import dynamic from 'next/dynamic';
 import { getRelatedPosts, getTagLinks, toDateString, BlogListItem } from '../../lib/blog';
-import { FiClock, FiCalendar } from 'react-icons/fi';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ArticleShare } from '@/components/ui/article-share';
@@ -18,16 +17,15 @@ import { jsonLd, personRef, SITE_URL, WEBSITE_ID } from '@/lib/schema';
 import Figure from '@/components/mdx/Figure';
 import MdxLink from '@/components/mdx/MdxLink';
 import { TableOfContents } from '@/components/TableOfContents';
+import { Container } from '@/components/home/primitives';
 
 // Dynamische Imports für MDX-Komponenten
 const CodeBlock = dynamic(() => import('@/components/CodeBlock'), {
-  loading: () => <div className="p-4 bg-gray-800 rounded-md"><span className="text-gray-400">Loading code...</span></div>
+  loading: () => <div className="my-7 h-24 border border-line bg-[#0d0d0c]" />
 });
 const BlogZapHosting = dynamic(() => import('@/components/BlogZapHosting'));
 const FloatingZapAd = dynamic(() => import('@/components/FloatingZapAd'));
 const Tip = dynamic(() => import('../../src/components/Tip'));
-const ServerComparisonTable = dynamic(() => import('@/components/mdx/tables').then(mod => mod.ServerComparisonTable));
-const PriceComparison = dynamic(() => import('@/components/PriceComparison/PriceComparison'));
 const ZapHostingCta = dynamic(() => import('@/components/ZapHostingCta'));
 const RamRechner = dynamic(() => import('@/components/mdx/RamRechner'));
 const RamTabelle = dynamic(() => import('@/components/mdx/RamTabelle'));
@@ -60,15 +58,14 @@ const components = {
   pre: (props: any) => {
     const codeString = props.children?.props?.children;
     if (typeof codeString === 'string') {
-      return <CodeBlock>{codeString}</CodeBlock>;
+      const language = /language-(\w+)/.exec(props.children?.props?.className || '')?.[1];
+      return <CodeBlock language={language}>{codeString}</CodeBlock>;
     }
     return <pre {...props} />;
   },
   a: MdxLink,
   Figure,
   Tip: Tip,
-  ServerComparisonTable: ServerComparisonTable,
-  PriceComparison: PriceComparison,
   ZapHostingCta: ZapHostingCta,
   RamRechner,
   RamTabelle,
@@ -87,7 +84,7 @@ export default function BlogPost({ frontMatter, mdxSource, slug, relatedPosts, t
   const wasUpdated = modified !== frontMatter.date;
 
   if (router.isFallback) {
-    return <div className="min-h-screen flex items-center justify-center text-white">Loading...</div>;
+    return <div className="min-h-screen" />;
   }
 
   return (
@@ -181,188 +178,114 @@ export default function BlogPost({ frontMatter, mdxSource, slug, relatedPosts, t
           }),
         }}
       />
-      <div 
-        className="min-h-screen bg-gray-900 relative pt-20"
-        style={{
-          backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(66, 153, 225, 0.3) 1px, transparent 0)',
-          backgroundSize: '40px 40px',
-        }}
-      >
-        <div className="max-w-7xl mx-auto pt-8 px-4 sm:px-4 md:px-6 lg:px-8">
-          <div className="relative flex flex-col md:flex-row gap-8">
-            {/* TableOfContents nur auf Desktop anzeigen */}
-            <div className="hidden md:block">
-              <TableOfContents />
+      <article>
+        <header className="border-b border-line">
+          <Container className="pb-12 pt-28 sm:pb-16 sm:pt-36">
+            <nav aria-label="Brotkrumen" className="flex flex-wrap items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-faint">
+              <Link href="/" className="transition-colors hover:text-fg">Startseite</Link>
+              <span aria-hidden="true">/</span>
+              <Link href="/blog" className="transition-colors hover:text-fg">Blog</Link>
+              {tagLinks[0]?.href && (
+                <>
+                  <span aria-hidden="true">/</span>
+                  <Link href={tagLinks[0].href} className="transition-colors hover:text-fg">{tagLinks[0].name}</Link>
+                </>
+              )}
+            </nav>
+            <h1 className="mt-6 max-w-4xl text-[clamp(2.1rem,5vw,3.9rem)] font-medium leading-[1.05] tracking-[-0.035em] text-fg">
+              {frontMatter.title}
+            </h1>
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">{frontMatter.description}</p>
+
+            <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-[11px] uppercase tracking-[0.14em] text-faint">
+              <span>
+                von{' '}
+                <Link href="/" rel="author" className="text-fg transition-colors hover:text-accent">
+                  Achim Sommer
+                </Link>
+              </span>
+              <time dateTime={frontMatter.date}>{formatDate(frontMatter.date)}</time>
+              {wasUpdated && (
+                <span>
+                  aktualisiert <time dateTime={modified}>{formatDate(modified)}</time>
+                </span>
+              )}
+              <span>{frontMatter.readingTime} Min. Lesezeit</span>
             </div>
-            <div className="flex-1 w-full md:w-auto">
-              <div className="bg-gray-800 rounded-md border border-gray-700 overflow-hidden relative z-[1] mx-[-1rem] sm:mx-[-1rem] md:mx-0 w-[calc(100%+2rem)] sm:w-[calc(100%+2rem)] md:w-full">
-                {/* File tab */}
-                <div className="flex items-center gap-2 border-b border-gray-700 bg-gray-900 px-3 sm:px-4 py-2">
-                  <span className="text-gray-100 text-xs sm:text-sm font-mono">{slug}.md</span>
-                </div>
 
-                {/* Content */}
-                <div className="p-4 sm:p-6 md:p-8" id="article-content">
-                  <div className="flex flex-col gap-6">
-                    {/* Header section */}
-                    <div className="border-b border-gray-700 pb-6">
-                      <nav aria-label="Brotkrumen" className="mb-4 text-sm font-mono text-gray-300">
-                        <Link href="/" className="hover:text-blue-200">Startseite</Link>
-                        <span className="mx-2 text-gray-500">/</span>
-                        <Link href="/blog" className="hover:text-blue-200">Blog</Link>
-                      </nav>
-                      <h1 className="text-2xl sm:text-4xl font-bold text-blue-300 font-mono mb-4">
-                        {frontMatter.title}
-                      </h1>
-                      
-                      <p className="text-gray-100 text-lg mb-4 pl-4 border-l-2 border-blue-500">
-                        {frontMatter.description}
-                      </p>
-
-                      <div className="flex flex-wrap gap-x-6 gap-y-2 text-gray-100 text-sm font-mono">
-                        <span>
-                          von{' '}
-                          <Link href="/" rel="author" className="text-blue-200 hover:text-blue-100">
-                            Achim Sommer
-                          </Link>
-                        </span>
-                        <span className="inline-flex items-center gap-1.5">
-                          <FiCalendar className="text-blue-400" aria-hidden="true" />
-                          <time dateTime={frontMatter.date}>{formatDate(frontMatter.date)}</time>
-                        </span>
-                        {wasUpdated && (
-                          <span className="inline-flex items-center gap-1.5">
-                            aktualisiert am <time dateTime={modified}>{formatDate(modified)}</time>
-                          </span>
-                        )}
-                        <span className="inline-flex items-center gap-1.5">
-                          <FiClock className="text-blue-400" aria-hidden="true" />
-                          {frontMatter.readingTime} Min. Lesezeit
-                        </span>
-                      </div>
-
-                      {tagLinks.length > 0 && (
-                        <ul className="mt-4 flex flex-wrap gap-2" aria-label="Themen">
-                          {tagLinks.map((tag) => (
-                            <li key={tag.name}>
-                              {tag.href ? (
-                                <Link
-                                  href={tag.href}
-                                  className="inline-block px-2 py-1 rounded-full bg-blue-900 text-blue-200 text-xs font-mono hover:bg-blue-800"
-                                >
-                                  {tag.name}
-                                </Link>
-                              ) : (
-                                <span className="inline-block px-2 py-1 rounded-full bg-gray-700 text-gray-200 text-xs font-mono">
-                                  {tag.name}
-                                </span>
-                              )}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-
-                      {/* Top Share Button */}
-                      <div className="py-6">
-                        <ArticleShare url={currentUrl} title={frontMatter.title} variant="top" />
-                      </div>
-                    </div>
-
-                    {/* Main content */}
-                    <div className="prose prose-dark max-w-none
-                      [&_h1]:text-blue-200 [&_h1]:font-mono [&_h1]:mt-6 [&_h1]:mb-4 [&_h1]:flex [&_h1]:items-center [&_h1]:gap-2 [&_h1]:before:content-[''] [&_h1]:before:block [&_h1]:before:w-[3px] [&_h1]:before:h-[1em] [&_h1]:before:bg-blue-500 [&_h1]:before:rounded-sm
-                      [&_h2]:text-blue-200 [&_h2]:font-mono [&_h2]:mt-6 [&_h2]:mb-4 [&_h2]:flex [&_h2]:items-center [&_h2]:gap-2 [&_h2]:before:content-[''] [&_h2]:before:block [&_h2]:before:w-[3px] [&_h2]:before:h-[1em] [&_h2]:before:bg-blue-500 [&_h2]:before:rounded-sm
-                      [&_h3]:text-blue-200 [&_h3]:font-mono [&_h3]:mt-6 [&_h3]:mb-4 [&_h3]:flex [&_h3]:items-center [&_h3]:gap-2 [&_h3]:before:content-[''] [&_h3]:before:block [&_h3]:before:w-[3px] [&_h3]:before:h-[1em] [&_h3]:before:bg-blue-500 [&_h3]:before:rounded-sm
-                      [&_h4]:text-blue-200 [&_h4]:font-mono [&_h4]:mt-6 [&_h4]:mb-4
-                      [&_p]:text-gray-50 [&_p]:mb-4 [&_p]:leading-[1.8] [&_p]:text-[1.1rem]
-                      [&_strong]:text-blue-100 [&_strong]:font-bold
-                      [&_a]:text-blue-200 [&_a]:no-underline [&_a]:border-b [&_a]:border-dashed [&_a]:border-blue-500 [&_a]:transition-all hover:[&_a]:text-blue-100 hover:[&_a]:border-solid
-                      [&_ul]:text-gray-50 [&_ul]:pl-4 [&_ul]:mb-4 [&_ul]:text-[1.1rem]
-                      [&_ol]:text-gray-50 [&_ol]:pl-4 [&_ol]:mb-4 [&_ol]:text-[1.1rem]
-                      [&_li]:mb-2 [&_li]:pl-2 [&_li]:marker:text-blue-300
-                      [&_pre]:relative [&_pre]:bg-gray-800 [&_pre]:text-gray-50 [&_pre]:p-4 [&_pre]:rounded-md [&_pre]:overflow-x-auto [&_pre]:mb-4 [&_pre]:border [&_pre]:border-gray-700 [&_pre]:shadow-lg
-                      [&_code]:bg-gray-800 [&_code]:text-blue-200 [&_code]:p-1 [&_code]:rounded-sm [&_code]:text-[0.9em] [&_code]:font-mono
-                      [&_blockquote]:border-l-4 [&_blockquote]:border-blue-400 [&_blockquote]:pl-4 [&_blockquote]:ml-0 [&_blockquote]:text-blue-100 [&_blockquote]:italic [&_blockquote]:bg-white/5 [&_blockquote]:py-2 [&_blockquote]:pr-2 [&_blockquote]:rounded-r-md
-                      [&_hr]:border-gray-600 [&_hr]:my-6
-                      [&_table]:text-gray-50 [&_table]:w-full [&_table]:mb-4 [&_table]:border-separate [&_table]:border-spacing-0 [&_table]:border [&_table]:border-gray-700 [&_table]:rounded-md [&_table]:overflow-hidden [&_table]:text-[1.1rem]
-                      [&_th]:border-gray-700 [&_th]:p-2 [&_th]:border-b [&_th]:border-r [&_th]:bg-gray-800 [&_th]:font-bold [&_th]:text-blue-200 [&_th]:text-left
-                      [&_td]:border-gray-700 [&_td]:p-2 [&_td]:border-b [&_td]:border-r
-                      [&_img]:max-w-full [&_img]:h-auto [&_img]:mb-4 [&_img]:rounded-md [&_img]:border [&_img]:border-gray-700 [&_img]:shadow-lg
-                    ">
-                      <MDXRemote {...mdxSource} components={components} />
-                    </div>
-
-                    {/* Pflichtangabe: Unter jedem Artikel steht Werbung mit Partnerlinks (ZAP-Hosting) */}
-                    <p className="text-sm text-gray-400 border-t border-gray-700 pt-4">
-                      Dieser Artikel enthält Partnerlinks. Kaufst du darüber, erhalte ich eine Provision, für dich
-                      ändert sich am Preis nichts.
-                    </p>
-
-                    {/* Bottom Share Button */}
-                    <div className="pt-6">
-                      <ArticleShare url={currentUrl} title={frontMatter.title} variant="bottom" />
-                    </div>
-
-                    {/* Zap-Hosting Werbung */}
-                    <BlogZapHosting />
-
-                    {relatedPosts && relatedPosts.length > 0 && (
-                      <div className="pt-8">
-                        <h2 className="text-lg font-bold text-blue-300 font-mono mb-4">
-                          Ähnliche Artikel
-                        </h2>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                          {relatedPosts.map((post) => (
-                            <Link key={post.slug} href={`/blog/${post.slug}`}>
-                              <div
-                                role="article"
-                                className="bg-gray-800 border border-gray-700 rounded-md p-4 transition-all duration-200 hover:border-blue-500 hover:-translate-y-0.5"
-                              >
-                                <div className="flex flex-wrap gap-2 mb-2">
-                                  {post.frontmatter.tags?.slice(0, 2).map((tag) => (
-                                    <span
-                                      key={tag}
-                                      className="px-2 py-1 rounded-full bg-blue-900 text-blue-200 text-xs font-mono"
-                                    >
-                                      {tag}
-                                    </span>
-                                  ))}
-                                </div>
-                                <p className="font-bold text-blue-300 mb-1 line-clamp-2">
-                                  {post.frontmatter.title}
-                                </p>
-                                <p className="text-sm text-gray-100 line-clamp-2">
-                                  {post.frontmatter.description}
-                                </p>
-                                <p className="mt-3 text-xs text-gray-100">
-                                  {new Date(post.frontmatter.date).toLocaleDateString('de-DE', {
-                                    year: 'numeric',
-                                    month: 'short',
-                                    day: 'numeric'
-                                  })}
-                                  {' • '}
-                                  {post.frontmatter.readingTime} Min.
-                                </p>
-                              </div>
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
+            {tagLinks.length > 0 && (
+              <ul className="mt-6 flex flex-wrap gap-2" aria-label="Themen">
+                {tagLinks.map((tag) => (
+                  <li key={tag.name}>
+                    {tag.href ? (
+                      <Link
+                        href={tag.href}
+                        className="inline-block border border-line px-2.5 py-1 font-mono text-[11px] text-muted transition-colors duration-200 hover:border-accent hover:text-fg"
+                      >
+                        {tag.name}
+                      </Link>
+                    ) : (
+                      <span className="inline-block border border-line px-2.5 py-1 font-mono text-[11px] text-faint">{tag.name}</span>
                     )}
-                  </div>
-                </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </Container>
+        </header>
 
-                {/* Status bar */}
-                <div className="flex items-center gap-4 border-t border-gray-700 bg-gray-900 px-3 sm:px-4 py-1 text-xs text-gray-100 font-mono">
-                  <span>markdown</span>
-                  <span>UTF-8</span>
-                  <span>Ln {mdxSource.compiledSource.split('\n').length}</span>
-                </div>
+        <Container className="py-14 sm:py-20">
+          <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_240px] lg:gap-16">
+            <div className="min-w-0 max-w-[740px]">
+              <div className="article" id="article-content">
+                <MDXRemote {...mdxSource} components={components} />
               </div>
+
+              {/* Pflichtangabe: Unter jedem Artikel steht Werbung mit Partnerlinks (ZAP-Hosting) */}
+              <p className="mt-12 border-t border-line pt-5 text-sm text-faint">
+                Dieser Artikel enthält Partnerlinks. Kaufst du darüber, erhalte ich eine Provision, für dich ändert
+                sich am Preis nichts.
+              </p>
+
+              <div className="mt-8">
+                <ArticleShare url={currentUrl} title={frontMatter.title} />
+              </div>
+
+              {/* Zap-Hosting Werbung */}
+              <BlogZapHosting />
             </div>
+
+            <aside className="hidden lg:block">
+              <div className="sticky top-24">
+                <TableOfContents />
+              </div>
+            </aside>
           </div>
-        </div>
-      </div>
+        </Container>
+
+        {relatedPosts && relatedPosts.length > 0 && (
+          <section className="border-t border-line">
+            <Container className="py-16 sm:py-20">
+              <h2 className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">Weiterlesen</h2>
+              <ul className="mt-8 grid gap-px bg-line md:grid-cols-3">
+                {relatedPosts.map((post) => (
+                  <li key={post.slug} className="bg-canvas">
+                    <Link href={`/blog/${post.slug}`} className="group flex h-full flex-col p-6 transition-colors duration-200 hover:bg-surface">
+                      <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-faint">
+                        {formatDate(post.frontmatter.date)}
+                      </span>
+                      <span className="mt-3 text-lg font-medium leading-snug tracking-[-0.01em] text-fg transition-colors group-hover:text-accent">
+                        {post.frontmatter.title}
+                      </span>
+                      <span className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted">{post.frontmatter.description}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </Container>
+          </section>
+        )}
+      </article>
       <FloatingZapAd />
     </>
   );

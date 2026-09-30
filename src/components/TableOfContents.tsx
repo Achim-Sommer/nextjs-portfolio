@@ -25,7 +25,7 @@ export const TableOfContents = () => {
       const articleContent = document.getElementById('article-content');
       if (!articleContent) return;
 
-      const elements = Array.from(articleContent.querySelectorAll('h2, h3, h4'))
+      const elements = Array.from(articleContent.querySelectorAll('h2, h3'))
         .map((element) => {
           if (!element.id) {
             const generatedId = generateId(element.textContent || '');
@@ -92,7 +92,7 @@ export const TableOfContents = () => {
     e.preventDefault();
     const element = document.getElementById(id);
     if (element) {
-      const navbarHeight = 80;
+      const navbarHeight = 96;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
 
@@ -106,27 +106,20 @@ export const TableOfContents = () => {
   if (headings.length === 0) return null;
 
   return (
-    <nav
-      aria-label="Table of Contents"
-      className="toc-container sticky top-8 max-h-[calc(100vh-4rem)] overflow-y-auto -ml-48 hidden xl:block w-40"
-    >
-      <h2 className="text-sm font-bold mb-4 text-white">
-        Inhaltsverzeichnis
-      </h2>
-      <ul className="space-y-2">
+    <nav aria-label="Inhaltsverzeichnis" className="max-h-[calc(100vh-8rem)] overflow-y-auto pr-2">
+      <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.16em] text-faint">Inhalt</p>
+      <ul className="space-y-2 border-l border-line">
         {headings.map((heading) => (
-          <li
-            key={`toc-${heading.id}`}
-            style={{ paddingLeft: `${(heading.level - 2) * 16}px` }}
-            className="leading-snug transition-all duration-200"
-          >
+          <li key={`toc-${heading.id}`}>
             <a
               href={`#${heading.id}`}
               onClick={(e) => handleClick(e, heading.id)}
-              className={`transition-all duration-200 hover:text-blue-400 ${
+              className={`-ml-px block border-l py-0.5 text-[13px] leading-snug transition-colors duration-200 ${
+                heading.level === 3 ? 'pl-6' : 'pl-4'
+              } ${
                 activeId === heading.id
-                  ? 'text-blue-300 font-medium'
-                  : 'text-gray-400 font-normal'
+                  ? 'border-accent text-fg'
+                  : 'border-transparent text-muted hover:text-fg'
               }`}
             >
               {heading.text}

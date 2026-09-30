@@ -30,11 +30,11 @@ Docker ist eine Open-Source-Plattform, die:
 
 ### Vorteile von Docker
 
-- 🚀 Schnelle Bereitstellung von Anwendungen
-- 📦 Konsistente Umgebungen
-- 🔍 Einfache Versionierung
-- 💾 Geringe Ressourcennutzung
-- 🔄 Einfache Skalierung
+- Schnelle Bereitstellung von Anwendungen
+- Konsistente Umgebungen
+- Einfache Versionierung
+- Geringe Ressourcennutzung
+- Einfache Skalierung
 
 <Figure src="/img/blog/docker-installation-linux/docker-architektur.webp" alt="Docker-Architektur: CLI und Compose steuern über /var/run/docker.sock den Daemon dockerd, der per containerd und runc Container startet" width={1600} height={900} caption="So arbeiten Docker CLI, Docker Daemon, containerd, runc und die Registry beim Start eines Containers zusammen." />
 

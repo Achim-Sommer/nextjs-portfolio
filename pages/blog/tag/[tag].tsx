@@ -4,9 +4,8 @@ import Link from 'next/link';
 import { generateNextSeo } from 'next-seo/pages';
 import { getPostsByTag, getTagPages } from '../../../lib/blog';
 import { findTagBySlug } from '../../../lib/blog-tags';
-import { BackgroundGrid } from '@/components/ui/background-grid';
-import { BlogGrid } from '@/components/ui/blog-grid';
-import '@/styles/grid-pattern.css';
+import PostList from '@/components/blog/PostList';
+import { Container } from '@/components/home/primitives';
 import { ogImageUrl } from '@/lib/og-image';
 import { jsonLd, SITE_URL, WEBSITE_ID } from '@/lib/schema';
 import type { BlogPost } from '@/types/blog';
@@ -90,56 +89,44 @@ export default function BlogTagPage({ tag, posts, otherTopics }: Props) {
           }),
         }}
       />
-      <div className="min-h-screen bg-gray-900 relative overflow-hidden">
-        <BackgroundGrid />
+      <header className="border-b border-line">
+        <Container className="pb-14 pt-28 sm:pb-20 sm:pt-36">
+          <nav aria-label="Brotkrumen" className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-faint">
+            <Link href="/" className="transition-colors hover:text-fg">
+              Startseite
+            </Link>
+            <span aria-hidden="true">/</span>
+            <Link href="/blog" className="transition-colors hover:text-fg">
+              Blog
+            </Link>
+          </nav>
+          <h1 className="mt-6 text-[clamp(2.4rem,6vw,4.75rem)] font-medium leading-[1.02] tracking-[-0.04em] text-fg">{tag.name}</h1>
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">{tag.intro}</p>
+          <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.16em] text-faint">{posts.length} Artikel</p>
+        </Container>
+      </header>
 
-        <div className="relative z-[1]">
-          <div className="relative mb-16 px-8 pt-20">
-            <div className="max-w-7xl mx-auto pb-10 border-b-2 border-white/10">
-              <nav aria-label="Brotkrumen" className="mb-6 text-sm font-mono text-gray-400">
-                <Link href="/" className="hover:text-blue-300">
-                  Startseite
-                </Link>
-                <span className="mx-2 text-gray-600">/</span>
-                <Link href="/blog" className="hover:text-blue-300">
-                  Blog
-                </Link>
-              </nav>
-              <div className="flex flex-col gap-6 items-start">
-                <h1 className="text-4xl md:text-5xl font-bold text-blue-400 font-mono tracking-tight">{tag.name}</h1>
-                <p className="text-lg md:text-xl text-gray-400 max-w-3xl leading-relaxed">{tag.intro}</p>
-                <p className="text-sm font-mono text-gray-500">
-                  {posts.length} Artikel
-                </p>
-              </div>
-            </div>
-          </div>
+      <Container className="py-12 sm:py-16">
+        <PostList posts={posts} />
 
-          <div className="px-8">
-            <div className="max-w-7xl mx-auto">
-              <BlogGrid posts={posts} />
-
-              {otherTopics.length > 0 && (
-                <nav aria-label="Weitere Themen" className="mb-20">
-                  <h2 className="mb-4 text-lg font-bold text-blue-300 font-mono">Weitere Themen</h2>
-                  <ul className="flex flex-wrap gap-2">
-                    {otherTopics.map((topic) => (
-                      <li key={topic.slug}>
-                        <Link
-                          href={`/blog/tag/${topic.slug}`}
-                          className="inline-block rounded-full bg-blue-900/40 px-3 py-1 text-sm font-mono text-blue-200 hover:bg-blue-800"
-                        >
-                          {topic.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </nav>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
+        {otherTopics.length > 0 && (
+          <nav aria-label="Weitere Themen" className="mt-16">
+            <h2 className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">Weitere Themen</h2>
+            <ul className="mt-5 flex flex-wrap gap-2">
+              {otherTopics.map((topic) => (
+                <li key={topic.slug}>
+                  <Link
+                    href={`/blog/tag/${topic.slug}`}
+                    className="inline-block border border-line px-3 py-1.5 font-mono text-[11px] text-muted transition-colors duration-200 hover:border-accent hover:text-fg"
+                  >
+                    {topic.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
+      </Container>
     </>
   );
 }

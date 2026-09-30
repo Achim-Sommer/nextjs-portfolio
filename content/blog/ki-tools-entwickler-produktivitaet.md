@@ -22,9 +22,9 @@ featured: false
 ### Wie KI die Softwareentwicklung verändert
 
 Die Softwareentwicklung erlebt einen deutlichen Wandel durch KI-Technologien:
-- 🚀 Automatisierte Codegenerierung
-- 🔍 Intelligentes Debugging
-- 📝 Verbesserte Dokumentation
+- Automatisierte Codegenerierung
+- Intelligentes Debugging
+- Verbesserte Dokumentation
 - ⏱️ Spürbare Zeitersparnis
 
 ## Was sind KI-Entwickler-Tools?

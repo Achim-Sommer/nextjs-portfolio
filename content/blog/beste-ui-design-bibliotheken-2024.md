@@ -105,10 +105,10 @@ Für komplette Website-Designs empfehle ich [EasyUI Pro](https://www.easyui.pro/
 
 | Bibliothek | Open Source | Animationen | Anpassbarkeit | Lernkurve |
 |------------|-------------|-------------|---------------|-----------|
-| Uiverse.io | ✓ | Mittel | Hoch | Niedrig |
-| Shadcn UI | ✓ | Gering | Sehr Hoch | Mittel |
-| Aceternity UI | ✓ | Sehr Hoch | Mittel | Hoch |
-| Magic UI | ✓ | Mittel | Hoch | Niedrig |
+| Uiverse.io | Ja | Mittel | Hoch | Niedrig |
+| Shadcn UI | Ja | Gering | Sehr Hoch | Mittel |
+| Aceternity UI | Ja | Sehr Hoch | Mittel | Hoch |
+| Magic UI | Ja | Mittel | Hoch | Niedrig |
 
 ## Fazit: Welche Bibliothek passt zu deinem Projekt?
 

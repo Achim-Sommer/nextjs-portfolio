@@ -15,10 +15,10 @@ Umami ist eine einfache, benutzerfreundliche Open-Source Web Analytics Plattform
 
 ### Kernmerkmale von Umami
 
-- 🔒 Datenschutzorientiert
-- 🚫 Keine Cookies
-- 🌐 Selbst gehostet
-- 📊 Einfache Nutzung
+- Datenschutzorientiert
+- Keine Cookies
+- Selbst gehostet
+- Einfache Nutzung
 - 🆓 Kostenlos
 
 ## Warum Umami besser ist als Google Analytics
@@ -155,11 +155,11 @@ docker pull docker.umami.is/umami-software/umami:mysql-latest
 
 Umami bietet umfangreiche Analysemöglichkeiten:
 
-- 📈 Trichter-Berichte
-- 🔄 Retentions-Berichte
-- 🎯 Ziel-Tracking
-- 📊 UTM-Kampagnen-Analyse
-- 🗺️ Benutzer-Reisen
+- Trichter-Berichte
+- Retentions-Berichte
+- Ziel-Tracking
+- UTM-Kampagnen-Analyse
+- Benutzer-Reisen
 
 ## Sicherheit und Datenschutz
 

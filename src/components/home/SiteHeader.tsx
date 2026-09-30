@@ -13,7 +13,12 @@ const NAV = [
   { label: 'Zap-Hosting', href: '#zap-hosting' },
 ];
 
-export default function SiteHeader() {
+/**
+ * base: Präfix für die Anker der Startseite. Auf Unterseiten (Blog) "/",
+ * damit "#about-me" zu "/#about-me" wird.
+ */
+export default function SiteHeader({ base = '' }: { base?: string }) {
+  const nav = NAV.map((item) => (item.href.startsWith('#') ? { ...item, href: `${base}${item.href}` } : item));
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -47,7 +52,7 @@ export default function SiteHeader() {
         </Link>
 
         <nav aria-label="Hauptnavigation" className="hidden items-center gap-7 lg:flex">
-          {NAV.map((item) => (
+          {nav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -79,7 +84,7 @@ export default function SiteHeader() {
       {open && (
         <nav id="mobile-nav" aria-label="Hauptnavigation" className="border-t border-line lg:hidden">
           <ul className="mx-auto max-w-[1320px] px-5 py-4 sm:px-8">
-            {[...NAV, { label: 'Kontakt', href: '/kontakt' }].map((item, i) => (
+            {[...nav, { label: 'Kontakt', href: '/kontakt' }].map((item, i) => (
               <li key={item.href} className="border-b border-line last:border-0">
                 <Link
                   href={item.href}

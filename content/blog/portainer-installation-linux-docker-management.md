@@ -13,11 +13,11 @@ featured: false
 
 Portainer ist eine benutzerfreundliche, webbasierte Verwaltungsoberfläche für Docker-Umgebungen. Es ermöglicht Entwicklern und Systemadministratoren eine einfache Verwaltung von:
 
-- 🐳 Docker-Containern
-- 🖼️ Docker-Images
-- 🌐 Netzwerken
-- 💾 Volumes
-- 🔧 Stacks und Compose-Dateien
+- Docker-Containern
+- Docker-Images
+- Netzwerken
+- Volumes
+- Stacks und Compose-Dateien
 
 Mit Portainer kannst du deine gesamte Container-Infrastruktur zentral und intuitiv verwalten, ohne komplexe Kommandozeilen-Befehle lernen zu müssen.
 
@@ -50,7 +50,7 @@ Mit Portainer kannst du deine gesamte Container-Infrastruktur zentral und intuit
 - SSH-Client ([Termius](https://termius.com) empfohlen)
 
 <Tip>
-💡 **Server-Tipp**: Für Portainer und Docker-Umgebungen empfehle ich einen Server von [ZAP-Hosting](https://zap-hosting.com/achim). Sie bieten [Lifetime-Server-Optionen](/blog/zap-hosting-lifetime) mit hervorragender Performance.
+**Server-Tipp**: Für Portainer und Docker-Umgebungen empfehle ich einen Server von [ZAP-Hosting](https://zap-hosting.com/achim). Sie bieten [Lifetime-Server-Optionen](/blog/zap-hosting-lifetime) mit hervorragender Performance.
 </Tip>
 
 ## 1. Docker Installation
@@ -145,10 +145,10 @@ docker run -d \
 
 ## 4. Sicherheitshinweise
 
-- 🔒 Aktiviere Zwei-Faktor-Authentifizierung
-- 🌐 Beschränke Portainer-Zugriff über Firewall
-- 🔑 Verwende SSH-Schlüssel statt Passwörter
-- 🕒 Halte Docker und Portainer aktuell
+- Aktiviere Zwei-Faktor-Authentifizierung
+- Beschränke Portainer-Zugriff über Firewall
+- Verwende SSH-Schlüssel statt Passwörter
+- Halte Docker und Portainer aktuell
 
 ### Firewall-Konfiguration
 
@@ -198,9 +198,9 @@ Ja, auch mit der kostenlosen Community Edition. Weitere Server bindest du über 
 Portainer vereinfacht die Docker-Container-Verwaltung erheblich. Mit dieser Anleitung hast du nun eine leistungsstarke, webbasierte Administrationsoberfläche für deine Container-Infrastruktur. Möchtest du nicht nur Container, sondern den ganzen Server im Browser verwalten, passt [Cockpit für die Linux-Serververwaltung](/blog/cockpit-installation) gut dazu. Und wenn du Anwendungen direkt aus einem Git-Repository deployen willst, schau dir an, wie du [Coolify installierst](/blog/coolify-installation).
 
 **Vorteile auf einen Blick:**
-- 🚀 Einfache Installation
-- 🖥️ Benutzerfreundliche Weboberfläche
-- 🔒 Hohe Sicherheitsstandards
-- 💻 Kostenlos für Einzelserver
+- Einfache Installation
+- Benutzerfreundliche Weboberfläche
+- Hohe Sicherheitsstandards
+- Kostenlos für Einzelserver
 
 Viel Erfolg mit deiner Portainer-Installation! Bei Fragen oder Problemen hinterlasse gerne einen Kommentar.

@@ -24,14 +24,14 @@ In diesem ausführlichen Tutorial zeige ich dir **Schritt für Schritt**, wie du
 
 Cockpit ist ein modernes, webbasiertes Administrationstool für Linux-Server, das folgende Hauptfunktionen bietet:
 
-- 📊 Echtzeit-Monitoring von System-Ressourcen
-- 🔧 Verwaltung von Systemdiensten
-- 📝 Live Log-Überwachung
-- 💾 Storage-Management
-- 🔒 Benutzerverwaltung
-- 🌐 Netzwerkkonfiguration
-- 🐳 Container-Management (Podman, über das Zusatzmodul cockpit-podman)
-- 🔄 Terminal-Zugriff direkt im Browser
+- Echtzeit-Monitoring von System-Ressourcen
+- Verwaltung von Systemdiensten
+- Live Log-Überwachung
+- Storage-Management
+- Benutzerverwaltung
+- Netzwerkkonfiguration
+- Container-Management (Podman, über das Zusatzmodul cockpit-podman)
+- Terminal-Zugriff direkt im Browser
 
 Mit Cockpit wird die Linux-Serververwaltung auch für Einsteiger zugänglich, ohne dabei auf professionelle Features zu verzichten.
 
@@ -42,7 +42,7 @@ Docker-Container verwaltest du mit Cockpit übrigens nicht: Das frühere Docker-
 ## Voraussetzungen
 
 - Ein Linux Server mit Debian oder Ubuntu
-  - 💡 **Tipp**: [ZAP-Hosting](https://zap-hosting.com/achim) bietet hochwertige Linux Server auch als [Lifetime-Option](/blog/zap-hosting-lifetime) an
+  - **Tipp**: [ZAP-Hosting](https://zap-hosting.com/achim) bietet hochwertige Linux Server auch als [Lifetime-Option](/blog/zap-hosting-lifetime) an
 - Root-Zugriff auf den Server
 - SSH-Client (zum Beispiel [Termius](https://termius.com), ein moderner, benutzerfreundlicher SSH-Client)
 - Webbrowser (Firefox, Chrome, Edge oder Safari)
