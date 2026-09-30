@@ -39,9 +39,9 @@ export const BlogCard = ({ post }: BlogCardProps) => {
             <div className="p-4">
               <div className="flex flex-col gap-4 h-full min-h-[200px]">
                 <div className="flex-1">
-                  <p className="mb-2 text-xl font-bold text-gray-100 line-clamp-2 min-h-[3.5rem]">
+                  <h2 className="mb-2 text-xl font-bold text-gray-100 line-clamp-2 min-h-[3.5rem]">
                     {post.frontmatter.title}
-                  </p>
+                  </h2>
                   <p className="text-sm text-gray-400 line-clamp-2">
                     {post.frontmatter.description}
                   </p>
@@ -59,7 +59,7 @@ export const BlogCard = ({ post }: BlogCardProps) => {
                       ))}
                     </div>
                     <p className="text-sm text-gray-500 whitespace-nowrap">
-                      {post.frontmatter.readingTime} min read
+                      {post.frontmatter.readingTime} Min. Lesezeit
                     </p>
                   </div>
                 </div>

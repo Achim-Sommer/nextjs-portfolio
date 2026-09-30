@@ -1,7 +1,5 @@
 import { GetServerSideProps } from 'next';
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
+import { getAllPosts, getPostsByTag, getTagPages } from '../lib/blog';
 
 const EXTERNAL_DATA_URL = 'https://achimsommer.com';
 
@@ -33,7 +31,6 @@ const staticPages: PageConfig[] = [
     path: '/palworld',
     priority: 0.9,
     changefreq: 'weekly',
-    lastmod: new Date().toISOString().split('T')[0],
   },
   {
     path: '/kontakt',
@@ -50,36 +47,31 @@ const staticPages: PageConfig[] = [
     priority: 0.3,
     changefreq: 'yearly',
   },
-  {
-    path: '/rss.xml',
-    priority: 0.2,
-    changefreq: 'daily',
-  },
 ];
 
-// Funktion zum Laden der Blog-Posts
-function getBlogPosts(): PageConfig[] {
-  const postsDirectory = path.join(process.cwd(), 'content/blog');
-  const filenames = fs.readdirSync(postsDirectory);
-  
-  return filenames.map(filename => {
-    const filePath = path.join(postsDirectory, filename);
-    const fileContents = fs.readFileSync(filePath, 'utf8');
-    const { data } = matter(fileContents);
-    
-    // Extrahiere das Datum aus dem Frontmatter oder verwende das Dateiänderungsdatum
-    const stats = fs.statSync(filePath);
-    const lastModified = data.date 
-      ? new Date(data.date).toISOString()
-      : stats.mtime.toISOString();
+/** Neuestes Änderungsdatum einer Artikelliste */
+function newest(dates: string[]): string | undefined {
+  return dates.sort().at(-1);
+}
 
-    return {
-      path: `/blog/${filename.replace('.md', '')}`,
-      priority: 0.8,
-      changefreq: 'weekly',
-      lastmod: lastModified,
-    };
-  });
+// Blog-Artikel und Themenseiten; lastmod kommt aus dem Frontmatter (lastModified)
+function getBlogPages(): PageConfig[] {
+  const posts = getAllPosts();
+  const articles: PageConfig[] = posts.map((post) => ({
+    path: `/blog/${post.slug}`,
+    priority: 0.8,
+    changefreq: 'monthly',
+    lastmod: post.frontmatter.lastModified || post.frontmatter.date,
+  }));
+  const tags: PageConfig[] = getTagPages().map((tag) => ({
+    path: `/blog/tag/${tag.slug}`,
+    priority: 0.5,
+    changefreq: 'weekly',
+    lastmod: newest(getPostsByTag(tag.name).map((p) => p.frontmatter.lastModified || p.frontmatter.date)),
+  }));
+  const blogIndex = staticPages.find((page) => page.path === '/blog');
+  if (blogIndex) blogIndex.lastmod = newest(articles.map((a) => a.lastmod || ''));
+  return [...articles, ...tags];
 }
 
 function generateSiteMap(pages: PageConfig[]) {
@@ -90,7 +82,7 @@ function generateSiteMap(pages: PageConfig[]) {
          return `
        <url>
            <loc>${`${EXTERNAL_DATA_URL}${path}`}</loc>
-           <lastmod>${lastmod || new Date().toISOString()}</lastmod>
+           ${lastmod ? `<lastmod>${lastmod}</lastmod>` : ''}
            <changefreq>${changefreq}</changefreq>
            <priority>${priority}</priority>
        </url>
@@ -108,8 +100,8 @@ function SiteMap() {
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   // Kombiniere statische Seiten mit Blog-Posts
-  const blogPosts = getBlogPosts();
-  const allPages = [...staticPages, ...blogPosts];
+  const blogPages = getBlogPages();
+  const allPages = [...staticPages, ...blogPages];
 
   // Generate the XML sitemap with all pages
   const sitemap = generateSiteMap(allPages);

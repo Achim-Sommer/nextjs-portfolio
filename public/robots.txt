@@ -1,7 +1,8 @@
 User-agent: *
 Allow: /
+# Vorschaubilder (Open Graph) müssen abrufbar bleiben, sonst fehlt das Bild in Google
+Allow: /api/og
 Disallow: /api/
-Disallow: /_next/static/
 Disallow: /offline
 Disallow: /sw.js
 Disallow: /workbox-*.js

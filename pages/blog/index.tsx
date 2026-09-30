@@ -1,7 +1,6 @@
 import { GetStaticProps } from 'next';
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
+import { getAllPosts, getTagPages } from '../../lib/blog';
+import { SITE_URL } from '@/lib/schema';
 import { motion } from 'framer-motion';
 import { FiCalendar, FiClock, FiFileText } from 'react-icons/fi';
 import Link from 'next/link';
@@ -14,18 +13,21 @@ import { BlogGrid } from "@/components/ui/blog-grid";
 import "@/styles/grid-pattern.css";
 import Head from 'next/head';
 import { generateNextSeo } from 'next-seo/pages';
-import { useRouter } from 'next/router';
 import { BlogPost } from '@/types/blog';
 import { Meteors } from "@/components/ui/meteors";
 
 interface Props {
   posts: BlogPost[];
+  topics: { name: string; slug: string; count: number }[];
 }
 
-export default function Blog({ posts }: Props) {
-  const router = useRouter();
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://achimsommer.com';
-  const currentUrl = `${siteUrl}${router.asPath}`;
+const BLOG_TITLE = 'Blog: Anleitungen zu IT, Linux und Webentwicklung';
+const BLOG_DESCRIPTION =
+  'Anleitungen und Praxiswissen von Achim Sommer: IT-Sicherheit, Microsoft 365, Linux-Server, Docker, Self-Hosting und Webentwicklung mit Next.js.';
+
+export default function Blog({ posts, topics }: Props) {
+  const siteUrl = SITE_URL;
+  const currentUrl = `${siteUrl}/blog`;
 
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('date-desc');
@@ -63,21 +65,24 @@ export default function Blog({ posts }: Props) {
     <>
       <Head>
         {generateNextSeo({
-          title: 'Blog - Tutorials & Guides zu Web Development und Server-Hosting',
-          description:
-            'Technische Tutorials, Guides und Best Practices zu Web Development, Server-Hosting, und Software Engineering von Full Stack Developer Achim Sommer.',
+          title: BLOG_TITLE,
+          description: BLOG_DESCRIPTION,
           canonical: currentUrl,
+          robotsProps: {
+            maxImagePreview: 'large',
+            maxSnippet: -1,
+            maxVideoPreview: -1,
+          },
           openGraph: {
             type: 'website',
             url: currentUrl,
-            title: 'Blog - Tutorials & Guides zu Web Development und Server-Hosting',
-            description:
-              'Technische Tutorials, Guides und Best Practices zu Web Development, Server-Hosting, und Software Engineering von Full Stack Developer Achim Sommer.',
+            title: BLOG_TITLE,
+            description: BLOG_DESCRIPTION,
             images: [
               {
                 url: ogImageUrl({
                   title: 'Blog',
-                  subtitle: 'Tutorials & Guides zu Web Development und Server-Hosting',
+                  subtitle: 'Anleitungen zu IT, Linux und Webentwicklung',
                   baseUrl: siteUrl,
                 }),
                 width: 1200,
@@ -100,12 +105,7 @@ export default function Blog({ posts }: Props) {
             },
             {
               name: 'keywords',
-              content:
-                'Web Development, Server-Hosting, Tutorials, Programming, Software Engineering, Full Stack Development',
-            },
-            {
-              name: 'robots',
-              content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+              content: topics.map((topic) => topic.name).join(', '),
             },
           ],
         })}
@@ -122,8 +122,23 @@ export default function Blog({ posts }: Props) {
                     Blog & Tutorials
                   </h1>
                   <p className="text-lg md:text-xl text-gray-400 max-w-3xl leading-relaxed">
-                    Entdecke Artikel über Web Development, DevOps und Software Engineering
+                    Anleitungen und Praxiswissen zu IT-Sicherheit, Microsoft 365, Linux-Servern, Docker und
+                    Webentwicklung mit Next.js.
                   </p>
+                  <nav aria-label="Themen">
+                    <ul className="flex flex-wrap gap-2">
+                      {topics.map((topic) => (
+                        <li key={topic.slug}>
+                          <Link
+                            href={`/blog/tag/${topic.slug}`}
+                            className="inline-block rounded-full bg-blue-900/40 px-3 py-1 text-sm font-mono text-blue-200 hover:bg-blue-800"
+                          >
+                            {topic.name} <span className="text-blue-400">{topic.count}</span>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </nav>
                 </div>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-8 w-full max-w-3xl">
@@ -147,7 +162,7 @@ export default function Blog({ posts }: Props) {
                   </div>
                   <div className="flex flex-col items-start">
                     <p className="text-blue-400 text-2xl font-bold font-mono">
-                      {new Date().getFullYear()}
+                      {posts.length > 0 ? posts[posts.length - 1].frontmatter.date.slice(0, 4) : ''}
                     </p>
                     <p className="text-gray-500 text-sm">Aktiv seit</p>
                   </div>
@@ -182,7 +197,7 @@ export default function Blog({ posts }: Props) {
                       <div className="p-8">
                         <div className="flex flex-col gap-6 items-start">
                           <div className="flex items-center gap-2">
-                            <span className="bg-blue-600 text-white text-sm font-mono px-3 py-1 rounded-full">Featured Post</span>
+                            <span className="bg-blue-600 text-white text-sm font-mono px-3 py-1 rounded-full">Empfohlen</span>
                             {featuredPost.frontmatter.tags?.slice(0, 2).map((tag) => (
                               <span
                                 key={tag}
@@ -214,7 +229,7 @@ export default function Blog({ posts }: Props) {
                             </div>
                             <div className="flex items-center gap-2">
                               <FiClock className="text-blue-400" />
-                              <span>{featuredPost.frontmatter.readingTime} min</span>
+                              <span>{featuredPost.frontmatter.readingTime} Min.</span>
                             </div>
                           </div>
                         </div>
@@ -260,33 +275,9 @@ export default function Blog({ posts }: Props) {
   );
 }
 
-export const getStaticProps: GetStaticProps<Props> = async () => {
-  const files = fs.readdirSync(path.join(process.cwd(), 'content/blog'));
-
-  const posts = files.map((filename) => {
-    const markdownWithMeta = fs.readFileSync(
-      path.join(process.cwd(), 'content/blog', filename),
-      'utf-8'
-    );
-
-    const { data: frontmatter, content } = matter(markdownWithMeta);
-
-    const readingTime = Math.ceil(content.split(/\s+/).length / 200);
-
-    return {
-      slug: filename.replace('.md', ''),
-      frontmatter: {
-        ...frontmatter,
-        readingTime,
-      },
-    } as BlogPost;
-  });
-
-  return {
-    props: {
-      posts: posts.sort((a, b) => {
-        return new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime();
-      }),
-    },
-  };
-};
+export const getStaticProps: GetStaticProps<Props> = async () => ({
+  props: {
+    posts: getAllPosts() as BlogPost[],
+    topics: getTagPages().map(({ name, slug, count }) => ({ name, slug, count })),
+  },
+});

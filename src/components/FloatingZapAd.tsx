@@ -70,7 +70,7 @@ export default function FloatingZapAd() {
                     <a
                       href="https://zap-hosting.com/vserverhomepage"
                       target="_blank"
-                      rel="noopener noreferrer"
+                      rel="sponsored noopener noreferrer"
                       className="block w-full text-center text-white text-sm font-semibold py-2 px-4 rounded-md transition-opacity hover:opacity-80"
                       style={{ backgroundColor: ZAP_GREEN }}
                     >

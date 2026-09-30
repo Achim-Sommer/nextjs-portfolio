@@ -75,7 +75,7 @@ export default function BlogZapHosting() {
               <a
                 href="https://zap-hosting.com/vserverhomepage"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="sponsored noopener noreferrer"
                 className="w-full text-center text-white text-xs md:text-sm py-3 md:py-4 rounded-md font-semibold transition-opacity hover:opacity-80"
                 style={{ backgroundColor: ZAP_GREEN }}
               >
@@ -102,7 +102,7 @@ export default function BlogZapHosting() {
               <a
                 href="https://zap-hosting.com/vserverhomepage"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="sponsored noopener noreferrer"
                 className="w-full text-center text-white text-xs md:text-sm py-3 md:py-4 rounded-md font-semibold transition-opacity hover:opacity-80"
                 style={{ backgroundColor: ZAP_GREEN }}
               >

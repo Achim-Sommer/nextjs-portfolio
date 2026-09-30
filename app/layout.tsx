@@ -5,6 +5,7 @@ import { IBM_Plex_Sans, IBM_Plex_Mono } from 'next/font/google'
 import { Providers } from './providers'
 import ClientWidgets from './client-widgets'
 import { ogImageUrl } from '@/lib/og-image'
+import { jsonLd, personSchema, websiteSchema } from '@/lib/schema'
 
 const plexSans = IBM_Plex_Sans({
   subsets: ['latin'],
@@ -117,63 +118,8 @@ export default function RootLayout({
         >
           Zum Inhalt springen
         </a>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Person",
-              "name": "Achim Sommer",
-              "url": "https://achimsommer.com",
-              "image": "https://achimsommer.com/img/achim-sommer.jpg",
-              "jobTitle": "Head of IT",
-              "worksFor": {
-                "@type": "Organization",
-                "name": "amber Tech GmbH",
-                "url": "https://ambersearch.de/"
-              },
-              "alumniOf": {
-                "@type": "EducationalOrganization",
-                "name": "FOM Hochschule"
-              },
-              "sameAs": [
-                "https://github.com/Achim-Sommer",
-                "https://www.linkedin.com/in/achim-sommer-b898a2185/",
-                "https://www.instagram.com/achim.sommer/",
-                "https://www.youtube.com/channel/UCJRVHx9owERZiRu5hcI_JLA",
-                "https://www.youtube.com/@achimsommer"
-              ],
-              "address": {
-                "@type": "PostalAddress",
-                "addressLocality": "Aachen",
-                "addressRegion": "NRW",
-                "addressCountry": "DE"
-              },
-              "legalName": "Achim Sommer",
-              "contactPoint": {
-                "@type": "ContactPoint",
-                "contactType": "Impressum",
-                "url": "https://achimsommer.com/impressum"
-              }
-            })
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebSite",
-              "name": "Achim Sommer Portfolio",
-              "url": "https://achimsommer.com",
-              "inLanguage": "de-DE",
-              "publisher": {
-                "@type": "Person",
-                "name": "Achim Sommer"
-              }
-            })
-          }}
-        />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(personSchema) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(websiteSchema) }} />
         {umamiUrl && umamiWebsiteId && (
           <Script
             id="umami-analytics"

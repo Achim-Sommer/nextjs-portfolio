@@ -6,7 +6,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import { getCompiledMDX } from '../../lib/mdx-cache';
 import dynamic from 'next/dynamic';
-import { getRelatedPosts, BlogListItem } from '../../lib/blog';
+import { getRelatedPosts, getTagLinks, toDateString, BlogListItem } from '../../lib/blog';
 import { FiClock, FiCalendar } from 'react-icons/fi';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -14,7 +14,9 @@ import { ArticleShare } from '@/components/ui/article-share';
 import { ogImageUrl } from '@/lib/og-image';
 import Head from 'next/head';
 import { generateNextSeo } from 'next-seo/pages';
-import { ArticleJsonLd } from 'next-seo';
+import { jsonLd, personRef, SITE_URL, WEBSITE_ID } from '@/lib/schema';
+import Figure from '@/components/mdx/Figure';
+import MdxLink from '@/components/mdx/MdxLink';
 import { TableOfContents } from '@/components/TableOfContents';
 
 // Dynamische Imports für MDX-Komponenten
@@ -43,6 +45,9 @@ interface BlogPostProps {
   mdxSource: MDXRemoteSerializeResult;
   slug: string;
   relatedPosts?: BlogListItem[];
+  tagLinks: { name: string; href: string | null }[];
+  /** Erstes Bild im Artikel (absolute URL) für die strukturierten Daten */
+  leadImage: string | null;
 }
 
 interface IParams extends ParsedUrlQuery {
@@ -57,16 +62,25 @@ const components = {
     }
     return <pre {...props} />;
   },
+  a: MdxLink,
+  Figure,
   Tip: Tip,
   ServerComparisonTable: ServerComparisonTable,
   PriceComparison: PriceComparison,
   ZapHostingCta: ZapHostingCta
 };
 
-export default function BlogPost({ frontMatter, mdxSource, slug, relatedPosts }: BlogPostProps) {
+const formatDate = (value: string) =>
+  new Date(value).toLocaleDateString('de-DE', { year: 'numeric', month: 'long', day: 'numeric' });
+
+export default function BlogPost({ frontMatter, mdxSource, slug, relatedPosts, tagLinks, leadImage }: BlogPostProps) {
   const router = useRouter();
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://achimsommer.com';
-  const currentUrl = `${siteUrl}${router.asPath}`;
+  const siteUrl = SITE_URL;
+  // Kanonische URL ohne Query-Parameter (utm_* usw.)
+  const currentUrl = `${siteUrl}/blog/${slug}`;
+  const ogImage = ogImageUrl({ title: frontMatter.title, baseUrl: siteUrl });
+  const modified = frontMatter.lastModified || frontMatter.date;
+  const wasUpdated = modified !== frontMatter.date;
 
   if (router.isFallback) {
     return <div className="min-h-screen flex items-center justify-center text-white">Loading...</div>;
@@ -79,12 +93,17 @@ export default function BlogPost({ frontMatter, mdxSource, slug, relatedPosts }:
           title: frontMatter.title,
           description: frontMatter.description,
           canonical: currentUrl,
+          robotsProps: {
+            maxImagePreview: 'large',
+            maxSnippet: -1,
+            maxVideoPreview: -1,
+          },
           openGraph: {
             type: 'article',
             article: {
               publishedTime: frontMatter.date,
-              modifiedTime: frontMatter.lastModified || frontMatter.date,
-              authors: ['Achim Sommer'],
+              modifiedTime: modified,
+              authors: [siteUrl],
               tags: frontMatter.tags,
               section: frontMatter.tags?.[0] ?? 'Technology',
             },
@@ -93,7 +112,7 @@ export default function BlogPost({ frontMatter, mdxSource, slug, relatedPosts }:
             description: frontMatter.description,
             images: [
               {
-                url: ogImageUrl({ title: frontMatter.title, baseUrl: siteUrl }),
+                url: ogImage,
                 width: 1200,
                 height: 630,
                 alt: frontMatter.title,
@@ -111,14 +130,6 @@ export default function BlogPost({ frontMatter, mdxSource, slug, relatedPosts }:
               name: 'keywords',
               content: frontMatter.tags.join(', '),
             },
-            {
-              property: 'article:author',
-              content: 'https://achimsommer.com',
-            },
-            {
-              name: 'robots',
-              content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
-            },
           ],
           additionalLinkTags: [
             {
@@ -129,51 +140,41 @@ export default function BlogPost({ frontMatter, mdxSource, slug, relatedPosts }:
           ],
         })}
       </Head>
-      <ArticleJsonLd
-        type="BlogPosting"
-        url={currentUrl}
-        headline={frontMatter.title}
-        image={[ogImageUrl({ title: frontMatter.title, baseUrl: siteUrl })]}
-        datePublished={frontMatter.date}
-        dateModified={frontMatter.lastModified || frontMatter.date}
-        author={{
-          name: 'Achim Sommer',
-          url: 'https://achimsommer.com',
-        }}
-        description={frontMatter.description}
-        isAccessibleForFree={true}
-        publisher={{
-          name: 'Achim Sommer',
-          url: 'https://achimsommer.com',
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLd({
+            '@context': 'https://schema.org',
+            '@type': 'BlogPosting',
+            '@id': `${currentUrl}#article`,
+            mainEntityOfPage: currentUrl,
+            url: currentUrl,
+            headline: frontMatter.title,
+            description: frontMatter.description,
+            image: leadImage ? [leadImage, ogImage] : [ogImage],
+            datePublished: frontMatter.date,
+            dateModified: modified,
+            author: personRef,
+            publisher: personRef,
+            isPartOf: { '@id': WEBSITE_ID },
+            inLanguage: 'de-DE',
+            keywords: frontMatter.tags?.join(', '),
+            isAccessibleForFree: true,
+          }),
         }}
       />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Startseite",
-                "item": `${process.env.NEXT_PUBLIC_SITE_URL}`
-              },
-              {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "Blog",
-                "item": `${process.env.NEXT_PUBLIC_SITE_URL}/blog`
-              },
-              {
-                "@type": "ListItem",
-                "position": 3,
-                "name": frontMatter.title,
-                "item": currentUrl
-              }
-            ]
-          })
+          __html: jsonLd({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Startseite', item: siteUrl },
+              { '@type': 'ListItem', position: 2, name: 'Blog', item: `${siteUrl}/blog` },
+              { '@type': 'ListItem', position: 3, name: frontMatter.title, item: currentUrl },
+            ],
+          }),
         }}
       />
       <div 
@@ -201,6 +202,11 @@ export default function BlogPost({ frontMatter, mdxSource, slug, relatedPosts }:
                   <div className="flex flex-col gap-6">
                     {/* Header section */}
                     <div className="border-b border-gray-700 pb-6">
+                      <nav aria-label="Brotkrumen" className="mb-4 text-sm font-mono text-gray-300">
+                        <Link href="/" className="hover:text-blue-200">Startseite</Link>
+                        <span className="mx-2 text-gray-500">/</span>
+                        <Link href="/blog" className="hover:text-blue-200">Blog</Link>
+                      </nav>
                       <h1 className="text-2xl sm:text-4xl font-bold text-blue-300 font-mono mb-4">
                         {frontMatter.title}
                       </h1>
@@ -209,20 +215,48 @@ export default function BlogPost({ frontMatter, mdxSource, slug, relatedPosts }:
                         {frontMatter.description}
                       </p>
 
-                      <div className="flex gap-6 text-gray-100 text-sm font-mono">
-                        <span className="inline-flex items-center gap-1.5">
-                          <FiCalendar className="text-blue-400" />
-                          {new Date(frontMatter.date).toLocaleDateString('de-DE', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric'
-                          })}
+                      <div className="flex flex-wrap gap-x-6 gap-y-2 text-gray-100 text-sm font-mono">
+                        <span>
+                          von{' '}
+                          <Link href="/" rel="author" className="text-blue-200 hover:text-blue-100">
+                            Achim Sommer
+                          </Link>
                         </span>
                         <span className="inline-flex items-center gap-1.5">
-                          <FiClock className="text-blue-400" />
-                          {frontMatter.readingTime} min read
+                          <FiCalendar className="text-blue-400" aria-hidden="true" />
+                          <time dateTime={frontMatter.date}>{formatDate(frontMatter.date)}</time>
+                        </span>
+                        {wasUpdated && (
+                          <span className="inline-flex items-center gap-1.5">
+                            aktualisiert am <time dateTime={modified}>{formatDate(modified)}</time>
+                          </span>
+                        )}
+                        <span className="inline-flex items-center gap-1.5">
+                          <FiClock className="text-blue-400" aria-hidden="true" />
+                          {frontMatter.readingTime} Min. Lesezeit
                         </span>
                       </div>
+
+                      {tagLinks.length > 0 && (
+                        <ul className="mt-4 flex flex-wrap gap-2" aria-label="Themen">
+                          {tagLinks.map((tag) => (
+                            <li key={tag.name}>
+                              {tag.href ? (
+                                <Link
+                                  href={tag.href}
+                                  className="inline-block px-2 py-1 rounded-full bg-blue-900 text-blue-200 text-xs font-mono hover:bg-blue-800"
+                                >
+                                  {tag.name}
+                                </Link>
+                              ) : (
+                                <span className="inline-block px-2 py-1 rounded-full bg-gray-700 text-gray-200 text-xs font-mono">
+                                  {tag.name}
+                                </span>
+                              )}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
 
                       {/* Top Share Button */}
                       <div className="py-6">
@@ -264,9 +298,9 @@ export default function BlogPost({ frontMatter, mdxSource, slug, relatedPosts }:
 
                     {relatedPosts && relatedPosts.length > 0 && (
                       <div className="pt-8">
-                        <h3 className="text-lg font-bold text-blue-300 font-mono mb-4">
+                        <h2 className="text-lg font-bold text-blue-300 font-mono mb-4">
                           Ähnliche Artikel
-                        </h3>
+                        </h2>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                           {relatedPosts.map((post) => (
                             <Link key={post.slug} href={`/blog/${post.slug}`}>
@@ -297,7 +331,7 @@ export default function BlogPost({ frontMatter, mdxSource, slug, relatedPosts }:
                                     day: 'numeric'
                                   })}
                                   {' • '}
-                                  {post.frontmatter.readingTime} min
+                                  {post.frontmatter.readingTime} Min.
                                 </p>
                               </div>
                             </Link>
@@ -336,7 +370,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths,
-    fallback: true // Enable ISR
+    // Unbekannte Slugs werden serverseitig geprüft: echte 404 statt Ladeanzeige
+    fallback: 'blocking'
   };
 };
 
@@ -351,23 +386,32 @@ export const getStaticProps: GetStaticProps<BlogPostProps, IParams> = async ({ p
     const { slug } = params;
     const filePath = path.join(process.cwd(), 'content/blog', `${slug}.md`);
     const fileContents = fs.readFileSync(filePath, 'utf8');
-    const fileStat = fs.statSync(filePath);
-    const lastModified = fileStat.mtime.toISOString();
     const { data: frontMatter, content } = matter(fileContents);
-    
+
     const mdxSource = await getCompiledMDX(content);
     const relatedPosts = getRelatedPosts(frontMatter.tags || [], slug, 3);
+    // Das Dateidatum taugt nicht als Änderungsdatum (jeder Deploy klont neu),
+    // deshalb zählt nur lastModified aus dem Frontmatter
+    const date = toDateString(frontMatter.date);
+    const lastModified = toDateString(frontMatter.lastModified || frontMatter.date);
+    const firstFigure = content.match(/<Figure[^>]*\ssrc="([^"]+)"/);
 
     return {
       props: {
         frontMatter: {
-          ...frontMatter,
-          readingTime: Math.ceil(content.split(' ').length / 200),
-          lastModified: frontMatter.lastModified || lastModified,
+          title: frontMatter.title,
+          description: frontMatter.description,
+          tags: frontMatter.tags || [],
+          featured: Boolean(frontMatter.featured),
+          date,
+          lastModified,
+          readingTime: Math.max(1, Math.ceil(content.trim().split(/\s+/).length / 200)),
         } as FrontMatter,
         mdxSource,
         slug,
-        relatedPosts
+        relatedPosts,
+        tagLinks: getTagLinks(frontMatter.tags || []),
+        leadImage: firstFigure ? `${SITE_URL}${firstFigure[1]}` : null,
       },
       revalidate: 3600 // Revalidiere jede Stunde
     };
