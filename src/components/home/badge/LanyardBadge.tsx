@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import { useEffect, useRef, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { prefersLightweight, supportsWebGL2 } from '../webgl';
+import { BADGE_PHOTO } from './textures';
 
 // Nutzt dieselben three.js-Chunks wie das Netzwerk im Hero (dort nur ab 1024 px)
 const BadgeScene = dynamic(() => import('./BadgeScene'), { ssr: false });
@@ -20,7 +21,8 @@ function StaticBadge() {
       <div className="absolute left-1/2 top-[44%] h-[4cqh] w-[4cqh] -translate-x-1/2 rounded-full border-[0.7cqh] border-[#c9c8c4]" />
       <div className="absolute left-1/2 top-[49%] flex h-[45.5%] w-[31.7cqh] -translate-x-1/2 flex-col rounded-[1.8cqh] border border-[#3a3a38] bg-[#2a2a29] p-[2.6cqh]">
         <div className="mx-auto h-[1.3cqh] w-[6.3cqh] rounded-full bg-canvas" />
-        <div className="mt-[2.6cqh] h-[9.4cqh] w-[9.4cqh] bg-accent" />
+        {/* eslint-disable-next-line @next/next/no-img-element -- kleines statisches Bild im Container-Maßstab */}
+        <img src={BADGE_PHOTO} alt="" className="mt-[2.6cqh] h-[9.4cqh] w-[9.4cqh] border-b-[0.4cqh] border-accent object-cover" />
         <p className="mt-auto text-[4.6cqh] font-medium leading-[0.95] tracking-[-0.04em] text-fg">
           Achim
           <br />

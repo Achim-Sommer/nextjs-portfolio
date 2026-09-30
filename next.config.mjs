@@ -219,6 +219,12 @@ const nextConfig = {
   reactStrictMode: true,
   async redirects() {
     return [
+      // Services-Seite gibt es nicht mehr
+      {
+        source: '/services',
+        destination: '/',
+        permanent: true,
+      },
       {
         source: '/apache2-php-7-4-mariadb-und-phpmyadmin-auf-linux-server-installieren-mysql-datenbank-erstellen',
         destination: '/debian-lamp-stack',

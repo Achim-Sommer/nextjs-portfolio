@@ -11,7 +11,6 @@ const NAV = [
   { label: 'Projekte', href: '#github-section' },
   { label: 'Blog', href: '/blog' },
   { label: 'Zap-Hosting', href: '#zap-hosting' },
-  { label: 'Services', href: '/services' },
 ];
 
 export default function SiteHeader() {

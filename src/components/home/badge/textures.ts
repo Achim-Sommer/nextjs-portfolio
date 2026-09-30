@@ -22,16 +22,30 @@ const COLORS = {
   accent: '#ff6a2b',
 };
 
+export const BADGE_PHOTO = '/img/badge-photo.jpg';
+
 export interface BadgeFonts {
   sans: string;
   mono: string;
+  /** Passfoto für die Vorderseite, null falls es nicht lädt (dann Monogramm) */
+  photo: HTMLImageElement | null;
 }
 
-/** Schriftfamilien von next/font auslesen und laden, bevor gezeichnet wird */
+function loadPhoto(): Promise<HTMLImageElement | null> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => resolve(null);
+    img.src = BADGE_PHOTO;
+  });
+}
+
+/** Schriftfamilien von next/font auslesen und zusammen mit dem Foto laden, bevor gezeichnet wird */
 export async function loadBadgeFonts(): Promise<BadgeFonts> {
   const style = getComputedStyle(document.body);
   const sans = style.getPropertyValue('--font-plex-sans').trim() || 'system-ui, sans-serif';
   const mono = style.getPropertyValue('--font-plex-mono').trim() || 'ui-monospace, monospace';
+  const photo = loadPhoto();
   try {
     await Promise.all([
       document.fonts.load(`500 60px ${sans}`),
@@ -41,7 +55,7 @@ export async function loadBadgeFonts(): Promise<BadgeFonts> {
   } catch {
     // Dann eben mit Ersatzschrift
   }
-  return { sans, mono };
+  return { sans, mono, photo: await photo };
 }
 
 type Ctx = CanvasRenderingContext2D & { letterSpacing?: string };
@@ -121,16 +135,22 @@ export function drawFront(canvas: HTMLCanvasElement, fonts: BadgeFonts) {
   ctx.fillStyle = COLORS.line;
   ctx.fillRect(PAD, 150, w - PAD * 2, 2);
 
-  // Monogramm statt Foto
+  // Passfoto mit Akzentkante, ersatzweise Monogramm
   const box = 196;
   const by = 184;
-  ctx.fillStyle = COLORS.accent;
-  ctx.fillRect(PAD, by, box, box);
-  ctx.fillStyle = COLORS.card;
-  ctx.font = `500 96px ${fonts.sans}`;
-  spacing(ctx, -4);
-  ctx.textAlign = 'center';
-  ctx.fillText('AS', PAD + box / 2, by + box / 2 + 34);
+  if (fonts.photo) {
+    ctx.drawImage(fonts.photo, PAD, by, box, box);
+    ctx.fillStyle = COLORS.accent;
+    ctx.fillRect(PAD, by + box - 8, box, 8);
+  } else {
+    ctx.fillStyle = COLORS.accent;
+    ctx.fillRect(PAD, by, box, box);
+    ctx.fillStyle = COLORS.card;
+    ctx.font = `500 96px ${fonts.sans}`;
+    spacing(ctx, -4);
+    ctx.textAlign = 'center';
+    ctx.fillText('AS', PAD + box / 2, by + box / 2 + 34);
+  }
 
   // Zugangsebenen, dieselben wie im Netzwerk oben auf der Seite
   const lx = PAD + box + 30;

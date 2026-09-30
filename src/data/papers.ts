@@ -19,5 +19,5 @@ export const papers: Paper[] = [
   },
   { grade: '1,3', title: 'No-Code/Low-Code Plattformen für Unternehmen' },
   { grade: '1,7', title: 'EU KI Act: Auswirkungen auf KMU' },
-  { grade: '2,0', title: 'Java-Anwendung: Wertpapier-Depot-Rechner zur KPI-Berechnung' },
+  { grade: '2,3', title: 'Java-Anwendung: Wertpapier-Depot-Rechner zur KPI-Berechnung' },
 ];
