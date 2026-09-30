@@ -74,7 +74,7 @@ const JsonLd = () => {
     url: "https://achimsommer.com",
     jobTitle: "Head of IT",
     description: "Head of IT bei amber Tech GmbH, Wirtschaftsinformatik-Student an der FOM Köln und Full-Stack-Entwickler aus Leidenschaft",
-    image: "https://achimsommer.com/logo.png",
+    image: "https://achimsommer.com/img/achim-sommer.jpg",
     sameAs: [
       "https://github.com/Achim-Sommer",
       "https://www.facebook.com/achim.sommer1",

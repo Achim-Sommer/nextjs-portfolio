@@ -32,17 +32,24 @@ type GitHubApiResponse = {
 };
 
 /** Beitragskalender in Abstufungen der Akzentfarbe */
-const CALENDAR_THEME = { dark: ['#161615', '#3d1f12', '#6b3014', '#b04a1c', '#ff6a2b'] };
+const CALENDAR_THEME = {
+  dark: ['#161615', '#3d1f12', '#6b3014', '#b04a1c', '#ff6a2b'],
+};
 
 export default function GitHubRepos() {
   const [repos, setRepos] = useState<Repository[]>([]);
   const [stats, setStats] = useState<GitHubApiResponse['stats'] | null>(null);
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
+  // Kalender hängt vom heutigen Datum ab und wird daher erst im Browser gezeichnet
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const load = async () => {
       try {
-        const response = await fetch('/api/github', { headers: { Accept: 'application/json' } });
+        const response = await fetch('/api/github', {
+          headers: { Accept: 'application/json' },
+        });
         if (!response.ok) throw new Error('GitHub nicht erreichbar');
         const data: GitHubApiResponse = await response.json();
 
@@ -67,10 +74,7 @@ export default function GitHubRepos() {
   return (
     <Section id="github-section">
       <SectionHeading index="04" label="Projekte" title="Was nach Feierabend entsteht.">
-        <p>
-          Web-Apps, Werkzeuge für Server und Skripte für FiveM. Das meiste davon liegt offen auf
-          GitHub.
-        </p>
+        <p>Web-Apps, Werkzeuge für Server und Skripte für FiveM. Das meiste davon liegt offen auf GitHub.</p>
       </SectionHeading>
 
       <div className="mt-16 lg:grid lg:grid-cols-12 lg:gap-10">
@@ -160,34 +164,51 @@ export default function GitHubRepos() {
           )}
 
           <Reveal className="mt-14">
-            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-faint">Aktivität im letzten Jahr</p>
-            <div className="mt-5 overflow-x-auto pb-2 text-muted">
-              <div>
-                <GitHubCalendar
-                  username="Achim-Sommer"
-                  colorScheme="dark"
-                  blockSize={10}
-                  blockMargin={3}
-                  blockRadius={0}
-                  fontSize={11}
-                  year="last"
-                  theme={CALENDAR_THEME}
-                  errorMessage="Der Aktivitätskalender lässt sich gerade nicht laden."
-                  labels={{
-                    totalCount: '{{count}} Beiträge im letzten Jahr',
-                    months: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
-                    weekdays: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
-                  }}
-                  style={{ color: '#8e8d89' }}
-                  renderBlock={(block, activity) =>
-                    React.cloneElement(block, {
-                      'data-tooltip-id': 'github-calendar-tooltip',
-                      'data-tooltip-content': `${activity.count} Beiträge am ${activity.date}`,
-                    })
-                  }
-                />
-                <Tooltip id="github-calendar-tooltip" />
-              </div>
+            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-faint">
+              Aktivität im letzten Jahr
+            </p>
+            <div className="mt-5 min-h-[150px] overflow-x-auto pb-2 text-muted">
+              {mounted && (
+                <div>
+                  <GitHubCalendar
+                    username="Achim-Sommer"
+                    colorScheme="dark"
+                    blockSize={10}
+                    blockMargin={3}
+                    blockRadius={0}
+                    fontSize={11}
+                    year="last"
+                    theme={CALENDAR_THEME}
+                    errorMessage="Der Aktivitätskalender lässt sich gerade nicht laden."
+                    labels={{
+                      totalCount: '{{count}} Beiträge im letzten Jahr',
+                      months: [
+                        'Jan',
+                        'Feb',
+                        'Mär',
+                        'Apr',
+                        'Mai',
+                        'Jun',
+                        'Jul',
+                        'Aug',
+                        'Sep',
+                        'Okt',
+                        'Nov',
+                        'Dez',
+                      ],
+                      weekdays: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
+                    }}
+                    style={{ color: '#8e8d89' }}
+                    renderBlock={(block, activity) =>
+                      React.cloneElement(block, {
+                        'data-tooltip-id': 'github-calendar-tooltip',
+                        'data-tooltip-content': `${activity.count} Beiträge am ${activity.date}`,
+                      })
+                    }
+                  />
+                  <Tooltip id="github-calendar-tooltip" />
+                </div>
+              )}
             </div>
           </Reveal>
 

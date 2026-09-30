@@ -19,9 +19,9 @@ function SectionSkeleton({ height }: { height: string }) {
   return <div className={`w-full border-t border-line ${height}`} aria-hidden="true" />;
 }
 
-// Lädt Daten von der GitHub-API und den Beitragskalender, daher nur im Browser
+// Überschrift und Einleitung kommen im ersten HTML mit (für Google),
+// Repos und Beitragskalender lädt die Komponente danach im Browser
 const GitHubRepos = dynamic(() => import('@/components/GitHubRepos'), {
-  ssr: false,
   loading: () => <SectionSkeleton height="h-[900px]" />,
 });
 
