@@ -31,7 +31,7 @@ function LiveStatus({ animate }: { animate: boolean }) {
   }, [animate]);
 
   return (
-    <p className="flex items-center gap-2.5 text-muted" aria-hidden="true">
+    <p className="flex flex-wrap items-center gap-x-2.5 gap-y-1 whitespace-nowrap text-muted" aria-hidden="true">
       <span className="relative flex h-1.5 w-1.5">
         {animate && <span className="absolute inset-0 animate-ping bg-accent opacity-60" />}
         <span className="relative h-1.5 w-1.5 bg-accent" />
