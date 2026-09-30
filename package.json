@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@octokit/rest": "^21.0.2",
+    "@react-three/fiber": "^9.8.1",
     "@serwist/next": "^9.5.12",
     "@tabler/icons-react": "^3.22.0",
     "@tailwindcss/typography": "^0.5.15",
@@ -39,6 +40,7 @@
     "remark-gfm": "^4.0.1",
     "schema-dts": "^1.1.2",
     "tailwind-merge": "^3.4.0",
+    "three": "^0.186.1",
     "wakatime-client": "^2.7.0"
   },
   "devDependencies": {
@@ -48,6 +50,7 @@
     "@types/react-dom": "^19.2.3",
     "@types/react-syntax-highlighter": "^15.5.13",
     "@types/react-window": "^1.8.8",
+    "@types/three": "^0.186.0",
     "@typescript-eslint/eslint-plugin": "^8.50.0",
     "@typescript-eslint/parser": "^8.50.0",
     "autoprefixer": "^10.0.1",

@@ -13,7 +13,7 @@ featured: false
 
 In der heutigen digitalen Landschaft ist die Wahl der richtigen E-Commerce-Plattform entscheidend für den Erfolg deines Online-Geschäfts. Während Shopify eine der bekanntesten und am weitesten verbreiteten Plattformen ist, suchen viele Unternehmer und Entwickler nach **kostenlosen** und **Open-Source** Alternativen, die mehr Flexibilität und Kontrolle bieten. **MedusaJS** tritt genau an diese Stelle und bietet eine leistungsstarke, anpassbare Lösung für moderne E-Commerce-Anforderungen. 
 
-Wenn du auch an der Erstellung von Websites und Online-Stores mit Next.js interessiert bist, schau dir unsere [Dienstleistungen](/services) an.
+Wenn du auch an der Erstellung von Websites und Online-Stores mit Next.js interessiert bist, schau dir unsere [Dienstleistungen](/kontakt) an.
 ## Was ist MedusaJS?
 
 MedusaJS ist ein **Open-Source** E-Commerce-Framework, das Entwicklern die Möglichkeit bietet, maßgeschneiderte Online-Shops zu erstellen. Es ist headless, was bedeutet, dass es das Backend von der Frontend-Präsentation trennt, wodurch eine höhere Flexibilität und Skalierbarkeit erreicht wird. MedusaJS ist vollständig selbst gehostet und daher komplett **kostenlos**, abgesehen von den Hosting-Kosten.

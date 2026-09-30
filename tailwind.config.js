@@ -13,6 +13,23 @@ module.exports = {
     extend: {
       fontFamily: {
         inter: ['Inter', 'sans-serif'],
+        // Die Variablen setzt app/layout.tsx über next/font. Im Pages-Router
+        // (Blog) existieren sie nicht, deshalb jeweils mit Fallback im var().
+        sans: ['var(--font-plex-sans, ui-sans-serif)', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-plex-mono, ui-monospace)', 'SFMono-Regular', 'Menlo', 'monospace'],
+      },
+      colors: {
+        // Farbwelt der Startseite: fast schwarz, warmes Weiß, genau ein Akzent
+        canvas: '#0a0a0a',
+        surface: '#111111',
+        fg: '#ecebe8',
+        muted: '#8e8d89',
+        faint: '#5a5955',
+        line: '#1f1f1f',
+        accent: {
+          DEFAULT: '#ff6a2b',
+          strong: '#ff8a55',
+        },
       },
       animation: {
         'gradient-xy': 'gradient-xy 15s ease infinite',
@@ -28,8 +45,29 @@ module.exports = {
         'typing': 'typing 3.5s steps(40, end)',
         'status-pulse': 'status-pulse 2s ease-in-out infinite',
         'infinite-scroll': 'infinite-scroll var(--animation-duration) linear infinite',
+        'rise': 'rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both',
+        'glow': 'glow 7s ease-in-out infinite',
+        'toast': 'toast 1.8s ease-out both',
+        'marquee': 'marquee var(--marquee-duration, 60s) linear infinite',
       },
       keyframes: {
+        'rise': {
+          from: { opacity: '0', transform: 'translateY(14px)' },
+          to: { opacity: '1', transform: 'none' },
+        },
+        'toast': {
+          '0%': { opacity: '0', transform: 'translate(-50%, 6px)' },
+          '12%, 75%': { opacity: '1', transform: 'translate(-50%, 0)' },
+          '100%': { opacity: '0', transform: 'translate(-50%, -4px)' },
+        },
+        'glow': {
+          '0%, 100%': { opacity: '0.75', transform: 'scale(1)' },
+          '50%': { opacity: '1', transform: 'scale(1.06)' },
+        },
+        'marquee': {
+          from: { transform: 'translateX(0)' },
+          to: { transform: 'translateX(-50%)' },
+        },
         'gradient-xy': {
           '0%, 100%': {
             'background-size': '400% 400%',

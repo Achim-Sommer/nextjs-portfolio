@@ -11,6 +11,7 @@ export const InfiniteMovingCards = ({
   className,
   cardClassName = "",
   showName = false,
+  plain = false,
 }: {
   items: {
     name: string;
@@ -24,6 +25,8 @@ export const InfiniteMovingCards = ({
   className?: string;
   cardClassName?: string;
   showName?: boolean;
+  /** Schlichte Karten im Stil der Startseite: dunkle Fläche, feine Linie, kein Farbverlauf */
+  plain?: boolean;
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollerRef = useRef<HTMLDivElement>(null);
@@ -115,13 +118,15 @@ export const InfiniteMovingCards = ({
       }}
     >
       <div className={cn(
-        "relative h-full w-full rounded-2xl border border-slate-700/40 p-4 transition-all duration-300 hover:scale-[1.02] hover:border-slate-600/50",
-        "bg-gradient-to-br from-slate-800 to-slate-900/90"
+        "relative h-full w-full p-4 transition-all duration-300",
+        plain
+          ? "border border-line bg-surface hover:border-[#3a3a37]"
+          : "rounded-2xl border border-slate-700/40 bg-gradient-to-br from-slate-800 to-slate-900/90 hover:scale-[1.02] hover:border-slate-600/50"
       )}>
-        <div className={cn(
+        {!plain && <div className={cn(
           "absolute inset-0 rounded-2xl bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity",
           item.color
-        )} />
+        )} />}
         <div className="relative z-10 flex justify-between items-center gap-4">
           {showName ? (
             <>

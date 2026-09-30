@@ -1,16 +1,23 @@
 import './globals.css'
-import { Suspense } from 'react'
 import Script from 'next/script'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { IBM_Plex_Sans, IBM_Plex_Mono } from 'next/font/google'
 import { Providers } from './providers'
 import ClientWidgets from './client-widgets'
 import { ogImageUrl } from '@/lib/og-image'
 
-const inter = Inter({
+const plexSans = IBM_Plex_Sans({
   subsets: ['latin'],
+  weight: ['400', '500', '600'],
   display: 'swap',
-  variable: '--font-inter',
+  variable: '--font-plex-sans',
+});
+
+const plexMono = IBM_Plex_Mono({
+  subsets: ['latin'],
+  weight: ['400'],
+  display: 'swap',
+  variable: '--font-plex-mono',
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://achimsommer.com';
@@ -27,7 +34,7 @@ const ogImage = ogImageUrl({
 });
 
 export const viewport = {
-  themeColor: '#000000',
+  themeColor: '#0a0a0a',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
@@ -103,10 +110,10 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/icon-512x512.png" />
       </head>
-      <body className={`bg-gray-900 text-white ${inter.variable}`} suppressHydrationWarning>
+      <body className={`bg-canvas text-fg ${plexSans.variable} ${plexMono.variable}`} suppressHydrationWarning>
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded focus:bg-blue-600 focus:px-4 focus:py-2 focus:text-white"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-accent focus:px-4 focus:py-2 focus:text-canvas"
         >
           Zum Inhalt springen
         </a>
@@ -195,6 +202,7 @@ export default function RootLayout({
             }}
           />
         )}
+        <div className="grain" aria-hidden="true" />
         <Providers>
           <div className="min-h-screen">
             {children}

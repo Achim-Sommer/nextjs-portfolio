@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { FloatingNav } from './ui/floating-navbar';
 import { AiOutlineUser, AiOutlineProject, AiOutlineRead } from 'react-icons/ai';
 import { FaServer } from 'react-icons/fa';
-import { MdRouter } from 'react-icons/md';
 import { HiOutlineBriefcase } from 'react-icons/hi2';
 import BlogNavbar from './BlogNavbar';
 import { usePathname } from 'next/navigation';
@@ -13,7 +12,6 @@ export default function Navbar() {
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const isBlogPage = pathname?.includes('/blog') ?? false;
-  const isServicesPage = pathname?.includes('/services') ?? false;
 
   useEffect(() => {
     setMounted(true);
@@ -25,10 +23,6 @@ export default function Navbar() {
 
   if (isBlogPage) {
     return <BlogNavbar />;
-  }
-
-  if (isServicesPage) {
-    return null;
   }
 
   const navItems = [
@@ -51,11 +45,6 @@ export default function Navbar() {
       name: 'Zap-Hosting',
       link: '#zap-hosting',
       icon: <FaServer className="w-4 h-4" />,
-    },
-    {
-      name: 'Services',
-      link: '/services',
-      icon: <MdRouter className="w-4 h-4" />,
     },
     {
       name: 'Blog',

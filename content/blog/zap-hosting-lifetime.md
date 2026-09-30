@@ -107,6 +107,6 @@ Für die meisten langfristigen Projekte ist der [Kauf eines Lifetime-Servers](ht
 
 ### Dienstleistungen
 
-Nach dem Kauf Ihres Servers benötigen Sie möglicherweise professionelle Unterstützung bei der Einrichtung, Wartung oder Entwicklung Ihrer Projekte? In diesem Fall werfen Sie einen Blick auf meine [Server-Management und Entwicklungsdienstleistungen](/services). Als erfahrener Full-Stack Entwickler unterstütze ich Sie gerne bei der optimalen Nutzung Ihrer Server-Infrastruktur.
+Nach dem Kauf Ihres Servers benötigen Sie möglicherweise professionelle Unterstützung bei der Einrichtung, Wartung oder Entwicklung Ihrer Projekte? In diesem Fall werfen Sie einen Blick auf meine [Server-Management und Entwicklungsdienstleistungen](/kontakt). Als erfahrener Full-Stack Entwickler unterstütze ich Sie gerne bei der optimalen Nutzung Ihrer Server-Infrastruktur.
 
 *Letzte Aktualisierung: November 2024*

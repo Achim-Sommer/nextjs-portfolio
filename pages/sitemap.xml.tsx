@@ -20,12 +20,6 @@ const staticPages: PageConfig[] = [
     changefreq: 'weekly',
   },
   {
-    path: '/services',
-    priority: 0.9,
-    changefreq: 'weekly',
-    lastmod: new Date().toISOString().split('T')[0],
-  },
-  {
     path: '/blog',
     priority: 0.9,
     changefreq: 'daily',

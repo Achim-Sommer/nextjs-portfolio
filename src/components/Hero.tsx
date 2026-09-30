@@ -1,229 +1,100 @@
-'use client';
+import Link from 'next/link';
+import { FiArrowRight } from 'react-icons/fi';
+import NetworkDiagram from './home/network/NetworkDiagram';
+import { Container } from './home/primitives';
 
-import * as React from 'react';
-import { motion } from 'framer-motion';
-import dynamic from 'next/dynamic';
-import { MainHero3DElements } from './ui/main-hero-3d';
+const FACTS = [
+  { term: 'Aktuell', value: 'Head of IT bei amber Tech' },
+  { term: 'Standort', value: 'Aachen, hybrid' },
+  { term: 'Studium', value: 'B.Sc. Wirtschaftsinformatik, FOM' },
+  { term: 'Entwicklung', value: 'Web und Tools seit 2018' },
+];
 
-const BinaryBackground = () => (
-  <div className="absolute inset-0 opacity-5">
-    {Array.from({ length: 10 }).map((_, i) => (
-      <div
-        key={i}
-        className="absolute text-xs text-blue-500 animate-float whitespace-nowrap"
-        style={{
-          left: `${((i * 17 + 3) % 100)}%`,
-          top: `${((i * 23 + 7) % 100)}%`,
-          animationDelay: `${(i * 1.3) % 5}s`,
-          animationDuration: `${15 + (i * 2.7) % 10}s`
-        }}
-      >
-        {i % 2 === 0 ? '1' : '0'}
-      </div>
-    ))}
-  </div>
-);
+/** Trennlinien: auf dem Handy 2 × 2, ab lg eine Zeile mit vier Spalten */
+const FACT_CELL = [
+  '',
+  'border-l pl-4 lg:pl-6',
+  'border-t lg:border-l lg:border-t-0 lg:pl-6',
+  'border-l border-t pl-4 lg:border-t-0 lg:pl-6',
+];
 
-const LazyBinaryBackground = dynamic(() => Promise.resolve(BinaryBackground), {
-  ssr: false,
-  loading: () => null
-});
+/** Verzögerung für die gestaffelte Einblendung (reines CSS, kein JS nötig) */
+const rise = (ms: number) => ({ animationDelay: `${ms}ms` });
 
-// Optimierte Terminal-Komponente
-const TerminalWindow = () => (
-  <div className="hidden md:block absolute top-4 left-4 md:left-16 w-[calc(100%-2rem)] md:w-80 bg-black/30 backdrop-blur-sm rounded border border-blue-500/20 z-20">
-    <div className="h-6 bg-blue-950/30 border-b border-blue-500/20 flex items-center px-3">
-      <div className="flex space-x-2">
-        <div className="w-2.5 h-2.5 rounded-full bg-red-500/50"></div>
-        <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/50"></div>
-        <div className="w-2.5 h-2.5 rounded-full bg-green-500/50"></div>
-      </div>
-      <div className="flex-1 text-center text-xs text-blue-300/50">terminal</div>
-    </div>
-    <div className="p-3 text-xs font-mono">
-      <div className="flex items-center text-blue-300/80">
-        <span className="text-green-400/80">➜</span>
-        <span className="text-blue-400/80 ml-2">~/portfolio</span>
-        <span className="text-blue-300/60 ml-2">git:(</span>
-        <span className="text-blue-400/80">main</span>
-        <span className="text-blue-300/60">)</span>
-      </div>
-      <div className="mt-2">
-        <span className="text-blue-300/80">$</span>
-        <span className="text-blue-300/80 ml-2">whoami</span>
-      </div>
-      <div className="text-green-400/80">achim.sommer</div>
-      <div className="mt-2">
-        <span className="text-blue-300/80">$</span>
-        <span className="text-blue-300/80 ml-2">cat about.md</span>
-      </div>
-      <div className="text-green-400/80">### About Me</div>
-      <div className="text-green-400/80">• Head of IT</div>
-      <div className="text-green-400/80">• Wirtschaftsinformatik @ FOM Köln</div>
-      <div className="text-green-400/80">• Full Stack Developer</div>
-      <div className="text-green-400/80">• Tech Content Creator</div>
-    </div>
-  </div>
-);
-
-const LazyTerminal = dynamic(() => Promise.resolve(TerminalWindow), {
-  ssr: true
-});
-
-// Line Numbers Komponente
-const LineNumbers = () => (
-  <div className="absolute left-0 top-0 bottom-0 w-12 border-r border-blue-500/10 flex flex-col items-end pr-2 pt-4 text-xs text-blue-500/40 select-none hidden md:flex">
-    {Array.from({ length: 100 }).map((_, i) => (
-      <div key={i} className="leading-[1.65rem]">
-        {(i + 1).toString().padStart(2, '0')}
-      </div>
-    ))}
-  </div>
-);
-
-const LazyLineNumbers = dynamic(() => Promise.resolve(LineNumbers), {
-  ssr: true
-});
-
-const Hero: React.FC = () => {
-
+export default function Hero() {
   return (
-    <section id="top" className="relative min-h-screen bg-black overflow-hidden">
-      <div 
-        className="relative min-h-screen w-full bg-gradient-to-br from-black via-blue-950 to-black"
-        style={{ transform: 'translateZ(0)' }}
-      >
-        {/* Hauptinhalt mit höchster Priorität */}
-        <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
-          <div className="text-center">
-            <div className="inline-block">
-              <h1 className="mb-2 text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl text-white">
-                Achim Sommer
-              </h1>
-            </div>
+    <section id="top" className="relative overflow-hidden pt-16">
+      <Container className="grid items-center gap-y-10 pb-14 pt-12 sm:pt-20 lg:min-h-[calc(100svh-4rem-7rem)] lg:grid-cols-12 lg:gap-x-10 lg:pb-10 lg:pt-10">
+        <div className="relative z-10 lg:col-span-6 xl:col-span-5">
+          <p
+            className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.12em] text-muted motion-safe:animate-rise sm:tracking-[0.16em]"
+            style={rise(0)}
+          >
+            <span className="h-1.5 w-1.5 shrink-0 bg-accent" aria-hidden="true" />
+            Infrastruktur · Security · Entwicklung
+          </p>
 
-            <motion.p
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-              className="text-lg md:text-xl text-blue-300/60 font-mono tracking-[0.3em] uppercase mb-6"
+          <h1 className="mt-7 text-[clamp(3.4rem,9vw,7.25rem)] font-medium leading-[0.9] tracking-[-0.055em] text-fg">
+            Achim
+            <br />
+            Sommer
+          </h1>
+
+          <p
+            className="mt-8 max-w-[33rem] text-lg leading-relaxed text-muted motion-safe:animate-rise sm:text-xl"
+            style={rise(120)}
+          >
+            Head of IT in Aachen. Ich plane, baue und betreibe IT-Landschaften, die sicher sind und mit
+            dem Unternehmen wachsen.{' '}
+            <span className="text-fg">Nach Feierabend entwickle ich Web-Apps mit Next.js und TypeScript.</span>
+          </p>
+
+          <div className="mt-10 flex flex-wrap gap-3 motion-safe:animate-rise" style={rise(220)}>
+            <Link
+              href="/kontakt"
+              className="group inline-flex items-center gap-2 bg-fg px-4 py-3 text-sm font-medium text-canvas transition-colors duration-200 hover:bg-accent sm:px-5"
             >
-              Code · Deploy · Connect
-            </motion.p>
+              Kontakt aufnehmen
+              <FiArrowRight
+                className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
+                aria-hidden="true"
+              />
+            </Link>
+            <Link
+              href="#erfahrung"
+              className="inline-flex items-center border border-[#2e2e2c] px-4 py-3 text-sm text-fg transition-colors duration-200 hover:border-fg sm:px-5"
+            >
+              Werdegang ansehen
+            </Link>
+          </div>
+        </div>
 
+        <div className="relative isolate motion-safe:animate-rise lg:col-span-6 xl:col-span-7" style={rise(160)}>
+          {/* Weicher Lichtschein hinter dem Netzwerk, als würde der Serverraum glühen */}
+          <div aria-hidden="true" className="pointer-events-none absolute inset-[-12%] -z-10">
+            <div
+              className="absolute inset-0 motion-safe:animate-glow"
+              style={{
+                background:
+                  'radial-gradient(closest-side at 58% 52%, rgba(255,106,43,0.22), rgba(255,106,43,0.07) 45%, transparent 75%)',
+                filter: 'blur(30px)',
+              }}
+            />
+          </div>
+          <NetworkDiagram />
+        </div>
+      </Container>
 
-
-            <div className="flex flex-col items-center mt-8">
-              <button
-                onClick={() => {
-                  const aboutSection = document.getElementById('about-me');
-                  if (aboutSection) {
-                    aboutSection.scrollIntoView({ behavior: 'smooth' });
-                  }
-                }}
-                className="cursor-pointer hover:opacity-75 transition-opacity motion-safe:animate-bounce"
-                aria-label="Zum About Me Bereich scrollen"
-              >
-                <svg
-                  className="w-8 h-8 text-gray-400"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path d="M12 5v14M19 12l-7 7-7-7" />
-                </svg>
-              </button>
+      <Container>
+        <dl className="grid grid-cols-2 border-t border-line lg:grid-cols-4">
+          {FACTS.map((fact, i) => (
+            <div key={fact.term} className={`border-line py-5 pr-4 sm:py-6 ${FACT_CELL[i]}`}>
+              <dt className="font-mono text-[11px] uppercase tracking-[0.16em] text-faint">{fact.term}</dt>
+              <dd className="mt-2 text-sm text-fg sm:text-[15px]">{fact.value}</dd>
             </div>
-          </div>
-        </div>
-
-        {/* Hintergrund-Effekte mit niedrigerer Priorität */}
-        <div className="absolute inset-0 z-0">
-          {/* BinaryBackground nur auf Desktop laden */}
-          <div className="hidden md:block">
-            <LazyBinaryBackground />
-          </div>
-        </div>
-
-        {/* Terminal und Line Numbers */}
-        <LazyTerminal />
-        <LazyLineNumbers />
-
-        {/* Tech Grid Background */}
-        <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_500px_at_50%_50%,#1e3a8a20,transparent)]" />
-          <div
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231e3a8a' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-              opacity: 0.5
-            }}
-            className="absolute inset-0 backdrop-blur-[1px]"
-          />
-        </div>
-
-        {/* 3D Floating Tech Icons */}
-        <MainHero3DElements />
-
-        {/* Code Comments */}
-        <div className="absolute right-4 top-24 md:top-4 w-[calc(100%-2rem)] md:w-64 text-xs font-mono opacity-20 z-10 hidden md:block">
-          <div className="text-blue-300/80">{'// portfolio.config.ts'}</div>
-          <div className="text-green-500/80">{'/** '}
-           * @author Achim Sommer
-           * @version 1.0.0 
-           {'*/'}</div>
-          <div className="mt-2 text-blue-500">interface Developer {'{'}</div>
-          <div className="pl-4">
-            <div className="text-purple-500">name: string;</div>
-            <div className="text-purple-500">role: string;</div>
-            <div className="text-purple-500">skills: string[];</div>
-            <div className="text-purple-500">location: string;</div>
-          </div>
-            <div className="text-blue-500">{'}'}</div>
-          <div className="mt-2">
-            <div className="text-blue-500">const developer: Developer = {'{'}</div>
-            <div className="pl-4">
-              <div className="text-orange-400">name: <span className="text-green-400">"Achim Sommer"</span>,</div>
-              <div className="text-orange-400">role: <span className="text-green-400">"Full Stack Developer"</span>,</div>
-              <div className="text-orange-400">skills: [</div>
-              <div className="pl-4">
-                <div className="text-green-400">"TypeScript",</div>
-                <div className="text-green-400">"React",</div>
-                <div className="text-green-400">"Next.js",</div>
-                <div className="text-green-400">"Node.js"</div>
-              </div>
-              <div className="text-orange-400">],</div>
-              <div className="text-orange-400">location: <span className="text-green-400">"Köln, DE"</span></div>
-            </div>
-            <div className="text-blue-500">{'}'}</div>
-          </div>
-          <div className="mt-2 text-blue-300/80">{'// TODO: Add more awesome features'}</div>
-        </div>
-
-        {/* Corner Decorations */}
-        <div className="absolute top-0 left-0 w-12 md:w-24 h-12 md:h-24 border-l-2 border-t-2 border-blue-500/30" />
-        <div className="absolute top-0 right-0 w-12 md:w-24 h-12 md:h-24 border-r-2 border-t-2 border-blue-500/30" />
-        <div className="absolute bottom-0 left-0 w-12 md:w-24 h-12 md:h-24 border-l-2 border-b-2 border-blue-500/30" />
-        <div className="absolute bottom-0 right-0 w-12 md:w-24 h-12 md:h-24 border-r-2 border-b-2 border-blue-500/30" />
-
-        {/* Status Bar */}
-        <div className="absolute bottom-0 left-0 right-0 h-6 bg-blue-950/30 border-t border-blue-500/20 flex items-center px-4 text-xs text-blue-400/60 justify-between">
-          <div className="flex items-center space-x-4">
-            <span>Ready</span>
-            <span>UTF-8</span>
-            <span>TypeScript React</span>
-          </div>
-          <div className="flex items-center space-x-4">
-            <span>Ln 1, Col 1</span>
-            <span>Spaces: 2</span>
-            <span>Portfolio</span>
-          </div>
-        </div>
-      </div>
+          ))}
+        </dl>
+      </Container>
     </section>
   );
-};
-
-export default Hero;
+}

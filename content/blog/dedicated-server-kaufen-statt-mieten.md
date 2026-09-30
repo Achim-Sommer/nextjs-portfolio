@@ -113,4 +113,4 @@ getroffen werden. Bei einer geplanten Nutzungsdauer von über 12 Monaten ist der
 
 ### Weiterführende Informationen
 
-Für die professionelle Einrichtung, Wartung und Optimierung Ihres Servers biete ich umfassende [Server-Management und Entwicklungsdienstleistungen](/services) an. Als Full-Stack Entwickler mit langjähriger Erfahrung unterstütze ich Sie bei der optimalen Nutzung Ihrer Server-Infrastruktur und der Umsetzung Ihrer Projekte.
+Für die professionelle Einrichtung, Wartung und Optimierung Ihres Servers biete ich umfassende [Server-Management und Entwicklungsdienstleistungen](/kontakt) an. Als Full-Stack Entwickler mit langjähriger Erfahrung unterstütze ich Sie bei der optimalen Nutzung Ihrer Server-Infrastruktur und der Umsetzung Ihrer Projekte.

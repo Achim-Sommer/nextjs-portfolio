@@ -32,25 +32,25 @@ export default function BackToTop() {
     <AnimatePresence>
       {isVisible && (
         <motion.button
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 20 }}
+          exit={{ opacity: 0, y: 12 }}
+          transition={{ duration: 0.25 }}
           onClick={scrollToTop}
           aria-label="Nach oben scrollen"
-          className="fixed bottom-8 right-8 p-3 rounded-full bg-blue-600/20 border border-blue-500/20 backdrop-blur-sm hover:bg-blue-600/30 transition-all duration-300 z-50"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
+          className="fixed bottom-6 right-6 z-40 flex h-10 w-10 items-center justify-center border border-[#2a2a28] bg-canvas/80 text-muted backdrop-blur-md transition-colors duration-200 hover:border-fg hover:text-fg"
         >
           <svg
-            className="w-6 h-6 text-white"
+            className="h-4 w-4"
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
-            strokeWidth="2"
+            strokeWidth="1.75"
             viewBox="0 0 24 24"
             stroke="currentColor"
+            aria-hidden="true"
           >
-            <path d="M5 10l7-7m0 0l7 7m-7-7v18" />
+            <path d="M12 19V5M5 12l7-7 7 7" />
           </svg>
         </motion.button>
       )}
