@@ -59,7 +59,8 @@ export default function AboutMe() {
         </Reveal>
 
         <div className="lg:col-span-4 lg:row-span-2 lg:row-start-2">
-          <LanyardBadge className="h-[440px] sm:h-[520px] lg:sticky lg:top-20 lg:mt-6 lg:h-[min(620px,calc(100svh-7rem))]" />
+          {/* Etwas breiter als die Spalte (in Rand und Zwischenraum), damit die Karte Platz zum Schwingen hat */}
+          <LanyardBadge className="-mx-5 h-[440px] sm:-mx-8 sm:h-[520px] lg:sticky lg:top-20 lg:-ml-8 lg:-mr-10 lg:mt-6 lg:h-[min(620px,calc(100svh-7rem))]" />
         </div>
 
         <div className="lg:col-span-8 lg:col-start-5 lg:row-start-3 lg:mt-20">

@@ -2,8 +2,10 @@
 
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import NetworkFallback from './NetworkFallback';
 import { EXTENT } from './data';
+import { prefersLightweight, supportsWebGL2 } from '../webgl';
 
 // three.js ist groß, deshalb eigener Chunk, der erst bei Bedarf geladen wird
 const NetworkScene = dynamic(() => import('./NetworkScene'), { ssr: false });
@@ -11,15 +13,6 @@ const NetworkScene = dynamic(() => import('./NetworkScene'), { ssr: false });
 type Mode = 'static' | 'animated' | '3d';
 
 const ASPECT = EXTENT.width / EXTENT.height;
-
-function supportsWebGL() {
-  try {
-    const canvas = document.createElement('canvas');
-    return Boolean(canvas.getContext('webgl2') || canvas.getContext('webgl'));
-  } catch {
-    return false;
-  }
-}
 
 /**
  * Netzwerk im Hero.
@@ -31,16 +24,15 @@ function supportsWebGL() {
 export default function NetworkDiagram() {
   const [mode, setMode] = useState<Mode>('static');
   const [ready, setReady] = useState(false);
+  const [failed, setFailed] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const large = window.matchMedia('(min-width: 1024px)').matches;
-    const saveData =
-      (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
     setReducedMotion(reduce);
 
-    if (large && !saveData && supportsWebGL()) {
+    if (large && !prefersLightweight() && supportsWebGL2()) {
       const start = () => setMode('3d');
       if (typeof window.requestIdleCallback === 'function') {
         const id = window.requestIdleCallback(start, { timeout: 2500 });
@@ -53,7 +45,8 @@ export default function NetworkDiagram() {
     if (!reduce) setMode('animated');
   }, []);
 
-  const showScene = mode === '3d';
+  // Scheitert die 3D-Szene (Treiber, Chunk nicht ladbar), bleibt das SVG stehen
+  const showScene = mode === '3d' && !failed;
 
   return (
     // Breite so begrenzen, dass die Szene samt Faktenleiste in den ersten Bildschirm passt
@@ -78,7 +71,9 @@ export default function NetworkDiagram() {
               ready ? 'opacity-100' : 'opacity-0'
             }`}
           >
-            <NetworkScene reducedMotion={reducedMotion} onReady={() => setReady(true)} />
+            <ErrorBoundary fallback={null} onError={() => setFailed(true)}>
+              <NetworkScene reducedMotion={reducedMotion} onReady={() => setReady(true)} />
+            </ErrorBoundary>
           </div>
         )}
       </div>

@@ -20,9 +20,8 @@ import {
  *
  * Keine Physik-Engine: Das Band ist eine Kette aus Punkten (Verlet-Integration
  * mit Längen-Constraints), die Karte hängt als starres Segment aus zwei Punkten
- * daran (Clip oben, Kartenunterkante unten). Die Drehung der Karte um ihre
- * Längsachse läuft als gedämpfte Feder separat. Das spart eine WASM-Engine
- * mit mehreren hundert Kilobyte.
+ * daran (Ring oben, Kartenunterkante unten). Die Drehung der Karte um ihre
+ * Längsachse läuft als gedämpfte Feder zu einem Zielwinkel (vorne 0, hinten π).
  */
 
 // ─── Maße und Physik ────────────────────────────────────────
@@ -43,9 +42,21 @@ const GRAVITY = 36;
 const DAMPING = 1.4; // pro Sekunde
 const STEP = 1 / 120;
 const ITERATIONS = 14;
+/** Leichter Biegewiderstand, damit das Band nicht zu einer Zickzack-Schlaufe faltet */
+const BEND_STIFFNESS = 0.02;
+/** Höchstgeschwindigkeit pro Schritt, damit ein kräftiger Wurf nicht davonfliegt */
+const MAX_STEP_MOVE = 0.04;
+/** Die Karte kippt höchstens so weit aus der Senkrechten (sonst hinge sie kopfüber) */
+const MAX_TILT = THREE.MathUtils.degToRad(70);
+/** Höchste Lage des Rings beim Hochziehen, damit die Karte nicht oben aus dem Bild rutscht */
+const MAX_PIVOT_Y = 0.9;
+/** Obergrenze für Schwung, der von außen (Scrollen, Einschwingen) kommt */
+const MAX_NUDGE_SPEED = 1.6;
 
-const TWIST_SPRING = 5.5;
-const TWIST_DAMPING = 1.3;
+const TWIST_SPRING = 6;
+const TWIST_DAMPING = 3; // Dämpfungsgrad etwa 0,6: dreht kurz nach und steht dann
+/** Wie lange die Rückseite nach dem Umdrehen sichtbar bleibt */
+const FLIP_HOLD_MS = 8000;
 
 const STRAP_WIDTH = 0.3;
 const RIBBON_SAMPLES = 48;
@@ -53,9 +64,25 @@ const RIBBON_SAMPLES = 48;
 const PIVOT = ROPE_SEGMENTS; // letzter Bandpunkt = Ring am Clip
 const BOTTOM = ROPE_SEGMENTS + 1; // Kartenunterkante
 
+/** Unterhalb davon gilt die Szene als ruhig (quadrierte Bewegung pro Schritt, Welteinheiten) */
+const CALM_ENERGY = 2e-7;
+const CALM_FRAMES = 30;
+
 const tmp = new THREE.Vector3();
 const tmp2 = new THREE.Vector3();
 const AXIS_Z = new THREE.Vector3(0, 0, 1);
+
+interface Grab {
+  pointerId: number;
+  /** Anteil entlang der Karte: 0 Ring, 1 Unterkante */
+  t: number;
+  /** Abstand vom Zeiger zum Greifpunkt */
+  offset: THREE.Vector3;
+  /** Ziel am Ende des letzten Frames und aktuelles Ziel: dazwischen wird pro Teilschritt interpoliert */
+  from: THREE.Vector3;
+  to: THREE.Vector3;
+  target: THREE.Vector3;
+}
 
 interface Sim {
   pos: THREE.Vector3[];
@@ -63,37 +90,34 @@ interface Sim {
   invMass: number[];
   twist: number;
   twistVel: number;
+  twistTarget: number;
   acc: number;
-  /** Greifen: Anteil entlang der Karte (0 Ring, 1 Unterkante) und Ziel in Weltkoordinaten */
-  grab: { t: number; target: THREE.Vector3; offset: THREE.Vector3 } | null;
+  grab: Grab | null;
   calm: number;
+  /** Sichtbare halbe Breite, pro Frame aus dem Seitenverhältnis */
+  halfW: number;
 }
 
-function createSim(dropIn: boolean): Sim {
+function createSim(): Sim {
   const pos: THREE.Vector3[] = [];
   for (let i = 0; i <= ROPE_SEGMENTS; i++) pos.push(new THREE.Vector3(0, ANCHOR.y - i * SEG_LEN, 0));
   pos.push(new THREE.Vector3(0, pos[PIVOT].y - BODY_LEN, 0));
-
-  const prev = pos.map((p) => p.clone());
-
-  if (dropIn) {
-    // Startet ausgelenkt (um den Aufhängepunkt gedreht), schwingt dann ins Bild
-    const angle = 0.38;
-    const c = Math.cos(angle);
-    const s = Math.sin(angle);
-    pos.forEach((p, i) => {
-      const dx = p.x - ANCHOR.x;
-      const dy = p.y - ANCHOR.y;
-      p.set(ANCHOR.x + dx * c - dy * s, ANCHOR.y + dx * s + dy * c, 0);
-      prev[i].copy(p);
-    });
-  }
-
   const invMass = pos.map((_, i) => (i === 0 ? 0 : i === PIVOT ? 0.6 : i === BOTTOM ? 0.25 : 1));
-  return { pos, prev, invMass, twist: dropIn ? 0.9 : 0, twistVel: 0, acc: 0, grab: null, calm: 0 };
+  return {
+    pos,
+    prev: pos.map((p) => p.clone()),
+    invMass,
+    twist: 0,
+    twistVel: 0,
+    twistTarget: 0,
+    acc: 0,
+    grab: null,
+    calm: 0,
+    halfW: 1.5,
+  };
 }
 
-function satisfy(sim: Sim, a: number, b: number, rest: number) {
+function satisfy(sim: Sim, a: number, b: number, rest: number, stiffness = 1) {
   const pa = sim.pos[a];
   const pb = sim.pos[b];
   const wa = sim.invMass[a];
@@ -101,7 +125,7 @@ function satisfy(sim: Sim, a: number, b: number, rest: number) {
   if (wa + wb === 0) return;
   tmp.subVectors(pb, pa);
   const d = tmp.length() || 1e-6;
-  const k = (d - rest) / (d * (wa + wb));
+  const k = (stiffness * (d - rest)) / (d * (wa + wb));
   pa.addScaledVector(tmp, k * wa);
   pb.addScaledVector(tmp, -k * wb);
 }
@@ -116,13 +140,32 @@ function satisfyGrab(sim: Sim) {
   const w1 = sim.invMass[BOTTOM] * t;
   const denom = (1 - t) * w0 + t * w1;
   if (denom === 0) return;
-  tmp.lerpVectors(p0, p1, t).sub(target); // C = grab - target
+  tmp.lerpVectors(p0, p1, t).sub(target);
   p0.addScaledVector(tmp, -w0 / denom);
   p1.addScaledVector(tmp, -w1 / denom);
 }
 
-/** Höchstgeschwindigkeit pro Schritt, damit ein kräftiger Wurf nicht aus dem Bild fliegt */
-const MAX_STEP_MOVE = 0.05;
+/** Karte höchstens MAX_TILT aus der Senkrechten, sonst hinge sie kopfüber am Zeiger */
+function limitTilt(sim: Sim) {
+  const p0 = sim.pos[PIVOT];
+  const p1 = sim.pos[BOTTOM];
+  const angle = Math.atan2(p1.x - p0.x, p0.y - p1.y);
+  if (Math.abs(angle) <= MAX_TILT) return;
+  const a = Math.sign(angle) * MAX_TILT;
+  p1.set(p0.x + Math.sin(a) * BODY_LEN, p0.y - Math.cos(a) * BODY_LEN, p0.z);
+}
+
+/** Karte seitlich im sichtbaren Bereich halten; die Wand schluckt den Schwung nach außen */
+function limitSides(sim: Sim) {
+  const limit = Math.max(sim.halfW - (CARD.width / 2) * Math.abs(Math.cos(sim.twist)) - 0.04, 0);
+  for (const i of [PIVOT, BOTTOM]) {
+    const p = sim.pos[i];
+    if (Math.abs(p.x) > limit) {
+      p.x = Math.sign(p.x) * limit;
+      sim.prev[i].x = p.x;
+    }
+  }
+}
 
 function step(sim: Sim, dt: number) {
   const damp = Math.exp(-DAMPING * dt);
@@ -137,29 +180,35 @@ function step(sim: Sim, dt: number) {
   for (let n = 0; n < ITERATIONS; n++) {
     satisfyGrab(sim);
     for (let i = 0; i < ROPE_SEGMENTS; i++) satisfy(sim, i, i + 1, SEG_LEN);
+    for (let i = 0; i < ROPE_SEGMENTS - 1; i++) satisfy(sim, i, i + 2, SEG_LEN * 2, BEND_STIFFNESS);
     satisfy(sim, PIVOT, BOTTOM, BODY_LEN);
+    limitTilt(sim);
   }
+  limitSides(sim);
 
-  // Drehung um die Längsachse
-  sim.twistVel += (-TWIST_SPRING * sim.twist - TWIST_DAMPING * sim.twistVel) * dt;
+  sim.twistVel += (-TWIST_SPRING * (sim.twist - sim.twistTarget) - TWIST_DAMPING * sim.twistVel) * dt;
   sim.twist += sim.twistVel * dt;
 }
 
+/** Bewegung pro Schritt in Welteinheiten (quadriert), Drehung umgerechnet auf die Kartenkante */
 function kinetic(sim: Sim) {
   let e = 0;
   for (let i = 1; i < sim.pos.length; i++) e += sim.pos[i].distanceToSquared(sim.prev[i]);
-  return e + Math.abs(sim.twistVel) * 1e-4 + Math.abs(sim.twist) * 1e-5;
+  const edge = (CARD.width / 2) * sim.twistVel * STEP;
+  return e + edge * edge;
 }
 
-/** Stößt das Band an, z. B. beim Scrollen oder Antippen */
-function nudge(sim: Sim, vx: number, twist: number) {
-  const k = vx * STEP;
-  for (let i = 1; i < sim.pos.length; i++) sim.prev[i].x -= k * (i / BOTTOM);
-  sim.twistVel += twist;
+/** Seitlicher Schwung auf die Kette, zur Karte hin zunehmend und nach oben begrenzt */
+function nudge(sim: Sim, vx: number) {
+  for (let i = 1; i < sim.pos.length; i++) {
+    const current = (sim.pos[i].x - sim.prev[i].x) / STEP;
+    const next = THREE.MathUtils.clamp(current + vx * (i / BOTTOM), -MAX_NUDGE_SPEED, MAX_NUDGE_SPEED);
+    sim.prev[i].x = sim.pos[i].x - next * STEP;
+  }
   sim.calm = 0;
 }
 
-// ─── Geometrie ──────────────────────────────────────────────
+// ─── Geometrie und Texturen ─────────────────────────────────
 
 function cardShape() {
   const w = CARD.width;
@@ -192,8 +241,8 @@ function cardShape() {
 }
 
 function useBadgeAssets(fonts: BadgeFonts) {
-  return useMemo(() => {
-    const make = (draw: (c: HTMLCanvasElement, f: BadgeFonts) => void, anisotropy = 8) => {
+  const assets = useMemo(() => {
+    const make = (draw: (c: HTMLCanvasElement, f: BadgeFonts) => void, anisotropy = 4) => {
       const canvas = document.createElement('canvas');
       draw(canvas, fonts);
       const texture = new THREE.CanvasTexture(canvas);
@@ -204,7 +253,7 @@ function useBadgeAssets(fonts: BadgeFonts) {
 
     const front = make(drawFront);
     const back = make(drawBack);
-    const strap = make(drawStrap, 4);
+    const strap = make(drawStrap, 2);
     strap.wrapS = THREE.RepeatWrapping;
 
     const body = new THREE.ExtrudeGeometry(cardShape(), {
@@ -216,10 +265,14 @@ function useBadgeAssets(fonts: BadgeFonts) {
 
     const face = new THREE.PlaneGeometry(CARD.width, CARD.height);
 
-    // Band als Streifen aus Dreiecken, Positionen werden pro Frame gesetzt
+    // Band als Streifen aus Dreiecken. Positionen pro Frame, Normalen fest zur Kamera,
+    // damit überlappende Stellen beim Falten nicht dunkel flackern.
     const ribbon = new THREE.BufferGeometry();
     const count = (RIBBON_SAMPLES + 1) * 2;
     ribbon.setAttribute('position', new THREE.BufferAttribute(new Float32Array(count * 3), 3));
+    const normal = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) normal[i * 3 + 2] = 1;
+    ribbon.setAttribute('normal', new THREE.BufferAttribute(normal, 3));
     const uv = new Float32Array(count * 2);
     const tile = STRAP_WIDTH * (STRAP_TEXTURE.width / STRAP_TEXTURE.height);
     for (let i = 0; i <= RIBBON_SAMPLES; i++) {
@@ -234,34 +287,46 @@ function useBadgeAssets(fonts: BadgeFonts) {
     }
     ribbon.setIndex(index);
 
-    return {
-      front,
-      back,
-      strap,
-      body,
-      face,
-      ribbon,
-      materials: {
-        body: new THREE.MeshStandardMaterial({ color: '#1b1b1a', roughness: 0.6 }),
-        front: new THREE.MeshPhysicalMaterial({
-          map: front,
-          alphaTest: 0.5,
-          roughness: 0.45,
-          clearcoat: 1,
-          clearcoatRoughness: 0.18,
-        }),
-        back: new THREE.MeshPhysicalMaterial({
-          map: back,
-          alphaTest: 0.5,
-          roughness: 0.5,
-          clearcoat: 0.6,
-          clearcoatRoughness: 0.3,
-        }),
-        strap: new THREE.MeshStandardMaterial({ map: strap, roughness: 0.85, side: THREE.DoubleSide }),
-        metal: new THREE.MeshStandardMaterial({ color: '#c9c8c4', metalness: 1, roughness: 0.28 }),
-      },
+    const materials = {
+      body: new THREE.MeshStandardMaterial({ color: '#1b1b1a', roughness: 0.6 }),
+      // Wenig Klarlack: glänzt leicht, bleibt aber auch schräg im Licht dunkel
+      front: new THREE.MeshPhysicalMaterial({
+        map: front,
+        alphaTest: 0.5,
+        roughness: 0.6,
+        clearcoat: 0.35,
+        clearcoatRoughness: 0.4,
+      }),
+      back: new THREE.MeshPhysicalMaterial({
+        map: back,
+        alphaTest: 0.5,
+        roughness: 0.6,
+        clearcoat: 0.35,
+        clearcoatRoughness: 0.4,
+      }),
+      // Unbeleuchtet, damit das Band exakt in der Akzentfarbe leuchtet
+      strap: new THREE.MeshBasicMaterial({ map: strap, side: THREE.DoubleSide }),
+      metal: new THREE.MeshStandardMaterial({ color: '#c9c8c4', metalness: 1, roughness: 0.3 }),
     };
+
+    return { front, back, strap, body, face, ribbon, materials };
   }, [fonts]);
+
+  // GPU-Speicher freigeben, wenn die Szene verschwindet
+  useEffect(
+    () => () => {
+      assets.front.dispose();
+      assets.back.dispose();
+      assets.strap.dispose();
+      assets.body.dispose();
+      assets.face.dispose();
+      assets.ribbon.dispose();
+      Object.values(assets.materials).forEach((m) => m.dispose());
+    },
+    [assets],
+  );
+
+  return assets;
 }
 
 // ─── Szene ──────────────────────────────────────────────────
@@ -270,16 +335,30 @@ function Environment() {
   const { gl, scene } = useThree();
   useEffect(() => {
     const pmrem = new THREE.PMREMGenerator(gl);
-    const env = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+    const room = new RoomEnvironment();
+    const env = pmrem.fromScene(room, 0.04).texture;
+    room.dispose();
+    pmrem.dispose();
     scene.environment = env;
-    scene.environmentIntensity = 0.35;
+    scene.environmentIntensity = 0.3;
     return () => {
       scene.environment = null;
       env.dispose();
-      pmrem.dispose();
     };
   }, [gl, scene]);
   return null;
+}
+
+interface LanyardProps {
+  fonts: BadgeFonts;
+  reducedMotion: boolean;
+  active: boolean;
+  started: boolean;
+  /** Zählt hoch, wenn die Karte per Tastatur umgedreht werden soll */
+  flipSignal: number;
+  onStart: () => void;
+  onFirstFrame: () => void;
+  setCursor: (cursor: 'default' | 'grab' | 'grabbing') => void;
 }
 
 function Lanyard({
@@ -287,23 +366,19 @@ function Lanyard({
   reducedMotion,
   active,
   started,
+  flipSignal,
+  onStart,
   onFirstFrame,
-  setGrabbing,
-  setHovering,
-}: {
-  fonts: BadgeFonts;
-  reducedMotion: boolean;
-  active: boolean;
-  /** Erst losschwingen, wenn die Karte wirklich im Bild ist */
-  started: boolean;
-  onFirstFrame: () => void;
-  setGrabbing: (v: boolean) => void;
-  setHovering: (v: boolean) => void;
-}) {
+  setCursor,
+}: LanyardProps) {
   const assets = useBadgeAssets(fonts);
-  const sim = useMemo(() => createSim(!reducedMotion), [reducedMotion]);
+  const sim = useMemo(() => createSim(), []);
   const card = useRef<THREE.Group>(null!);
   const firstFrame = useRef(true);
+  const teardown = useRef<(() => void) | null>(null);
+  const flipTimer = useRef<number | undefined>(undefined);
+  const live = useRef({ active, started, reducedMotion });
+  live.current = { active, started, reducedMotion };
   const { camera, invalidate, gl } = useThree();
 
   const helpers = useMemo(
@@ -318,31 +393,92 @@ function Lanyard({
       z: new THREE.Vector3(),
       side: new THREE.Vector3(),
       ndc: new THREE.Vector2(),
-      down: { x: 0, y: 0, moved: false },
-      lastPointer: new THREE.Vector3(),
+      pointer: new THREE.Vector3(),
     }),
     [sim],
   );
 
-  // Aufwecken, wenn sich etwas bewegen soll
+  /** Vorder- und Rückseite wechseln; nach einer Weile dreht sich die Karte zurück */
+  const flip = () => {
+    sim.twistTarget = sim.twistTarget === 0 ? Math.PI : 0;
+    if (live.current.reducedMotion) {
+      sim.twist = sim.twistTarget;
+      sim.twistVel = 0;
+    }
+    sim.calm = 0;
+    window.clearTimeout(flipTimer.current);
+    if (sim.twistTarget !== 0) {
+      flipTimer.current = window.setTimeout(() => {
+        sim.twistTarget = 0;
+        if (live.current.reducedMotion) sim.twist = 0;
+        sim.calm = 0;
+        invalidate();
+      }, FLIP_HOLD_MS);
+    }
+    invalidate();
+  };
+
+  // Aufräumen beim Verlassen, auch mitten im Ziehen
+  useEffect(
+    () => () => {
+      teardown.current?.();
+      window.clearTimeout(flipTimer.current);
+    },
+    [],
+  );
+
+  // Umdrehen per Tastatur (Button in LanyardBadge)
+  const lastFlipSignal = useRef(flipSignal);
+  useEffect(() => {
+    if (flipSignal === lastFlipSignal.current) return;
+    lastFlipSignal.current = flipSignal;
+    flip();
+    // flip liest nur Refs und stabile Werte
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [flipSignal]);
+
+  // Einschwingen, sobald die Karte im Bild ist: seitlicher Schubs, so dosiert,
+  // dass die Karte im sichtbaren Bereich bleibt
+  useEffect(() => {
+    if (!started) return;
+    if (!reducedMotion) {
+      const room = Math.max(sim.halfW - CARD.width / 2 - 0.15, 0.2);
+      const omega = Math.sqrt(GRAVITY / (ROPE_LEN + CLIP_GAP + CARD.height * 0.6));
+      nudge(sim, -Math.min(room, 0.9) * omega * 0.8);
+      sim.twistVel += 1.6;
+    }
+    invalidate();
+  }, [started, reducedMotion, sim, invalidate]);
+
   useEffect(() => {
     if (active) invalidate();
-  }, [active, started, invalidate]);
+  }, [active, invalidate]);
 
-  // Scrollen bringt die Karte leicht ins Schwingen
+  // Scrollen: nur Beschleunigung (Anfahren, Abbremsen) bringt Schwung, begrenzt,
+  // und nur solange die Karte zu sehen ist
   useEffect(() => {
-    if (reducedMotion || !started) return;
-    let last = window.scrollY;
+    if (reducedMotion) return;
+    let lastY = window.scrollY;
+    let lastV = 0;
+    let lastT = performance.now();
     const onScroll = () => {
-      const dy = window.scrollY - last;
-      last = window.scrollY;
-      const v = THREE.MathUtils.clamp(dy, -60, 60);
-      nudge(sim, v * 0.008, v * 0.003);
+      const now = performance.now();
+      const dy = window.scrollY - lastY;
+      lastY = window.scrollY;
+      const dt = Math.max(now - lastT, 1);
+      lastT = now;
+      const v = dt > 150 ? 0 : dy / dt; // Pixel pro Millisekunde, nach einer Pause neu anfangen
+      const a = THREE.MathUtils.clamp(v - lastV, -3, 3);
+      lastV = v;
+      const { active: visible, started: running } = live.current;
+      if (!visible || !running || sim.grab || Math.abs(a) < 0.05) return;
+      nudge(sim, a * 0.35);
+      sim.twistVel += a * 0.25;
       invalidate();
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, [sim, reducedMotion, started, invalidate]);
+  }, [sim, reducedMotion, invalidate]);
 
   /** Zeiger (Client-Koordinaten) auf die Ebene z = 0 projizieren */
   const pointerToWorld = (clientX: number, clientY: number, out: THREE.Vector3) => {
@@ -352,63 +488,128 @@ function Lanyard({
     return helpers.raycaster.ray.intersectPlane(helpers.plane, out);
   };
 
+  /** Ziel für den Greifpunkt: im Bild und in Reichweite von Band und Karte */
+  const clampTarget = (grab: Grab) => {
+    const target = grab.to;
+    const halfW = Math.max(sim.halfW - CARD.width / 2 - 0.05, 0);
+    target.x = THREE.MathUtils.clamp(target.x, -halfW, halfW);
+    const reach = ROPE_LEN + grab.t * BODY_LEN - 0.02;
+    tmp.subVectors(target, ANCHOR);
+    if (tmp.length() > reach) target.copy(ANCHOR).addScaledVector(tmp.normalize(), reach);
+    // Greifpunkt liegt t * Kartenlänge unter dem Ring, bei maximaler Neigung entsprechend weniger
+    target.y = Math.min(target.y, MAX_PIVOT_Y - grab.t * BODY_LEN * Math.cos(MAX_TILT));
+  };
+
   const onPointerDown = (e: ThreeEvent<PointerEvent>) => {
+    const native = e.nativeEvent;
+    if (native.button !== 0 || !native.isPrimary || native.ctrlKey) return;
     e.stopPropagation();
-    const hit = e.point;
-    const p0 = sim.pos[PIVOT];
-    const p1 = sim.pos[BOTTOM];
-    tmp.subVectors(p1, p0);
-    const t = THREE.MathUtils.clamp(tmp2.subVectors(hit, p0).dot(tmp) / tmp.lengthSq(), 0.05, 1);
-    const target = new THREE.Vector3();
-    if (!pointerToWorld(e.clientX, e.clientY, target)) return;
-    const grabPoint = new THREE.Vector3().lerpVectors(p0, p1, t);
-    sim.grab = { t, target: target.clone(), offset: grabPoint.sub(target) };
-    sim.grab.target.add(sim.grab.offset);
-    helpers.down = { x: e.clientX, y: e.clientY, moved: false };
-    helpers.lastPointer.copy(target);
-    setGrabbing(true);
+    if (!live.current.started) {
+      onStart();
+      return;
+    }
+    if (teardown.current) teardown.current();
+
+    const pointerId = native.pointerId;
+    const touch = native.pointerType === 'touch';
+    const startX = native.clientX;
+    const startY = native.clientY;
+    const hit = e.point.clone();
+    let moved = false;
+    let lastWorldX = 0;
+
+    const beginGrab = (clientX: number, clientY: number) => {
+      if (!pointerToWorld(clientX, clientY, helpers.pointer)) return;
+      const p0 = sim.pos[PIVOT];
+      const p1 = sim.pos[BOTTOM];
+      tmp.subVectors(p1, p0);
+      const t = THREE.MathUtils.clamp(tmp2.subVectors(hit, p0).dot(tmp) / tmp.lengthSq(), 0.05, 1);
+      const offset = new THREE.Vector3().lerpVectors(p0, p1, t).sub(helpers.pointer);
+      const to = helpers.pointer.clone().add(offset);
+      sim.grab = { pointerId, t, offset, from: to.clone(), to, target: to.clone() };
+      lastWorldX = helpers.pointer.x;
+      setCursor('grabbing');
+      invalidate();
+    };
+
+    // Maus und Stift greifen sofort. Beim Finger erst, wenn klar seitlich gewischt wird,
+    // damit senkrechtes Wischen weiter die Seite scrollt.
+    if (!touch) beginGrab(startX, startY);
+
+    const end = (kind: 'up' | 'cancel') => {
+      if (kind === 'up' && !moved) flip();
+      if (kind === 'cancel' && sim.grab) {
+        // Abgebrochen (Scrollen übernimmt, Kontextmenü): ohne Wurf loslassen
+        sim.prev[PIVOT].copy(sim.pos[PIVOT]);
+        sim.prev[BOTTOM].copy(sim.pos[BOTTOM]);
+      }
+      sim.grab = null;
+      sim.calm = 0;
+      setCursor('grab');
+      invalidate();
+      teardown.current?.();
+    };
 
     const move = (ev: PointerEvent) => {
-      if (!sim.grab) return;
-      if (Math.hypot(ev.clientX - helpers.down.x, ev.clientY - helpers.down.y) > 6) helpers.down.moved = true;
-      if (!pointerToWorld(ev.clientX, ev.clientY, target)) return;
-      sim.grab.target.copy(target).add(sim.grab.offset);
-      // Seitlich im Bild halten und nicht weiter ziehen, als Band und Karte lang sind
-      const halfW = Math.max(HALF_H * (camera as THREE.PerspectiveCamera).aspect - CARD.width / 2 - 0.05, 0);
-      sim.grab.target.x = THREE.MathUtils.clamp(sim.grab.target.x, -halfW, halfW);
-      const reach = ROPE_LEN + sim.grab.t * BODY_LEN - 0.02;
-      tmp.subVectors(sim.grab.target, ANCHOR);
-      if (tmp.length() > reach) sim.grab.target.copy(ANCHOR).addScaledVector(tmp.normalize(), reach);
-      sim.twistVel += THREE.MathUtils.clamp((target.x - helpers.lastPointer.x) * 2.2, -1.5, 1.5);
-      helpers.lastPointer.copy(target);
+      if (ev.pointerId !== pointerId) return;
+      if (ev.pointerType === 'mouse' && ev.buttons === 0) return end('cancel');
+      const dx = ev.clientX - startX;
+      const dy = ev.clientY - startY;
+      if (!moved && Math.hypot(dx, dy) > 6) moved = true;
+      if (!sim.grab) {
+        if (!touch || !moved) return;
+        if (Math.abs(dy) > Math.abs(dx)) return end('cancel');
+        beginGrab(ev.clientX, ev.clientY);
+        if (!sim.grab) return;
+      }
+      const grab: Grab = sim.grab;
+      if (!pointerToWorld(ev.clientX, ev.clientY, helpers.pointer)) return;
+      grab.to.copy(helpers.pointer).add(grab.offset);
+      clampTarget(grab);
+      sim.twistVel += THREE.MathUtils.clamp((helpers.pointer.x - lastWorldX) * 1.5, -1, 1);
+      lastWorldX = helpers.pointer.x;
       sim.calm = 0;
       invalidate();
     };
-    const up = () => {
-      // Kurzes Antippen ohne Ziehen: Karte dreht sich einmal um
-      if (sim.grab && !helpers.down.moved) nudge(sim, 0, 10.5);
-      sim.grab = null;
-      setGrabbing(false);
-      invalidate();
-      window.removeEventListener('pointermove', move);
-      window.removeEventListener('pointerup', up);
-      window.removeEventListener('pointercancel', up);
+
+    const up = (ev: PointerEvent) => {
+      if (ev.pointerId === pointerId) end('up');
     };
+    const cancel = () => end('cancel');
+
     window.addEventListener('pointermove', move);
     window.addEventListener('pointerup', up);
-    window.addEventListener('pointercancel', up);
-    invalidate();
+    window.addEventListener('pointercancel', cancel);
+    window.addEventListener('contextmenu', cancel);
+    window.addEventListener('blur', cancel);
+    teardown.current = () => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+      window.removeEventListener('pointercancel', cancel);
+      window.removeEventListener('contextmenu', cancel);
+      window.removeEventListener('blur', cancel);
+      teardown.current = null;
+      if (sim.grab?.pointerId === pointerId) sim.grab = null;
+    };
   };
 
-  useFrame((_, delta) => {
-    // Feste Physik-Schritte, unabhängig von der Bildrate
-    sim.acc = started ? Math.min(sim.acc + delta, 0.1) : 0;
-    while (sim.acc >= STEP) {
-      step(sim, STEP);
-      sim.acc -= STEP;
+  useFrame((state, delta) => {
+    sim.halfW = HALF_H * (state.camera as THREE.PerspectiveCamera).aspect;
+
+    // Feste Physik-Schritte, unabhängig von der Bildrate. Das Greifziel wird über
+    // die Teilschritte verteilt, sonst ginge der Wurf bei 60 Hz verloren.
+    if (started) {
+      sim.acc = Math.min(sim.acc + delta, 0.1);
+      const steps = Math.floor(sim.acc / STEP);
+      for (let k = 1; k <= steps; k++) {
+        if (sim.grab) sim.grab.target.lerpVectors(sim.grab.from, sim.grab.to, k / steps);
+        step(sim, STEP);
+      }
+      sim.acc -= steps * STEP;
+      if (sim.grab) sim.grab.from.copy(sim.grab.to);
     }
 
-    // Karte ausrichten: y entlang Band, Drehung um die eigene Achse
+    // Karte ausrichten: y entlang der Karte, dazu die Drehung um die eigene Achse
     const { x, y, z, basis } = helpers;
     y.subVectors(sim.pos[PIVOT], sim.pos[BOTTOM]).normalize();
     x.crossVectors(y, AXIS_Z).normalize();
@@ -422,7 +623,7 @@ function Lanyard({
     card.current.position.copy(sim.pos[PIVOT]);
     card.current.quaternion.setFromRotationMatrix(basis);
 
-    // Band nachziehen: Kurve durch die Bandpunkte, Streifen zur Kamera gedreht,
+    // Band nachziehen: Kurve durch die Bandpunkte, Streifen in der Bildebene,
     // am unteren Ende in die Drehung der Karte übergehend
     helpers.samples.forEach((p, i) => helpers.curve.getPoint(i / RIBBON_SAMPLES, p));
     const attr = assets.ribbon.getAttribute('position') as THREE.BufferAttribute;
@@ -440,18 +641,22 @@ function Lanyard({
       attr.setXYZ(i * 2 + 1, p.x + tmp2.x, p.y + tmp2.y, p.z + tmp2.z);
     }
     attr.needsUpdate = true;
-    assets.ribbon.computeVertexNormals();
-    assets.ribbon.computeBoundingSphere();
 
     if (firstFrame.current) {
       firstFrame.current = false;
       onFirstFrame();
     }
 
-    // Weiterrendern, solange sich noch etwas bewegt
-    if (kinetic(sim) < 2e-7 && !sim.grab) sim.calm += 1;
+    // Weiterrendern, solange sich sichtbar etwas bewegt; danach Drehung einrasten
+    if (!started) return;
+    if (kinetic(sim) < CALM_ENERGY && !sim.grab) sim.calm += 1;
     else sim.calm = 0;
-    if (active && started && sim.calm < 45) invalidate();
+    if (sim.calm >= CALM_FRAMES) {
+      sim.twist = sim.twistTarget;
+      sim.twistVel = 0;
+      return;
+    }
+    if (active) invalidate();
   });
 
   const cardTop = -CLIP_GAP;
@@ -463,14 +668,13 @@ function Lanyard({
       <mesh geometry={assets.ribbon} material={assets.materials.strap} frustumCulled={false} />
 
       <group ref={card}>
-        {/* Ring und Klemme */}
+        {/* Ring, Klemme und Lasche durch den Schlitz */}
         <mesh material={assets.materials.metal}>
           <torusGeometry args={[0.075, 0.018, 12, 32]} />
         </mesh>
         <mesh material={assets.materials.metal} position={[0, -0.1, 0.02]}>
           <boxGeometry args={[0.2, 0.09, 0.05]} />
         </mesh>
-        {/* Lasche vom Clip durch den Schlitz */}
         <mesh material={assets.materials.metal} position={[0, (-0.1 + slotCenter) / 2, 0.03]}>
           <boxGeometry args={[0.07, -0.1 - slotCenter, 0.012]} />
         </mesh>
@@ -482,8 +686,8 @@ function Lanyard({
         <group
           position={[0, cardCenter, 0]}
           onPointerDown={onPointerDown}
-          onPointerOver={() => setHovering(true)}
-          onPointerOut={() => setHovering(false)}
+          onPointerOver={() => !sim.grab && setCursor('grab')}
+          onPointerOut={() => !sim.grab && setCursor('default')}
         >
           <mesh geometry={assets.body} material={assets.materials.body} />
           <mesh geometry={assets.face} material={assets.materials.front} position={[0, 0, CARD.depth / 2 + 0.001]} />
@@ -501,17 +705,18 @@ function Lanyard({
 
 export default function BadgeScene({
   reducedMotion,
+  flipSignal,
   onReady,
 }: {
   reducedMotion: boolean;
+  flipSignal: number;
   onReady: () => void;
 }) {
   const container = useRef<HTMLDivElement>(null);
   const [fonts, setFonts] = useState<BadgeFonts | null>(null);
   const [active, setActive] = useState(true);
   const [started, setStarted] = useState(false);
-  const [grabbing, setGrabbing] = useState(false);
-  const [hovering, setHovering] = useState(false);
+  const [cursor, setCursor] = useState<'default' | 'grab' | 'grabbing'>('default');
 
   useEffect(() => {
     let cancelled = false;
@@ -521,24 +726,25 @@ export default function BadgeScene({
     };
   }, []);
 
-  // Nur rechnen, solange die Karte zu sehen ist
+  // Nur rechnen, solange die Karte zu sehen ist. Einschwingen erst, wenn der
+  // Bereich fast ganz im Bild ist (die Karte sitzt in der unteren Hälfte).
   useEffect(() => {
     const el = container.current;
     if (!el) return;
-    const observer = new IntersectionObserver(([entry]) => setActive(entry.isIntersecting));
-    observer.observe(el);
+    const visibility = new IntersectionObserver(([entry]) => setActive(entry.isIntersecting));
+    visibility.observe(el);
     const start = new IntersectionObserver(
       ([entry]) => {
-        if (entry.intersectionRatio >= 0.4) {
+        if (entry.intersectionRatio >= 0.8) {
           setStarted(true);
           start.disconnect();
         }
       },
-      { threshold: [0, 0.4] },
+      { threshold: [0, 0.8] },
     );
     start.observe(el);
     return () => {
-      observer.disconnect();
+      visibility.disconnect();
       start.disconnect();
     };
   }, []);
@@ -546,13 +752,13 @@ export default function BadgeScene({
   return (
     <div
       ref={container}
-      className="absolute inset-0 touch-pan-y select-none"
-      style={{ cursor: grabbing ? 'grabbing' : hovering ? 'grab' : 'default' }}
+      className="absolute inset-0 select-none"
+      style={{ cursor, touchAction: 'pan-y pinch-zoom' }}
     >
       {fonts && (
         <Canvas
           flat
-          frameloop="demand"
+          frameloop={active ? 'demand' : 'never'}
           dpr={[1, 2]}
           camera={{ position: [0, 0, CAMERA_Z], fov: FOV, near: 0.1, far: 100 }}
           gl={{ antialias: true, alpha: true, powerPreference: 'low-power' }}
@@ -566,9 +772,10 @@ export default function BadgeScene({
             reducedMotion={reducedMotion}
             active={active}
             started={started}
+            flipSignal={flipSignal}
+            onStart={() => setStarted(true)}
             onFirstFrame={onReady}
-            setGrabbing={setGrabbing}
-            setHovering={setHovering}
+            setCursor={setCursor}
           />
         </Canvas>
       )}
