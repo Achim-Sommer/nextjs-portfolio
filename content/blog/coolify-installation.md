@@ -143,6 +143,8 @@ Wie sich Coolify nach der Einrichtung im Alltag schlägt und auf welche Stolperf
 - Hinterlege in den Einstellungen eine eigene Domain für das Dashboard, damit du Coolify per HTTPS statt über Port 8000 erreichst
 - Aktiviere die Zwei-Faktor-Authentifizierung
 - Halte Coolify und Docker regelmäßig aktualisiert
+- Sichere den Server selbst ab (SSH-Schlüssel, Firewall, Fail2ban), siehe [Linux vServer absichern](/blog/linux-vserver-absichern)
+- Überwache deine Apps von außen, zum Beispiel mit [Uptime Kuma](/blog/uptime-kuma-installieren)
 - Sichere deine Daten regelmäßig
 
 ## Häufig gestellte Fragen (FAQ)

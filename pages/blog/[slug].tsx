@@ -29,6 +29,8 @@ const Tip = dynamic(() => import('../../src/components/Tip'));
 const ServerComparisonTable = dynamic(() => import('@/components/mdx/tables').then(mod => mod.ServerComparisonTable));
 const PriceComparison = dynamic(() => import('@/components/PriceComparison/PriceComparison'));
 const ZapHostingCta = dynamic(() => import('@/components/ZapHostingCta'));
+const RamRechner = dynamic(() => import('@/components/mdx/RamRechner'));
+const RamTabelle = dynamic(() => import('@/components/mdx/RamTabelle'));
 
 interface FrontMatter {
   title: string;
@@ -67,7 +69,9 @@ const components = {
   Tip: Tip,
   ServerComparisonTable: ServerComparisonTable,
   PriceComparison: PriceComparison,
-  ZapHostingCta: ZapHostingCta
+  ZapHostingCta: ZapHostingCta,
+  RamRechner,
+  RamTabelle,
 };
 
 const formatDate = (value: string) =>
@@ -287,6 +291,12 @@ export default function BlogPost({ frontMatter, mdxSource, slug, relatedPosts, t
                     ">
                       <MDXRemote {...mdxSource} components={components} />
                     </div>
+
+                    {/* Pflichtangabe: Unter jedem Artikel steht Werbung mit Partnerlinks (ZAP-Hosting) */}
+                    <p className="text-sm text-gray-400 border-t border-gray-700 pt-4">
+                      Dieser Artikel enthält Partnerlinks. Kaufst du darüber, erhalte ich eine Provision, für dich
+                      ändert sich am Preis nichts.
+                    </p>
 
                     {/* Bottom Share Button */}
                     <div className="pt-6">

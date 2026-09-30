@@ -146,6 +146,8 @@ Wenn du deine Container lieber im Browser statt auf der Kommandozeile verwaltest
 
 ## Sicherheitshinweise
 
+Bevor Docker produktiv läuft, sollte der Server selbst abgesichert sein. Wie das geht, zeige ich in [Linux vServer absichern](/blog/linux-vserver-absichern). Wichtig: Veröffentlichte Docker-Ports umgehen die UFW-Firewall.
+
 - Verwende immer offizielle Images
 - Halte Docker und Images aktuell
 - Nutze einen normalen Benutzer statt root für die tägliche Arbeit
