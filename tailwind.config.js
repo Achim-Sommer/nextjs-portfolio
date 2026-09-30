@@ -46,11 +46,27 @@ module.exports = {
         'status-pulse': 'status-pulse 2s ease-in-out infinite',
         'infinite-scroll': 'infinite-scroll var(--animation-duration) linear infinite',
         'rise': 'rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both',
+        'glow': 'glow 7s ease-in-out infinite',
+        'toast': 'toast 1.8s ease-out both',
+        'marquee': 'marquee var(--marquee-duration, 60s) linear infinite',
       },
       keyframes: {
         'rise': {
           from: { opacity: '0', transform: 'translateY(14px)' },
           to: { opacity: '1', transform: 'none' },
+        },
+        'toast': {
+          '0%': { opacity: '0', transform: 'translate(-50%, 6px)' },
+          '12%, 75%': { opacity: '1', transform: 'translate(-50%, 0)' },
+          '100%': { opacity: '0', transform: 'translate(-50%, -4px)' },
+        },
+        'glow': {
+          '0%, 100%': { opacity: '0.75', transform: 'scale(1)' },
+          '50%': { opacity: '1', transform: 'scale(1.06)' },
+        },
+        'marquee': {
+          from: { transform: 'translateX(0)' },
+          to: { transform: 'translateX(-50%)' },
         },
         'gradient-xy': {
           '0%, 100%': {

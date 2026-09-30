@@ -9,6 +9,8 @@ import CareerTimeline from '@/components/CareerTimeline';
 import Studies from '@/components/home/Studies';
 import LatestPosts from '@/components/LatestPosts';
 import Contact from '@/components/home/Contact';
+import WordBand from '@/components/home/WordBand';
+import PacketTrail from '@/components/home/PacketTrail';
 import Footer from '@/components/Footer';
 import type { BlogListItem } from '../../lib/blog';
 
@@ -40,15 +42,18 @@ export default function MainContent({ latestPosts }: MainContentProps) {
         <Hero />
         <AboutMe />
         <CareerTimeline />
+        <WordBand words={['Infrastruktur', 'Security', 'Automatisierung']} />
         <Studies />
         <GitHubRepos />
         {latestPosts && latestPosts.length > 0 && <LatestPosts posts={latestPosts} />}
+        <WordBand words={['Cloud', 'Serverraum', 'Arbeitsplätze']} reverse duration={80} />
         <div id="zap-hosting" className="scroll-mt-20 border-t border-line">
           <ZapHosting />
         </div>
         <Contact />
       </main>
       <Footer />
+      <PacketTrail />
     </MotionConfig>
   );
 }

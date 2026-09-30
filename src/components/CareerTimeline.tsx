@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { motion, useScroll, useSpring } from 'framer-motion';
 import { FiArrowUpRight, FiChevronDown } from 'react-icons/fi';
 import { careerStations, education } from '@/data/career';
 import { Reveal, Section, SectionHeading } from './home/primitives';
@@ -8,6 +9,25 @@ import { Reveal, Section, SectionHeading } from './home/primitives';
 /** Ab dieser Position werden Stationen auf dem Handy eingeklappt. */
 const IMMER_OFFEN = 2;
 const MOBIL = '(max-width: 639px)';
+
+/**
+ * Punkt auf der Zeitachse in der Firmenfarbe. Kommt die Station ins Bild,
+ * leuchtet ein weicher Schein in derselben Farbe einmal kurz auf.
+ */
+function Marker({ color }: { color: string }) {
+  return (
+    <span className="absolute left-0 top-[2.85rem] -translate-x-1/2 lg:top-[3.35rem]" aria-hidden="true">
+      <motion.span
+        className={`absolute left-1/2 top-1/2 h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full blur-md ${color}`}
+        initial={{ opacity: 0, scale: 0.3 }}
+        whileInView={{ opacity: [0, 0.75, 0], scale: [0.3, 1.4, 1.8] }}
+        viewport={{ once: true, margin: '0px 0px -35% 0px' }}
+        transition={{ duration: 1.4, ease: 'easeOut' }}
+      />
+      <span className={`relative block h-2.5 w-2.5 ring-4 ring-canvas ${color}`} />
+    </span>
+  );
+}
 
 /** "Aug 2026 bis heute" wird zu zwei Zeilen */
 function Period({ value }: { value: string }) {
@@ -27,6 +47,10 @@ function Period({ value }: { value: string }) {
 
 export default function CareerTimeline() {
   const [istMobil, setIstMobil] = useState(false);
+  const listRef = useRef<HTMLOListElement>(null);
+  // Linie füllt sich, während der Werdegang durchs Bild scrollt
+  const { scrollYProgress } = useScroll({ target: listRef, offset: ['start 0.7', 'end 0.6'] });
+  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.3 });
   const [geoeffnet, setGeoeffnet] = useState<Record<string, boolean>>({});
 
   // Erst nach dem Mount auswerten: serverseitig sind alle Stationen ausgeklappt,
@@ -54,13 +78,22 @@ export default function CareerTimeline() {
         </p>
       </SectionHeading>
 
-      <ol className="mt-20">
+      <ol ref={listRef} className="relative mt-20 pl-7 lg:pl-10">
+        <span className="absolute bottom-0 left-0 top-0 w-px bg-line" aria-hidden="true" />
+        <motion.span
+          className="absolute bottom-0 left-0 top-0 w-px origin-top bg-gradient-to-b from-accent via-accent to-accent/30"
+          style={{ scaleY: progress }}
+          aria-hidden="true"
+        />
         {careerStations.map((station, index) => {
           const einklappbar = istMobil && index >= IMMER_OFFEN;
           const offen = !einklappbar || Boolean(geoeffnet[station.id]);
 
           return (
-            <li key={station.id} className="border-t border-line">
+            <li key={station.id} className="relative border-t border-line">
+              <span className="absolute -left-7 top-0 h-full lg:-left-10">
+                <Marker color={station.accent.dot} />
+              </span>
               <Reveal className="grid gap-5 py-10 lg:grid-cols-12 lg:gap-10 lg:py-12">
                 {/* Zeitraum */}
                 <div className="flex items-start justify-between gap-4 lg:col-span-4 lg:block">
@@ -150,7 +183,10 @@ export default function CareerTimeline() {
         })}
 
         {/* Studium */}
-        <li className="border-y border-line">
+        <li className="relative border-y border-line">
+          <span className="absolute -left-7 top-0 h-full lg:-left-10">
+            <Marker color={education.accent.dot} />
+          </span>
           <Reveal className="grid gap-5 py-10 lg:grid-cols-12 lg:gap-10 lg:py-12">
             <div className="lg:col-span-4">
               <Period value={education.period} />

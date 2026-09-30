@@ -262,3 +262,51 @@ export function drawStrap(canvas: HTMLCanvasElement, fonts: BadgeFonts) {
   ctx.fillRect(w - 3, h / 2 - 3, 6, 6);
   ctx.fillRect(-3, h / 2 - 3, 6, 6);
 }
+
+/**
+ * Hologramm: Maske (weiß = sichtbar) für ein Siegel an der Fotoecke und einen
+ * schmalen Streifen am rechten Kartenrand. Darüber läuft in BadgeScene.tsx
+ * ein Regenbogenverlauf, der sich mit der Lage der Karte verschiebt.
+ */
+export function drawHoloMask(canvas: HTMLCanvasElement) {
+  const { ctx, w, h } = setup(canvas);
+  ctx.clearRect(0, 0, w, h);
+  ctx.fillStyle = '#000';
+  ctx.fillRect(0, 0, w, h);
+  ctx.strokeStyle = '#fff';
+  ctx.fillStyle = '#fff';
+
+  // Siegel mit Guillochen-Ringen, überlappt die rechte untere Fotoecke
+  const cx = PAD + 196 - 6;
+  const cy = 184 + 196 - 6;
+  ctx.lineWidth = 3;
+  for (let r = 18; r <= 58; r += 8) {
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+  for (let a = 0; a < Math.PI * 2; a += Math.PI / 12) {
+    ctx.beginPath();
+    ctx.moveTo(cx + Math.cos(a) * 18, cy + Math.sin(a) * 18);
+    ctx.lineTo(cx + Math.cos(a) * 58, cy + Math.sin(a) * 58);
+    ctx.stroke();
+  }
+
+  // Schmaler Sicherheitsstreifen mit Wellenlinien
+  const sx = w - 30;
+  ctx.globalAlpha = 0.8;
+  ctx.fillRect(sx, 170, 10, h - 330);
+  ctx.globalAlpha = 1;
+}
+
+/** Diagonaler Regenbogen, kachelbar */
+export function drawHoloRainbow(canvas: HTMLCanvasElement) {
+  canvas.width = 256;
+  canvas.height = 256;
+  const ctx = canvas.getContext('2d') as Ctx;
+  const g = ctx.createLinearGradient(0, 0, 256, 256);
+  const hues = [18, 60, 140, 190, 260, 320, 18];
+  hues.forEach((hue, i) => g.addColorStop(i / (hues.length - 1), `hsl(${hue} 85% 62%)`));
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, 256, 256);
+}

@@ -69,7 +69,18 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="relative motion-safe:animate-rise lg:col-span-6 xl:col-span-7" style={rise(160)}>
+        <div className="relative isolate motion-safe:animate-rise lg:col-span-6 xl:col-span-7" style={rise(160)}>
+          {/* Weicher Lichtschein hinter dem Netzwerk, als würde der Serverraum glühen */}
+          <div aria-hidden="true" className="pointer-events-none absolute inset-[-12%] -z-10">
+            <div
+              className="absolute inset-0 motion-safe:animate-glow"
+              style={{
+                background:
+                  'radial-gradient(closest-side at 58% 52%, rgba(255,106,43,0.22), rgba(255,106,43,0.07) 45%, transparent 75%)',
+                filter: 'blur(30px)',
+              }}
+            />
+          </div>
           <NetworkDiagram />
         </div>
       </Container>

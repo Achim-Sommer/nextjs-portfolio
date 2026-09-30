@@ -202,6 +202,7 @@ export default function RootLayout({
             }}
           />
         )}
+        <div className="grain" aria-hidden="true" />
         <Providers>
           <div className="min-h-screen">
             {children}

@@ -48,6 +48,8 @@ export default function LanyardBadge({ className = '' }: { className?: string })
   const [failed, setFailed] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [flipSignal, setFlipSignal] = useState(0);
+  /** Zähler für die Meldung "Zugang gewährt"; jeder Tipp startet sie neu */
+  const [granted, setGranted] = useState(0);
 
   useEffect(() => {
     setReducedMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
@@ -84,6 +86,7 @@ export default function LanyardBadge({ className = '' }: { className?: string })
   return (
     <div
       ref={ref}
+      data-badge-anchor
       className={`relative ${className}`}
       style={{ containerType: 'size', maskImage: MASK, WebkitMaskImage: MASK, maskComposite: 'intersect', WebkitMaskComposite: 'source-in' }}
     >
@@ -97,11 +100,27 @@ export default function LanyardBadge({ className = '' }: { className?: string })
           <ErrorBoundary fallback={null} onError={() => setFailed(true)}>
             {/* Kein Überblenden: das erste 3D-Bild zeigt exakt die ruhende statische Karte */}
             <div className={`absolute inset-0 ${ready ? 'opacity-100' : 'opacity-0'}`}>
-              <BadgeScene reducedMotion={reducedMotion} flipSignal={flipSignal} onReady={() => setReady(true)} />
+              <BadgeScene
+                reducedMotion={reducedMotion}
+                flipSignal={flipSignal}
+                onReady={() => setReady(true)}
+                onTap={() => setGranted((n) => n + 1)}
+              />
             </div>
           </ErrorBoundary>
         )}
       </div>
+
+      {granted > 0 && (
+        <div
+          key={granted}
+          className="pointer-events-none absolute left-1/2 top-[30%] z-10 -translate-x-1/2 animate-toast whitespace-nowrap border border-accent/60 bg-canvas/90 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.16em] text-fg backdrop-blur-sm"
+          role="status"
+        >
+          <span className="mr-2 inline-block h-1.5 w-1.5 bg-accent align-middle" aria-hidden="true" />
+          Zugang gewährt
+        </div>
+      )}
 
       {interactive && (
         <button

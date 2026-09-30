@@ -4,12 +4,15 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, useFrame, useThree, type ThreeEvent } from '@react-three/fiber';
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
+import { PACKET_ARRIVED } from '../PacketTrail';
 import {
   CARD,
   SLOT,
   STRAP_TEXTURE,
   drawBack,
   drawFront,
+  drawHoloMask,
+  drawHoloRainbow,
   drawStrap,
   loadBadgeFonts,
   type BadgeFonts,
@@ -264,6 +267,11 @@ function useBadgeAssets(fonts: BadgeFonts) {
     const front = make(drawFront);
     const back = make(drawBack);
     const strap = make(drawStrap, 2);
+    const holoMask = make((c) => drawHoloMask(c), 4);
+    holoMask.colorSpace = THREE.NoColorSpace;
+    const holoRainbow = make((c) => drawHoloRainbow(c), 1);
+    holoRainbow.wrapS = THREE.RepeatWrapping;
+    holoRainbow.wrapT = THREE.RepeatWrapping;
     strap.wrapS = THREE.RepeatWrapping;
 
     const body = new THREE.ExtrudeGeometry(cardShape(), {
@@ -317,9 +325,18 @@ function useBadgeAssets(fonts: BadgeFonts) {
       // Unbeleuchtet, damit das Band exakt in der Akzentfarbe leuchtet
       strap: new THREE.MeshBasicMaterial({ map: strap, side: THREE.DoubleSide }),
       metal: new THREE.MeshStandardMaterial({ color: '#c9c8c4', metalness: 1, roughness: 0.3 }),
+      // Hologramm: Regenbogen nur durch die Maske sichtbar, additiv, wandert mit der Kartenlage
+      holo: new THREE.MeshBasicMaterial({
+        map: holoRainbow,
+        alphaMap: holoMask,
+        transparent: true,
+        opacity: 0.55,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      }),
     };
 
-    return { front, back, strap, body, face, ribbon, materials };
+    return { front, back, strap, holoMask, holoRainbow, body, face, ribbon, materials };
   }, [fonts]);
 
   // GPU-Speicher freigeben, wenn die Szene verschwindet
@@ -328,6 +345,8 @@ function useBadgeAssets(fonts: BadgeFonts) {
       assets.front.dispose();
       assets.back.dispose();
       assets.strap.dispose();
+      assets.holoMask.dispose();
+      assets.holoRainbow.dispose();
       assets.body.dispose();
       assets.face.dispose();
       assets.ribbon.dispose();
@@ -367,6 +386,8 @@ interface LanyardProps {
   /** Zählt hoch, wenn die Karte per Tastatur umgedreht werden soll */
   flipSignal: number;
   onStart: () => void;
+  /** Karte wurde angetippt oder per Tastatur umgedreht */
+  onTap: () => void;
   onFirstFrame: () => void;
   setCursor: (cursor: 'default' | 'grab' | 'grabbing') => void;
 }
@@ -378,6 +399,7 @@ function Lanyard({
   started,
   flipSignal,
   onStart,
+  onTap,
   onFirstFrame,
   setCursor,
 }: LanyardProps) {
@@ -409,8 +431,24 @@ function Lanyard({
     [sim],
   );
 
+  const onTapRef = useRef(onTap);
+  onTapRef.current = onTap;
+
+  // Datenpakete aus dem Netzwerk kommen im Band an: kleiner Stoß
+  useEffect(() => {
+    const onPacket = () => {
+      if (!live.current.started || live.current.reducedMotion || sim.grab) return;
+      nudge(sim, 0.9);
+      sim.twistVel += 0.8;
+      invalidate();
+    };
+    window.addEventListener(PACKET_ARRIVED, onPacket);
+    return () => window.removeEventListener(PACKET_ARRIVED, onPacket);
+  }, [sim, invalidate]);
+
   /** Vorder- und Rückseite wechseln; nach einer Weile dreht sich die Karte zurück */
   const flip = () => {
+    onTapRef.current();
     sim.twistTarget = sim.twistTarget === 0 ? Math.PI : 0;
     if (live.current.reducedMotion) {
       sim.twist = sim.twistTarget;
@@ -635,6 +673,11 @@ function Lanyard({
     card.current.position.copy(sim.pos[PIVOT]);
     card.current.quaternion.setFromRotationMatrix(basis);
 
+    // Hologramm schimmert je nach Drehung und Neigung der Karte in anderen Farben
+    const tilt = Math.atan2(sim.pos[BOTTOM].x - sim.pos[PIVOT].x, sim.pos[PIVOT].y - sim.pos[BOTTOM].y);
+    assets.holoRainbow.offset.set(sim.twist * 0.45 + tilt * 1.6, tilt * 0.9 - sim.twist * 0.2);
+    assets.materials.holo.opacity = 0.35 + Math.min(0.4, Math.abs(Math.sin(sim.twist * 1.3 + tilt * 3)) * 0.4);
+
     // Band nachziehen: Kurve durch die Bandpunkte, Streifen in der Bildebene,
     // am unteren Ende in die Drehung der Karte übergehend
     helpers.samples.forEach((p, i) => helpers.curve.getPoint(i / RIBBON_SAMPLES, p));
@@ -709,6 +752,7 @@ function Lanyard({
         >
           <mesh geometry={assets.body} material={assets.materials.body} />
           <mesh geometry={assets.face} material={assets.materials.front} position={[0, 0, CARD.depth / 2 + 0.001]} />
+          <mesh geometry={assets.face} material={assets.materials.holo} position={[0, 0, CARD.depth / 2 + 0.002]} />
           <mesh
             geometry={assets.face}
             material={assets.materials.back}
@@ -725,10 +769,12 @@ export default function BadgeScene({
   reducedMotion,
   flipSignal,
   onReady,
+  onTap,
 }: {
   reducedMotion: boolean;
   flipSignal: number;
   onReady: () => void;
+  onTap: () => void;
 }) {
   const container = useRef<HTMLDivElement>(null);
   const [fonts, setFonts] = useState<BadgeFonts | null>(null);
@@ -800,6 +846,7 @@ export default function BadgeScene({
             started={started && shown}
             flipSignal={flipSignal}
             onStart={() => setStarted(true)}
+            onTap={onTap}
             onFirstFrame={() => {
               setShown(true);
               onReady();

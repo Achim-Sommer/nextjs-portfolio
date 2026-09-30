@@ -1,185 +1,125 @@
 'use client';
-import React from 'react';
-import { InfiniteMovingCards } from './ui/infinite-moving-cards';
-import { FaGamepad, FaLinux, FaWindows, FaServer, FaDatabase, FaGlobe, FaGlobeEurope, FaShieldAlt } from 'react-icons/fa';
-import Image from 'next/image';
 
-const hostingProducts = [
-  {
-    name: 'gameserver',
-    icon: <div className="flex flex-col items-start gap-3">
-      <p className="text-xl font-bold text-[#57BB54]">Gameserver</p>
-      <div className="flex items-center gap-6">
-        <FaGamepad className="text-4xl text-[#57BB54]" />
-        <div>
-          <p className="text-base font-medium">ab 2,76€/Monat</p>
-          <p className="text-sm text-[#57BB54]">oder 45,00€ Lifetime</p>
-        </div>
-      </div>
-    </div>,
-    color: 'from-[#57BB54]/20 via-[#57BB54]/10 to-transparent'
-  },
-  {
-    name: 'linux-vserver',
-    icon: <div className="flex flex-col items-start gap-3">
-      <p className="text-xl font-bold text-[#57BB54]">Linux vServer</p>
-      <div className="flex items-center gap-6">
-        <FaLinux className="text-4xl text-[#57BB54]" />
-        <div>
-          <p className="text-base font-medium">ab 7,90€/Monat</p>
-          <p className="text-sm text-[#57BB54]">oder 64,00€ Lifetime</p>
-        </div>
-      </div>
-    </div>,
-    color: 'from-[#57BB54]/20 via-[#57BB54]/10 to-transparent'
-  },
-  {
-    name: 'windows-vserver',
-    icon: <div className="flex flex-col items-start gap-3">
-      <p className="text-xl font-bold text-[#57BB54]">Windows vServer</p>
-      <div className="flex items-center gap-6">
-        <FaWindows className="text-4xl text-[#57BB54]" />
-        <div>
-          <p className="text-base font-medium">ab 9,90€/Monat</p>
-          <p className="text-sm text-[#57BB54]">oder 99,00€ Lifetime</p>
-        </div>
-      </div>
-    </div>,
-    color: 'from-[#57BB54]/20 via-[#57BB54]/10 to-transparent'
-  },
-  {
-    name: 'linux-rootserver',
-    icon: <div className="flex flex-col items-start gap-3">
-      <p className="text-xl font-bold text-[#57BB54]">Linux Rootserver</p>
-      <div className="flex items-center gap-6">
-        <FaServer className="text-4xl text-[#57BB54]" />
-        <div>
-          <p className="text-base font-medium">ab 12,90€/Monat</p>
-          <p className="text-sm text-[#57BB54]">oder 154,80€ Lifetime</p>
-        </div>
-      </div>
-    </div>,
-    color: 'from-[#57BB54]/20 via-[#57BB54]/10 to-transparent'
-  },
-  {
-    name: 'dedicated-server',
-    icon: <div className="flex flex-col items-start gap-3">
-      <p className="text-xl font-bold text-[#57BB54]">Dedicated Server</p>
-      <div className="flex items-center gap-6">
-        <FaDatabase className="text-4xl text-[#57BB54]" />
-        <div>
-          <p className="text-base font-medium">ab 41,53€/Monat</p>
-          <p className="text-sm text-[#57BB54]">oder 498,32€ Lifetime</p>
-        </div>
-      </div>
-    </div>,
-    color: 'from-[#57BB54]/20 via-[#57BB54]/10 to-transparent'
-  },
-  {
-    name: 'webspace',
-    icon: <div className="flex flex-col items-start gap-3">
-      <p className="text-xl font-bold text-[#57BB54]">Webspace</p>
-      <div className="flex items-center gap-6">
-        <FaGlobe className="text-4xl text-[#57BB54]" />
-        <div>
-          <p className="text-base font-medium">ab 3,90€/Monat</p>
-          <p className="text-sm text-[#57BB54]">oder 46,80€ Lifetime</p>
-        </div>
-      </div>
-    </div>,
-    color: 'from-[#57BB54]/20 via-[#57BB54]/10 to-transparent'
-  },
-  {
-    name: 'domains',
-    icon: <div className="flex flex-col items-start gap-3">
-      <p className="text-xl font-bold text-[#57BB54]">Domains</p>
-      <div className="flex items-center gap-6">
-        <FaGlobeEurope className="text-4xl text-[#57BB54]" />
-        <div>
-          <p className="text-base font-medium">ab 7,90€/Monat</p>
-          <p className="text-sm text-[#57BB54]">Verschiedene TLDs</p>
-        </div>
-      </div>
-    </div>,
-    color: 'from-[#57BB54]/20 via-[#57BB54]/10 to-transparent'
-  },
-  {
-    name: 'plesk-lizenz',
-    icon: <div className="flex flex-col items-start gap-3">
-      <p className="text-xl font-bold text-[#57BB54]">Plesk Lizenz</p>
-      <div className="flex items-center gap-6">
-        <FaShieldAlt className="text-4xl text-[#57BB54]" />
-        <div>
-          <p className="text-base font-medium">ab 8,49€/Monat</p>
-          <p className="text-sm text-[#57BB54]">Professionelles Hosting</p>
-        </div>
-      </div>
-    </div>,
-    color: 'from-[#57BB54]/20 via-[#57BB54]/10 to-transparent'
-  }
+import { useState } from 'react';
+import Image from 'next/image';
+import { FiArrowUpRight, FiCheck, FiCopy } from 'react-icons/fi';
+import { InfiniteMovingCards } from './ui/infinite-moving-cards';
+import { Eyebrow, Reveal, Section } from './home/primitives';
+
+const ZAP_URL = 'https://zap-hosting.com/achim';
+const COUPON = 'GERMANGAMING';
+
+const PRODUCTS = [
+  { name: 'Gameserver', monthly: '2,76 €', lifetime: '45,00 € Lifetime' },
+  { name: 'Linux vServer', monthly: '7,90 €', lifetime: '64,00 € Lifetime' },
+  { name: 'Windows vServer', monthly: '9,90 €', lifetime: '99,00 € Lifetime' },
+  { name: 'Linux Rootserver', monthly: '12,90 €', lifetime: '154,80 € Lifetime' },
+  { name: 'Dedicated Server', monthly: '41,53 €', lifetime: '498,32 € Lifetime' },
+  { name: 'Webspace', monthly: '3,90 €', lifetime: '46,80 € Lifetime' },
+  { name: 'Domains', monthly: '7,90 €', lifetime: 'Verschiedene TLDs' },
+  { name: 'Plesk Lizenz', monthly: '8,49 €', lifetime: 'Professionelles Hosting' },
 ];
 
+// Laufband bleibt, die Karten sind aber schlicht im Stil der übrigen Seite
+const cards = PRODUCTS.map((p) => ({
+  name: p.name,
+  color: '',
+  icon: (
+    <div className="flex w-[20rem] items-end justify-between gap-6">
+      <div>
+        <p className="text-lg font-medium tracking-[-0.01em] text-fg">{p.name}</p>
+        <p className="mt-1 font-mono text-xs text-muted">{p.lifetime}</p>
+      </div>
+      <p className="whitespace-nowrap font-mono text-sm text-fg">
+        <span className="text-faint">ab </span>
+        {p.monthly}
+        <span className="text-faint">/Monat</span>
+      </p>
+    </div>
+  ),
+}));
+
 export default function ZapHosting() {
+  const [copied, setCopied] = useState(false);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(COUPON);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1800);
+    } catch {
+      // Zwischenablage nicht verfügbar: Code steht ja sichtbar da
+    }
+  };
+
   return (
-    <section className="relative py-20 sm:py-32 bg-black">
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-slate-900/60 to-black" />
-      
-      {/* Header Content mit max-w */}
-      <div className="relative mx-auto max-w-[1400px] px-4 sm:px-6 mb-16">
-        <div className="text-center">
-          <div className="inline-block mb-4">
-            <a 
-              href="https://zap-hosting.com/achim" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="block transform transition-all duration-300 hover:scale-105 hover:drop-shadow-[0_0_15px_rgba(87,187,84,0.3)]"
-            >
+    <Section className="!border-t-0">
+      <Reveal className="grid gap-10 lg:grid-cols-12">
+        <div className="lg:col-span-4 lg:pt-3">
+          <Eyebrow>Empfehlung · Anzeige</Eyebrow>
+        </div>
+
+        <div className="lg:col-span-8">
+          <div className="border border-line bg-surface p-6 sm:p-10">
+            <div className="flex flex-wrap items-start justify-between gap-6">
+              <div className="max-w-xl">
+                <h2 className="text-3xl font-medium leading-[1.1] tracking-[-0.03em] text-fg sm:text-4xl">
+                  Hosting, das ich selbst nutze.
+                </h2>
+                <p className="mt-4 text-[15px] leading-relaxed text-muted sm:text-base">
+                  Für Gameserver, vServer und Testumgebungen setze ich auf ZAP-Hosting. Viele Pakete gibt
+                  es auch als Lifetime-Variante: einmal zahlen, dauerhaft nutzen.
+                </p>
+              </div>
               <Image
                 src="/img/zap-hosting-logo.png"
-                alt="ZAP-Hosting Logo"
-                width={300}
-                height={90}
-                style={{ width: 'auto', height: 'auto' }}
-                priority
+                alt="ZAP-Hosting"
+                width={2574}
+                height={1022}
+                sizes="120px"
+                className="h-10 w-auto opacity-90"
               />
-            </a>
+            </div>
+
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={copy}
+                className="group inline-flex items-center gap-3 border border-dashed border-[#3a3a37] px-4 py-3 font-mono text-sm text-fg transition-colors duration-200 hover:border-accent"
+                aria-label={`Rabattcode ${COUPON} kopieren`}
+              >
+                <span className="text-faint">Code</span>
+                <span className="tracking-[0.12em]">{COUPON}</span>
+                <span className="text-accent">−20 %</span>
+                {copied ? (
+                  <FiCheck className="h-4 w-4 text-accent" aria-hidden="true" />
+                ) : (
+                  <FiCopy className="h-4 w-4 text-muted group-hover:text-fg" aria-hidden="true" />
+                )}
+              </button>
+              <a
+                href={ZAP_URL}
+                target="_blank"
+                rel="noopener noreferrer sponsored"
+                className="group inline-flex items-center gap-2 bg-fg px-5 py-3 text-sm font-medium text-canvas transition-colors duration-200 hover:bg-accent"
+              >
+                Zu ZAP-Hosting
+                <FiArrowUpRight
+                  className="h-4 w-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                  aria-hidden="true"
+                />
+              </a>
+              <span className="sr-only" aria-live="polite">
+                {copied ? 'Code kopiert' : ''}
+              </span>
+            </div>
           </div>
-          <p className="text-slate-300 text-lg max-w-3xl mx-auto">
-            Professionelles Hosting mit einzigartiger Lifetime-Option. 
-            Spare langfristig mit dem Lifetime-Angeboten - einmalig zahlen, für immer nutzen!
-          </p>
         </div>
-      </div>
+      </Reveal>
 
-      {/* Cards Container ohne max-width für volle Breite */}
-      <div className="relative w-full">
-        <div 
-          className="w-full relative" 
-          style={{ position: 'relative' }}
-        >
-          <InfiniteMovingCards
-            items={hostingProducts}
-            speed="slow"
-            direction="right"
-            cardClassName="w-[500px] md:w-[700px]"
-          />
-        </div>
+      <div className="mt-12 -mx-5 sm:-mx-8">
+        <InfiniteMovingCards items={cards} speed="slow" direction="right" plain cardClassName="min-w-[22rem]" />
       </div>
-
-      {/* Button Container mit max-w */}
-      <div className="relative mx-auto max-w-[1400px] px-4 sm:px-6 mt-16">
-        <div className="text-center">
-          <a
-            href="https://zap-hosting.com/achim"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center px-8 py-3 text-lg font-medium text-white bg-[#2F7A2C] hover:bg-[#266424] rounded-lg transition-colors duration-300"
-            aria-label="Jetzt bei Zap-Hosting bestellen"  
-          >
-            Jetzt bei Zap-Hosting bestellen
-          </a>
-        </div>
-      </div>
-    </section>
+    </Section>
   );
 }
