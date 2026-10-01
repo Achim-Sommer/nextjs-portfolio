@@ -34,8 +34,17 @@ function StaticBadge() {
   );
 }
 
-const MASK =
-  'linear-gradient(to bottom, transparent 0, #000 16%), linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%)';
+const FADE_TOP = 'linear-gradient(to bottom, transparent 0, #000 16%)';
+const MASK = `${FADE_TOP}, linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%)`;
+const maskStyle = (mask: string) => ({
+  maskImage: mask,
+  WebkitMaskImage: mask,
+  maskComposite: 'intersect',
+  WebkitMaskComposite: 'source-in',
+});
+
+/** Desktop mit Maus: Ausweis darf über die Textspalte gezogen werden */
+const WIDE_QUERY = '(min-width: 1024px) and (hover: hover) and (pointer: fine)';
 
 /**
  * Ausweis am Umhängeband. Die 3D-Szene lädt, kurz bevor der Bereich ins Bild
@@ -50,6 +59,30 @@ export default function LanyardBadge({ className = '' }: { className?: string })
   const [flipSignal, setFlipSignal] = useState(0);
   /** Zähler für die Meldung "Zugang gewährt"; jeder Tipp startet sie neu */
   const [granted, setGranted] = useState(0);
+  /** Wie weit die 3D-Fläche rechts über die Spalte reicht (nur Desktop), und wer die Zeigerereignisse liefert */
+  const [wide, setWide] = useState<{ extra: number; source: HTMLElement } | null>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    const bounds = el?.closest<HTMLElement>('[data-badge-bounds]');
+    const source = el?.closest<HTMLElement>('section');
+    if (!el || !bounds || !source) return;
+    const mq = window.matchMedia(WIDE_QUERY);
+    const measure = () => {
+      if (!mq.matches) return setWide(null);
+      const extra = Math.max(Math.round(bounds.getBoundingClientRect().right - el.getBoundingClientRect().right), 0);
+      setWide((prev) => (prev && prev.extra === extra ? prev : { extra, source }));
+    };
+    measure();
+    const resize = new ResizeObserver(measure);
+    resize.observe(bounds);
+    resize.observe(el);
+    mq.addEventListener('change', measure);
+    return () => {
+      resize.disconnect();
+      mq.removeEventListener('change', measure);
+    };
+  }, []);
 
   useEffect(() => {
     setReducedMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
@@ -87,29 +120,43 @@ export default function LanyardBadge({ className = '' }: { className?: string })
     <div
       ref={ref}
       data-badge-anchor
-      className={`relative ${className}`}
-      style={{ containerType: 'size', maskImage: MASK, WebkitMaskImage: MASK, maskComposite: 'intersect', WebkitMaskComposite: 'source-in' }}
+      className={`relative z-10 ${className}`}
+      style={{ containerType: 'size' }}
     >
-      <div
-        className="absolute inset-0"
+      <span
         role="img"
+        className="sr-only"
         aria-label="Ausweis von Achim Sommer, Head of IT, Aachen, seit 2018, an einem orangefarbenen Umhängeband. Auf der Rückseite steht: Gefunden? Bitte zurück an dev@achimsommer.com."
-      >
-        {!interactive && <StaticBadge />}
-        {showScene && (
-          <ErrorBoundary fallback={null} onError={() => setFailed(true)}>
-            {/* Kein Überblenden: das erste 3D-Bild zeigt exakt die ruhende statische Karte */}
-            <div className={`absolute inset-0 ${ready ? 'opacity-100' : 'opacity-0'}`}>
-              <BadgeScene
-                reducedMotion={reducedMotion}
-                flipSignal={flipSignal}
-                onReady={() => setReady(true)}
-                onTap={() => setGranted((n) => n + 1)}
-              />
-            </div>
-          </ErrorBoundary>
-        )}
-      </div>
+      />
+      {!interactive && (
+        <div className="absolute inset-0" style={maskStyle(MASK)}>
+          <StaticBadge />
+        </div>
+      )}
+      {showScene && (
+        <ErrorBoundary fallback={null} onError={() => setFailed(true)}>
+          {/* Kein Überblenden: das erste 3D-Bild zeigt exakt die ruhende statische Karte.
+              Auf dem Desktop reicht die Fläche über den Text und blendet nur oben aus. */}
+          <div
+            aria-hidden="true"
+            className={`absolute inset-y-0 left-0 ${ready ? 'opacity-100' : 'opacity-0'}`}
+            style={{
+              width: wide ? `calc(100% + ${wide.extra}px)` : '100%',
+              ...maskStyle(wide ? FADE_TOP : MASK),
+            }}
+          >
+            <BadgeScene
+              key={wide ? 'wide' : 'narrow'}
+              reducedMotion={reducedMotion}
+              flipSignal={flipSignal}
+              extraRight={wide?.extra ?? 0}
+              eventSource={wide?.source ?? null}
+              onReady={() => setReady(true)}
+              onTap={() => setGranted((n) => n + 1)}
+            />
+          </div>
+        </ErrorBoundary>
+      )}
 
       {granted > 0 && (
         <div

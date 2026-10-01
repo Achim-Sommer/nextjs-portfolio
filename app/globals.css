@@ -212,3 +212,14 @@ body {
     @apply break-words;
   }
 }
+
+/* Ausweis über dem Text (Desktop): Mauszeiger kommt von der Sektion, nicht von der Zeichenfläche */
+[data-badge-cursor='grab'],
+[data-badge-cursor='grab'] * {
+  cursor: grab !important;
+}
+[data-badge-cursor='grabbing'],
+[data-badge-cursor='grabbing'] * {
+  cursor: grabbing !important;
+  user-select: none !important;
+}

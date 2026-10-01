@@ -34,7 +34,7 @@ export default function AboutMe() {
         rechts Text und Schwerpunkte. Auf dem Handy der Reihe nach:
         Nummer, Text, Ausweis, Schwerpunkte.
       */}
-      <div className="grid gap-y-10 lg:grid-cols-12 lg:gap-x-10 lg:gap-y-0">
+      <div data-badge-bounds className="grid gap-y-10 lg:grid-cols-12 lg:gap-x-10 lg:gap-y-0">
         <Reveal className="lg:col-span-4 lg:row-start-1 lg:pt-3">
           <Eyebrow index="01">Profil</Eyebrow>
         </Reveal>

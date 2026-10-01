@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Canvas, useFrame, useThree, type ThreeEvent } from '@react-three/fiber';
+import { Canvas, events as createPointerEvents, useFrame, useThree, type ThreeEvent } from '@react-three/fiber';
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { PACKET_ARRIVED } from '../PacketTrail';
@@ -97,8 +97,11 @@ interface Sim {
   acc: number;
   grab: Grab | null;
   calm: number;
-  /** Sichtbare halbe Breite, pro Frame aus dem Seitenverhältnis */
+  /** Halbe Breite des eigenen Bereichs (Spalte des Ausweises), pro Frame aus der Größe */
   halfW: number;
+  /** Seitliche Grenzen in Welteinheiten. Auf dem Desktop reicht maxX über die Textspalte. */
+  minX: number;
+  maxX: number;
 }
 
 function createSim(): Sim {
@@ -117,6 +120,8 @@ function createSim(): Sim {
     grab: null,
     calm: 0,
     halfW: 1.5,
+    minX: -1.5,
+    maxX: 1.5,
   };
 }
 
@@ -169,11 +174,13 @@ function limitLift(sim: Sim) {
 
 /** Karte seitlich im sichtbaren Bereich halten; die Wand schluckt den Schwung nach außen */
 function limitSides(sim: Sim) {
-  const limit = Math.max(sim.halfW - (CARD.width / 2) * Math.abs(Math.cos(sim.twist)) - 0.04, 0);
+  const inset = (CARD.width / 2) * Math.abs(Math.cos(sim.twist)) + 0.04;
+  const lo = Math.min(sim.minX + inset, 0);
+  const hi = Math.max(sim.maxX - inset, 0);
   for (const i of [PIVOT, BOTTOM]) {
     const p = sim.pos[i];
-    if (Math.abs(p.x) > limit) {
-      p.x = Math.sign(p.x) * limit;
+    if (p.x < lo || p.x > hi) {
+      p.x = THREE.MathUtils.clamp(p.x, lo, hi);
       sim.prev[i].x = p.x;
     }
   }
@@ -380,6 +387,10 @@ function Environment() {
 
 interface LanyardProps {
   fonts: BadgeFonts;
+  /** Zusätzliche Breite der Zeichenfläche rechts neben der eigenen Spalte (Pixel) */
+  extraRight: number;
+  /** Element, das die Zeigerereignisse liefert, wenn die Fläche über dem Text liegt */
+  source: HTMLElement | null;
   reducedMotion: boolean;
   active: boolean;
   started: boolean;
@@ -394,6 +405,8 @@ interface LanyardProps {
 
 function Lanyard({
   fonts,
+  extraRight,
+  source,
   reducedMotion,
   active,
   started,
@@ -413,6 +426,7 @@ function Lanyard({
   const live = useRef({ active, started, reducedMotion });
   live.current = { active, started, reducedMotion };
   const { camera, invalidate, gl } = useThree();
+  const view = useRef({ w: 0, h: 0, extra: -1 });
 
   const helpers = useMemo(
     () => ({
@@ -433,6 +447,30 @@ function Lanyard({
 
   const onTapRef = useRef(onTap);
   onTapRef.current = onTap;
+
+  // Liegt die Fläche über dem Text, darf ein Griff an die Karte weder Text markieren
+  // noch einen Link darunter auslösen
+  const swallowClick = useRef(false);
+  useEffect(() => {
+    if (!source) return;
+    const onSelect = (e: Event) => {
+      if (hovered.current || sim.grab) e.preventDefault();
+    };
+    const onClick = (e: Event) => {
+      if (!swallowClick.current) return;
+      swallowClick.current = false;
+      e.preventDefault();
+      e.stopPropagation();
+    };
+    source.addEventListener('selectstart', onSelect, true);
+    source.addEventListener('dragstart', onSelect, true);
+    source.addEventListener('click', onClick, true);
+    return () => {
+      source.removeEventListener('selectstart', onSelect, true);
+      source.removeEventListener('dragstart', onSelect, true);
+      source.removeEventListener('click', onClick, true);
+    };
+  }, [source, sim]);
 
   // Datenpakete aus dem Netzwerk kommen im Band an: kleiner Stoß
   useEffect(() => {
@@ -541,8 +579,8 @@ function Lanyard({
   /** Ziel für den Greifpunkt: im Bild und in Reichweite von Band und Karte */
   const clampTarget = (grab: Grab) => {
     const target = grab.to;
-    const halfW = Math.max(sim.halfW - CARD.width / 2 - 0.05, 0);
-    target.x = THREE.MathUtils.clamp(target.x, -halfW, halfW);
+    const inset = CARD.width / 2 + 0.05;
+    target.x = THREE.MathUtils.clamp(target.x, Math.min(sim.minX + inset, 0), Math.max(sim.maxX - inset, 0));
     const reach = ROPE_LEN + grab.t * BODY_LEN - 0.02;
     tmp.subVectors(target, ANCHOR);
     if (tmp.length() > reach) target.copy(ANCHOR).addScaledVector(tmp.normalize(), reach);
@@ -554,6 +592,7 @@ function Lanyard({
     const native = e.nativeEvent;
     if (native.button !== 0 || !native.isPrimary || native.ctrlKey) return;
     e.stopPropagation();
+    if (source && native.target !== gl.domElement) swallowClick.current = true;
     if (!live.current.started) {
       onStart();
       return;
@@ -595,6 +634,7 @@ function Lanyard({
       }
       sim.grab = null;
       sim.calm = 0;
+      window.setTimeout(() => (swallowClick.current = false), 60);
       setCursor(hovered.current ? 'grab' : 'default');
       invalidate();
       teardown.current?.();
@@ -644,7 +684,25 @@ function Lanyard({
   };
 
   useFrame((state, delta) => {
-    sim.halfW = HALF_H * (state.camera as THREE.PerspectiveCamera).aspect;
+    // Die Zeichenfläche kann rechts über die eigene Spalte hinausreichen. Die Kamera
+    // bleibt auf die Spalte zentriert (Ausschnitt eines symmetrischen Gesamtbilds),
+    // damit der Ausweis exakt an derselben Stelle hängt wie ohne Erweiterung.
+    const { width: w, height: h } = state.size;
+    const extra = Math.min(Math.max(extraRight, 0), Math.max(w - 1, 0));
+    const v = view.current;
+    if (v.w !== w || v.h !== h || v.extra !== extra) {
+      const cam = state.camera as THREE.PerspectiveCamera;
+      const homeHalf = (w - extra) / 2;
+      const fullHalf = w - homeHalf;
+      cam.aspect = (fullHalf * 2) / h;
+      cam.setViewOffset(fullHalf * 2, h, fullHalf - homeHalf, 0, w, h);
+      cam.updateProjectionMatrix();
+      const perPixel = (2 * HALF_H) / h;
+      sim.halfW = homeHalf * perPixel;
+      sim.minX = -homeHalf * perPixel;
+      sim.maxX = (w - homeHalf) * perPixel;
+      Object.assign(v, { w, h, extra });
+    }
 
     // Feste Physik-Schritte, unabhängig von der Bildrate. Das Greifziel wird über
     // die Teilschritte verteilt, sonst ginge der Wurf bei 60 Hz verloren.
@@ -770,11 +828,17 @@ export default function BadgeScene({
   flipSignal,
   onReady,
   onTap,
+  extraRight = 0,
+  eventSource = null,
 }: {
   reducedMotion: boolean;
   flipSignal: number;
   onReady: () => void;
   onTap: () => void;
+  /** Desktop: Zeichenfläche reicht so viele Pixel über die Spalte nach rechts */
+  extraRight?: number;
+  /** Desktop: Zeigerereignisse kommen von diesem Element, die Fläche selbst lässt sie durch */
+  eventSource?: HTMLElement | null;
 }) {
   const container = useRef<HTMLDivElement>(null);
   const [fonts, setFonts] = useState<BadgeFonts | null>(null);
@@ -782,7 +846,32 @@ export default function BadgeScene({
   const [started, setStarted] = useState(false);
   /** Erstes Bild steht (Ruhelage, deckungsgleich mit der statischen Karte) */
   const [shown, setShown] = useState(false);
-  const [cursor, setCursor] = useState<'default' | 'grab' | 'grabbing'>('default');
+  const [cursor, setCursorState] = useState<'default' | 'grab' | 'grabbing'>('default');
+
+  // Über dem Text: Mauszeiger per Attribut an der Sektion setzen (CSS in globals.css),
+  // denn die Zeichenfläche selbst nimmt keine Zeigerereignisse an
+  const setCursor = (next: 'default' | 'grab' | 'grabbing') => {
+    if (!eventSource) return setCursorState(next);
+    if (next === 'default') delete eventSource.dataset.badgeCursor;
+    else eventSource.dataset.badgeCursor = next;
+  };
+  useEffect(() => () => void (eventSource && delete eventSource.dataset.badgeCursor), [eventSource]);
+
+  // Zeiger relativ zur Zeichenfläche berechnen, auch wenn die Ereignisse von der Sektion kommen
+  const events = useMemo<Parameters<typeof Canvas>[0]['events']>(
+    () => (store) => ({
+      ...createPointerEvents(store),
+      compute(event, state) {
+        const rect = state.gl.domElement.getBoundingClientRect();
+        state.pointer.set(
+          ((event.clientX - rect.left) / rect.width) * 2 - 1,
+          -((event.clientY - rect.top) / rect.height) * 2 + 1,
+        );
+        state.raycaster.setFromCamera(state.pointer, state.camera);
+      },
+    }),
+    [],
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -825,13 +914,16 @@ export default function BadgeScene({
     <div
       ref={container}
       className="absolute inset-0 select-none"
-      style={{ cursor, touchAction: 'pan-y pinch-zoom' }}
+      style={eventSource ? { pointerEvents: 'none' } : { cursor, touchAction: 'pan-y pinch-zoom' }}
     >
       {fonts && (
         <Canvas
           flat
           frameloop={active || !shown ? 'demand' : 'never'}
-          dpr={[1, 2]}
+          // Größere Fläche auf dem Desktop: Pixeldichte etwas begrenzen
+          dpr={[1, eventSource ? 1.5 : 2]}
+          events={events}
+          eventSource={eventSource ?? undefined}
           camera={{ position: [0, 0, CAMERA_Z], fov: FOV, near: 0.1, far: 100 }}
           gl={{ antialias: true, alpha: true, powerPreference: 'low-power' }}
           style={{ position: 'absolute', inset: 0 }}
@@ -841,6 +933,8 @@ export default function BadgeScene({
           <Environment />
           <Lanyard
             fonts={fonts}
+            extraRight={extraRight}
+            source={eventSource}
             reducedMotion={reducedMotion}
             active={active}
             started={started && shown}
