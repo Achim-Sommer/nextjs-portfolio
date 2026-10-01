@@ -69,7 +69,7 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
   icons: {
     icon: '/favicon.ico',
-    apple: '/icon-512x512.png',
+    apple: '/apple-touch-icon.png',
   },
   alternates: {
     canonical: '/',
@@ -109,7 +109,7 @@ export default function RootLayout({
     <html lang="de" className="dark" suppressHydrationWarning>
       <head>
         <link rel="manifest" href="/manifest.json" />
-        <link rel="apple-touch-icon" href="/icon-512x512.png" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
       </head>
       <body className={`bg-canvas text-fg ${plexSans.variable} ${plexMono.variable}`} suppressHydrationWarning>
         <a

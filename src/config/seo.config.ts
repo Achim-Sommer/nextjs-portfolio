@@ -49,7 +49,7 @@ const config: DefaultSeoProps = {
     },
     {
       name: 'theme-color',
-      content: '#000000',
+      content: '#0a0a0a',
     },
     {
       name: 'format-detection',
