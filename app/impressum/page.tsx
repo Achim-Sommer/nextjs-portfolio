@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import ImpressumContent from '@/components/ImpressumContent';
 
 export const viewport = {
-  themeColor: '#000000',
+  themeColor: '#0a0a0a',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,

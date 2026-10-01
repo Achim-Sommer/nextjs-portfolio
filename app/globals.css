@@ -223,3 +223,62 @@ body {
   cursor: grabbing !important;
   user-select: none !important;
 }
+
+/* Fließtext auf Impressum und Datenschutz */
+@layer components {
+  .legal {
+    color: #b9b7b2;
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+  .legal :where(h2) {
+    color: #ecebe8;
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    margin: 2.8em 0 0.9em;
+    padding-top: 1.1em;
+    border-top: 1px solid #1f1f1f;
+  }
+  .legal :where(section:first-child h2) {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+  }
+  .legal :where(h3) {
+    color: #ecebe8;
+    font-size: 1.125rem;
+    font-weight: 500;
+    margin: 2em 0 0.5em;
+  }
+  .legal :where(h4) {
+    color: #ecebe8;
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 1.5em 0 0.4em;
+  }
+  .legal :where(p, ul) {
+    margin: 0 0 1em;
+  }
+  .legal :where(ul) {
+    list-style: square;
+    padding-left: 1.25em;
+  }
+  .legal :where(li) {
+    margin: 0.3em 0;
+  }
+  .legal :where(li)::marker {
+    color: #ff6a2b;
+  }
+  .legal :where(a) {
+    color: #ecebe8;
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 106, 43, 0.6);
+    text-underline-offset: 3px;
+    word-break: break-word;
+  }
+  .legal :where(a:hover) {
+    color: #ff6a2b;
+  }
+}
