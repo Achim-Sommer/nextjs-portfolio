@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { GitHubCalendar } from 'react-github-calendar';
-import { Tooltip } from 'react-tooltip';
+import { useEffect, useState } from 'react';
 import { FiArrowUpRight, FiStar } from 'react-icons/fi';
 import { Reveal, Section, SectionHeading } from './home/primitives';
+import ContributionCalendar from './home/ContributionCalendar';
 
 const PROFILE_URL = 'https://github.com/Achim-Sommer';
+const GITLAB_URL = 'https://gitlab.com/AchimSommer';
 
 interface Repository {
   id: number;
@@ -29,11 +29,6 @@ type GitHubApiResponse = {
     repos: number;
   };
   repos: Repository[];
-};
-
-/** Beitragskalender in Abstufungen der Akzentfarbe */
-const CALENDAR_THEME = {
-  dark: ['#161615', '#3d1f12', '#6b3014', '#b04a1c', '#ff6a2b'],
 };
 
 export default function GitHubRepos() {
@@ -165,65 +160,39 @@ export default function GitHubRepos() {
 
           <Reveal className="mt-14">
             <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-faint">
-              Aktivität im letzten Jahr
+              Aktivität im letzten Jahr · GitHub und GitLab
             </p>
             <div className="mt-5 min-h-[150px] overflow-x-auto pb-2 text-muted">
-              {mounted && (
-                <div>
-                  <GitHubCalendar
-                    username="Achim-Sommer"
-                    colorScheme="dark"
-                    blockSize={10}
-                    blockMargin={3}
-                    blockRadius={0}
-                    fontSize={11}
-                    year="last"
-                    theme={CALENDAR_THEME}
-                    errorMessage="Der Aktivitätskalender lässt sich gerade nicht laden."
-                    labels={{
-                      totalCount: '{{count}} Beiträge im letzten Jahr',
-                      months: [
-                        'Jan',
-                        'Feb',
-                        'Mär',
-                        'Apr',
-                        'Mai',
-                        'Jun',
-                        'Jul',
-                        'Aug',
-                        'Sep',
-                        'Okt',
-                        'Nov',
-                        'Dez',
-                      ],
-                      weekdays: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
-                    }}
-                    style={{ color: '#8e8d89' }}
-                    renderBlock={(block, activity) =>
-                      React.cloneElement(block, {
-                        'data-tooltip-id': 'github-calendar-tooltip',
-                        'data-tooltip-content': `${activity.count} Beiträge am ${activity.date}`,
-                      })
-                    }
-                  />
-                  <Tooltip id="github-calendar-tooltip" />
-                </div>
-              )}
+              {mounted && <ContributionCalendar />}
             </div>
           </Reveal>
 
-          <a
-            href={PROFILE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group mt-10 inline-flex items-center gap-2 border border-[#2e2e2c] px-5 py-3 text-sm text-fg transition-colors duration-200 hover:border-fg"
-          >
-            GitHub-Profil
-            <FiArrowUpRight
-              className="h-4 w-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-              aria-hidden="true"
-            />
-          </a>
+          <div className="mt-10 flex flex-wrap gap-3">
+            <a
+              href={PROFILE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-2 border border-[#2e2e2c] px-5 py-3 text-sm text-fg transition-colors duration-200 hover:border-fg"
+            >
+              GitHub-Profil
+              <FiArrowUpRight
+                className="h-4 w-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                aria-hidden="true"
+              />
+            </a>
+            <a
+              href={GITLAB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-2 border border-[#2e2e2c] px-5 py-3 text-sm text-fg transition-colors duration-200 hover:border-fg"
+            >
+              GitLab-Profil
+              <FiArrowUpRight
+                className="h-4 w-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                aria-hidden="true"
+              />
+            </a>
+          </div>
         </div>
       </div>
     </Section>
