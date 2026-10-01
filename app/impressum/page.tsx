@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import ImpressumContent from '@/components/ImpressumContent';
 
 export const viewport = {
-  themeColor: '#000000',
+  themeColor: '#0a0a0a',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
   icons: {
     icon: '/favicon.ico',
-    apple: '/icon-512x512.png',
+    apple: '/apple-touch-icon.png',
   },
 };
 
