@@ -69,7 +69,7 @@ export default function GitHubRepos() {
   return (
     <Section id="github-section">
       <SectionHeading index="04" label="Projekte" title="Was nach Feierabend entsteht.">
-        <p>Web-Apps, Werkzeuge für Server und Skripte für FiveM. Das meiste davon liegt offen auf GitHub.</p>
+        <p>Web-Apps, Werkzeuge für Server und Skripte für FiveM. Öffentliches auf GitHub, Privates auf GitLab.</p>
       </SectionHeading>
 
       <div className="mt-16 lg:grid lg:grid-cols-12 lg:gap-10">
