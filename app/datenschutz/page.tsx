@@ -112,6 +112,14 @@ export default function DatenschutzPage() {
         </ul>
         <p>Die Kommunikation mit der GitHub API erfolgt über eine verschlüsselte HTTPS-Verbindung. Weitere Informationen finden Sie in der <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement">GitHub Datenschutzerklärung</a>.</p>
 
+        <h3>Aktivitätskalender (GitHub und GitLab)</h3>
+        <p>Im Bereich Projekte zeigen wir einen Kalender mit der Anzahl der Beiträge (zum Beispiel Commits) des Websitebetreibers pro Tag. Dafür ruft ausschließlich unser Server folgende Quellen ab:</p>
+        <ul>
+          <li>die öffentliche Beitragsübersicht des GitLab-Profils des Websitebetreibers bei GitLab (GitLab B.V. bzw. GitLab Inc., gitlab.com)</li>
+          <li>die Beitragsübersicht des GitHub-Profils des Websitebetreibers über den Dienst github-contributions-api.jogruber.de, der diese öffentlichen GitHub-Daten bereitstellt</li>
+        </ul>
+        <p>Abgerufen werden nur Datum und Anzahl der Beiträge des Websitebetreibers. Ihr Browser stellt dabei keine Verbindung zu GitLab, GitHub oder dem genannten Dienst her, sondern erhält die zusammengefassten Daten von unserem eigenen Server. Es werden keine personenbezogenen Daten von Besuchern an diese Dienste übermittelt. Die Daten werden auf unserem Server für einige Stunden zwischengespeichert. Weitere Informationen finden Sie in der <a href="https://about.gitlab.com/privacy/" target="_blank" rel="noopener noreferrer">Datenschutzerklärung von GitLab</a>.</p>
+
         <h3>Umami Analytics</h3>
         <p>Wir nutzen Umami als datenschutzfreundliche Alternative zu Google Analytics. Umami ist ein Privacy-First Analytics Tool, das folgende Grundsätze befolgt:</p>
         <ul>
@@ -184,7 +192,7 @@ export default function DatenschutzPage() {
 
       <section>
         <h2>10. Aktualität und Änderung dieser Datenschutzerklärung</h2>
-        <p>Diese Datenschutzerklärung ist aktuell gültig und hat den Stand August 2026. Durch die Weiterentwicklung unserer Website und Angebote oder aufgrund geänderter gesetzlicher beziehungsweise behördlicher Vorgaben kann es notwendig werden, diese Datenschutzerklärung zu ändern. Die jeweils aktuelle Datenschutzerklärung kann jederzeit auf dieser Website von Ihnen abgerufen und ausgedruckt werden.</p>
+        <p>Diese Datenschutzerklärung ist aktuell gültig und hat den Stand Oktober 2026. Durch die Weiterentwicklung unserer Website und Angebote oder aufgrund geänderter gesetzlicher beziehungsweise behördlicher Vorgaben kann es notwendig werden, diese Datenschutzerklärung zu ändern. Die jeweils aktuelle Datenschutzerklärung kann jederzeit auf dieser Website von Ihnen abgerufen und ausgedruckt werden.</p>
       </section>
     </LegalPage>
   );
