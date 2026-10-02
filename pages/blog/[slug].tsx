@@ -19,6 +19,7 @@ import MdxLink from '@/components/mdx/MdxLink';
 import ReadingProgress from '@/components/blog/ReadingProgress';
 import { TableOfContents } from '@/components/TableOfContents';
 import { Container } from '@/components/home/primitives';
+import { BreakEvenTabelle, ErsparnisTabelle, LaufzeitTabelle } from '@/components/mdx/PreisTabellen';
 
 // Dynamische Imports für MDX-Komponenten
 const CodeBlock = dynamic(() => import('@/components/CodeBlock'), {
@@ -76,6 +77,9 @@ const components = {
   RamRechner,
   RamTabelle,
   BreakEvenChart,
+  BreakEvenTabelle,
+  ErsparnisTabelle,
+  LaufzeitTabelle,
 };
 
 const formatDate = (value: string) =>

@@ -2,9 +2,10 @@
 title: 'Palworld Server mieten oder kaufen: Der Guide'
 description: 'Palworld Server ab 7,14 € im Monat mieten oder ab 60 € einmalig kaufen: RAM-Bedarf, Einstellungen, Break-even-Rechnung und Tipps für eine stabile Welt.'
 date: '2026-07-10'
-lastModified: '2026-09-30'
+lastModified: '2026-10-02'
 tags: ['Gameserver', 'Server-Hosting']
 featured: false
+ogDiagram: '/img/blog/palworld-server-mieten/palworld-break-even.webp'
 ---
 
 Seit Version 1.0 ist Palworld aus dem Early Access heraus, und viele Gruppen starten Welten, die lange laufen sollen. Dafür brauchst du einen eigenen Palworld Server. Der schnellste Weg ist, einen Server zu mieten: keine eigene Hardware, kein Portforwarding, kein PC, der rund um die Uhr laufen muss. Wenn die Welt sicher lange bestehen soll, kannst du den Server statt monatlich auch einmalig kaufen.
@@ -40,7 +41,7 @@ Wenn du neben Palworld noch eine Website, Discord-Bots oder Monitoring betreiben
 
 ### RAM mit Puffer planen
 
-Palworld belegt mit der Zeit immer mehr Arbeitsspeicher, vor allem bei vielen Pals, vielen Basen und langer Laufzeit. Plane lieber Puffer ein und richte regelmäßige Neustarts ein (mehr dazu unten).
+Palworld belegt mit der Zeit immer mehr Arbeitsspeicher, vor allem bei vielen Pals, vielen Basen und langer Laufzeit. Plane lieber Puffer ein und richte regelmäßige Neustarts ein (mehr dazu unten). Wie viel RAM du für deine Spielerzahl brauchst, zeigt dir mein [Server RAM-Rechner](/server-ram-rechner).
 
 ### Standort und Latenz
 
@@ -108,14 +109,11 @@ Mit der Lifetime-Option zahlst du einmalig ab 60 € und nutzt den Server danach
 
 Lifetime-Preis geteilt durch Monatspreis: 60 € ÷ 7,14 € ≈ 8,4 Monate. Ab dem 9. Monat ist der gekaufte Server günstiger als der gemietete. Mietest du mit Rabattcode für etwa 5,71 € im Monat, liegt der Break-even bei rund 10,5 Monaten.
 
-| Laufzeit | Mieten (7,14 € pro Monat) | Mieten mit Code (ca. 5,71 € pro Monat) | Lifetime (60 € einmalig) |
-| --- | --- | --- | --- |
-| 3 Monate | 21,42 € | 17,14 € | 60 € |
-| 6 Monate | 42,84 € | 34,27 € | 60 € |
-| 9 Monate | 64,26 € | 51,41 € | 60 € |
-| 12 Monate | 85,68 € | 68,54 € | 60 € |
-| 24 Monate | 171,36 € | 137,09 € | 60 € |
-| 36 Monate | 257,04 € | 205,63 € | 60 € |
+Im Diagramm siehst du, wo sich Miete und Kaufpreis treffen. Mit dem Haken bei „Rabatt“ rechnest du die Miete mit Code. Unter „Eigene Preise“ trägst du die Werte deines Pakets ein, falls du mehr Slots oder RAM brauchst.
+
+<BreakEvenChart initial="palworld" only="palworld,custom" customMonthly={7.14} customLifetime={60} />
+
+<LaufzeitTabelle product="palworld" months="3,6,9,12,24,36" />
 
 Ohne Rabatt hast du mit Lifetime nach zwei Jahren gut 110 € gespart, nach drei Jahren fast 200 €. Mit Rabatt auf die Miete ist der Vorsprung kleiner, ab rund einem Jahr ist Kaufen aber trotzdem günstiger. Prüfe vor dem Kauf die aktuellen Preise und Paketdaten (Slots, RAM), denn je nach Konfiguration gelten andere Werte.
 

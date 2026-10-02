@@ -33,6 +33,11 @@ const staticPages: PageConfig[] = [
     changefreq: 'weekly',
   },
   {
+    path: '/server-ram-rechner',
+    priority: 0.8,
+    changefreq: 'monthly',
+  },
+  {
     path: '/kontakt',
     priority: 0.6,
     changefreq: 'yearly',

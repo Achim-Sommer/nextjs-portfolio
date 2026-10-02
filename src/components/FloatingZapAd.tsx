@@ -3,6 +3,9 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { FiArrowUpRight, FiServer, FiX } from 'react-icons/fi';
+import { eur, findProduct } from '@/data/hosting-prices';
+
+const VSERVER = findProduct('vserver')!;
 
 /**
  * Anzeige unten rechts, sobald die Hälfte des Artikels gelesen ist.
@@ -47,9 +50,9 @@ export default function FloatingZapAd() {
               <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-faint">Anzeige</p>
               <p className="mt-2 text-[15px] font-medium text-fg">vServer (Linux oder Windows)</p>
               <p className="mt-2 text-2xl font-medium tracking-[-0.03em] text-fg">
-                ab 7,90 €<span className="text-sm font-normal text-faint"> / Monat</span>
+                ab {eur(VSERVER.monthly)}<span className="text-sm font-normal text-faint"> / Monat</span>
               </p>
-              <p className="text-xs text-muted">oder ab 64,00 € einmalig (Lifetime)</p>
+              <p className="text-xs text-muted">oder ab {eur(VSERVER.lifetime)} einmalig (Lifetime)</p>
               <a
                 href="https://zap-hosting.com/vserverhomepage"
                 target="_blank"

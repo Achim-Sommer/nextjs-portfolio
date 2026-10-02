@@ -2,7 +2,7 @@
 title: 'vServer oder Dedicated Server? Der Vergleich'
 description: 'vServer oder Dedicated Server? Unterschiede bei Leistung, Skalierung, Sicherheit und Kosten, plus Entscheidungshilfe für Website, Docker und Datenbank.'
 date: '2024-11-27'
-lastModified: '2026-09-30'
+lastModified: '2026-10-02'
 tags: ['Server-Hosting', 'Linux', 'IT-Administration']
 featured: false
 ---
@@ -65,7 +65,7 @@ Ein Dedicated Server liefert dagegen konstant die volle Leistung seiner Hardware
 
 ## Skalierung
 
-Beim vServer buchst du mehr RAM oder CPU meist im Panel dazu, danach reicht oft ein Neustart. Das macht ihn ideal für Projekte, deren Bedarf noch nicht feststeht.
+Beim vServer buchst du mehr RAM oder CPU meist im Panel dazu, danach reicht oft ein Neustart. Das macht ihn ideal für Projekte, deren Bedarf noch nicht feststeht. Wie viel Arbeitsspeicher deine Dienste zusammen brauchen, schätzt der [Server RAM-Rechner](/server-ram-rechner).
 
 Beim Dedicated Server hast du mehr Möglichkeiten bei der Konfiguration, aber ein Upgrade bedeutet neue Hardware und häufig einen Umzug auf eine andere Maschine. Plane deshalb von Anfang an mit Reserven.
 
@@ -87,6 +87,10 @@ Bei ZAP-Hosting kannst du beide Servertypen monatlich mieten oder als Lifetime-P
 - **Dedicated Server:** ab 41,35 € im Monat oder 498,32 € einmalig, Break-even nach etwa 12 Monaten
 
 Der Abstand ist groß: Für die Monatsmiete des günstigsten Dedicated Servers bekommst du mehr als fünf Linux vServer. Ein Dedicated Server lohnt sich also nur, wenn du seine Leistung tatsächlich ausnutzt.
+
+Wann sich der Kauf statt der Miete rechnet, zeigt das Diagramm. Wähle den Servertyp aus und fahre mit der Maus über die Linien.
+
+<BreakEvenChart initial="vserver" only="vserver,root,dedi" />
 
 Ausführliche Break-even-Tabellen, auch für Rootserver und größere Pakete, sowie eine Checkliste für den Kauf findest du im Artikel [Server kaufen statt mieten](/blog/zap-hosting-lifetime).
 

@@ -2,7 +2,7 @@
 title: 'PWA mit Next.js erstellen: Schritt für Schritt'
 description: 'So machst du aus einer Next.js-App eine Progressive Web App: Manifest, Service Worker, Offline-Fähigkeit und Installation Schritt für Schritt erklärt.'
 date: '2024-12-28'
-lastModified: '2026-09-30'
+lastModified: '2026-10-02'
 tags: ['Next.js', 'Webentwicklung']
 featured: false
 ---
@@ -18,7 +18,7 @@ Progressive Web Apps (PWAs) kombinieren die besten Eigenschaften von Web- und na
 - **Installierbar**: Nutzer können PWAs auf ihrem Startbildschirm installieren.
 - **SEO-freundlich**: Next.js bietet integrierte SEO-Optimierungen.
 
-Falls du noch abwägst, ob Next.js überhaupt das richtige Werkzeug für dein Projekt ist, hilft dir mein Vergleich [Next.js vs. React](/blog/nextjs-vs-react-welches-framework-ist-2025-die-bessere-wahl).
+Falls du noch abwägst, ob Next.js überhaupt das richtige Werkzeug für dein Projekt ist, hilft dir mein Vergleich [Next.js vs. React](/blog/nextjs-vs-react).
 
 ## Voraussetzungen
 
@@ -47,6 +47,8 @@ npm install -D serwist
 ```
 
 `@serwist/next` bindet Serwist in den Build von Next.js ein, erzeugt den Service Worker und legt eine Liste der Dateien an, die vorab gecacht werden.
+
+<Figure src="/img/blog/progressive-web-apps-pwa-mit-nextjs-schritt-fuer-schritt-anleitung/pwa-nextjs-aufbau.webp" alt="Aufbau einer PWA mit Next.js und Serwist: app/manifest.ts und app/sw.ts werden mit next build --webpack zu /manifest.webmanifest und public/sw.js, im Browser beantwortet der Service Worker Anfragen per NetworkFirst aus dem Netzwerk oder per CacheFirst aus dem Cache" width={1600} height={900} caption="Beim Build entstehen Manifest und Service Worker, im Browser entscheidet der Service Worker dann, ob eine Anfrage aus dem Netz oder aus dem Cache kommt." />
 
 ## Schritt 3: Serwist konfigurieren
 
@@ -191,7 +193,7 @@ Nutze Next.js Funktionen für maximale Performance:
 - Dynamische Imports für Code-Splitting
 - Server Components, damit weniger JavaScript im Browser landet
 
-Welche weiteren Maßnahmen für die Sichtbarkeit in Suchmaschinen zählen, zeige ich dir in meinem Artikel [SEO für Next.js](/blog/seo-optimierung-nextjs-websites-best-practices-2025).
+Welche weiteren Maßnahmen für die Sichtbarkeit in Suchmaschinen zählen, zeige ich dir in meinem Artikel [SEO für Next.js](/blog/nextjs-seo).
 
 ### Push-Benachrichtigungen
 

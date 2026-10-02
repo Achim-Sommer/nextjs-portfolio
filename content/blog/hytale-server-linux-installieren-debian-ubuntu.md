@@ -2,7 +2,7 @@
 title: 'Hytale Server auf Linux installieren'
 description: 'Hytale Server auf einem Linux-vServer oder Rootserver installieren: Java (Temurin), Hytale Downloader und systemd-Service für Debian und Ubuntu.'
 date: '2026-01-15'
-lastModified: '2026-01-15'
+lastModified: '2026-10-02'
 tags: ['Gameserver', 'Linux', 'Self-Hosting']
 featured: false
 ---
@@ -10,6 +10,8 @@ featured: false
 Wenn du deinen Hytale-Server **selbst hosten** willst (vServer/VPS/Rootserver), bekommst du maximale Kontrolle: Updates, Files, Logs, Automatisierung und sauberes Deployment per `systemd`.
 
 > **TL;DR**: System updaten → Java (Temurin) installieren → Hytale Downloader laden → Serverfiles nach `/opt/hytale-server` → `systemd` Service anlegen → starten.
+
+<Figure src="/img/blog/hytale-server-linux-installieren-debian-ubuntu/hytale-server-setup.webp" alt="Sechs Schritte zum Hytale Server auf Linux: System vorbereiten, Benutzer hytale anlegen, Java Temurin 25 installieren, Server mit AuthCode herunterladen, nach /opt/hytale-server entpacken, systemd-Service einrichten. Im Betrieb startet systemd Java als User hytale mit HytaleServer.jar und Assets.zip" width={1600} height={900} caption="Nach sechs Schritten startet systemd den Hytale Server automatisch unter dem eigenen Benutzer hytale, die Logs liefert journalctl." />
 
 Wenn du lieber **ohne Linux-Setup** sofort loslegen willst, geht es in Minuten per Hosting:
 

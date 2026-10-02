@@ -1,6 +1,7 @@
 /**
  * Vorschaubilder (Open Graph, 1200 x 630) für Blogartikel mit Diagramm.
- * Nimmt das erste <Figure src="..."> eines Artikels, setzt es auf den dunklen
+ * Nimmt `ogDiagram` aus dem Frontmatter (Diagramm nur als Vorschaubild) oder
+ * sonst das erste <Figure src="..."> eines Artikels, setzt es auf den dunklen
  * Hintergrund der Seite und speichert es als public/img/og/<slug>.jpg.
  * Läuft vor jedem Build (prebuild) und erzeugt nur fehlende oder veraltete Bilder.
  */
@@ -20,7 +21,9 @@ fs.mkdirSync(outDir, { recursive: true });
 let created = 0;
 for (const file of fs.readdirSync(postsDir).filter((f) => f.endsWith('.md'))) {
   const slug = file.replace(/\.md$/, '');
-  const match = fs.readFileSync(path.join(postsDir, file), 'utf8').match(/<Figure[^>]*\ssrc="([^"]+)"/);
+  const text = fs.readFileSync(path.join(postsDir, file), 'utf8');
+  const match =
+    text.match(/^ogDiagram:\s*['"]?([^'"\n]+)['"]?\s*$/m) ?? text.match(/<Figure[^>]*\ssrc="([^"]+)"/);
   if (!match) continue;
 
   const source = path.join(root, 'public', match[1]);

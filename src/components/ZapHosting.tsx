@@ -5,16 +5,23 @@ import Image from 'next/image';
 import { FiArrowUpRight, FiCheck, FiCopy } from 'react-icons/fi';
 import { InfiniteMovingCards } from './ui/infinite-moving-cards';
 import { Eyebrow, Reveal, Section } from './home/primitives';
+import { eur, findProduct } from '@/data/hosting-prices';
 
 const ZAP_URL = 'https://zap-hosting.com/achim';
 const COUPON = 'GERMANGAMING';
 
+// Preise der Serverprodukte aus der zentralen Preisdatei (src/data/hosting-prices.ts)
+const fromPrices = (id: string, name: string) => {
+  const p = findProduct(id)!;
+  return { name, monthly: eur(p.monthly), lifetime: `${eur(p.lifetime)} Lifetime` };
+};
+
 const PRODUCTS = [
-  { name: 'Gameserver', monthly: '2,76 €', lifetime: '45,00 € Lifetime' },
-  { name: 'Linux vServer', monthly: '7,90 €', lifetime: '64,00 € Lifetime' },
-  { name: 'Windows vServer', monthly: '9,90 €', lifetime: '99,00 € Lifetime' },
-  { name: 'Linux Rootserver', monthly: '12,90 €', lifetime: '154,80 € Lifetime' },
-  { name: 'Dedicated Server', monthly: '41,53 €', lifetime: '498,32 € Lifetime' },
+  fromPrices('game', 'Gameserver'),
+  fromPrices('vserver', 'Linux vServer'),
+  fromPrices('winvserver', 'Windows vServer'),
+  fromPrices('root', 'Linux Rootserver'),
+  fromPrices('dedi', 'Dedicated Server'),
   { name: 'Webspace', monthly: '3,90 €', lifetime: '46,80 € Lifetime' },
   { name: 'Domains', monthly: '7,90 €', lifetime: 'Verschiedene TLDs' },
   { name: 'Plesk Lizenz', monthly: '8,49 €', lifetime: 'Professionelles Hosting' },

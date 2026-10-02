@@ -2,7 +2,7 @@
 title: 'KI-Tools für Entwickler: 10 Tools im Überblick'
 description: 'Zehn KI-Tools für Entwickler im Überblick: Code-Generierung, Debugging und Dokumentation. Was die Tools können und wo sie sich im Alltag lohnen.'
 date: '2024-11-27'
-lastModified: '2026-09-30'
+lastModified: '2026-10-02'
 tags: ['KI', 'Webentwicklung']
 featured: false
 ---
@@ -36,6 +36,8 @@ KI-Entwickler-Tools sind softwarebasierte Lösungen, die:
 - Intelligente Vorschläge und Lösungen bieten
 
 ## Top 10 KI-Tools für Entwickler
+
+<Figure src="/img/blog/ki-tools-entwickler-produktivitaet/ki-tools-kategorien.webp" alt="Die zehn KI-Tools nach Einsatzart: Code-Vervollständigung mit GitHub Copilot, Tabnine und Windsurf, Assistent und Chat mit ChatGPT, Sourcegraph Cody und Amazon Q Developer, KI-Editor mit Cursor und Replit AI, Coding-Agent Cline, Snippet-Management mit Pieces" width={1600} height={900} caption="Die zehn Tools lassen sich grob danach ordnen, wie sie dir beim Programmieren helfen." />
 
 ### 1. Cline (ehemals Claude Dev)
 - **Funktion**: Autonomer KI-Coding-Agent direkt in der IDE

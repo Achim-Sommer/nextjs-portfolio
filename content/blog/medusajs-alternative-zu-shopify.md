@@ -2,7 +2,7 @@
 title: 'MedusaJS: Open-Source-Alternative zu Shopify'
 description: 'MedusaJS als kostenlose Open-Source-Alternative zu Shopify: Funktionen, Vorteile, Grenzen und für welche Shops sich das Headless-Framework eignet.'
 date: '2024-12-01'
-lastModified: '2026-09-30'
+lastModified: '2026-10-02'
 tags: ['Webentwicklung']
 featured: false
 ---
@@ -16,6 +16,8 @@ Wenn du auch an der Erstellung von Websites und Online-Stores mit Next.js intere
 ## Was ist MedusaJS?
 
 MedusaJS ist ein **Open-Source** E-Commerce-Framework, das Entwicklern die Möglichkeit bietet, maßgeschneiderte Online-Shops zu erstellen. Es ist headless, was bedeutet, dass es das Backend von der Frontend-Präsentation trennt, wodurch eine höhere Flexibilität und Skalierbarkeit erreicht wird. MedusaJS ist vollständig selbst gehostet und daher komplett **kostenlos**, abgesehen von den Hosting-Kosten.
+
+<Figure src="/img/blog/medusajs-alternative-zu-shopify/medusa-headless-architektur.webp" alt="Headless-Architektur von MedusaJS: Next.js Storefront, Admin-Dashboard und weitere Kanäle greifen über APIs auf das Medusa Backend mit Core und Plugins zu, das auf dem eigenen Server mit PostgreSQL und optional Redis läuft" width={1600} height={900} caption="Bei MedusaJS sind Shop-Frontend und Backend getrennt und sprechen nur über APIs miteinander." />
 
 ### Hauptfunktionen von MedusaJS
 
@@ -127,7 +129,7 @@ Deine Medusa-Anwendung läuft nun unter [http://localhost:9000](http://localhost
 
 Medusa liefert kein fertiges Shop-Frontend mit, sondern ist headless. Der offizielle **Next.js Starter Storefront** ist die schnellste Möglichkeit, trotzdem sofort einen funktionierenden Shop zu haben. Wenn du ihn bei `create-medusa-app` mit auswählst, legt das Skript ihn in einem eigenen Ordner neben dem Backend an. Du startest ihn dort ebenfalls mit `npm run dev`, er ist dann unter [http://localhost:8000](http://localhost:8000) erreichbar.
 
-Der Storefront nutzt den App Router von Next.js, React Server Components und Tailwind CSS und deckt die typischen Shop-Funktionen ab: Produktseiten, Warenkorb, Checkout und Kundenkonto. Du kannst ihn als Ausgangspunkt nehmen und nach deinen Wünschen anpassen. Da der Storefront auf Next.js basiert, profitierst du von dessen Möglichkeiten zur Suchmaschinenoptimierung. Welche Maßnahmen dabei wirklich zählen, zeige ich dir in meinem Artikel [SEO für Next.js](/blog/seo-optimierung-nextjs-websites-best-practices-2025).
+Der Storefront nutzt den App Router von Next.js, React Server Components und Tailwind CSS und deckt die typischen Shop-Funktionen ab: Produktseiten, Warenkorb, Checkout und Kundenkonto. Du kannst ihn als Ausgangspunkt nehmen und nach deinen Wünschen anpassen. Da der Storefront auf Next.js basiert, profitierst du von dessen Möglichkeiten zur Suchmaschinenoptimierung. Welche Maßnahmen dabei wirklich zählen, zeige ich dir in meinem Artikel [SEO für Next.js](/blog/nextjs-seo).
 
 Die ältere Vorlage "Next.js Commerce x Medusa" stammt aus der Zeit von Medusa v1. Für neue Projekte ist der Next.js Starter Storefront der empfohlene Weg.
 

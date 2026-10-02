@@ -2,7 +2,7 @@
 title: 'KI in der Webentwicklung: Tools und Grenzen'
 description: 'Wie KI-Tools beim Programmieren helfen: Code-Generierung, Tests, Dokumentation und Fehlersuche. Mit Einsatzbeispielen, Grenzen und Tipps für den Einstieg.'
 date: '2024-12-29'
-lastModified: '2026-09-30'
+lastModified: '2026-10-02'
 tags: ['KI', 'Webentwicklung']
 featured: false
 ---
@@ -30,6 +30,8 @@ KI-gestützte Projektmanagement-Tools können den Fortschritt von Projekten übe
 
 ## Praktische Anwendungen von KI in der Webentwicklung
 
+<Figure src="/img/blog/ki-in-der-webentwicklung-wie-entwickler-von-ki-tools-profitieren-koennen/ki-tools-entwicklungsprozess.webp" alt="KI-Tools entlang des Entwicklungsprozesses: Design mit Adobe Sensei und Figma, Code mit GitHub Copilot, Tabnine und Cline, Debugging mit Snyk Code, Tests mit Testim und Applitools, Doku mit Scribe und Document360, SEO-Inhalte mit Surfer SEO und Clearscope, danach prüfst du jedes Ergebnis per Code-Review, Tests, Git und Datenschutz-Check" width={1600} height={900} caption="Für jede Phase der Entwicklung gibt es KI-Tools, die Kontrolle über das Ergebnis bleibt aber bei dir." />
+
 ### 1. **Code-Generierung**
 Tools wie GitHub Copilot und Tabnine nutzen KI, um Entwicklern bei der Code-Generierung zu helfen. Sie bieten intelligente Vorschläge und automatisieren Teile des Codierungsprozesses. Diese Tools können den Code basierend auf dem Kontext der aktuellen Aufgabe generieren und so die Entwicklungszeit erheblich verkürzen.
 
@@ -37,7 +39,7 @@ Tools wie GitHub Copilot und Tabnine nutzen KI, um Entwicklern bei der Code-Gene
 KI-gestützte Debugging-Tools können Fehler im Code automatisch erkennen und Lösungen vorschlagen, was die Fehlerbehebung effizienter macht. Tools wie Snyk Code (früher DeepCode) analysieren den Code auf Sicherheitslücken und bieten detaillierte Berichte und Lösungsvorschläge.
 
 ### 3. **SEO-Optimierung**
-KI-Tools wie Surfer SEO und Clearscope helfen Entwicklern, ihre Websites für Suchmaschinen zu optimieren, indem sie Keyword-Analysen und Content-Empfehlungen bereitstellen. Diese Tools analysieren den Inhalt der Website und geben Empfehlungen zur Verbesserung der Suchmaschinenplatzierung. Um die technische Seite, also Metadaten, Sitemap und Ladezeiten, kümmern sich diese Tools dagegen kaum. Wie du sie bei Next.js-Projekten angehst, zeige ich dir in meinem Artikel [SEO für Next.js](/blog/seo-optimierung-nextjs-websites-best-practices-2025).
+KI-Tools wie Surfer SEO und Clearscope helfen Entwicklern, ihre Websites für Suchmaschinen zu optimieren, indem sie Keyword-Analysen und Content-Empfehlungen bereitstellen. Diese Tools analysieren den Inhalt der Website und geben Empfehlungen zur Verbesserung der Suchmaschinenplatzierung. Um die technische Seite, also Metadaten, Sitemap und Ladezeiten, kümmern sich diese Tools dagegen kaum. Wie du sie bei Next.js-Projekten angehst, zeige ich dir in meinem Artikel [SEO für Next.js](/blog/nextjs-seo).
 
 ### 4. **Design und Benutzererfahrung**
 KI-gestützte Design-Tools wie Adobe Sensei und die KI-Funktionen von Figma helfen Entwicklern, ansprechende und benutzerfreundliche Designs zu erstellen. Diese Tools können Layouts vorschlagen, Farbpaletten generieren und sogar Prototypen erstellen.
