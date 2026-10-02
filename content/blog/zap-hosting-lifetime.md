@@ -2,7 +2,7 @@
 title: 'Server kaufen statt mieten: Lohnt sich Lifetime?'
 description: 'Gameserver, vServer, Rootserver oder Dedicated Server kaufen statt mieten? Break-even-Rechnung, Entscheidungshilfe und Checkliste zur Lifetime-Option.'
 date: '2024-11-20'
-lastModified: '2026-09-30'
+lastModified: '2026-10-02'
 tags: ['Server-Hosting', 'Gameserver', 'Self-Hosting']
 featured: true
 ---
@@ -33,6 +33,10 @@ Brauchst du später mehr Leistung, kannst du Ressourcen gegen eine einmalige Zuz
 ## Break-even: Ab wann sich der Kauf rechnet
 
 Die Rechnung ist einfach: Teile den Lifetime-Preis durch den Monatspreis. Das Ergebnis ist die Zahl der Monate, nach der du mit dem Kauf günstiger fährst als mit der Miete.
+
+Im Diagramm siehst du, wie sich die Kosten entwickeln: Die orange Linie ist die Miete, die jeden Monat weiter steigt. Die helle Linie ist der Lifetime-Preis, der gleich bleibt. Wo sich beide Linien treffen, liegt der Break-even. Ab diesem Monat ist der gekaufte Server günstiger. Wähle ein Produkt aus, um die Kurve anzupassen.
+
+<BreakEvenChart initial="vserver" />
 
 Die Tabelle nutzt die Einstiegspreise („ab“-Preise) und zwei größere Beispielpakete. Preise können sich ändern, die aktuellen Preise findest du immer direkt bei ZAP-Hosting.
 

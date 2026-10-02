@@ -16,6 +16,7 @@ import { generateNextSeo } from 'next-seo/pages';
 import { jsonLd, personRef, SITE_URL, WEBSITE_ID } from '@/lib/schema';
 import Figure from '@/components/mdx/Figure';
 import MdxLink from '@/components/mdx/MdxLink';
+import ReadingProgress from '@/components/blog/ReadingProgress';
 import { TableOfContents } from '@/components/TableOfContents';
 import { Container } from '@/components/home/primitives';
 
@@ -29,6 +30,9 @@ const Tip = dynamic(() => import('../../src/components/Tip'));
 const ZapHostingCta = dynamic(() => import('@/components/ZapHostingCta'));
 const RamRechner = dynamic(() => import('@/components/mdx/RamRechner'));
 const RamTabelle = dynamic(() => import('@/components/mdx/RamTabelle'));
+const BreakEvenChart = dynamic(() => import('@/components/mdx/BreakEvenChart'), {
+  loading: () => <div className="my-10 h-[520px] border border-line bg-surface" />
+});
 
 interface FrontMatter {
   title: string;
@@ -48,6 +52,8 @@ interface BlogPostProps {
   tagLinks: { name: string; href: string | null }[];
   /** Erstes Bild im Artikel (absolute URL) für die strukturierten Daten */
   leadImage: string | null;
+  /** Vorschaubild aus dem Diagramm (scripts/og-from-diagrams.mjs), sonst das generierte Titelbild */
+  diagramOg: string | null;
 }
 
 interface IParams extends ParsedUrlQuery {
@@ -69,17 +75,18 @@ const components = {
   ZapHostingCta: ZapHostingCta,
   RamRechner,
   RamTabelle,
+  BreakEvenChart,
 };
 
 const formatDate = (value: string) =>
   new Date(value).toLocaleDateString('de-DE', { year: 'numeric', month: 'long', day: 'numeric' });
 
-export default function BlogPost({ frontMatter, mdxSource, slug, relatedPosts, tagLinks, leadImage }: BlogPostProps) {
+export default function BlogPost({ frontMatter, mdxSource, slug, relatedPosts, tagLinks, leadImage, diagramOg }: BlogPostProps) {
   const router = useRouter();
   const siteUrl = SITE_URL;
   // Kanonische URL ohne Query-Parameter (utm_* usw.)
   const currentUrl = `${siteUrl}/blog/${slug}`;
-  const ogImage = ogImageUrl({ title: frontMatter.title, baseUrl: siteUrl });
+  const ogImage = diagramOg ?? ogImageUrl({ title: frontMatter.title, baseUrl: siteUrl });
   const modified = frontMatter.lastModified || frontMatter.date;
   const wasUpdated = modified !== frontMatter.date;
 
@@ -117,7 +124,7 @@ export default function BlogPost({ frontMatter, mdxSource, slug, relatedPosts, t
                 width: 1200,
                 height: 630,
                 alt: frontMatter.title,
-                type: 'image/png',
+                type: diagramOg ? 'image/jpeg' : 'image/png',
               },
             ],
             siteName: 'Achim Sommer Blog',
@@ -178,6 +185,7 @@ export default function BlogPost({ frontMatter, mdxSource, slug, relatedPosts, t
           }),
         }}
       />
+      <ReadingProgress targetId="article-content" />
       <article>
         <header className="border-b border-line">
           <Container className="pb-12 pt-28 sm:pb-16 sm:pt-36">
@@ -345,6 +353,9 @@ export const getStaticProps: GetStaticProps<BlogPostProps, IParams> = async ({ p
         relatedPosts,
         tagLinks: getTagLinks(frontMatter.tags || []),
         leadImage: firstFigure ? `${SITE_URL}${firstFigure[1]}` : null,
+        diagramOg: fs.existsSync(path.join(process.cwd(), 'public/img/og', `${slug}.jpg`))
+          ? `${SITE_URL}/img/og/${slug}.jpg`
+          : null,
       },
       revalidate: 3600 // Revalidiere jede Stunde
     };

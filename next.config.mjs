@@ -78,7 +78,6 @@ const nextConfig = {
     optimizePackageImports: [
       '@tabler/icons-react',
       'react-icons',
-      'react-syntax-highlighter',
     ],
     optimisticClientCache: true,
     webVitalsAttribution: ['CLS', 'LCP'],

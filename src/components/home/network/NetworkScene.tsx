@@ -330,6 +330,30 @@ function Scene({
   );
 }
 
+/**
+ * Taktgeber für die Dauer-Animation: 30 statt 60 Bilder pro Sekunde reichen für
+ * die ruhige Bewegung und halbieren die Last. requestAnimationFrame pausiert
+ * in Hintergrund-Tabs von selbst; Ziehen löst weiterhin sofort ein Bild aus.
+ */
+function FrameDriver({ fps }: { fps: number }) {
+  const invalidate = useThree((state) => state.invalidate);
+  useEffect(() => {
+    let id = 0;
+    let last = 0;
+    const interval = 1000 / fps;
+    const tick = (t: number) => {
+      id = requestAnimationFrame(tick);
+      if (t - last >= interval - 2) {
+        last = t;
+        invalidate();
+      }
+    };
+    id = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(id);
+  }, [fps, invalidate]);
+  return null;
+}
+
 export default function NetworkScene({
   reducedMotion,
   onReady,
@@ -342,11 +366,14 @@ export default function NetworkScene({
   const [hovered, setHovered] = useState<string | null>(null);
   const [inView, setInView] = useState(true);
 
-  // Außerhalb des Viewports nicht rendern
+  // Nur rendern, solange ein nennenswerter Teil der Szene zu sehen ist
   useEffect(() => {
     const el = container.current;
     if (!el) return;
-    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting));
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting && entry.intersectionRatio >= 0.15),
+      { threshold: [0, 0.15, 0.3] },
+    );
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
@@ -396,12 +423,13 @@ export default function NetworkScene({
         orthographic
         flat
         dpr={[1, 1.75]}
-        frameloop={!inView ? 'never' : reducedMotion ? 'demand' : 'always'}
+        frameloop={inView ? 'demand' : 'never'}
         camera={{ position: cameraPosition(), zoom: 100, near: 0.1, far: 200 }}
         gl={{ antialias: true, alpha: true, powerPreference: 'low-power' }}
         style={{ position: 'absolute', inset: 0 }}
         onPointerMissed={() => setHovered(() => null)}
       >
+        {inView && !reducedMotion && <FrameDriver fps={30} />}
         <Scene
           shared={shared}
           hovered={hovered}

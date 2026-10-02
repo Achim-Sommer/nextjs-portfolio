@@ -18,6 +18,10 @@ export async function getCompiledMDX(source: string) {
   
   const compiled = await serialize(source, {
     parseFrontmatter: true,
+    // Eigene Inhalte aus dem Repo: Ausdrücke wie width={1600} in Komponenten erlauben,
+    // gefährliche Konstrukte (eval, Function usw.) bleiben blockiert
+    blockJS: false,
+    blockDangerousJS: true,
     mdxOptions: {
       development: process.env.NODE_ENV === 'development',
       remarkPlugins: [remarkGfm],
