@@ -14,3 +14,7 @@ analyze/
 
 # Claude Code (u.a. Worktrees unter .claude/worktrees/)
 .claude/
+
+# Von next dev automatisch erzeugte Hinweisdateien für KI-Agenten
+/AGENTS.md
+/CLAUDE.md
