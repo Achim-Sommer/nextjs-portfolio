@@ -15,6 +15,7 @@ import {
   FiZap,
 } from 'react-icons/fi';
 import { ogImageUrl } from '@/lib/og-image';
+import { eur, findProduct } from '@/data/hosting-prices';
 import { Reveal, SectionHeading } from '@/components/home/primitives';
 import {
   AdLabel,
@@ -39,7 +40,7 @@ const faqs = [
   {
     question: 'Palworld Server mieten oder kaufen: Was ist besser?',
     answer:
-      'Mieten ist ideal zum Einstieg: geringe Kosten, jederzeit kündbar. Kaufen (Lifetime) lohnt sich ab einer Laufzeit von etwa 8–9 Monaten. Danach ist der einmalige Kaufpreis von 60 € günstiger als die monatliche Miete. Für langfristige Community-Server ist Lifetime meist die bessere Rechnung.',
+      'Mieten ist ideal zum Einstieg: geringe Kosten, jederzeit kündbar. Kaufen (Lifetime) lohnt sich ab einer Laufzeit von etwa 8 bis 9 Monaten. Danach ist der einmalige Kaufpreis von 60 € günstiger als die monatliche Miete. Für langfristige Community-Server ist Lifetime meist die bessere Rechnung.',
   },
   {
     question: 'Wie viele Spieler passen auf einen Palworld Server?',
@@ -136,13 +137,17 @@ const steps = [
   },
 ];
 
-const breakEvenRows = [
-  { months: '6 Monate', rent: '42,84 €', lifetime: '60 €', cheaper: 'Miete' },
-  { months: '9 Monate', rent: '64,26 €', lifetime: '60 €', cheaper: 'Lifetime' },
-  { months: '12 Monate', rent: '85,68 €', lifetime: '60 €', cheaper: 'Lifetime' },
-  { months: '24 Monate', rent: '171,36 €', lifetime: '60 €', cheaper: 'Lifetime' },
-  { months: '36 Monate', rent: '257,04 €', lifetime: '60 €', cheaper: 'Lifetime' },
-];
+// Kostenvergleich aus der zentralen Preisdatei (src/data/hosting-prices.ts)
+const PALWORLD = findProduct('palworld')!;
+const breakEvenRows = [6, 9, 12, 24, 36].map((m) => {
+  const rent = PALWORLD.monthly * m;
+  return {
+    months: `${m} Monate`,
+    rent: eur(rent),
+    lifetime: eur(PALWORLD.lifetime),
+    cheaper: rent > PALWORLD.lifetime ? 'Lifetime' : 'Miete',
+  };
+});
 
 const plans = [
   {
@@ -170,7 +175,7 @@ const plans = [
     unit: 'einmalig',
     items: [
       'Keine monatlichen Kosten, nie wieder',
-      'Günstiger als Miete ab ca. 8–9 Monaten',
+      'Günstiger als Miete ab ca. 8 bis 9 Monaten',
       'Gleiche Leistung & gleiches Panel wie Mietserver',
       'Ideal für Community & Langzeit-Welten',
     ],
@@ -199,7 +204,7 @@ export default function PalworldServer() {
         {generateNextSeo({
           title: 'Palworld Server mieten oder kaufen | ab 7,14 €/Monat oder 60 € Lifetime',
           description:
-            'Palworld Server mieten ab 7,14 €/Monat oder kaufen statt mieten: Lifetime-Server ab 60 € – einmal zahlen, für immer nutzen. Bis 32 Spieler, DE-Standorte, in Minuten online. 20% Rabatt auf Mietserver mit Code GermanGaming.',
+            'Palworld Server mieten ab 7,14 €/Monat oder kaufen statt mieten: Lifetime-Server ab 60 €: einmal zahlen, für immer nutzen. Bis 32 Spieler, DE-Standorte, in Minuten online. 20% Rabatt auf Mietserver mit Code GermanGaming.',
           canonical: `${SITE_URL}/palworld`,
           openGraph: {
             title: 'Palworld Server mieten oder kaufen | ab 7,14 €/Monat oder 60 € Lifetime',
@@ -369,7 +374,7 @@ export default function PalworldServer() {
         <LandingSection>
           <SectionHeading index="02" label="Rechnung" title="Kaufen statt mieten: Ab wann lohnt es sich?">
             Die Rechnung ist simpel: 60 € Lifetime geteilt durch 7,14 € Monatsmiete ={' '}
-            <strong className="font-medium text-fg">Break-even nach ca. 8–9 Monaten</strong>. Jeder Monat danach ist
+            <strong className="font-medium text-fg">Break-even nach ca. 8 bis 9 Monaten</strong>. Jeder Monat danach ist
             gespartes Geld.
           </SectionHeading>
 

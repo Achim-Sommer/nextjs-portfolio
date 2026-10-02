@@ -84,7 +84,7 @@ export default function DatenschutzPage() {
           <li>Betreff (freiwillige Angabe)</li>
           <li>Inhalt Ihrer Nachricht (Pflichtangabe)</li>
           <li>Zeitpunkt der Absendung</li>
-          <li>Ihre IP-Adresse – ausschließlich flüchtig im Arbeitsspeicher zur Begrenzung der Anfragen pro Stunde (Spam-Schutz). Es findet keine dauerhafte Speicherung statt.</li>
+          <li>Ihre IP-Adresse, ausschließlich flüchtig im Arbeitsspeicher zur Begrenzung der Anfragen pro Stunde (Spam-Schutz). Es findet keine dauerhafte Speicherung statt.</li>
         </ul>
 
         <h3>Zweck und Rechtsgrundlage</h3>
@@ -95,10 +95,10 @@ export default function DatenschutzPage() {
         <p>Für die technische Zustellung der Formularnachrichten als E-Mail nutzen wir den Dienst Resend der Resend, Inc., 2261 Market Street #5039, San Francisco, CA 94114, USA. Die von Ihnen eingegebenen Daten werden zu diesem Zweck an Resend übermittelt. Mit Resend besteht ein Auftragsverarbeitungsvertrag nach Art. 28 DSGVO; die Übermittlung in die USA erfolgt auf Grundlage der EU-Standardvertragsklauseln nach Art. 46 Abs. 2 lit. c DSGVO. Weitere Informationen finden Sie in der <a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer">Datenschutzerklärung von Resend</a>.</p>
 
         <h3>Speicherdauer</h3>
-        <p>Die Formulardaten werden nicht in einer Datenbank auf dieser Website gespeichert, sondern unmittelbar als E-Mail an unser Postfach zugestellt. Dort verbleiben sie, bis der Zweck der Speicherung entfällt – also bis Ihre Anfrage abschließend bearbeitet ist und keine gesetzlichen Aufbewahrungspflichten (insbesondere handels- und steuerrechtliche Fristen) entgegenstehen. Anschließend werden die Daten gelöscht.</p>
+        <p>Die Formulardaten werden nicht in einer Datenbank auf dieser Website gespeichert, sondern unmittelbar als E-Mail an unser Postfach zugestellt. Dort verbleiben sie, bis der Zweck der Speicherung entfällt, also bis Ihre Anfrage abschließend bearbeitet ist und keine gesetzlichen Aufbewahrungspflichten (insbesondere handels- und steuerrechtliche Fristen) entgegenstehen. Anschließend werden die Daten gelöscht.</p>
 
         <h3>Erforderlichkeit</h3>
-        <p>Die Angabe der Pflichtfelder ist erforderlich, damit wir Ihre Anfrage bearbeiten und beantworten können. Die Nutzung des Formulars ist freiwillig – Sie können uns alternativ jederzeit direkt per E-Mail an imprint@achimsommer.com kontaktieren.</p>
+        <p>Die Angabe der Pflichtfelder ist erforderlich, damit wir Ihre Anfrage bearbeiten und beantworten können. Die Nutzung des Formulars ist freiwillig. Sie können uns alternativ jederzeit direkt per E-Mail an imprint@achimsommer.com kontaktieren.</p>
       </section>
 
       <section>

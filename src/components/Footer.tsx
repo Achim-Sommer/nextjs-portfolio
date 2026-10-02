@@ -11,6 +11,7 @@ const socialLinks = [
 const pageLinks = [
   { href: '/kontakt', label: 'Kontakt' },
   { href: '/blog', label: 'Blog' },
+  { href: '/server-ram-rechner', label: 'RAM-Rechner' },
   { href: '/impressum', label: 'Impressum' },
   { href: '/datenschutz', label: 'Datenschutz' },
 ];

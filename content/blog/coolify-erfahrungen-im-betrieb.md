@@ -2,7 +2,7 @@
 title: 'Coolify im Betrieb: Erfahrungen und Stolperfallen'
 description: 'Erfahrungen aus dem Betrieb von Coolify: übersprungene Builds, Fehler im Domain-Feld, Build-Variablen in Next.js sowie Backups, Updates und Sicherheit.'
 date: '2026-09-30'
-lastModified: '2026-09-30'
+lastModified: '2026-10-02'
 tags: ['Self-Hosting', 'Docker', 'Next.js']
 featured: false
 ---
@@ -12,6 +12,8 @@ Im Artikel [Coolify auf einem Linux-Server installieren](/blog/coolify-installat
 ## Drei Stolperfallen aus meinem eigenen Deployment
 
 Meine Portfolio-Seite ist eine Next.js-16-App, die Coolify aus einem GitHub-Repository baut. Alle drei Fehler sind banal, die Symptome führen aber leicht in die Irre.
+
+<Figure src="/img/blog/coolify-erfahrungen-im-betrieb/coolify-stolperfallen.webp" alt="Deploy-Kette in Coolify von Git-Branch über Build und Laufzeit bis zum Proxy mit drei Stolperfallen: übersprungener Build, weil die Änderungen nicht auf main lagen, fehlende NEXT_PUBLIC_-Variable beim Build und ein fehlender Doppelpunkt im Domain-Feld" width={1600} height={900} caption="Alle drei Fehler entstanden an den Übergängen zwischen Branch und Deploy, Build und Laufzeit sowie Domain-Feld und DNS." />
 
 ### Build übersprungen, alte Version online
 

@@ -2,12 +2,14 @@
 title: 'Linux vServer absichern: Die Anleitung'
 description: 'Linux vServer unter Debian und Ubuntu absichern: SSH-Schlüssel, gehärtetes SSH, UFW, Fail2ban und automatische Updates direkt nach der Bestellung.'
 date: '2026-09-30'
-lastModified: '2026-09-30'
+lastModified: '2026-10-02'
 tags: ['Linux', 'IT-Sicherheit', 'Server-Hosting']
 featured: false
 ---
 
 Ein frisch bestellter vServer hängt ab der ersten Minute mit öffentlicher IP-Adresse im Internet. Automatisierte Scanner finden ihn schnell und probieren Passwörter für root und gängige Benutzernamen durch. Diese Anleitung zeigt dir die Schritte, die ich auf jedem neuen Debian- oder Ubuntu-Server erledige, bevor dort irgendeine Anwendung läuft. Die Reihenfolge ist bewusst gewählt: Du sperrst dich an keiner Stelle selbst aus, solange du sie einhältst.
+
+<Figure src="/img/blog/linux-vserver-absichern/vserver-schutzschichten.webp" alt="Schutzschichten eines Linux vServers: Anfragen aus dem Internet passieren UFW, Fail2ban und gehärtetes SSH mit Schlüssel-Anmeldung bis zum Benutzer mit sudo. Veröffentlichte Docker-Ports umgehen UFW, deshalb an 127.0.0.1 binden. Darunter automatische Sicherheitsupdates, Backups und Monitoring" width={1600} height={900} caption="Firewall, Fail2ban und Schlüssel-Anmeldung bilden die Schutzschichten, Docker-Ports umgehen UFW allerdings und gehören an 127.0.0.1." />
 
 ## Voraussetzungen
 

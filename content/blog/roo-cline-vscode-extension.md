@@ -2,7 +2,7 @@
 title: 'Roo Code (Roo Cline) in VS Code einrichten'
 description: 'Roo Code, früher Roo Cline, in VS Code installieren und mit OpenAI, Anthropic oder DeepSeek verbinden. Einrichtung, Funktionen und Tipps für den Alltag.'
 date: '2025-01-04'
-lastModified: '2026-09-30'
+lastModified: '2026-10-02'
 tags: ['KI', 'Webentwicklung']
 featured: false
 ---
@@ -12,6 +12,8 @@ featured: false
 > **Hinweis zum Namen**: Die Extension hieß ursprünglich "Roo Cline" und wurde 2025 in "Roo Code" umbenannt. Es handelt sich um dieselbe Extension; im Marketplace findest du sie unter dem neuen Namen.
 
 In diesem ausführlichen Tutorial zeige ich dir **Schritt für Schritt**, wie du Roo Code in Visual Studio Code installierst und konfigurierst. Roo Code ist aus einem Fork des bekannten Coding-Agenten Cline entstanden und hat sich seitdem mit eigenen Funktionen wie verschiedenen Arbeitsmodi eigenständig weiterentwickelt.
+
+<Figure src="/img/blog/roo-cline-vscode-extension/roo-code-aufbau.webp" alt="Aufbau von Roo Code: Die Extension läuft in Visual Studio Code mit den Modi Code, Architect, Ask und Debug, arbeitet an deinem Projekt und schickt Prompts per API-Key an DeepSeek, Anthropic, OpenAI, Google AI Studio, OpenRouter oder lokal an Ollama und LM Studio" width={1600} height={900} caption="Roo Code selbst ist kostenlos, die Antworten liefert das KI-Modell des Anbieters, den du per API-Key verbindest." />
 
 ## Voraussetzungen
 

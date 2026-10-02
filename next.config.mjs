@@ -76,7 +76,6 @@ const nextConfig = {
   experimental: {
     optimizeCss: true,
     optimizePackageImports: [
-      '@tabler/icons-react',
       'react-icons',
     ],
     optimisticClientCache: true,
@@ -258,6 +257,22 @@ const nextConfig = {
       {
         source: '/blog/palworld-server-kaufen-statt-mieten-lifetime',
         destination: '/blog/palworld-server-mieten',
+        permanent: true,
+      },
+      // Adressen ohne Jahreszahl, damit die Artikel in Google nicht veraltet wirken
+      {
+        source: '/blog/beste-ui-design-bibliotheken-2024',
+        destination: '/blog/react-ui-bibliotheken',
+        permanent: true,
+      },
+      {
+        source: '/blog/nextjs-vs-react-welches-framework-ist-2025-die-bessere-wahl',
+        destination: '/blog/nextjs-vs-react',
+        permanent: true,
+      },
+      {
+        source: '/blog/seo-optimierung-nextjs-websites-best-practices-2025',
+        destination: '/blog/nextjs-seo',
         permanent: true,
       },
     ]

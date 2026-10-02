@@ -2,7 +2,7 @@
 title: 'Hytale Server mieten oder kaufen: Der Guide'
 description: 'Hytale Server mieten Schritt für Schritt: Paket, Standort, Einstellungen und Sicherheit. Dazu die Rechnung, ab wann sich ein Lifetime-Server lohnt.'
 date: '2026-01-13'
-lastModified: '2026-09-30'
+lastModified: '2026-10-02'
 tags: ['Gameserver', 'Server-Hosting']
 featured: false
 ---
@@ -20,6 +20,8 @@ Für einen eigenen Hytale Server gibt es drei Wege:
 | Gameserver mieten | ihr schnell starten und flexibel bleiben wollt | gering, monatliche Kosten |
 | Lifetime-Server kaufen | der Server sicher lange laufen soll | gering, einmalige Zahlung |
 | Selbst hosten auf Linux | du volle Kontrolle willst und dich mit Linux auskennst | hoch: Setup, Updates und Sicherheit liegen bei dir |
+
+<Figure src="/img/blog/hytale-server-mieten/hytale-drei-wege.webp" alt="Drei Wege zum eigenen Hytale Server: Mieten mit monatlichen Kosten und geringem Aufwand, Lifetime kaufen mit einmaliger Zahlung und Selbst hosten auf einem eigenen Linux-Server mit hohem Aufwand. Empfehlung: erst mieten und auf Lifetime wechseln, wenn ihr bleibt" width={1600} height={900} caption="Mieten ist der flexible Einstieg, Lifetime lohnt sich ab dem Break-even, und Selbsthosting bringt volle Kontrolle mit mehr Aufwand." />
 
 Ein gemieteter Server ist besonders sinnvoll, wenn du
 
@@ -104,6 +106,10 @@ Der Rabattcode macht die Miete 20% günstiger, der Lifetime-Preis bleibt gleich.
 | 10 Monatsmieten | nach 10 Monaten | nach 12,5 Monaten |
 | 12 Monatsmieten | nach 12 Monaten | nach 15 Monaten |
 | 16 Monatsmieten | nach 16 Monaten | nach 20 Monaten |
+
+Mit dem Rechner kannst du es für dein Paket direkt ausprobieren: Trag den Monatspreis und den Lifetime-Preis aus dem Shop ein. Der Schnittpunkt der beiden Linien ist dein Break-even.
+
+<BreakEvenChart only="custom" customMonthly={10} customLifetime={120} />
 
 ### Für wen sich ein Hytale Lifetime-Server lohnt
 

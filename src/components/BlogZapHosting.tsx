@@ -1,11 +1,15 @@
 import Image from 'next/image';
 import { FiArrowUpRight } from 'react-icons/fi';
 
+import { eur, findProduct } from '@/data/hosting-prices';
+
 const ZAP_VSERVER_URL = 'https://zap-hosting.com/vserverhomepage';
 
+const VSERVER = findProduct('vserver')!;
+
 const PLANS = [
-  { name: 'Monatlich', price: 'ab 7,90 €', unit: 'pro Monat', cta: 'Jetzt starten', highlight: false },
-  { name: 'Lifetime', price: 'ab 64,00 €', unit: 'einmalig', cta: 'Lifetime sichern', highlight: true },
+  { name: 'Monatlich', price: `ab ${eur(VSERVER.monthly)}`, unit: 'pro Monat', cta: 'Jetzt starten', highlight: false },
+  { name: 'Lifetime', price: `ab ${eur(VSERVER.lifetime)}`, unit: 'einmalig', cta: 'Lifetime sichern', highlight: true },
 ];
 
 const FEATURES = ['DDoS-Schutz', 'Root-Zugriff', 'Sofort verfügbar', 'Support rund um die Uhr'];

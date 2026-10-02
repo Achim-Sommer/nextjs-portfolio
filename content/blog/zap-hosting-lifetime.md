@@ -5,6 +5,7 @@ date: '2024-11-20'
 lastModified: '2026-10-02'
 tags: ['Server-Hosting', 'Gameserver', 'Self-Hosting']
 featured: true
+ogDiagram: '/img/blog/zap-hosting-lifetime/break-even.webp'
 ---
 
 Server werden normalerweise gemietet: Du zahlst jeden Monat, solange dein Projekt läuft. ZAP-Hosting bietet seit April 2023 für viele Produkte zusätzlich eine Lifetime-Option an. Du zahlst einmal und nutzt den Server danach ohne monatliche Gebühren weiter. Soweit mir bekannt, gibt es das bei kaum einem anderen Anbieter in dieser Breite.
@@ -40,16 +41,7 @@ Im Diagramm siehst du, wie sich die Kosten entwickeln: Die orange Linie ist die 
 
 Die Tabelle nutzt die Einstiegspreise („ab“-Preise) und zwei größere Beispielpakete. Preise können sich ändern, die aktuellen Preise findest du immer direkt bei ZAP-Hosting.
 
-| Produkt | Miete pro Monat | Lifetime einmalig | Break-even | Break-even bei 20% Mietrabatt |
-| --- | --- | --- | --- | --- |
-| Gameserver (Einstieg) | 2,76 € | 45,00 € | ca. 16,3 Monate | ca. 20,4 Monate |
-| Palworld-Server | 7,14 € | 60,00 € | ca. 8,4 Monate | ca. 10,5 Monate |
-| Linux vServer | 7,90 € | 64,00 € | ca. 8,1 Monate | ca. 10,1 Monate |
-| Windows vServer | 9,90 € | 99,00 € | 10 Monate | 12,5 Monate |
-| vServer mit 8 Kernen und 32 GB RAM | 28,80 € | 301,80 € | ca. 10,5 Monate | ca. 13,1 Monate |
-| Linux Rootserver | 12,90 € | 154,80 € | 12 Monate | 15 Monate |
-| Dedicated Server (Einstieg) | 41,35 € | 498,32 € | ca. 12,1 Monate | ca. 15,1 Monate |
-| Dedicated Server mit 40 Kernen und 256 GB RAM | 186,78 € | 2.231,36 € | ca. 11,9 Monate | ca. 14,9 Monate |
+<BreakEvenTabelle />
 
 Zwei Hinweise zum Lesen der Tabelle:
 
@@ -60,16 +52,7 @@ Zwei Hinweise zum Lesen der Tabelle:
 
 Die Ersparnis ergibt sich aus den Mietkosten über den Zeitraum abzüglich des Lifetime-Preises. Gerechnet ist ohne Rabatt und mit gleichbleibendem Mietpreis.
 
-| Produkt | nach 1 Jahr | nach 2 Jahren | nach 5 Jahren |
-| --- | --- | --- | --- |
-| Gameserver (Einstieg) | Miete 11,88 € günstiger | 21,24 € | 120,60 € |
-| Palworld-Server | 25,68 € | 111,36 € | 368,40 € |
-| Linux vServer | 30,80 € | 125,60 € | 410,00 € |
-| Windows vServer | 19,80 € | 138,60 € | 495,00 € |
-| vServer mit 8 Kernen und 32 GB RAM | 43,80 € | 389,40 € | 1.426,20 € |
-| Linux Rootserver | Gleichstand | 154,80 € | 619,20 € |
-| Dedicated Server (Einstieg) | Miete 2,12 € günstiger | 494,08 € | 1.982,68 € |
-| Dedicated Server mit 40 Kernen und 256 GB RAM | 10,00 € | 2.251,36 € | 8.975,44 € |
+<ErsparnisTabelle />
 
 Die Tabelle zeigt auch die Kehrseite: Endet dein Projekt vor dem Break-even, hast du mehr bezahlt als mit der Miete.
 

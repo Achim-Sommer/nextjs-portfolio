@@ -2,27 +2,20 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-type Product = { id: string; name: string; monthly: number; lifetime: number };
+import {
+  HOSTING_PRODUCTS,
+  RENT_DISCOUNT,
+  breakEvenMonths,
+  eur,
+  months1,
+  type HostingProduct,
+} from '@/data/hosting-prices';
 
-/** Preise aus der Tabelle im Artikel „Server kaufen statt mieten“ */
-const PRODUCTS: Product[] = [
-  { id: 'game', name: 'Gameserver (Einstieg)', monthly: 2.76, lifetime: 45 },
-  { id: 'palworld', name: 'Palworld-Server', monthly: 7.14, lifetime: 60 },
-  { id: 'vserver', name: 'Linux vServer', monthly: 7.9, lifetime: 64 },
-  { id: 'winvserver', name: 'Windows vServer', monthly: 9.9, lifetime: 99 },
-  { id: 'vserver32', name: 'vServer 8 Kerne, 32 GB', monthly: 28.8, lifetime: 301.8 },
-  { id: 'root', name: 'Linux Rootserver', monthly: 12.9, lifetime: 154.8 },
-  { id: 'dedi', name: 'Dedicated Server (Einstieg)', monthly: 41.35, lifetime: 498.32 },
-  { id: 'dedi256', name: 'Dedicated 40 Kerne, 256 GB', monthly: 186.78, lifetime: 2231.36 },
-];
-
-const RABATT = 0.2;
-const MONTHS = 24;
+const CUSTOM = 'custom';
 
 // Zeichenfläche: viewBox folgt der echten Breite, damit die Schrift auf dem Handy lesbar bleibt
 const PAD = { top: 24, right: 16, bottom: 40, left: 56 };
 
-const eur = (v: number) => v.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
 const eurShort = (v: number) => `${Math.round(v).toLocaleString('de-DE')} €`;
 
 /** Schöne Achsenschritte (1, 2, 5 × 10^n) */
@@ -33,9 +26,51 @@ function niceStep(max: number, ticks = 4) {
   return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 5 ? 5 : 10) * pow;
 }
 
-/** Interaktives Diagramm: kumulierte Miete gegen Lifetime-Einmalpreis, Schnittpunkt = Break-even */
-export default function BreakEvenChart({ initial = 'vserver' }: { initial?: string }) {
-  const [productId, setProductId] = useState(initial);
+/** Eingabefeld für eigene Preise */
+function PriceInput({ label, value, onChange }: { label: string; value: number; onChange: (v: number) => void }) {
+  return (
+    <label className="block">
+      <span className="mb-2 block text-sm text-muted">{label}</span>
+      <span className="flex items-center border border-line bg-canvas focus-within:border-accent">
+        <input
+          type="number"
+          inputMode="decimal"
+          min={0.5}
+          step={0.01}
+          value={Number.isFinite(value) ? value : ''}
+          onChange={(e) => onChange(parseFloat(e.target.value))}
+          className="w-full bg-transparent px-3 py-2.5 font-mono text-fg outline-none"
+        />
+        <span className="pr-3 text-faint">€</span>
+      </span>
+    </label>
+  );
+}
+
+/**
+ * Interaktives Diagramm: kumulierte Miete gegen Lifetime-Einmalpreis, Schnittpunkt = Break-even.
+ * Im Markdown: <BreakEvenChart initial="palworld" only="palworld,custom" />
+ * `only` begrenzt die Auswahl (Produkt-IDs aus src/data/hosting-prices.ts, „custom“ = eigene Preise).
+ */
+export default function BreakEvenChart({
+  initial = 'vserver',
+  only,
+  customMonthly = 10,
+  customLifetime = 120,
+}: {
+  initial?: string;
+  only?: string;
+  customMonthly?: number;
+  customLifetime?: number;
+}) {
+  const ids = only ? only.split(',').map((s) => s.trim()) : [...HOSTING_PRODUCTS.map((p) => p.id), CUSTOM];
+  const products = HOSTING_PRODUCTS.filter((p) => ids.includes(p.id));
+  const withCustom = ids.includes(CUSTOM);
+  const options = [...products.map((p) => ({ id: p.id, label: p.short })), ...(withCustom ? [{ id: CUSTOM, label: 'Eigene Preise' }] : [])];
+
+  const [productId, setProductId] = useState(ids.includes(initial) ? initial : options[0]?.id ?? CUSTOM);
+  const [ownMonthly, setOwnMonthly] = useState(customMonthly);
+  const [ownLifetime, setOwnLifetime] = useState(customLifetime);
   const [discount, setDiscount] = useState(false);
   const [hover, setHover] = useState<number | null>(null);
   const [visible, setVisible] = useState(false);
@@ -44,9 +79,20 @@ export default function BreakEvenChart({ initial = 'vserver' }: { initial?: stri
   const svgRef = useRef<SVGSVGElement>(null);
   const svgWrapRef = useRef<HTMLDivElement>(null);
 
-  const product = PRODUCTS.find((p) => p.id === productId) ?? PRODUCTS[2];
-  const monthly = discount ? product.monthly * (1 - RABATT) : product.monthly;
-  const breakEven = product.lifetime / monthly;
+  const isCustom = productId === CUSTOM;
+  const product: HostingProduct = isCustom
+    ? {
+        id: CUSTOM,
+        name: 'Eigene Preise',
+        short: 'Eigene Preise',
+        monthly: Math.max(0.5, Number.isFinite(ownMonthly) ? ownMonthly : 0.5),
+        lifetime: Math.max(1, Number.isFinite(ownLifetime) ? ownLifetime : 1),
+      }
+    : products.find((p) => p.id === productId) ?? products[0];
+  const monthly = discount ? product.monthly * (1 - RENT_DISCOUNT) : product.monthly;
+  const breakEven = breakEvenMonths(product, discount ? RENT_DISCOUNT : 0);
+  // Zeitachse: mindestens 2 Jahre, bei spätem Break-even länger (in Halbjahresschritten, maximal 5 Jahre)
+  const MONTHS = Math.min(60, Math.max(24, Math.ceil((breakEven * 1.5) / 6) * 6));
 
   // Animation erst starten, wenn das Diagramm im Bild ist
   useEffect(() => {
@@ -104,7 +150,7 @@ export default function BreakEvenChart({ initial = 'vserver' }: { initial?: stri
       // Ersparnis nach dem Break-even (Miete liegt über Lifetime)
       gainArea: breakEven < MONTHS ? `M${ix},${iy} L${x(MONTHS)},${rentEnd} L${x(MONTHS)},${life} Z` : '',
     };
-  }, [monthly, product.lifetime, breakEven, PW, PH]);
+  }, [monthly, product.lifetime, breakEven, PW, PH, MONTHS]);
 
   const onPointer = (e: React.PointerEvent<SVGSVGElement>) => {
     const svg = svgRef.current;
@@ -118,13 +164,16 @@ export default function BreakEvenChart({ initial = 'vserver' }: { initial?: stri
   const hoverRent = hover !== null ? monthly * hover : 0;
   const hoverDiff = hoverRent - product.lifetime;
   // Break-even-Beschriftung links vom Punkt, wenn sie rechts nicht mehr passt (ca. 7,3 px pro Zeichen)
-  const labelText = `Break-even: ${breakEven.toLocaleString('de-DE', { maximumFractionDigits: 1 })} ${compact ? 'Mon.' : 'Monate'}`;
+  const labelText = `Break-even: ${months1(breakEven)} ${compact ? 'Mon.' : 'Monate'}`;
   const labelFlip = geo.ix + 12 + labelText.length * 7.3 > W - PAD.right;
   const tooltipLeft = hover !== null && geo.x(hover) > W * 0.62;
 
   // Neue Animation bei jedem Produkt- oder Rabattwechsel
-  const animKey = `${product.id}-${discount}`;
+  const animKey = isCustom ? `${CUSTOM}-${discount}` : `${product.id}-${discount}`;
   const play = visible ? 'animate-draw' : 'opacity-0';
+
+  const gridCols =
+    options.length % 3 === 0 ? 'grid-cols-3' : options.length <= 2 ? 'grid-cols-2' : 'grid-cols-2 lg:grid-cols-4';
 
   const tabClass = (active: boolean) =>
     `px-3 py-2 text-left text-sm transition-colors ${
@@ -141,6 +190,7 @@ export default function BreakEvenChart({ initial = 'vserver' }: { initial?: stri
         </label>
       </div>
 
+      {options.length > 1 && (
       <label className="mb-6 block sm:hidden">
         <span className="mb-2 block text-sm text-muted">Produkt</span>
         <select
@@ -148,28 +198,39 @@ export default function BreakEvenChart({ initial = 'vserver' }: { initial?: stri
           onChange={(e) => setProductId(e.target.value)}
           className="w-full border border-line bg-canvas px-3 py-2.5 text-fg"
         >
-          {PRODUCTS.map((p) => (
-            <option key={p.id} value={p.id}>
-              {p.name}
+          {options.map((o) => (
+            <option key={o.id} value={o.id}>
+              {o.label}
             </option>
           ))}
         </select>
       </label>
 
-      <div className="mb-6 hidden grid-cols-2 gap-2 sm:grid lg:grid-cols-4" role="radiogroup" aria-label="Produkt">
-        {PRODUCTS.map((p) => (
+      )}
+
+      {options.length > 1 && (
+      <div className={`mb-6 hidden gap-2 sm:grid ${gridCols}`} role="radiogroup" aria-label="Produkt">
+        {options.map((o) => (
           <button
-            key={p.id}
+            key={o.id}
             type="button"
             role="radio"
-            aria-checked={p.id === product.id}
-            className={tabClass(p.id === product.id)}
-            onClick={() => setProductId(p.id)}
+            aria-checked={o.id === productId}
+            className={tabClass(o.id === productId)}
+            onClick={() => setProductId(o.id)}
           >
-            {p.name}
+            {o.label}
           </button>
         ))}
       </div>
+      )}
+
+      {isCustom && (
+        <div className="mb-6 grid grid-cols-2 gap-3">
+          <PriceInput label="Miete pro Monat" value={ownMonthly} onChange={setOwnMonthly} />
+          <PriceInput label="Lifetime einmalig" value={ownLifetime} onChange={setOwnLifetime} />
+        </div>
+      )}
 
       <div ref={svgWrapRef} className="relative">
         <svg
@@ -177,7 +238,7 @@ export default function BreakEvenChart({ initial = 'vserver' }: { initial?: stri
           viewBox={`0 0 ${W} ${H}`}
           className="block h-auto w-full touch-pan-y select-none"
           role="img"
-          aria-label={`${product.name}: Miete ${eur(monthly)} pro Monat gegen ${eur(product.lifetime)} einmalig. Break-even nach ${breakEven.toLocaleString('de-DE', { maximumFractionDigits: 1 })} Monaten.`}
+          aria-label={`${product.name}: Miete ${eur(monthly)} pro Monat gegen ${eur(product.lifetime)} einmalig. Break-even nach ${months1(breakEven)} Monaten.`}
           onPointerMove={onPointer}
           onPointerDown={onPointer}
           onPointerLeave={() => setHover(null)}
@@ -191,7 +252,7 @@ export default function BreakEvenChart({ initial = 'vserver' }: { initial?: stri
               </text>
             </g>
           ))}
-          {(compact ? [0, 12, 24] : [0, 6, 12, 18, 24]).map((m) => (
+          {(compact ? [0, 0.5, 1] : [0, 0.25, 0.5, 0.75, 1]).map((f) => Math.round(f * MONTHS)).map((m) => (
             <text key={m} x={geo.x(m)} y={H - PAD.bottom + 22} textAnchor={m === 0 ? 'start' : m === MONTHS ? 'end' : 'middle'} className="fill-faint font-mono text-[11px]">
               {m === 0 ? 'Start' : `${m} Mon.`}
             </text>
@@ -279,8 +340,8 @@ export default function BreakEvenChart({ initial = 'vserver' }: { initial?: stri
         </div>
         <div>
           <div className="text-faint">Ersparnis nach 2 Jahren</div>
-          <div className={`font-mono ${monthly * MONTHS - product.lifetime >= 0 ? 'text-accent' : 'text-muted'}`}>
-            {eur(monthly * MONTHS - product.lifetime)}
+          <div className={`font-mono ${monthly * 24 - product.lifetime >= 0 ? 'text-accent' : 'text-muted'}`}>
+            {eur(monthly * 24 - product.lifetime)}
           </div>
         </div>
       </div>

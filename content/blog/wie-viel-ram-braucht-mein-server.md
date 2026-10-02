@@ -2,7 +2,7 @@
 title: 'Wie viel RAM braucht mein Server? Mit Rechner'
 description: 'Wie viel RAM braucht dein Gameserver oder vServer? Richtwerte für Minecraft, FiveM, Palworld, Docker, Coolify und Co. plus RAM-Rechner mit Empfehlung.'
 date: '2026-09-30'
-lastModified: '2026-09-30'
+lastModified: '2026-10-02'
 tags: ['Server-Hosting', 'Gameserver', 'Self-Hosting']
 featured: false
 ---
@@ -15,7 +15,7 @@ Wähle im Rechner aus, ob du einen Gameserver oder einen vServer mit eigenen Die
 
 <RamRechner />
 
-Die Werte sind bewusst eher großzügig angesetzt. Sie ersetzen keine Messung auf deinem eigenen Server, geben dir aber einen soliden Startpunkt. Wie du den tatsächlichen Verbrauch misst, steht weiter unten.
+Die Werte sind bewusst eher großzügig angesetzt. Sie ersetzen keine Messung auf deinem eigenen Server, geben dir aber einen soliden Startpunkt. Wie du den tatsächlichen Verbrauch misst, steht weiter unten. Den Rechner gibt es auch als [eigene Seite](/server-ram-rechner), falls du ihn als Lesezeichen speichern willst.
 
 ## Warum der Arbeitsspeicher so wichtig ist
 
@@ -56,6 +56,8 @@ Auf einem vServer laufen meist mehrere Dienste nebeneinander. Hier addieren sich
 | Kleines Monitoring | Docker, Uptime Kuma | 1 bis 2 GB |
 | Eigene Website | Docker, WordPress mit MariaDB | 2 GB |
 | Self-Hosting-Plattform | Coolify, zwei Next.js-Apps, PostgreSQL, Umami | 8 GB |
+
+<Figure src="/img/blog/wie-viel-ram-braucht-mein-server/ram-berechnung.webp" alt="RAM-Berechnung in drei Schritten am Beispiel einer Self-Hosting-Plattform: Betriebssystem 0,5 GB, Coolify 2 GB, zwei Next.js-Apps 1 GB, PostgreSQL 1 GB und Umami 0,5 GB ergeben 5 GB, plus 25 Prozent Puffer sind 6,25 GB, aufgerundet auf die Paketgröße 8 GB" width={1600} height={900} caption="Der Rechner addiert die Richtwerte, schlägt 25 Prozent Puffer auf und rundet auf die nächste übliche Paketgröße." />
 
 Bei [Coolify](/blog/coolify-installation) lohnt sich großzügiges Planen besonders: Coolify baut deine Apps direkt auf dem Server, und Builds brauchen kurzzeitig oft 1 bis 2 GB zusätzlich.
 

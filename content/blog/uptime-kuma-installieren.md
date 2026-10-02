@@ -2,7 +2,7 @@
 title: 'Uptime Kuma installieren: Monitoring mit Docker'
 description: 'Uptime Kuma per Docker Compose installieren, hinter einem Reverse Proxy mit HTTPS betreiben und Websites, Ports und Cronjobs zuverlässig überwachen.'
 date: '2026-09-30'
-lastModified: '2026-09-30'
+lastModified: '2026-10-02'
 tags: ['Self-Hosting', 'Docker', 'IT-Administration']
 featured: false
 ---
@@ -26,6 +26,8 @@ Uptime Kuma ist ein Open-Source-Monitoring-Tool, das du auf deinem eigenen Serve
 ## Wo läuft Uptime Kuma?
 
 Die wichtigste Entscheidung triffst du vor der Installation: Uptime Kuma gehört nicht auf den Server, den es überwachen soll. Fällt dieser Server aus, fällt sonst auch das Monitoring aus, und die Benachrichtigung, auf die du dich verlässt, wird nie verschickt. Ein separater Server, idealerweise bei einem anderen Anbieter oder zumindest in einem anderen Rechenzentrum, sieht deine Dienste so, wie sie auch deine Nutzer sehen: von außen.
+
+<Figure src="/img/blog/uptime-kuma-installieren/uptime-kuma-aufbau.webp" alt="Aufbau von Uptime Kuma auf einem separaten Server: Caddy nimmt HTTPS-Anfragen für status.example.de an und leitet sie an den Container auf 127.0.0.1:3001 weiter. Uptime Kuma prüft Websites per HTTP(s) mit Keyword und Dienste per TCP-Port, Backup-Skripte melden sich per Push, bei Ausfall gehen Benachrichtigungen raus" width={1600} height={900} caption="Uptime Kuma läuft getrennt von den überwachten Diensten, prüft sie von außen und erreicht dich bei einem Ausfall über mehrere Kanäle." />
 
 Die Anforderungen sind gering. Für Uptime Kuma reicht schon ein kleiner vServer mit 1 bis 2 GB RAM, ich nutze dafür einen vServer von [ZAP-Hosting](https://zap-hosting.com/vserverhomepage). Wie viel Leistung du wirklich brauchst, hängt vor allem von der Zahl der Monitore und den Prüfintervallen ab.
 

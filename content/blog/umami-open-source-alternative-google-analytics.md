@@ -2,7 +2,7 @@
 title: 'Umami: Google-Analytics-Alternative ohne Cookies'
 description: 'Umami ist eine kostenlose Open-Source-Alternative zu Google Analytics: selbst gehostet, cookielos und datenschutzfreundlich. Funktionen und Installation.'
 date: '2024-11-29'
-lastModified: '2026-09-30'
+lastModified: '2026-10-02'
 tags: ['Self-Hosting', 'Webentwicklung']
 featured: false
 ---
@@ -12,6 +12,8 @@ featured: false
 ## Was ist Umami?
 
 Umami ist eine einfache, benutzerfreundliche Open-Source Web Analytics Plattform, die als Alternative zu Google Analytics entwickelt wurde. Das Hauptziel von Umami ist es, Website-Besitzern eine datenschutzfreundliche Lösung zu bieten, die nur die wirklich wichtigen Metriken sammelt und die Privatsphäre der Nutzer respektiert.
+
+<Figure src="/img/blog/umami-open-source-alternative-google-analytics/umami-vs-google-analytics.webp" alt="Vergleich des Datenflusses: Bei Google Analytics schickt ein Skript mit Cookies die Daten an Google, wo Nutzungs- und Werbeprofile entstehen. Bei Umami landen die Daten über ein Skript ohne Cookies auf dem eigenen Server mit Umami und einer PostgreSQL- oder MySQL-Datenbank" width={1600} height={900} caption="Mit Umami bleiben die Analysedaten auf deinem eigenen Server, ohne Cookies und ohne Weitergabe an Dritte." />
 
 ### Kernmerkmale von Umami
 
@@ -172,7 +174,7 @@ Umami bietet umfangreiche Analysemöglichkeiten:
 
 Umami ist mehr als nur eine Alternative zu Google Analytics. Es ist eine Lösung für alle, die Wert auf Datenschutz, Transparenz und Kontrolle legen. Mit der Möglichkeit zum Selbst-Hosting und einer aktiven Community ist Umami die perfekte Wahl für datenbewusste Entwickler und Website-Betreiber.
 
-Gerade wenn du deine Website für Suchmaschinen optimierst, hilft dir Umami dabei, die Wirkung deiner Maßnahmen zu messen. Welche Stellschrauben es bei Next.js-Projekten gibt, zeige ich dir in meinem Artikel [SEO für Next.js](/blog/seo-optimierung-nextjs-websites-best-practices-2025).
+Gerade wenn du deine Website für Suchmaschinen optimierst, hilft dir Umami dabei, die Wirkung deiner Maßnahmen zu messen. Welche Stellschrauben es bei Next.js-Projekten gibt, zeige ich dir in meinem Artikel [SEO für Next.js](/blog/nextjs-seo).
 
 ## Weiterführende Ressourcen
 
