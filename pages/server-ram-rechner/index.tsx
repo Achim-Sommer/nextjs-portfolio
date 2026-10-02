@@ -13,37 +13,38 @@ import {
   GAMES,
   HEADROOM,
   OS_BASE,
+  RAM_DATA_AS_OF,
   RAM_STEPS,
   ZAP_GAMESERVER_URL,
   ZAP_VSERVER_URL,
+  calculate,
+  findGame,
   formatGb,
-  gameRam,
-  roundToStep,
+  recommendGame as recommend,
 } from '@/data/server-ram';
 
 const PATH = '/server-ram-rechner';
 const URL = `${SITE_URL}${PATH}`;
 const TITLE = 'Server RAM-Rechner: Wie viel Arbeitsspeicher brauchst du?';
 const DESCRIPTION =
-  'Kostenloser RAM-Rechner für Gameserver und vServer: Spiel und Spielerzahl oder Dienste wie Docker, Coolify und WordPress wählen und sofort die passende RAM-Größe sehen.';
+  'Kostenloser RAM-Rechner für Gameserver und vServer: Spiel, Spielerzahl und Mods oder Dienste wie Docker, Coolify und WordPress wählen und sofort RAM, CPU und Speicherplatz sehen.';
 
 const ICON = 'h-4 w-4';
 
 /** Empfehlung für ein Spiel bei einer Spielerzahl, wie im Rechner */
-const recommendGame = (id: string, players: number) => {
-  const game = GAMES.find((g) => g.id === id)!;
-  return formatGb(roundToStep(gameRam(game, players) * HEADROOM));
-};
+const recommendGame = (id: string, players: number) => formatGb(recommend(findGame(id)!, players));
 
 /** Empfehlung für eine Auswahl an Diensten, wie im Rechner */
-const recommendApps = (ids: string[]) =>
-  formatGb(roundToStep((OS_BASE + APPS.filter((a) => ids.includes(a.id)).reduce((sum, a) => sum + a.ram, 0)) * HEADROOM));
+const recommendApps = (ids: string[]) => {
+  const result = calculate({ mode: 'vserver', gameId: '', players: 0, mods: 0, apps: Object.fromEntries(ids.map((id) => [id, 1])) });
+  return `${formatGb(result.recommended)} RAM, ${result.cores} vCPU und ${result.disk} GB SSD`;
+};
 
 // Antworten werden aus denselben Daten berechnet wie der Rechner, damit nichts auseinanderläuft
 const faqs = [
   {
     question: 'Wie viel RAM braucht ein Minecraft Server mit 20 Spielern?',
-    answer: `Für Minecraft Java mit Paper oder Vanilla empfiehlt der Rechner bei 20 Spielern ${recommendGame('minecraft', 20)}. Ein größeres Modpack braucht bei gleicher Spielerzahl ${recommendGame('minecraft-modded', 20)}, die Bedrock Edition kommt mit ${recommendGame('minecraft-bedrock', 20)} aus.`,
+    answer: `Für Minecraft Java mit Paper oder Vanilla empfiehlt der Rechner bei 20 Spielern ${recommendGame('minecraft', 20)}. Ein größeres Modpack braucht bei gleicher Spielerzahl ${recommendGame('minecraft-modpack', 20)}, die Bedrock Edition kommt mit ${recommendGame('minecraft-bedrock', 20)} aus.`,
   },
   {
     question: 'Wie viel RAM braucht ein vServer für Docker und Coolify?',
@@ -178,8 +179,8 @@ export default function ServerRamRechner() {
           title="Server RAM-Rechner"
           intro={
             <p>
-              Wie viel Arbeitsspeicher braucht dein Server? Wähle ein Spiel und die Zahl der Spieler oder die Dienste, die
-              auf deinem vServer laufen sollen. Der Rechner zeigt dir sofort eine Empfehlung mit Puffer.
+              Wie viel Arbeitsspeicher braucht dein Server? Wähle Spiel, Spielerzahl und Mods oder die Dienste auf deinem
+              vServer. Der Rechner zeigt dir sofort RAM mit Puffer, beim vServer auch CPU und Speicherplatz.
             </p>
           }
         >
@@ -200,18 +201,42 @@ export default function ServerRamRechner() {
 
         <LandingSection id="rechner">
           <SectionHeading index="01" label="Rechner" title="RAM-Bedarf berechnen">
-            Gameserver nach Spiel und Spielerzahl oder vServer nach Diensten: Die Empfehlung enthält bereits einen Puffer
-            und ist auf eine übliche Paketgröße gerundet.
+            Gameserver nach Spiel, Spielern und Mods oder vServer mit Diensten und auf Wunsch einem Gameserver dazu. Über
+            „Ergebnis teilen“ schickst du deine Auswahl als Link, zum Beispiel an deine Gruppe im Discord.
           </SectionHeading>
           <div className="mt-6 grid sm:mt-10 lg:grid-cols-12 lg:gap-10">
             <div className="min-w-0 lg:col-span-8 lg:col-start-5">
-              <RamRechner />
+              <RamRechner syncUrl />
             </div>
           </div>
         </LandingSection>
 
+        <LandingSection id="spiele">
+          <SectionHeading index="02" label="Spiele" title="Rechner für dein Spiel">
+            Für jedes Spiel gibt es eine eigene Seite mit Tabelle nach Spielerzahl, Tipps und Antworten auf die häufigsten
+            Fragen.
+          </SectionHeading>
+          <Reveal className="mt-12 sm:mt-16">
+            <ul className="grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+              {GAMES.map((g) => (
+                <li key={g.id} className="bg-canvas">
+                  <Link href={`${PATH}/${g.id}`} className="group flex items-center justify-between gap-4 p-5 transition-colors hover:bg-surface">
+                    <span>
+                      <span className="block font-medium text-fg">{g.short}</span>
+                      <span className="mt-1 block font-mono text-xs text-faint">
+                        ab {formatGb(recommend(g, Math.min(5, g.maxPlayers)))} bei {Math.min(5, g.maxPlayers)} Spielern
+                      </span>
+                    </span>
+                    <FiArrowRight className="h-4 w-4 shrink-0 text-muted transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-accent" aria-hidden="true" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        </LandingSection>
+
         <LandingSection>
-          <SectionHeading index="02" label="Methode" title="So rechnet der Rechner">
+          <SectionHeading index="03" label="Methode" title="So rechnet der Rechner">
             Keine Magie, sondern drei Schritte. Du kannst die Werte jederzeit selbst nachvollziehen.
           </SectionHeading>
           <Reveal className="mt-12 sm:mt-16">
@@ -220,7 +245,7 @@ export default function ServerRamRechner() {
                 {
                   step: '1',
                   title: 'Bedarf schätzen',
-                  text: `Gameserver: Grundbedarf des Spiels plus ein Anteil je Spieler, mindestens der Mindestwert des Spiels. vServer: ${formatGb(OS_BASE)} für das Betriebssystem plus die gewählten Dienste.`,
+                  text: `Gameserver: Grundbedarf des Spiels plus ein Anteil je Spieler, mindestens der Mindestwert des Spiels, dazu Mods oder Plugins. vServer: ${formatGb(OS_BASE)} für das Betriebssystem plus Dienste und optional ein Gameserver. Beim vServer schätzt der Rechner auch CPU-Kerne und Speicherplatz.`,
                 },
                 {
                   step: '2',
@@ -246,19 +271,20 @@ export default function ServerRamRechner() {
         </LandingSection>
 
         <LandingSection id="richtwerte">
-          <SectionHeading index="03" label="Richtwerte" title="RAM für Gameserver">
+          <SectionHeading index="04" label="Richtwerte" title="RAM für Gameserver">
             Mindestwerte und Empfehlungen für typische Spielerzahlen. Mit vielen Mods oder Plugins solltest du eine Stufe
             höher planen.
           </SectionHeading>
           <Reveal className="mt-10 grid sm:mt-14 lg:grid-cols-12 lg:gap-10">
             <div className="article min-w-0 lg:col-span-8 lg:col-start-5">
               <RamTabelle type="games" />
+              <p className="mt-4 text-sm text-faint">Stand der Richtwerte: {RAM_DATA_AS_OF}.</p>
             </div>
           </Reveal>
         </LandingSection>
 
         <LandingSection>
-          <SectionHeading index="04" label="Richtwerte" title="RAM für Dienste auf dem vServer">
+          <SectionHeading index="05" label="Richtwerte" title="RAM für Dienste auf dem vServer">
             Typischer Verbrauch im Betrieb, inklusive eigener Datenbank, wo sie nötig ist. Für den ganzen Server addierst
             du die Dienste und das Betriebssystem.
           </SectionHeading>
@@ -270,7 +296,7 @@ export default function ServerRamRechner() {
         </LandingSection>
 
         <LandingSection>
-          <SectionHeading index="05" label="Praxis" title="Tipps aus dem Betrieb" />
+          <SectionHeading index="06" label="Praxis" title="Tipps aus dem Betrieb" />
           <Reveal className="mt-12 sm:mt-16">
             <ul className="grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
               {tips.map((tip) => (
@@ -285,7 +311,7 @@ export default function ServerRamRechner() {
         </LandingSection>
 
         <LandingSection>
-          <SectionHeading index="06" label="Weiterlesen" title="Passende Guides" />
+          <SectionHeading index="07" label="Weiterlesen" title="Passende Guides" />
           <Reveal className="mt-12 sm:mt-16">
             <ul className="grid gap-px border border-line bg-line md:grid-cols-3">
               {guides.map((guide) => (
@@ -305,7 +331,7 @@ export default function ServerRamRechner() {
         </LandingSection>
 
         <LandingSection>
-          <SectionHeading index="07" label="FAQ" title="Häufige Fragen zum RAM-Bedarf" />
+          <SectionHeading index="08" label="FAQ" title="Häufige Fragen zum RAM-Bedarf" />
           <Reveal className="mt-12 sm:mt-16">
             <div className="border-t border-line">
               {faqs.map((faq) => (

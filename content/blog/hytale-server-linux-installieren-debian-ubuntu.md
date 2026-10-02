@@ -25,7 +25,7 @@ Wenn du lieber **ohne Linux-Setup** sofort loslegen willst, geht es in Minuten p
 
 - Debian oder Ubuntu (aktuelles Release)
 - Root-Zugriff (oder `sudo`)
-- Ausreichend RAM/CPU (je nach Spielerzahl/Serverlast)
+- Ausreichend RAM und CPU je nach Spielerzahl, Richtwerte liefert der [RAM-Rechner für Hytale](/server-ram-rechner/hytale)
 - SSH-Zugang
 
 > Tipp: Wenn du noch keinen Linux-Server hast: vServer/Rootserver bekommst du z.B. hier: [ZAP-Hosting vServer](https://zap-hosting.com/vserverhomepage)
