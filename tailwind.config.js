@@ -50,8 +50,13 @@ module.exports = {
         'glow': 'glow 7s ease-in-out infinite',
         'toast': 'toast 1.8s ease-out both',
         'marquee': 'marquee var(--marquee-duration, 60s) linear infinite',
+        'swing': 'swing 4.5s ease-in-out infinite',
       },
       keyframes: {
+        'swing': {
+          '0%, 100%': { transform: 'rotate(-3.5deg)' },
+          '50%': { transform: 'rotate(3.5deg)' },
+        },
         'rise': {
           from: { opacity: '0', transform: 'translateY(14px)' },
           to: { opacity: '1', transform: 'none' },
