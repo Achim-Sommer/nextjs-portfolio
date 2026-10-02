@@ -51,8 +51,23 @@ module.exports = {
         'toast': 'toast 1.8s ease-out both',
         'marquee': 'marquee var(--marquee-duration, 60s) linear infinite',
         'swing': 'swing 4.5s ease-in-out infinite',
+        'draw': 'draw 1.1s cubic-bezier(0.65, 0, 0.35, 1) both',
+        'fade': 'fade 0.6s ease-out both',
+        'pulse-ring': 'pulse-ring 2.2s ease-out infinite',
       },
       keyframes: {
+        'draw': {
+          from: { strokeDashoffset: '1' },
+          to: { strokeDashoffset: '0' },
+        },
+        'fade': {
+          from: { opacity: '0' },
+          to: { opacity: '1' },
+        },
+        'pulse-ring': {
+          '0%': { transform: 'scale(0.4)', opacity: '0.55' },
+          '80%, 100%': { transform: 'scale(2.2)', opacity: '0' },
+        },
         'swing': {
           '0%, 100%': { transform: 'rotate(-3.5deg)' },
           '50%': { transform: 'rotate(3.5deg)' },

@@ -30,6 +30,9 @@ const Tip = dynamic(() => import('../../src/components/Tip'));
 const ZapHostingCta = dynamic(() => import('@/components/ZapHostingCta'));
 const RamRechner = dynamic(() => import('@/components/mdx/RamRechner'));
 const RamTabelle = dynamic(() => import('@/components/mdx/RamTabelle'));
+const BreakEvenChart = dynamic(() => import('@/components/mdx/BreakEvenChart'), {
+  loading: () => <div className="my-10 h-[520px] border border-line bg-surface" />
+});
 
 interface FrontMatter {
   title: string;
@@ -72,6 +75,7 @@ const components = {
   ZapHostingCta: ZapHostingCta,
   RamRechner,
   RamTabelle,
+  BreakEvenChart,
 };
 
 const formatDate = (value: string) =>

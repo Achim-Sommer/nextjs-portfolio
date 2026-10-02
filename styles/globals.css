@@ -217,3 +217,11 @@ body {
     height: auto;
   }
 }
+
+/* Break-even-Diagramm: ohne Animation sofort vollständig anzeigen */
+@media (prefers-reduced-motion: reduce) {
+  .animate-draw,
+  .animate-fade {
+    animation: none;
+  }
+}
