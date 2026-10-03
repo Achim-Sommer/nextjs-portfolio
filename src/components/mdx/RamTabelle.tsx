@@ -1,4 +1,4 @@
-import { APPS, GAMES, HEADROOM, formatGb, gameRam, roundToStep } from '@/data/server-ram';
+import { APPS, GAMES, formatGb, recommendGame } from '@/data/server-ram';
 
 /**
  * Richtwert-Tabellen für Gameserver und Anwendungen. Serverseitig gerendert,
@@ -20,10 +20,12 @@ export default function RamTabelle({ type }: { type: 'games' | 'apps' }) {
           <tbody>
             {GAMES.map((game) => (
               <tr key={game.id}>
-                <td>{game.name}</td>
+                <td>
+                  <a href={`/server-ram-rechner/${game.id}`}>{game.name}</a>
+                </td>
                 <td>{formatGb(game.min)}</td>
                 <td>
-                  {formatGb(roundToStep(gameRam(game, game.defaultPlayers) * HEADROOM))} bei {game.defaultPlayers}{' '}
+                  {formatGb(recommendGame(game, game.defaultPlayers))} bei {game.defaultPlayers}{' '}
                   Spielern
                 </td>
                 <td>{game.note}</td>

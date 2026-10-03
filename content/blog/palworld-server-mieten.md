@@ -41,7 +41,7 @@ Wenn du neben Palworld noch eine Website, Discord-Bots oder Monitoring betreiben
 
 ### RAM mit Puffer planen
 
-Palworld belegt mit der Zeit immer mehr Arbeitsspeicher, vor allem bei vielen Pals, vielen Basen und langer Laufzeit. Plane lieber Puffer ein und richte regelmäßige Neustarts ein (mehr dazu unten). Wie viel RAM du für deine Spielerzahl brauchst, zeigt dir mein [Server RAM-Rechner](/server-ram-rechner).
+Palworld belegt mit der Zeit immer mehr Arbeitsspeicher, vor allem bei vielen Pals, vielen Basen und langer Laufzeit. Plane lieber Puffer ein und richte regelmäßige Neustarts ein (mehr dazu unten). Wie viel RAM du für deine Spielerzahl brauchst, zeigt dir mein [RAM-Rechner für Palworld](/server-ram-rechner/palworld).
 
 ### Standort und Latenz
 

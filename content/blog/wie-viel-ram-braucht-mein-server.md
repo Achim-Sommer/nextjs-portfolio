@@ -110,7 +110,7 @@ Für einzelne, sparsame Dienste wie Uptime Kuma, Vaultwarden oder eine kleine We
 
 ### Wie viel RAM braucht ein Minecraft Server?
 
-Für einen Vanilla- oder Paper-Server mit bis zu zehn Spielern reichen 4 GB. Modpacks brauchen 8 bis 12 GB, große Modpacks mit vielen Spielern auch mehr.
+Für einen Vanilla- oder Paper-Server mit bis zu zehn Spielern reichen 4 GB. Modpacks brauchen 8 bis 12 GB, große Modpacks mit vielen Spielern auch mehr. Tabellen nach Spielerzahl findest du im RAM-Rechner für [Minecraft](/server-ram-rechner/minecraft) und für [Modpacks](/server-ram-rechner/minecraft-modpack).
 
 ### Kann ich den RAM später erhöhen?
 

@@ -40,7 +40,7 @@ Wähle eine Region nah an deinen Spielern, für deutsche Gruppen also Deutschlan
 
 ### Ressourcen: RAM und CPU
 
-Je mehr Spieler, Weltinhalte und Plugins oder Mods (sofern verfügbar) du nutzt, desto mehr Ressourcen brauchst du. Plane lieber etwas Puffer ein, statt knapp zu kalkulieren. Bei Mietservern ist ein Upgrade in der Regel unkompliziert.
+Je mehr Spieler, Weltinhalte und Plugins oder Mods (sofern verfügbar) du nutzt, desto mehr Ressourcen brauchst du. Plane lieber etwas Puffer ein, statt knapp zu kalkulieren. Wie viel RAM du für deine Spielerzahl brauchst, zeigt der [RAM-Rechner für Hytale](/server-ram-rechner/hytale). Bei Mietservern ist ein Upgrade in der Regel unkompliziert.
 
 ### Backups und Wiederherstellung
 
