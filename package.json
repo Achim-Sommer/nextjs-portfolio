@@ -51,7 +51,7 @@
     "css-minimizer-webpack-plugin": "^8.0.0",
     "cssnano": "^7.0.6",
     "eslint": "^9.39.2",
-    "eslint-config-next": "^16.0.10",
+    "eslint-config-next": "^16.3.8",
     "postcss": "^8",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-preset-env": "^10.1.1",
