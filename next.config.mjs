@@ -217,6 +217,15 @@ const nextConfig = {
   reactStrictMode: true,
   async redirects() {
     return [
+      // Zweitdomain achimsommer.de: alles per 301 auf die Hauptdomain, Pfad und
+      // Query bleiben erhalten. So gibt es nur eine kanonische Adresse und
+      // keinen doppelten Inhalt in Google.
+      ...['achimsommer.de', 'www.achimsommer.de'].map((host) => ({
+        source: '/:path*',
+        has: [{ type: 'host', value: host }],
+        destination: 'https://achimsommer.com/:path*',
+        statusCode: 301,
+      })),
       // Services-Seite gibt es nicht mehr
       {
         source: '/services',
