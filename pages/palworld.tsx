@@ -186,6 +186,11 @@ const plans = [
 
 const guides = [
   {
+    href: '/server-ram-rechner/palworld',
+    title: 'RAM-Rechner für Palworld',
+    text: 'Wie viel Arbeitsspeicher dein Server für deine Spielerzahl braucht, mit Tabelle, Tipps und Werten für den eigenen vServer.',
+  },
+  {
     href: '/blog/palworld-server-mieten',
     title: 'Palworld Server mieten: Der komplette Guide',
     text: 'Schritt-für-Schritt Anleitung, RAM-Empfehlungen, wichtige Einstellungen nach der Bestellung und Performance-Tipps.',
@@ -469,20 +474,20 @@ export default function PalworldServer() {
           </SectionHeading>
 
           <Reveal className="mt-12 sm:mt-16">
-            <ul className="grid gap-px border border-line bg-line md:grid-cols-2">
+            <ul className="grid gap-px border border-line bg-line md:grid-cols-3">
               {guides.map((guide) => (
                 <li key={guide.href} className="bg-canvas">
                   <Link
                     href={guide.href}
                     className="group flex h-full flex-col p-6 transition-colors duration-200 hover:bg-surface sm:p-8"
                   >
-                    <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-faint">Guide</span>
+                    <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-faint">{guide.href.startsWith('/blog') ? 'Guide' : 'Rechner'}</span>
                     <span className="mt-3 text-xl font-medium leading-snug tracking-[-0.02em] text-fg transition-colors group-hover:text-accent">
                       {guide.title}
                     </span>
                     <span className="mt-2 text-sm leading-relaxed text-muted">{guide.text}</span>
                     <span className="mt-6 inline-flex items-center gap-2 text-sm text-fg">
-                      Zum Guide
+                      {guide.href.startsWith('/blog') ? 'Zum Guide' : 'Zum Rechner'}
                       <FiArrowRight
                         className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
                         aria-hidden="true"

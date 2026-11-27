@@ -56,14 +56,24 @@ export default function GameRamPage({ id }: { id: string }) {
   const onVServer = calculate({ mode: 'vserver', gameId: game.id, players: game.defaultPlayers, mods: 0, apps: {} });
   const vserverQuery = toQuery({ mode: 'vserver', gameId: game.id, players: game.defaultPlayers, mods: 0, apps: {} });
 
+  // „Größe des Modpacks“ passt grammatisch nicht hinter „vielen“ und „ohne“
+  const isPackSize = game.id === 'minecraft-modpack';
+  const manyMods = isPackSize ? 'einem großen Modpack' : `vielen ${game.modLabel.replace('Skripte ', 'Skripten ')}`;
+  const noMods = isPackSize ? ' mit einem kleinen Modpack' : ` ohne ${game.modLabel}`;
+  // Weitere Spielerzahlen für die FAQ: kleinste, mittlere und größte Zeile der Tabelle
+  const otherRows = rows.filter((n) => n !== game.defaultPlayers);
+  const faqPlayers = [...new Set([otherRows[0], otherRows[Math.floor(otherRows.length / 2)], otherRows[otherRows.length - 1]])].filter(
+    (n) => n !== undefined,
+  );
+
   const title = `${game.short} RAM-Rechner: Wie viel RAM?`;
   const description = `Wie viel RAM braucht ein ${game.short}? Für ${game.defaultPlayers} Spieler ${defaultRec}, mindestens ${formatGb(game.min)}. Tabelle nach Spielerzahl${game.mods ? ` und ${game.modLabel}` : ''}, Rechner, Tipps und FAQ.`;
 
   const faqs = [
     {
       question: `Wie viel RAM braucht ein ${game.short} für ${game.defaultPlayers} Spieler?`,
-      answer: `Für ${game.defaultPlayers} Spieler${game.mods ? ` ohne ${game.modLabel}` : ''} empfiehlt der Rechner ${defaultRec} RAM, inklusive 25 % Puffer.${
-        modsMatter ? ` Mit vielen ${game.modLabel} sind es ${formatGb(heavyRec)}.` : ''
+      answer: `Für ${game.defaultPlayers} Spieler${game.mods ? noMods : ''} empfiehlt der Rechner ${defaultRec} RAM, inklusive 25 % Puffer.${
+        modsMatter ? ` Mit ${manyMods} sind es ${formatGb(heavyRec)}.` : ''
       }`,
     },
     {
@@ -71,6 +81,14 @@ export default function GameRamPage({ id }: { id: string }) {
       answer: `Als Untergrenze gelten ${formatGb(game.min)}. Damit läuft der Server für wenige Spieler, Spitzen und Wachstum fängt dieser Wert aber nicht ab.`,
     },
     ...guide.faqs,
+    ...faqPlayers.map((players) => {
+      const rec = recommendGame(game, players);
+      const heavy = game.mods ? recommendGame(game, players, 2) : rec;
+      return {
+        question: `Wie viel RAM braucht ein ${game.short} für ${players} Spieler?`,
+        answer: `Für ${players} Spieler empfiehlt der Rechner ${formatGb(rec)} RAM${heavy > rec ? `, mit ${manyMods} ${formatGb(heavy)}` : ''}. Der Puffer von 25 % ist eingerechnet.`,
+      };
+    }),
   ];
 
   const ogImage = ogImageUrl({ title: `${game.short}: RAM-Bedarf`, subtitle: 'Rechner, Tabelle und Tipps', baseUrl: SITE_URL });
@@ -138,7 +156,7 @@ export default function GameRamPage({ id }: { id: string }) {
             <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">Kurz gesagt</p>
             <p className="mt-2 text-lg leading-relaxed text-fg">
               Für {game.defaultPlayers} Spieler empfehle ich <strong className="font-medium text-accent">{defaultRec} RAM</strong>, mindestens{' '}
-              {formatGb(game.min)}.{modsMatter ? ` Mit vielen ${game.modLabel} eher ${formatGb(heavyRec)}.` : ''}
+              {formatGb(game.min)}.{modsMatter ? ` Mit ${manyMods} eher ${formatGb(heavyRec)}.` : ''}
             </p>
           </div>
           <FactList className="mt-8" items={[`Bis ${game.maxPlayers} Spieler`, `${game.disk} GB Speicherplatz`, `Stand ${RAM_DATA_AS_OF}`]} />

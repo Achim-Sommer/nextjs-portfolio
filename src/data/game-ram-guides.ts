@@ -37,6 +37,50 @@ export const GAME_GUIDES: Record<string, GameGuide> = {
       { question: 'Wie viel RAM braucht ein großes Modpack wie All the Mods?', answer: 'Große Kitchen-Sink-Modpacks brauchen meist 10 bis 12 GB, bei vielen Spielern mehr. Stelle im Rechner die Größe auf „Viele“.' },
       { question: 'Warum startet mein Modpack-Server nicht?', answer: 'Häufige Ursachen sind zu wenig zugewiesener RAM, eine falsche Java-Version oder Client-Mods im Server-Ordner. Das Server-Log nennt meist die genaue Ursache.' },
     ],
+    links: [
+      { href: '/server-ram-rechner/all-the-mods-10', title: 'RAM für All the Mods 10' },
+      { href: '/server-ram-rechner/better-mc', title: 'RAM für Better MC' },
+      { href: '/server-ram-rechner/rlcraft', title: 'RAM für RLCraft' },
+    ],
+  },
+  'all-the-mods-10': {
+    intro: 'All the Mods 10 gehört zu den größten Modpacks für Minecraft 1.21 und läuft mit NeoForge. Schon der Start mit mehreren hundert Mods belegt viele Gigabyte.',
+    tips: [
+      { title: 'Server-Dateien des Modpacks nutzen', text: 'Lade die offiziellen Server-Dateien von CurseForge. Sie enthalten nur die Mods, die der Server braucht, und ein passendes Startskript.' },
+      { title: 'Speicher im Startskript setzen', text: 'Der zugewiesene Arbeitsspeicher wird über Java-Parameter festgelegt. Weise nicht den gesamten RAM zu, das System braucht selbst etwas.' },
+      { title: 'Chunks sparsam laden', text: 'Dauerhaft geladene Chunks mit großen Fabriken sind der größte Speicherfresser. Begrenze, wie viele Chunks jeder Spieler laden darf.' },
+    ],
+    faqs: [
+      { question: 'Reichen 8 GB RAM für All the Mods 10?', answer: 'Der Server startet damit, mehr als die Untergrenze ist es aber nicht. Mit Puffer für wachsende Basen empfiehlt der Rechner schon für kleine Gruppen 12 GB.' },
+      { question: 'Welche Java-Version braucht All the Mods 10?', answer: 'Java 21, wie Minecraft 1.21 selbst.' },
+    ],
+    links: [{ href: '/server-ram-rechner/minecraft-modpack', title: 'RAM für andere Minecraft Modpacks' }],
+  },
+  'better-mc': {
+    intro: 'Better MC erweitert Minecraft um neue Biome, Dimensionen, Bosse und Strukturen. Das Modpack ist mittelgroß und braucht spürbar mehr Speicher als Vanilla.',
+    tips: [
+      { title: 'Passende Version wählen', text: 'Better MC gibt es für mehrere Minecraft-Versionen und Mod-Loader. Server und Spieler müssen dieselbe Ausgabe nutzen.' },
+      { title: 'Welt vorgenerieren', text: 'Die vielen neuen Biome und Strukturen machen das Erzeugen neuer Gebiete teuer. Eine vorab erzeugte Welt vermeidet Lags beim Erkunden.' },
+      { title: 'Sichtweite begrenzen', text: 'Eine Sichtweite von 8 bis 10 Chunks reicht meist und spart Speicher und CPU.' },
+    ],
+    faqs: [
+      { question: 'Reichen 6 GB RAM für einen Better MC Server?', answer: 'Der Server läuft damit, mehr als die Untergrenze ist es aber nicht. Mit Puffer empfiehlt der Rechner 8 GB.' },
+      { question: 'Warum laggt mein Better MC Server beim Erkunden?', answer: 'Neue Gebiete mit vielen Strukturen zu erzeugen kostet Rechenzeit. Eine vorgenerierte Welt und eine kleinere Sichtweite helfen.' },
+    ],
+    links: [{ href: '/server-ram-rechner/minecraft-modpack', title: 'RAM für andere Minecraft Modpacks' }],
+  },
+  rlcraft: {
+    intro: 'RLCraft läuft auf Minecraft 1.12.2 mit Forge. Das Modpack braucht weniger Speicher als aktuelle große Modpacks, aber deutlich mehr als ein Vanilla-Server.',
+    tips: [
+      { title: 'Java 8 verwenden', text: 'Minecraft 1.12.2 und die Mods von RLCraft sind für Java 8 gebaut. Mit neueren Versionen startet der Server in der Regel nicht.' },
+      { title: 'Nicht zu viel RAM zuweisen', text: 'Sehr viel zugewiesener Speicher verlängert bei dieser alten Version die Pausen der Speicherbereinigung. Bleib nah an der Empfehlung.' },
+      { title: 'Welt vorgenerieren', text: 'Die vielen Strukturen machen das Erzeugen neuer Gebiete langsam. Eine vorab erzeugte Welt entlastet den Server.' },
+    ],
+    faqs: [
+      { question: 'Reichen 4 GB RAM für einen RLCraft Server?', answer: 'Der Server läuft damit, mehr als die Untergrenze ist es aber nicht. Mit Puffer empfiehlt der Rechner 6 bis 8 GB.' },
+      { question: 'Welche Minecraft-Version nutzt RLCraft?', answer: 'Minecraft 1.12.2 mit Forge. Alle Spieler brauchen dieselbe Version des Modpacks wie der Server.' },
+    ],
+    links: [{ href: '/server-ram-rechner/minecraft-modpack', title: 'RAM für andere Minecraft Modpacks' }],
   },
   'minecraft-bedrock': {
     intro: 'Der Bedrock Dedicated Server ist in C++ geschrieben und braucht deutlich weniger Speicher als die Java Edition.',
@@ -193,7 +237,40 @@ export const GAME_GUIDES: Record<string, GameGuide> = {
       { question: 'Wie viel RAM braucht ein FiveM Server?', answer: 'Für 32 Spieler empfiehlt der Rechner mit Puffer 8 GB. Große Roleplay-Server mit vielen Skripten brauchen mehr.' },
       { question: 'Brauche ich für FiveM einen vServer?', answer: 'Für eigene Frameworks mit Datenbank ist ein vServer praktisch. Wähle dann im Rechner den Modus vServer und ergänze die Datenbank.' },
     ],
-    links: [{ href: '/fivem-template-server', title: 'Kostenloses FiveM Template' }],
+    links: [
+      { href: '/fivem-template-server', title: 'Kostenloses FiveM Template' },
+      { href: '/server-ram-rechner/fivem-esx', title: 'RAM für einen FiveM ESX Server' },
+      { href: '/server-ram-rechner/fivem-qbcore', title: 'RAM für einen FiveM QBCore Server' },
+    ],
+  },
+  'fivem-esx': {
+    intro: 'ESX Legacy ist das am weitesten verbreitete Framework für FiveM Roleplay. Der Speicherbedarf hängt von der Zahl der Skripte und von der Datenbank ab.',
+    tips: [
+      { title: 'Datenbank mitrechnen', text: 'ESX speichert Spieler, Fahrzeuge und Inventare in MariaDB oder MySQL. Läuft die Datenbank auf demselben Server, kommt ihr Speicher dazu.' },
+      { title: 'Mit einem Template starten', text: 'Ein fertiges ESX-Template enthält eine abgestimmte Auswahl an Skripten und spart die Grundeinrichtung.' },
+      { title: 'Skripte mit resmon prüfen', text: 'Der Befehl resmon zeigt, welche Ressourcen viel Leistung kosten. Wenige schlechte Skripte bremsen den ganzen Server.' },
+    ],
+    faqs: [
+      { question: 'Brauche ich für einen ESX Server eine Datenbank?', answer: 'Ja. ESX Legacy braucht MariaDB oder MySQL. Wähle im Rechner den Modus vServer und ergänze eine eigene Datenbank, wenn sie auf demselben Server läuft.' },
+      { question: 'Braucht ESX mehr RAM als QBCore?', answer: 'Die Frameworks selbst liegen nah beieinander. Den Unterschied machen Zahl und Qualität der Skripte.' },
+    ],
+    links: [
+      { href: '/fivem-template-server', title: 'Kostenloses FiveM ESX Template' },
+      { href: '/server-ram-rechner/fivem-qbcore', title: 'RAM für einen FiveM QBCore Server' },
+    ],
+  },
+  'fivem-qbcore': {
+    intro: 'QBCore ist neben ESX das zweite große Framework für FiveM Roleplay. Der Speicherbedarf hängt von der Zahl der Skripte und von der Datenbank ab.',
+    tips: [
+      { title: 'Datenbank mitrechnen', text: 'QBCore speichert Spielerdaten in MariaDB oder MySQL. Läuft die Datenbank auf demselben Server, kommt ihr Speicher dazu.' },
+      { title: 'Skripte passend zum Framework', text: 'Skripte sind meist für ein bestimmtes Framework geschrieben. Achte beim Kauf oder Download darauf, dass sie QBCore unterstützen.' },
+      { title: 'Skripte mit resmon prüfen', text: 'Der Befehl resmon zeigt, welche Ressourcen viel Leistung kosten. Wenige schlechte Skripte bremsen den ganzen Server.' },
+    ],
+    faqs: [
+      { question: 'Brauche ich für einen QBCore Server eine Datenbank?', answer: 'Ja. QBCore braucht MariaDB oder MySQL. Wähle im Rechner den Modus vServer und ergänze eine eigene Datenbank, wenn sie auf demselben Server läuft.' },
+      { question: 'Braucht QBCore mehr RAM als ESX?', answer: 'Die Frameworks selbst liegen nah beieinander. Den Unterschied machen Zahl und Qualität der Skripte.' },
+    ],
+    links: [{ href: '/server-ram-rechner/fivem-esx', title: 'RAM für einen FiveM ESX Server' }],
   },
   factorio: {
     intro: 'Factorio braucht wenig Arbeitsspeicher, aber eine schnelle CPU. Bei sehr großen Fabriken steigt auch der Speicherbedarf.',

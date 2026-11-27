@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import { generateNextSeo } from 'next-seo/pages';
 import { ogImageUrl } from '@/lib/og-image';
 import {
@@ -151,6 +152,11 @@ const faqs = [
   {
     question: 'Wie oft wird der Template Server aktualisiert?',
     answer: 'Der Server erhält regelmäßige Updates, sowohl für die kostenlose als auch die Premium Version.',
+  },
+  {
+    question: 'Wie viel RAM braucht ein FiveM ESX Server?',
+    answer:
+      'Das hängt von der Spielerzahl, der Zahl der Skripte und der Datenbank ab. Der RAM-Rechner für FiveM ESX zeigt die passende Größe für deinen Server.',
   },
 ];
 
@@ -485,6 +491,21 @@ export default function FiveMTemplateServer() {
                 </div>
               ))}
             </div>
+            <p className="mt-8 leading-relaxed text-muted">
+              Wie viel Arbeitsspeicher dein Server braucht, zeigt der{' '}
+              <Link href="/server-ram-rechner/fivem-esx" className="text-fg underline decoration-accent underline-offset-4 hover:text-accent">
+                RAM-Rechner für FiveM ESX
+              </Link>
+              . Für andere Frameworks gibt es den{' '}
+              <Link href="/server-ram-rechner/fivem-qbcore" className="text-fg underline decoration-accent underline-offset-4 hover:text-accent">
+                Rechner für QBCore
+              </Link>{' '}
+              und den{' '}
+              <Link href="/server-ram-rechner/fivem" className="text-fg underline decoration-accent underline-offset-4 hover:text-accent">
+                allgemeinen FiveM-Rechner
+              </Link>
+              .
+            </p>
           </Reveal>
         </LandingSection>
       </main>
