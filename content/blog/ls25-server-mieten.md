@@ -117,7 +117,7 @@ Im Spiel findest du den Server im Mehrspieler-Menü über die Suche nach dem Ser
 
 ## Mieten oder Lifetime kaufen?
 
-Ein Hof ist ein Langzeitprojekt, und viele Gruppen spielen denselben Spielstand über viele Monate. Dafür gibt es bei ZAP-Hosting die Lifetime-Option: Du bezahlst den Server einmal statt jeden Monat. Der Kaufpreis ist das Elffache des Preises für 30 Tage.
+Ein Hof ist ein Langzeitprojekt, und viele Gruppen spielen denselben Spielstand über viele Monate. Dafür gibt es bei ZAP-Hosting die Lifetime-Option: Du bezahlst den Server einmal statt jeden Monat. Der Kaufpreis ist das Elffache des Preises für 30 Tage. Das kleinste Paket für 7,29 € gibt es also ab 80,19 € einmalig.
 
 Wichtig: Ein Lifetime-Server läuft nur mit einem aktiven ZapX Pass. Der kostet ab 4,99 € je 30 Tage, bei einer Laufzeit von 365 Tagen 3,74 € je 30 Tage. Ganz ohne laufende Kosten ist Lifetime also nicht. Der Pass gilt für dein ganzes Konto und deckt in der kleinsten Stufe zwei Lifetime-Server ab.
 
