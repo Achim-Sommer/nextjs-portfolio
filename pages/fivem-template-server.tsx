@@ -136,6 +136,16 @@ const supportCards = [
 
 const faqs = [
   {
+    question: 'Wo kann ich einen fertigen FiveM Server kostenlos herunterladen?',
+    answer:
+      'Die Open Source Version des Templates liegt auf GitHub. Du lädst das Repository herunter, richtest die Datenbank ein und startest den Server über txAdmin. Den Link findest du oben auf dieser Seite unter „Kostenlos herunterladen“.',
+  },
+  {
+    question: 'Gibt es das FiveM Server Pack auf Deutsch?',
+    answer:
+      'Ja. Das Template basiert auf ESX Legacy und ist größtenteils auf Deutsch übersetzt. Die Texte lassen sich in jede andere Sprache anpassen.',
+  },
+  {
     question: 'Ist der FiveM Template Server wirklich kostenlos?',
     answer:
       'Ja, die Open Source Version des FiveM Template Servers ist komplett kostenlos und kann ohne Einschränkungen genutzt werden.',
@@ -188,14 +198,14 @@ export default function FiveMTemplateServer() {
     <>
       <Head>
         {generateNextSeo({
-          title: 'FiveM Template Server Kostenlos | Free ESX Legacy Template für GTA RP',
+          title: 'FiveM Template Server kostenlos: fertiger Server zum Download',
           description:
-            'FiveM Template Server kostenlos downloaden - Das beste kostenlose ESX Legacy Template für deinen GTA Roleplay Server. Inklusive Jobs, Shops, Casino & mehr. Jetzt kostenlos herunterladen!',
+            'Fertigen FiveM Server kostenlos herunterladen: ESX Legacy Template auf Deutsch mit Jobs, Shops und Casino. Download über GitHub, in wenigen Schritten installiert.',
           canonical: 'https://achimsommer.com/fivem-template-server',
           openGraph: {
-            title: 'FiveM Template Server Kostenlos | Free ESX Legacy Template',
+            title: 'FiveM Template Server kostenlos: fertiger Server zum Download',
             description:
-              'FiveM Template Server kostenlos downloaden - Das beste kostenlose ESX Legacy Template für deinen GTA Roleplay Server. Inklusive Jobs, Shops, Casino & mehr.',
+              'Fertigen FiveM Server kostenlos herunterladen: ESX Legacy Template auf Deutsch mit Jobs, Shops und Casino. Download über GitHub, in wenigen Schritten installiert.',
             images: [
               {
                 url: ogImageUrl({
@@ -250,6 +260,15 @@ export default function FiveMTemplateServer() {
             <a href={SHOP_URL} target="_blank" rel="noopener noreferrer" className={buttonClass.primary}>
               Zum Shop
               <ArrowIcon />
+            </a>
+            <a
+              href="https://github.com/Achim-Sommer/FiveM-ESX-Template-Server"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`group ${buttonClass.secondary}`}
+            >
+              <FiDownload className="h-4 w-4" aria-hidden="true" />
+              Kostenlos herunterladen
             </a>
             <button
               type="button"

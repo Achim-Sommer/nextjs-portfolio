@@ -124,7 +124,7 @@ Nach der Bestellung wird der Server automatisch eingerichtet. Im Panel findest d
 - **Farmen begrenzen:** Riesige Mob-Farmen und endlose Trichterketten sind häufige Ursachen für Lags.
 - **Verbrauch messen:** Wie du prüfst, ob dein Server wirklich mehr RAM braucht, steht im Artikel [Wie viel RAM braucht mein Server?](/blog/wie-viel-ram-braucht-mein-server).
 
-## Mieten oder Lifetime kaufen?
+## Minecraft Server kaufen statt mieten
 
 Minecraft-Server laufen oft über Jahre. Dafür gibt es bei ZAP-Hosting die Lifetime-Option: Du bezahlst den Server einmal statt jeden Monat. Der Kaufpreis ist das Elffache des Preises für 30 Tage. Das kleinste Paket für 4,49 € gibt es also ab 49,39 € einmalig.
 

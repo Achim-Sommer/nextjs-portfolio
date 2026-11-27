@@ -52,7 +52,7 @@ export default function FloatingZapAd() {
               <p className="mt-2 text-2xl font-medium tracking-[-0.03em] text-fg">
                 ab {eur(VSERVER.monthly)}<span className="text-sm font-normal text-faint"> / Monat</span>
               </p>
-              <p className="text-xs text-muted">oder ab {eur(VSERVER.lifetime)} einmalig (Lifetime)</p>
+              <p className="text-xs text-muted">oder ab {eur(VSERVER.lifetime)} einmalig plus ZapX Pass (Lifetime)</p>
               <a
                 href="https://zap-hosting.com/vserverhomepage"
                 target="_blank"

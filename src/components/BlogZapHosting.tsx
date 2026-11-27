@@ -9,7 +9,7 @@ const VSERVER = findProduct('vserver')!;
 
 const PLANS = [
   { name: 'Monatlich', price: `ab ${eur(VSERVER.monthly)}`, unit: 'pro Monat', cta: 'Jetzt starten', highlight: false },
-  { name: 'Lifetime', price: `ab ${eur(VSERVER.lifetime)}`, unit: 'einmalig', cta: 'Lifetime sichern', highlight: true },
+  { name: 'Lifetime', price: `ab ${eur(VSERVER.lifetime)}`, unit: 'einmalig plus ZapX Pass', cta: 'Lifetime ansehen', highlight: true },
 ];
 
 const FEATURES = ['DDoS-Schutz', 'Root-Zugriff', 'Sofort verfügbar', 'Support rund um die Uhr'];

@@ -60,9 +60,8 @@ function texts(lang: Lang, g: GameProfile) {
   if (lang === 'en') {
     const a = article(g.short);
     return {
-      title: `${g.short} RAM calculator: how much RAM?`,
-      description: (rec: string) =>
-        `How much RAM does ${a} ${g.short} need? ${rec} for ${g.defaultPlayers} players, at least ${gb(g.min)}. Table by player count${g.mods ? ` and ${g.modLabel}` : ''}, calculator, tips and FAQ.`,
+      title: (rec: string) => `${g.short}: ${rec} RAM for ${g.defaultPlayers} players (calculator)`,
+      description: (preview: string) => `How much RAM does ${a} ${g.short} need? ${preview}. At least ${gb(g.min)}. With calculator, table and tips.`,
       ogTitle: `${g.short}: RAM requirements`,
       ogSubtitle: 'Calculator, table and tips',
       ogAlt: `RAM requirements for ${a} ${g.short}`,
@@ -131,9 +130,8 @@ function texts(lang: Lang, g: GameProfile) {
     };
   }
   return {
-    title: `${g.short} RAM-Rechner: Wie viel RAM?`,
-    description: (rec: string) =>
-      `Wie viel RAM braucht ein ${g.short}? Für ${g.defaultPlayers} Spieler ${rec}, mindestens ${gb(g.min)}. Tabelle nach Spielerzahl${g.mods ? ` und ${g.modLabel}` : ''}, Rechner, Tipps und FAQ.`,
+    title: (rec: string) => `${g.short}: ${rec} RAM für ${g.defaultPlayers} Spieler (Rechner)`,
+    description: (preview: string) => `Wie viel RAM braucht ein ${g.short}? ${preview}. Mindestens ${gb(g.min)}. Mit Rechner, Tabelle und Tipps.`,
     ogTitle: `${g.short}: RAM-Bedarf`,
     ogSubtitle: 'Rechner, Tabelle und Tipps',
     ogAlt: `RAM-Bedarf für einen ${g.short}`,
@@ -225,8 +223,12 @@ export default function GameRamPage({ id, lang = 'de' }: { id: string; lang?: La
     (n) => n !== undefined,
   );
 
-  const title = t.title;
-  const description = t.description(defaultRec);
+  const title = t.title(defaultRec);
+  // Beschreibung als kleine Tabelle: drei Spielerzahlen mit Empfehlung
+  const preview = [...new Set([rows[0], rows[Math.floor(rows.length / 2)], rows[rows.length - 1]])]
+    .map((n) => `${n} ${t.players}: ${gb(recommendGame(game, n))}`)
+    .join(' · ');
+  const description = t.description(preview);
 
   const faqs: Faq[] = [
     t.faqDefault(defaultRec, heavyRec),
