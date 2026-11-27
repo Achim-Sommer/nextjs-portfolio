@@ -20,7 +20,7 @@ Ein frisch bestellter vServer hängt ab der ersten Minute mit öffentlicher IP-A
 
 Du brauchst einen vServer mit vollem Root-Zugang, damit du SSH, Firewall und Updates selbst konfigurieren kannst. Ich nutze dafür die [vServer von ZAP-Hosting](https://zap-hosting.com/vserverhomepage). Ob ein vServer für dein Vorhaben reicht oder ein dedizierter Server sinnvoller ist, klärt der Vergleich [vServer oder Dedicated Server](/blog/vserver-vs-dedicated-server).
 
-<ZapHostingCta href="https://zap-hosting.com/vserverhomepage" title="Linux vServer bei ZAP-Hosting" description="vServer mit Root-Zugang, deutschen Standorten und DDoS-Schutz, auf Wunsch auch als Lifetime-Variante." buttonText="vServer ansehen" couponCode="GERMANGAMING" imageSrc="" />
+<ZapHostingCta href="https://zap-hosting.com/vserverhomepage" title="Linux vServer bei ZAP-Hosting" description="vServer mit Root-Zugang, deutschen Standorten und DDoS-Schutz, auf Wunsch auch als Lifetime-Variante." buttonText="vServer ansehen" couponCode="ZAPX-M26R79" imageSrc="" />
 
 Merke dir, wo im Kundenpanel die Web-Konsole liegt. Falls bei der SSH-Konfiguration doch etwas schiefgeht, kommst du darüber immer noch auf den Server.
 

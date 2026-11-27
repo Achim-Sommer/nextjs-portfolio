@@ -1,22 +1,23 @@
-import { HOSTING_PRODUCTS, RENT_DISCOUNT, breakEvenMonths, eur, findProduct, months1 } from '@/data/hosting-prices';
+import { HOSTING_PRODUCTS, RENT_DISCOUNT, breakEvenMonths, eur, findProduct, lifetimeCost, lifetimeRunning, months1 } from '@/data/hosting-prices';
 
 /** „ca. 8,1 Monate“, glatte Werte ohne „ca.“ */
 const monthsLabel = (v: number) => {
+  if (!Number.isFinite(v)) return 'rechnet sich nicht';
   const rounded = Math.round(v * 10) / 10;
   return `${Number.isInteger(rounded) ? '' : 'ca. '}${months1(rounded)} Monate`;
 };
 
-/** Break-even aller Produkte, mit und ohne Mietrabatt. Daten aus src/data/hosting-prices.ts */
+/** Break-even aller Produkte mit ZapX Pass und für den Fall, dass der Pass ohnehin läuft. Daten aus src/data/hosting-prices.ts */
 export function BreakEvenTabelle() {
   return (
     <table>
       <thead>
         <tr>
           <th>Produkt</th>
-          <th>Miete pro Monat</th>
+          <th>Miete je 30 Tage</th>
           <th>Lifetime einmalig</th>
-          <th>Break-even</th>
-          <th>Break-even bei {RENT_DISCOUNT * 100}% Mietrabatt</th>
+          <th>Break-even mit ZapX Pass</th>
+          <th>Break-even, wenn der Pass schon läuft</th>
         </tr>
       </thead>
       <tbody>
@@ -26,7 +27,7 @@ export function BreakEvenTabelle() {
             <td>{eur(p.monthly)}</td>
             <td>{eur(p.lifetime)}</td>
             <td>{monthsLabel(breakEvenMonths(p))}</td>
-            <td>{monthsLabel(breakEvenMonths(p, RENT_DISCOUNT))}</td>
+            <td>{monthsLabel(p.lifetime / (p.monthly - (p.lifetimeExtra ?? 0)))}</td>
           </tr>
         ))}
       </tbody>
@@ -40,7 +41,7 @@ const savingLabel = (v: number) => {
   return cents > 0 ? eur(cents) : `Miete ${eur(-cents)} günstiger`;
 };
 
-/** Ersparnis durch Lifetime nach 1, 2 und 5 Jahren (ohne Rabatt) */
+/** Ersparnis durch Lifetime nach 1, 2 und 5 Jahren (ohne Mietrabatt, inklusive ZapX Pass) */
 export function ErsparnisTabelle() {
   const years = [1, 2, 5];
   return (
@@ -58,7 +59,7 @@ export function ErsparnisTabelle() {
           <tr key={p.id}>
             <td>{p.name}</td>
             {years.map((y) => (
-              <td key={y}>{savingLabel(p.monthly * 12 * y - p.lifetime)}</td>
+              <td key={y}>{savingLabel(p.monthly * 12 * y - lifetimeCost(p, 12 * y))}</td>
             ))}
           </tr>
         ))}
@@ -67,7 +68,7 @@ export function ErsparnisTabelle() {
   );
 }
 
-/** Kosten eines Produkts über mehrere Laufzeiten: Miete, Miete mit Rabatt, Lifetime */
+/** Kosten eines Produkts über mehrere Laufzeiten: Miete, Miete mit Rabatt, Lifetime inklusive ZapX Pass */
 export function LaufzeitTabelle({ product, months = '3,6,9,12,24,36' }: { product: string; months?: string }) {
   const p = findProduct(product);
   if (!p) return null;
@@ -79,7 +80,9 @@ export function LaufzeitTabelle({ product, months = '3,6,9,12,24,36' }: { produc
           <th>Laufzeit</th>
           <th>Mieten ({eur(p.monthly)} pro Monat)</th>
           <th>Mieten mit Code (ca. {eur(discounted)} pro Monat)</th>
-          <th>Lifetime ({eur(p.lifetime)} einmalig)</th>
+          <th>
+            Lifetime ({eur(p.lifetime)} einmalig plus {eur(lifetimeRunning(p))} ZapX Pass je 30 Tage)
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -90,7 +93,7 @@ export function LaufzeitTabelle({ product, months = '3,6,9,12,24,36' }: { produc
               <td>{n} Monate</td>
               <td>{eur(p.monthly * n)}</td>
               <td>{eur(discounted * n)}</td>
-              <td>{eur(p.lifetime)}</td>
+              <td>{eur(lifetimeCost(p, n))}</td>
             </tr>
           );
         })}

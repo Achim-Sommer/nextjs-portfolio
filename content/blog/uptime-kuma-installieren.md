@@ -39,7 +39,7 @@ Die Anforderungen sind gering. Für Uptime Kuma reicht schon ein kleiner vServer
 - Eine Domain oder Subdomain, deren DNS-Eintrag auf den Server zeigt, zum Beispiel status.example.de
 - Ein grundlegend abgesicherter Server mit Firewall und SSH-Schlüsseln, siehe [Linux-vServer absichern](/blog/linux-vserver-absichern)
 
-<ZapHostingCta href="https://zap-hosting.com/vserverhomepage" title="Kleiner vServer für dein Monitoring" description="Ein separater vServer bei ZAP-Hosting reicht für Uptime Kuma völlig aus und bleibt erreichbar, wenn dein Hauptserver ausfällt." buttonText="vServer ansehen" couponCode="GERMANGAMING" imageSrc="" />
+<ZapHostingCta href="https://zap-hosting.com/vserverhomepage" title="Kleiner vServer für dein Monitoring" description="Ein separater vServer bei ZAP-Hosting reicht für Uptime Kuma völlig aus und bleibt erreichbar, wenn dein Hauptserver ausfällt." buttonText="vServer ansehen" couponCode="ZAPX-M26R79" imageSrc="" />
 
 ## Installation per Docker Compose
 

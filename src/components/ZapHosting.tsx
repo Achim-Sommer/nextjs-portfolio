@@ -8,7 +8,7 @@ import { Eyebrow, Reveal, Section } from './home/primitives';
 import { eur, findProduct } from '@/data/hosting-prices';
 
 const ZAP_URL = 'https://zap-hosting.com/achim';
-const COUPON = 'GERMANGAMING';
+const COUPON = 'ZAPX-M26R79';
 
 // Preise der Serverprodukte aus der zentralen Preisdatei (src/data/hosting-prices.ts)
 const fromPrices = (id: string, name: string) => {
@@ -19,12 +19,11 @@ const fromPrices = (id: string, name: string) => {
 const PRODUCTS = [
   fromPrices('game', 'Gameserver'),
   fromPrices('vserver', 'Linux vServer'),
-  fromPrices('winvserver', 'Windows vServer'),
-  fromPrices('root', 'Linux Rootserver'),
+  fromPrices('vserver', 'Windows vServer'),
+  fromPrices('vcore', 'vServer mit 4 Kernen'),
   fromPrices('dedi', 'Dedicated Server'),
-  { name: 'Webspace', monthly: '3,90 €', lifetime: '46,80 € Lifetime' },
-  { name: 'Domains', monthly: '7,90 €', lifetime: 'Verschiedene TLDs' },
-  { name: 'Plesk Lizenz', monthly: '8,49 €', lifetime: 'Professionelles Hosting' },
+  { name: 'TeamSpeak', monthly: '2,49 €', lifetime: '149,40 € Lifetime' },
+  { name: 'Discord-Bot', monthly: '3,29 €', lifetime: '39,48 € Lifetime' },
 ];
 
 // Laufband bleibt, die Karten sind aber schlicht im Stil der übrigen Seite
@@ -75,7 +74,7 @@ export default function ZapHosting() {
                 </h2>
                 <p className="mt-4 text-[15px] leading-relaxed text-muted sm:text-base">
                   Für Gameserver, vServer und Testumgebungen setze ich auf ZAP-Hosting. Viele Pakete gibt
-                  es auch als Lifetime-Variante: einmal zahlen, dauerhaft nutzen.
+                  es auch als Lifetime-Variante: den Server einmal bezahlen statt mieten, laufend kostet nur der ZapX Pass.
                 </p>
               </div>
               <Image

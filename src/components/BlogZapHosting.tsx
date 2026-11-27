@@ -9,7 +9,7 @@ const VSERVER = findProduct('vserver')!;
 
 const PLANS = [
   { name: 'Monatlich', price: `ab ${eur(VSERVER.monthly)}`, unit: 'pro Monat', cta: 'Jetzt starten', highlight: false },
-  { name: 'Lifetime', price: `ab ${eur(VSERVER.lifetime)}`, unit: 'einmalig', cta: 'Lifetime sichern', highlight: true },
+  { name: 'Lifetime', price: `ab ${eur(VSERVER.lifetime)}`, unit: 'einmalig plus ZapX Pass', cta: 'Lifetime ansehen', highlight: true },
 ];
 
 const FEATURES = ['DDoS-Schutz', 'Root-Zugriff', 'Sofort verfügbar', 'Support rund um die Uhr'];
@@ -70,7 +70,7 @@ export default function BlogZapHosting() {
       </div>
 
       <p className="border-t border-line px-5 py-4 font-mono text-xs text-muted sm:px-7">
-        Code <span className="tracking-[0.1em] text-fg">GERMANGAMING</span> für <span className="text-accent">20 %</span> Rabatt
+        Code <span className="tracking-[0.1em] text-fg">ZAPX-M26R79</span> für <span className="text-accent">20 %</span> Rabatt
       </p>
     </aside>
   );

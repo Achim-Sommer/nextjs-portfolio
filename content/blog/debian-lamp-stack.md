@@ -192,4 +192,4 @@ Der Stack ist eine gute Basis für viele PHP-Anwendungen. Wie du darauf ein CMS 
 
 ## Server-Empfehlung
 
-Für diese Installation empfehle ich dir einen Linux-Server von [Zap-Hosting](https://zap-hosting.com/achim). Zap-Hosting bietet nicht nur hochwertige Server zu fairen Preisen, sondern auch die einzigartige Möglichkeit, Server als "Lifetime" Produkt zu erwerben. Das bedeutet, du zahlst nur einmal und kannst den Server dauerhaft nutzen!
+Für diese Installation empfehle ich dir einen Linux-Server von [Zap-Hosting](https://zap-hosting.com/achim). Zap-Hosting bietet nicht nur hochwertige Server zu fairen Preisen, sondern auch die einzigartige Möglichkeit, Server als "Lifetime" Produkt zu erwerben. Das bedeutet: Du bezahlst den Server einmal statt jeden Monat, laufend kostet dann nur noch der ZapX Pass. Ab wann sich das rechnet, steht im Artikel [Lifetime Server kaufen](/blog/zap-hosting-lifetime).

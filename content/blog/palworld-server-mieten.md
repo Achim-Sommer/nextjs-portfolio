@@ -1,18 +1,18 @@
 ---
 title: 'Palworld Server mieten oder kaufen: Der Guide'
-description: 'Palworld Server ab 7,14 € im Monat mieten oder ab 60 € einmalig kaufen: RAM-Bedarf, Einstellungen, Break-even-Rechnung und Tipps für eine stabile Welt.'
+description: 'Palworld Server ab 12,99 € je 30 Tage mieten oder für 142,89 € plus ZapX Pass kaufen: RAM-Bedarf, Einstellungen, Break-even-Rechnung und Tipps.'
 date: '2026-07-10'
-lastModified: '2026-10-02'
+lastModified: '2026-11-27'
 tags: ['Gameserver', 'Server-Hosting']
 featured: false
 ogDiagram: '/img/blog/palworld-server-mieten/palworld-break-even.webp'
 ---
 
-Seit Version 1.0 ist Palworld aus dem Early Access heraus, und viele Gruppen starten Welten, die lange laufen sollen. Dafür brauchst du einen eigenen Palworld Server. Der schnellste Weg ist, einen Server zu mieten: keine eigene Hardware, kein Portforwarding, kein PC, der rund um die Uhr laufen muss. Wenn die Welt sicher lange bestehen soll, kannst du den Server statt monatlich auch einmalig kaufen.
+Seit Version 1.0 ist Palworld aus dem Early Access heraus, und viele Gruppen starten Welten, die lange laufen sollen. Dafür brauchst du einen eigenen Palworld Server. Der schnellste Weg ist, einen Server zu mieten: keine eigene Hardware, kein Portforwarding, kein PC, der rund um die Uhr laufen muss. Wenn die Welt sicher lange bestehen soll, kannst du den Server auch kaufen, statt ihn zu mieten.
 
 Dieser Guide zeigt dir beides: wie du einen Palworld Server mietest und einrichtest und ab wann sich die Lifetime-Option rechnet.
 
-> **Kurz gesagt:** Bei ZAP-Hosting kostet ein Palworld Server ab 7,14 € im Monat, mit dem Code `GermanGaming` 20% weniger. Die Lifetime-Option gibt es ab 60 € einmalig, sie ist ab etwa dem 9. Monat günstiger als die Miete. Preise können sich ändern, die aktuellen Preise stehen bei ZAP-Hosting.
+> **Kurz gesagt:** Bei ZAP-Hosting kostet ein Palworld Server ab 12,99 € für 30 Tage, mit dem Code `ZAPX-M26R79` 20% weniger. Als Lifetime-Server kostet dasselbe Paket 142,89 € einmalig. Dazu brauchst du einen aktiven ZapX Pass ab 4,99 € je 30 Tage. Mit Pass ist der Kauf nach rund 18 Monaten günstiger als die Miete. Stand: 27. November 2026, die aktuellen Preise stehen bei ZAP-Hosting.
 
 ## Warum ein eigener Palworld Server?
 
@@ -25,7 +25,7 @@ Im normalen Koop-Modus hängt die Welt am Host: Geht der Host offline, ist die S
 
 ## Mieten oder selbst hosten?
 
-Du kannst einen Palworld Dedicated Server auch auf dem eigenen Rechner oder einem Rootserver aufsetzen. Ein gemieteter Server ist aber sinnvoll, wenn du
+Du kannst einen Palworld Dedicated Server auch auf dem eigenen Rechner oder einem vServer mit Root-Zugriff aufsetzen. Ein gemieteter Server ist aber sinnvoll, wenn du
 
 - schnell online sein willst, ohne Linux-Setup, Ports und Firewall,
 - rund um die Uhr verfügbar sein willst, ohne dass dein PC durchläuft,
@@ -35,7 +35,7 @@ Du kannst einen Palworld Dedicated Server auch auf dem eigenen Rechner oder eine
 
 Palworld ist ziemlich RAM-hungrig: Der Server braucht mindestens 8 GB, für längere Laufzeiten und größere Gruppen sind 16 GB empfehlenswert. Auf dem eigenen Gaming-PC wird das nebenbei schnell eng.
 
-Wenn du neben Palworld noch eine Website, Discord-Bots oder Monitoring betreiben willst, kann ein eigener vServer oder Rootserver die bessere Wahl sein. Welcher Servertyp passt, zeigt der Vergleich [vServer oder Dedicated Server](/blog/vserver-vs-dedicated-server).
+Wenn du neben Palworld noch eine Website, Discord-Bots oder Monitoring betreiben willst, kann ein eigener vServer die bessere Wahl sein. Welcher Servertyp passt, zeigt der Vergleich [vServer oder Dedicated Server](/blog/vserver-vs-dedicated-server).
 
 ## Worauf du beim Palworld Hosting achten solltest
 
@@ -49,7 +49,7 @@ Wähle eine Region nah an den Spielern, für deutsche Gruppen also Deutschland o
 
 ### Slots realistisch planen
 
-Ein dedizierter Palworld Server unterstützt bis zu 32 Spieler. Für die meisten Freundesgruppen reichen 8 bis 16 Slots, upgraden kannst du fast immer später.
+Ein dedizierter Palworld Server unterstützt bis zu 32 Spieler. Für die meisten Freundesgruppen reichen 8 bis 16 Slots, upgraden kannst du fast immer später. Wie viele Slots ihr braucht, schätzt der [Server-Slot-Rechner](/server-slot-rechner).
 
 ### Backups sind Pflicht
 
@@ -63,11 +63,11 @@ Eine gute Oberfläche spart dir täglich Arbeit: Neustarts, Weltoptionen wie Rat
 
 ### Schritt 1: Paket auswählen
 
-Wähle die Slot- und Ressourcen-Konfiguration passend zu eurer Gruppengröße. Beim RAM lieber etwas Puffer einplanen.
+Wähle das Paket passend zu eurer Gruppengröße. Das kleinste Paket heißt „ZAP Raid“ und kostet 12,99 € für 30 Tage, die größeren kosten 14,99 €, 17,99 €, 22,99 €, 32,99 € und 42,99 €. Beim RAM lieber etwas Puffer einplanen.
 
 ### Schritt 2: Laufzeit wählen
 
-Für den Einstieg ist die monatliche Miete ab 7,14 € die flexibelste Wahl. Wenn du sicher langfristig planst, schau dir die Lifetime-Option ab 60 € an. Die Rechnung dazu findest du weiter unten.
+Für den Einstieg ist die Miete für 30 Tage ab 12,99 € die flexibelste Wahl. Zum Testen gibt es eine Laufzeit von 3 Tagen ab 2,34 €. Längere Laufzeiten sind günstiger: 90 Tage 10%, 180 Tage 17% und 365 Tage 25%. Wenn du sicher langfristig planst, schau dir die Lifetime-Option für 142,89 € plus ZapX Pass an. Die Rechnung dazu findest du weiter unten.
 
 ### Schritt 3: Standort auswählen
 
@@ -75,7 +75,7 @@ Wähle die Region, die für deine Spieler am besten ist, für deutsche Gruppen i
 
 ### Schritt 4: Rabattcode eintragen
 
-Trage im Checkout den Code `GermanGaming` ein. Er gibt 20% auf die Mietlaufzeiten, nicht auf die Lifetime-Option.
+Trage im Checkout den Code `ZAPX-M26R79` ein. Er gibt 20% auf die Mietlaufzeiten, nicht auf die Lifetime-Option.
 
 ### Schritt 5: Bestellen und verbinden
 
@@ -103,41 +103,59 @@ Nach der Bestellung wird der Server automatisch eingerichtet. Sobald er bereit i
 
 ## Mieten oder Lifetime kaufen?
 
-Mit der Lifetime-Option zahlst du einmalig ab 60 € und nutzt den Server danach ohne monatliche Kosten. Er läuft weiter im Rechenzentrum, mit demselben Panel, denselben Backups und derselben Verfügbarkeit wie ein Mietserver. Nur das Bezahlmodell ist anders.
+Mit der Lifetime-Option bezahlst du den Server einmal, statt ihn zu mieten. Der Preis ist das Elffache der Miete für 30 Tage: beim kleinsten Palworld-Paket 11 × 12,99 € = 142,89 €. Der Server läuft weiter im Rechenzentrum, mit demselben Panel und derselben Verfügbarkeit wie ein Mietserver.
+
+Ganz ohne laufende Kosten geht es aber nicht. Laut ZAP-Hosting, Stand November 2026, setzt ein Lifetime-Server einen aktiven ZapX Pass voraus:
+
+- Der Pass ist ein Abo für das ganze Konto, nicht pro Server. Die kleinste Stufe Plus kostet 4,99 € je 30 Tage, bei 365 Tagen Laufzeit 3,74 € je 30 Tage. Sie deckt zwei Lifetime-Server gleichzeitig ab.
+- Hast du beim Kauf keinen Pass, wird die günstigste Stufe automatisch mitbestellt.
+- Endet der Pass, wird der Server gesperrt. Der Lifetime-Anspruch bleibt bestehen.
+- Mit aktivem Pass gibt es keine Aktivitätschecks: Der Server wird nicht wegen Inaktivität gesperrt oder gelöscht.
+- Der Pass enthält außerdem zusätzliche Backup-Slots und den ZapX AI Agent.
+
+Prüfe die Bedingungen vor dem Kauf im Shop, sie können sich ändern.
 
 ### Break-even: Ab wann sich der Kauf lohnt
 
-Lifetime-Preis geteilt durch Monatspreis: 60 € ÷ 7,14 € ≈ 8,4 Monate. Ab dem 9. Monat ist der gekaufte Server günstiger als der gemietete. Mietest du mit Rabattcode für etwa 5,71 € im Monat, liegt der Break-even bei rund 10,5 Monaten.
+Mit dem Kauf sparst du jeden Monat die Miete, zahlst aber weiter den Pass. Die Rechnung lautet deshalb: Lifetime-Preis geteilt durch Miete minus Pass.
 
-Im Diagramm siehst du, wo sich Miete und Kaufpreis treffen. Mit dem Haken bei „Rabatt“ rechnest du die Miete mit Code. Unter „Eigene Preise“ trägst du die Werte deines Pakets ein, falls du mehr Slots oder RAM brauchst.
+142,89 € ÷ (12,99 € − 4,99 €) ≈ 17,9 Monate. Ab dem 18. Monat ist der gekaufte Server günstiger als der gemietete. Ein paar Varianten:
 
-<BreakEvenChart initial="palworld" only="palworld,custom" customMonthly={7.14} customLifetime={60} />
+- **Pass im Jahrestarif (3,74 € je 30 Tage):** rund 15 Monate.
+- **Pass läuft ohnehin schon**, etwa für einen anderen Lifetime-Server oder wegen der Zusatzfunktionen: 11 Monate.
+- **Miete mit Rabattcode** (etwa 10,39 € für 30 Tage): rund 26 Monate.
+- **Größeres Paket:** Der Break-even kommt früher, weil der Pass gleich viel kostet.
 
-<LaufzeitTabelle product="palworld" months="3,6,9,12,24,36" />
+Im Diagramm siehst du, wo sich die Linien treffen. Die orange Linie ist die Miete, die helle Linie der Kaufpreis plus Pass. Sie steigt leicht, solange der Haken bei „ZapX Pass einrechnen“ gesetzt ist. Mit dem Haken bei „Rabatt“ rechnest du die Miete mit Code. Unter „Eigene Preise“ trägst du die Werte deines Pakets ein, falls du mehr Slots oder RAM brauchst.
 
-Ohne Rabatt hast du mit Lifetime nach zwei Jahren gut 110 € gespart, nach drei Jahren fast 200 €. Mit Rabatt auf die Miete ist der Vorsprung kleiner, ab rund einem Jahr ist Kaufen aber trotzdem günstiger. Prüfe vor dem Kauf die aktuellen Preise und Paketdaten (Slots, RAM), denn je nach Konfiguration gelten andere Werte.
+<BreakEvenChart initial="palworld" only="palworld,custom" customMonthly={12.99} customLifetime={142.89} />
+
+<LaufzeitTabelle product="palworld" months="3,6,12,18,24,36" />
+
+Ohne Rabatt hast du mit Lifetime nach zwei Jahren 49,11 € gespart, nach drei Jahren 145,11 €. Der Pass ist dabei schon eingerechnet. Mit Rabatt auf die Miete ist Mieten nach zwei Jahren noch günstiger, nach drei Jahren liegt der Kauf rund 52 € vorn. Prüfe vor dem Kauf die aktuellen Preise und Paketdaten (Slots, RAM), denn je nach Konfiguration gelten andere Werte.
 
 ### Für wen sich ein Palworld Lifetime-Server lohnt
 
 - Ihr seid eine feste Gruppe, die regelmäßig zusammen spielt.
 - Du willst eine Community oder einen öffentlichen Server aufbauen.
 - Die Welt soll dauerhaft laufen, denn Basen und Pal-Sammlungen wachsen über Monate.
-- Du willst keine monatlichen Rechnungen und kein Risiko, dass die Welt wegen einer vergessenen Zahlung offline geht.
-- Du bist sicher, dass der Server länger läuft als der Break-even, also länger als etwa 9 bis 11 Monate.
+- Der ZapX Pass läuft bei dir ohnehin schon, oder du teilst ihn mit einem zweiten Lifetime-Server.
+- Du bist sicher, dass der Server länger läuft als der Break-even, also länger als etwa eineinhalb bis zwei Jahre.
 
 Noch unsicher? Dann starte mit einem Mietserver und wechsle später.
 
 ### Risiken und was du vor dem Kauf prüfen solltest
 
-- **Langfristige Bindung:** Lifetime lohnt sich nur, wenn der Server wirklich über den Break-even hinaus läuft. Verliert ihr nach drei Monaten die Lust, hast du 60 € statt 21,42 € Miete bezahlt.
-- **Leistungsbedarf:** Wächst eure Community stark, brauchst du später mehr Leistung. Prüfe, welche Upgrades es für dein Paket gibt und was sie kosten.
+- **Langfristige Bindung:** Lifetime lohnt sich nur, wenn der Server wirklich über den Break-even hinaus läuft. Verliert ihr nach drei Monaten die Lust, hast du 157,86 € bezahlt (142,89 € für den Server, 14,97 € für den Pass) statt 38,97 € Miete.
+- **ZapX Pass:** Der Pass bleibt als laufende Ausgabe. Vergisst du die Verlängerung, wird der Server gesperrt, bis wieder ein Pass aktiv ist.
+- **Leistungsbedarf:** Wächst eure Community stark, brauchst du später mehr Leistung. Welche Upgrades es für dein Paket gibt und was sie kosten, siehst du im Konfigurator.
 - **Zukunft des Spiels:** Palworld hat den Release von Version 1.0 geschafft und eine große Spielerbasis. Das Risiko, dass das Spiel verschwindet, ist kleiner als zu Early-Access-Zeiten, eine Garantie gibt es trotzdem nie.
 - **Bedingungen:** „Lifetime“ bezieht sich auf die Laufzeit des Produkts beim Hoster. Wirf vor dem Kauf einen Blick in die aktuellen Konditionen, auch dazu, was bei Produktänderungen passiert.
 - **Backups:** Auch beim gekauften Server bleibt die Sicherung deiner Welt deine Aufgabe.
 
-Eine ausführliche Checkliste und Lifetime-Preise für vServer, Rootserver und Dedicated Server findest du im Artikel [Server kaufen statt mieten](/blog/zap-hosting-lifetime).
+Eine ausführliche Checkliste und Lifetime-Preise für vServer und Dedicated Server findest du im Artikel [Lifetime Server kaufen](/blog/zap-hosting-lifetime).
 
-<ZapHostingCta href="https://zap-hosting.com/serverpalworld" title="Palworld Server: einmal zahlen, dauerhaft nutzen" description="Lifetime-Server ab 60 €, ohne monatliche Kosten und mit demselben Panel wie der Mietserver." couponCode="" buttonText="Lifetime-Option prüfen" />
+<ZapHostingCta href="https://zap-hosting.com/serverpalworld" title="Palworld Server als Lifetime-Server" description="Server einmal bezahlen, laufend nur der ZapX Pass. Lifetime ab 142,89 €, mit demselben Panel wie der Mietserver." couponCode="" buttonText="Lifetime-Option prüfen" />
 
 Den kompakten Überblick mit Preisvergleich findest du auch auf der [Palworld-Übersichtsseite](/palworld).
 
@@ -153,12 +171,12 @@ Ein dedizierter Server unterstützt bis zu 32 Spieler gleichzeitig, deutlich meh
 
 ### Was kostet ein Palworld Server?
 
-Bei ZAP-Hosting ab 7,14 € im Monat, mit dem Code `GermanGaming` 20% günstiger. Die Lifetime-Option kostet ab 60 € einmalig, dort gilt der Code nicht.
+Bei ZAP-Hosting ab 12,99 € für 30 Tage, mit dem Code `ZAPX-M26R79` 20% günstiger. Zum Testen gibt es 3 Tage ab 2,34 €. Die Lifetime-Option kostet für das kleinste Paket 142,89 € einmalig, dort gilt der Code nicht. Dazu kommt der ZapX Pass ab 4,99 € je 30 Tage.
 
 ### Läuft der Lifetime-Server auch rund um die Uhr?
 
-Ja. Er läuft genauso im Rechenzentrum wie ein Mietserver, mit gleicher Verfügbarkeit, gleichem Panel und gleichen Backups. Nur das Bezahlmodell ist anders.
+Ja. Er läuft genauso im Rechenzentrum wie ein Mietserver, mit gleicher Verfügbarkeit und gleichem Panel. Voraussetzung ist laut ZAP-Hosting, Stand November 2026, ein aktiver ZapX Pass. Endet der Pass, wird der Server gesperrt, bis wieder einer aktiv ist.
 
 ### Kann ich erst mieten und später kaufen?
 
-Ja, das ist oft die beste Strategie: ein bis zwei Monate mieten, schauen, ob die Gruppe dabei bleibt, und dann auf Lifetime wechseln. Klär vorher mit dem Support, ob ein bestehender Mietserver umgestellt werden kann oder ob du neu bestellst und deine Welt per Backup überträgst.
+Ja, das ist oft die beste Strategie: ein paar Monate mieten, schauen, ob die Gruppe dabei bleibt, und dann auf Lifetime wechseln. Klär vorher mit dem Support, ob ein bestehender Mietserver umgestellt werden kann oder ob du neu bestellst und deine Welt per Backup überträgst.

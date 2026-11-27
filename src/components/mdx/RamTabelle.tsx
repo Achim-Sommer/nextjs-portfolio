@@ -1,36 +1,45 @@
-import { APPS, GAMES, formatGb, recommendGame } from '@/data/server-ram';
+import { APPS, GAMES, formatGb, gamePath, localizeApp, localizeGame, recommendGame, type Lang } from '@/data/server-ram';
+
+const TEXT = {
+  de: { game: 'Spiel', min: 'Minimum', rec: 'Empfehlung', note: 'Hinweis', at: (n: number) => `bei ${n} Spielern`, app: 'Anwendung', typical: 'Typischer Bedarf' },
+  en: { game: 'Game', min: 'Minimum', rec: 'Recommended', note: 'Note', at: (n: number) => `for ${n} players`, app: 'Application', typical: 'Typical usage' },
+};
 
 /**
  * Richtwert-Tabellen für Gameserver und Anwendungen. Serverseitig gerendert,
  * damit Google die Werte lesen kann. Gleiche Datenquelle wie der RAM-Rechner.
  */
-export default function RamTabelle({ type }: { type: 'games' | 'apps' }) {
+export default function RamTabelle({ type, lang = 'de' }: { type: 'games' | 'apps'; lang?: Lang }) {
+  const t = TEXT[lang];
+
   if (type === 'games') {
     return (
       <div className="overflow-x-auto">
         <table>
           <thead>
             <tr>
-              <th>Spiel</th>
-              <th>Minimum</th>
-              <th>Empfehlung</th>
-              <th>Hinweis</th>
+              <th>{t.game}</th>
+              <th>{t.min}</th>
+              <th>{t.rec}</th>
+              <th>{t.note}</th>
             </tr>
           </thead>
           <tbody>
-            {GAMES.map((game) => (
-              <tr key={game.id}>
-                <td>
-                  <a href={`/server-ram-rechner/${game.id}`}>{game.name}</a>
-                </td>
-                <td>{formatGb(game.min)}</td>
-                <td>
-                  {formatGb(recommendGame(game, game.defaultPlayers))} bei {game.defaultPlayers}{' '}
-                  Spielern
-                </td>
-                <td>{game.note}</td>
-              </tr>
-            ))}
+            {GAMES.map((raw) => {
+              const game = localizeGame(raw, lang);
+              return (
+                <tr key={game.id}>
+                  <td>
+                    <a href={gamePath(game.id, lang)}>{game.name}</a>
+                  </td>
+                  <td>{formatGb(game.min, lang)}</td>
+                  <td>
+                    {formatGb(recommendGame(game, game.defaultPlayers), lang)} {t.at(game.defaultPlayers)}
+                  </td>
+                  <td>{game.note}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
@@ -42,19 +51,23 @@ export default function RamTabelle({ type }: { type: 'games' | 'apps' }) {
       <table>
         <thead>
           <tr>
-            <th>Anwendung</th>
-            <th>Typischer Bedarf</th>
-            <th>Hinweis</th>
+            <th>{t.app}</th>
+            <th>{t.typical}</th>
+            <th>{t.note}</th>
           </tr>
         </thead>
         <tbody>
-          {APPS.map((app) => (
-            <tr key={app.id}>
-              <td>{app.href ? <a href={app.href}>{app.name}</a> : app.name}</td>
-              <td>{formatGb(app.ram)}</td>
-              <td>{app.note}</td>
-            </tr>
-          ))}
+          {APPS.map((raw) => {
+            const app = localizeApp(raw, lang);
+            return (
+              <tr key={app.id}>
+                {/* Verlinkte Artikel gibt es nur auf Deutsch */}
+                <td>{app.href && lang === 'de' ? <a href={app.href}>{app.name}</a> : app.name}</td>
+                <td>{formatGb(app.ram, lang)}</td>
+                <td>{app.note}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>

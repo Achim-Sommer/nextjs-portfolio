@@ -19,7 +19,7 @@ export default function ZapHostingCta({
   buttonText = 'Hytale Server jetzt holen',
   title = 'Hytale Server in Minuten starten',
   description = 'Einfach bestellen, im Panel verwalten und direkt loslegen.',
-  couponCode = 'GermanGaming',
+  couponCode = 'ZAPX-M26R79',
   imageSrc,
   imageAlt = 'Hytale Charakter',
   imageWidth = 280,

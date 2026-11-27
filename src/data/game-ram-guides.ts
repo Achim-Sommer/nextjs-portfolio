@@ -24,6 +24,7 @@ export const GAME_GUIDES: Record<string, GameGuide> = {
       { question: 'Reichen 2 GB RAM für einen Minecraft Server?', answer: 'Für wenige Spieler ohne Plugins ja. Mit mehr Spielern, größerer Sichtweite oder Plugins solltest du 4 GB einplanen.' },
       { question: 'Bringt mehr RAM bei Minecraft immer mehr Leistung?', answer: 'Nein. Zu viel zugewiesener Speicher kann sogar zu längeren Pausen bei der Speicherbereinigung führen. Wichtiger als sehr viel RAM ist eine schnelle CPU.' },
     ],
+    links: [{ href: '/blog/minecraft-server-mieten', title: 'Minecraft Server mieten' }],
   },
   'minecraft-modpack': {
     intro:
@@ -37,6 +38,51 @@ export const GAME_GUIDES: Record<string, GameGuide> = {
       { question: 'Wie viel RAM braucht ein großes Modpack wie All the Mods?', answer: 'Große Kitchen-Sink-Modpacks brauchen meist 10 bis 12 GB, bei vielen Spielern mehr. Stelle im Rechner die Größe auf „Viele“.' },
       { question: 'Warum startet mein Modpack-Server nicht?', answer: 'Häufige Ursachen sind zu wenig zugewiesener RAM, eine falsche Java-Version oder Client-Mods im Server-Ordner. Das Server-Log nennt meist die genaue Ursache.' },
     ],
+    links: [
+      { href: '/blog/minecraft-server-mieten', title: 'Minecraft Server mieten' },
+      { href: '/server-ram-rechner/all-the-mods-10', title: 'RAM für All the Mods 10' },
+      { href: '/server-ram-rechner/better-mc', title: 'RAM für Better MC' },
+      { href: '/server-ram-rechner/rlcraft', title: 'RAM für RLCraft' },
+    ],
+  },
+  'all-the-mods-10': {
+    intro: 'All the Mods 10 gehört zu den größten Modpacks für Minecraft 1.21 und läuft mit NeoForge. Schon der Start mit mehreren hundert Mods belegt viele Gigabyte.',
+    tips: [
+      { title: 'Server-Dateien des Modpacks nutzen', text: 'Lade die offiziellen Server-Dateien von CurseForge. Sie enthalten nur die Mods, die der Server braucht, und ein passendes Startskript.' },
+      { title: 'Speicher im Startskript setzen', text: 'Der zugewiesene Arbeitsspeicher wird über Java-Parameter festgelegt. Weise nicht den gesamten RAM zu, das System braucht selbst etwas.' },
+      { title: 'Chunks sparsam laden', text: 'Dauerhaft geladene Chunks mit großen Fabriken sind der größte Speicherfresser. Begrenze, wie viele Chunks jeder Spieler laden darf.' },
+    ],
+    faqs: [
+      { question: 'Reichen 8 GB RAM für All the Mods 10?', answer: 'Der Server startet damit, mehr als die Untergrenze ist es aber nicht. Mit Puffer für wachsende Basen empfiehlt der Rechner schon für kleine Gruppen 12 GB.' },
+      { question: 'Welche Java-Version braucht All the Mods 10?', answer: 'Java 21, wie Minecraft 1.21 selbst.' },
+    ],
+    links: [{ href: '/server-ram-rechner/minecraft-modpack', title: 'RAM für andere Minecraft Modpacks' }],
+  },
+  'better-mc': {
+    intro: 'Better MC erweitert Minecraft um neue Biome, Dimensionen, Bosse und Strukturen. Das Modpack ist mittelgroß und braucht spürbar mehr Speicher als Vanilla.',
+    tips: [
+      { title: 'Passende Version wählen', text: 'Better MC gibt es für mehrere Minecraft-Versionen und Mod-Loader. Server und Spieler müssen dieselbe Ausgabe nutzen.' },
+      { title: 'Welt vorgenerieren', text: 'Die vielen neuen Biome und Strukturen machen das Erzeugen neuer Gebiete teuer. Eine vorab erzeugte Welt vermeidet Lags beim Erkunden.' },
+      { title: 'Sichtweite begrenzen', text: 'Eine Sichtweite von 8 bis 10 Chunks reicht meist und spart Speicher und CPU.' },
+    ],
+    faqs: [
+      { question: 'Reichen 6 GB RAM für einen Better MC Server?', answer: 'Der Server läuft damit, mehr als die Untergrenze ist es aber nicht. Mit Puffer empfiehlt der Rechner 8 GB.' },
+      { question: 'Warum laggt mein Better MC Server beim Erkunden?', answer: 'Neue Gebiete mit vielen Strukturen zu erzeugen kostet Rechenzeit. Eine vorgenerierte Welt und eine kleinere Sichtweite helfen.' },
+    ],
+    links: [{ href: '/server-ram-rechner/minecraft-modpack', title: 'RAM für andere Minecraft Modpacks' }],
+  },
+  rlcraft: {
+    intro: 'RLCraft läuft auf Minecraft 1.12.2 mit Forge. Das Modpack braucht weniger Speicher als aktuelle große Modpacks, aber deutlich mehr als ein Vanilla-Server.',
+    tips: [
+      { title: 'Java 8 verwenden', text: 'Minecraft 1.12.2 und die Mods von RLCraft sind für Java 8 gebaut. Mit neueren Versionen startet der Server in der Regel nicht.' },
+      { title: 'Nicht zu viel RAM zuweisen', text: 'Sehr viel zugewiesener Speicher verlängert bei dieser alten Version die Pausen der Speicherbereinigung. Bleib nah an der Empfehlung.' },
+      { title: 'Welt vorgenerieren', text: 'Die vielen Strukturen machen das Erzeugen neuer Gebiete langsam. Eine vorab erzeugte Welt entlastet den Server.' },
+    ],
+    faqs: [
+      { question: 'Reichen 4 GB RAM für einen RLCraft Server?', answer: 'Der Server läuft damit, mehr als die Untergrenze ist es aber nicht. Mit Puffer empfiehlt der Rechner 6 bis 8 GB.' },
+      { question: 'Welche Minecraft-Version nutzt RLCraft?', answer: 'Minecraft 1.12.2 mit Forge. Alle Spieler brauchen dieselbe Version des Modpacks wie der Server.' },
+    ],
+    links: [{ href: '/server-ram-rechner/minecraft-modpack', title: 'RAM für andere Minecraft Modpacks' }],
   },
   'minecraft-bedrock': {
     intro: 'Der Bedrock Dedicated Server ist in C++ geschrieben und braucht deutlich weniger Speicher als die Java Edition.',
@@ -49,6 +95,7 @@ export const GAME_GUIDES: Record<string, GameGuide> = {
       { question: 'Reicht 1 GB RAM für Minecraft Bedrock?', answer: 'Für eine kleine Gruppe meist ja. Für 10 Spieler empfiehlt der Rechner mit Puffer 2 GB, mit Add-ons 4 GB.' },
       { question: 'Können Java-Spieler auf einem Bedrock-Server spielen?', answer: 'Nicht direkt. Dafür gibt es Brücken wie Geyser, die auf einem Java-Server laufen und Bedrock-Spieler zulassen.' },
     ],
+    links: [{ href: '/blog/minecraft-server-mieten', title: 'Minecraft Server mieten' }],
   },
   hytale: {
     intro:
@@ -133,6 +180,7 @@ export const GAME_GUIDES: Record<string, GameGuide> = {
       { question: 'Wie viel RAM braucht ein Rust Server für 50 Spieler?', answer: 'Der Rechner empfiehlt mit Puffer 16 GB. Mit vielen Plugins und großer Karte sind 24 GB sinnvoll.' },
       { question: 'Warum braucht Rust nach einiger Zeit mehr Speicher?', answer: 'Mit jedem Tag kommen Bauten und Gegenstände hinzu. Deshalb steigt der Verbrauch bis zum nächsten Wipe.' },
     ],
+    links: [{ href: '/blog/rust-server-mieten', title: 'Rust Server mieten' }],
   },
   ark: {
     intro: 'ARK: Survival Ascended gehört zu den speicherhungrigsten Gameservern. Schon ohne Mods sind 12 GB das Minimum.',
@@ -142,9 +190,10 @@ export const GAME_GUIDES: Record<string, GameGuide> = {
       { title: 'Eine Karte pro Server', text: 'Jede Karte läuft als eigener Serverprozess. Für einen Cluster brauchst du den Speicher mehrfach.' },
     ],
     faqs: [
-      { question: 'Wie viel RAM braucht ein ARK Server?', answer: 'Mindestens 12 GB. Für 10 Spieler empfiehlt der Rechner mit Puffer 16 GB, mit vielen Mods eher 24 GB.' },
+      { question: 'Wie viel RAM braucht ein ARK: Survival Ascended Server?', answer: 'Mindestens 12 GB. Für 10 Spieler empfiehlt der Rechner mit Puffer 16 GB, mit vielen Mods eher 24 GB.' },
       { question: 'Brauche ich für einen ARK Cluster mehr RAM?', answer: 'Ja. Jede Karte ist ein eigener Server und braucht ihren eigenen Speicher.' },
     ],
+    links: [{ href: '/blog/ark-server-mieten', title: 'ARK Server mieten' }],
   },
   'conan-exiles': {
     intro: 'Ein Conan Exiles Server kommt für kleine Gruppen mit moderatem Speicher aus. Große Clan-Basen, viele Thralls und Mods treiben den Bedarf nach oben.',
@@ -193,7 +242,42 @@ export const GAME_GUIDES: Record<string, GameGuide> = {
       { question: 'Wie viel RAM braucht ein FiveM Server?', answer: 'Für 32 Spieler empfiehlt der Rechner mit Puffer 8 GB. Große Roleplay-Server mit vielen Skripten brauchen mehr.' },
       { question: 'Brauche ich für FiveM einen vServer?', answer: 'Für eigene Frameworks mit Datenbank ist ein vServer praktisch. Wähle dann im Rechner den Modus vServer und ergänze die Datenbank.' },
     ],
-    links: [{ href: '/fivem-template-server', title: 'Kostenloses FiveM Template' }],
+    links: [
+      { href: '/blog/fivem-server-mieten', title: 'FiveM Server mieten' },
+      { href: '/fivem-template-server', title: 'Kostenloses FiveM Template' },
+      { href: '/server-ram-rechner/fivem-esx', title: 'RAM für einen FiveM ESX Server' },
+      { href: '/server-ram-rechner/fivem-qbcore', title: 'RAM für einen FiveM QBCore Server' },
+    ],
+  },
+  'fivem-esx': {
+    intro: 'ESX Legacy ist das am weitesten verbreitete Framework für FiveM Roleplay. Der Speicherbedarf hängt von der Zahl der Skripte und von der Datenbank ab.',
+    tips: [
+      { title: 'Datenbank mitrechnen', text: 'ESX speichert Spieler, Fahrzeuge und Inventare in MariaDB oder MySQL. Läuft die Datenbank auf demselben Server, kommt ihr Speicher dazu.' },
+      { title: 'Mit einem Template starten', text: 'Ein fertiges ESX-Template enthält eine abgestimmte Auswahl an Skripten und spart die Grundeinrichtung.' },
+      { title: 'Skripte mit resmon prüfen', text: 'Der Befehl resmon zeigt, welche Ressourcen viel Leistung kosten. Wenige schlechte Skripte bremsen den ganzen Server.' },
+    ],
+    faqs: [
+      { question: 'Brauche ich für einen ESX Server eine Datenbank?', answer: 'Ja. ESX Legacy braucht MariaDB oder MySQL. Wähle im Rechner den Modus vServer und ergänze eine eigene Datenbank, wenn sie auf demselben Server läuft.' },
+      { question: 'Braucht ESX mehr RAM als QBCore?', answer: 'Die Frameworks selbst liegen nah beieinander. Den Unterschied machen Zahl und Qualität der Skripte.' },
+    ],
+    links: [
+      { href: '/blog/fivem-server-mieten', title: 'FiveM Server mieten' },
+      { href: '/fivem-template-server', title: 'Kostenloses FiveM ESX Template' },
+      { href: '/server-ram-rechner/fivem-qbcore', title: 'RAM für einen FiveM QBCore Server' },
+    ],
+  },
+  'fivem-qbcore': {
+    intro: 'QBCore ist neben ESX das zweite große Framework für FiveM Roleplay. Der Speicherbedarf hängt von der Zahl der Skripte und von der Datenbank ab.',
+    tips: [
+      { title: 'Datenbank mitrechnen', text: 'QBCore speichert Spielerdaten in MariaDB oder MySQL. Läuft die Datenbank auf demselben Server, kommt ihr Speicher dazu.' },
+      { title: 'Skripte passend zum Framework', text: 'Skripte sind meist für ein bestimmtes Framework geschrieben. Achte beim Kauf oder Download darauf, dass sie QBCore unterstützen.' },
+      { title: 'Skripte mit resmon prüfen', text: 'Der Befehl resmon zeigt, welche Ressourcen viel Leistung kosten. Wenige schlechte Skripte bremsen den ganzen Server.' },
+    ],
+    faqs: [
+      { question: 'Brauche ich für einen QBCore Server eine Datenbank?', answer: 'Ja. QBCore braucht MariaDB oder MySQL. Wähle im Rechner den Modus vServer und ergänze eine eigene Datenbank, wenn sie auf demselben Server läuft.' },
+      { question: 'Braucht QBCore mehr RAM als ESX?', answer: 'Die Frameworks selbst liegen nah beieinander. Den Unterschied machen Zahl und Qualität der Skripte.' },
+    ],
+    links: [{ href: '/blog/fivem-server-mieten', title: 'FiveM Server mieten' }, { href: '/server-ram-rechner/fivem-esx', title: 'RAM für einen FiveM ESX Server' }],
   },
   factorio: {
     intro: 'Factorio braucht wenig Arbeitsspeicher, aber eine schnelle CPU. Bei sehr großen Fabriken steigt auch der Speicherbedarf.',
@@ -229,6 +313,164 @@ export const GAME_GUIDES: Record<string, GameGuide> = {
     faqs: [
       { question: 'Wie viel RAM braucht ein CS2 Server?', answer: 'Für 20 Spieler empfiehlt der Rechner mit Puffer 4 GB. Der Arbeitsspeicher ist bei CS2 selten der Engpass.' },
       { question: 'Wie viel Speicherplatz braucht ein CS2 Server?', answer: 'Rechne mit rund 60 GB für Serverdateien, Updates und Demos.' },
+    ],
+  },
+  'ark-survival-evolved': {
+    intro: 'ARK: Survival Evolved braucht weniger Arbeitsspeicher als der Nachfolger Survival Ascended. Karte, Mods und die Zahl der gezähmten Dinos bestimmen den Bedarf.',
+    tips: [
+      { title: 'Ein Server je Karte', text: 'In einem Cluster läuft jede Karte als eigener Server mit eigenem Arbeitsspeicher. Rechne den Bedarf pro Karte.' },
+      { title: 'Mods sparsam wählen', text: 'Jede Mod aus dem Steam Workshop verlängert den Start und belegt Speicher. Große Overhaul-Mods fallen besonders ins Gewicht.' },
+      { title: 'Dino-Limits setzen', text: 'Viele gezähmte Dinos belasten Speicher und CPU. Ein Limit pro Stamm hält den Server stabil.' },
+    ],
+    faqs: [
+      { question: 'Braucht ARK: Survival Evolved weniger RAM als Survival Ascended?', answer: 'Ja, deutlich. Survival Ascended nutzt die Unreal Engine 5 und braucht schon ohne Spieler ein Mehrfaches an Speicher.' },
+      { question: 'Wie viel RAM braucht ein ARK Cluster?', answer: 'Rechne jede Karte einzeln und addiere die Werte, denn jede Karte läuft als eigener Serverprozess.' },
+    ],
+    links: [{ href: '/blog/ark-server-mieten', title: 'ARK Server mieten' }, { href: '/server-ram-rechner/ark', title: 'RAM für ARK: Survival Ascended' }],
+  },
+  dayz: {
+    intro: 'Ein DayZ Server simuliert Zombies, Tiere, Loot und Fahrzeuge auf der ganzen Karte. Mit Mods wie eigenen Karten und Händlern steigt der Bedarf deutlich.',
+    tips: [
+      { title: 'Regelmäßig neu starten', text: 'Üblich sind Neustarts alle paar Stunden. Das gibt Speicher frei und verteilt Loot und Fahrzeuge neu.' },
+      { title: 'Loot nicht übertreiben', text: 'Sehr hohe Loot-Mengen in der Central Economy kosten Speicher und Leistung. Erhöhe die Werte in kleinen Schritten.' },
+      { title: 'Mods aktuell halten', text: 'Server und Spieler brauchen dieselben Mod-Versionen. Nach Workshop-Updates musst du die Mods auf dem Server aktualisieren.' },
+    ],
+    faqs: [
+      { question: 'Warum braucht ein gemoddeter DayZ Server so viel RAM?', answer: 'Eigene Karten, Händler, Basenbau und zusätzliche Gegenstände vergrößern die Datenmenge, die der Server dauerhaft im Speicher hält.' },
+      { question: 'Warum laggt mein DayZ Server bei vielen Spielern?', answer: 'Meist ist die CPU der Engpass. Viele Basen, Fahrzeuge und Zombies belasten vor allem einen Kern, hoher Takt hilft.' },
+    ],
+  },
+  'garrys-mod': {
+    intro: "Ein Garry's Mod Server ist ohne Addons sehr sparsam. Der Bedarf hängt fast vollständig vom Spielmodus und der Zahl der Addons ab.",
+    tips: [
+      { title: 'Workshop-Kollektion nutzen', text: 'Mit einer Kollektion im Steam Workshop laden Server und Spieler dieselben Addons automatisch.' },
+      { title: 'Addons ausmisten', text: 'Jedes Addon verlängert Ladezeiten und belegt Speicher. Entferne, was niemand nutzt.' },
+      { title: 'Props begrenzen', text: 'Limits für Props und andere Objekte pro Spieler schützen vor Lags und Abstürzen.' },
+    ],
+    faqs: [
+      { question: "Wie viel RAM braucht ein DarkRP Server?", answer: 'DarkRP selbst ist sparsam. Mit vielen Addons, Jobs und Karten solltest du im Rechner „Einige“ oder „Viele“ Addons wählen.' },
+      { question: "Warum laggt mein Garry's Mod Server trotz freiem RAM?", answer: 'Der Server läuft im Kern auf einem Thread. Schlecht programmierte Addons und viele Props bremsen die CPU, nicht den Speicher.' },
+    ],
+  },
+  'v-rising': {
+    intro: 'Ein V Rising Server braucht für kleine Gruppen moderat viel Speicher. Mit vielen Burgen und langer Laufzeit wächst der Bedarf.',
+    tips: [
+      { title: 'Burgverfall aktiv lassen', text: 'Verlassene Burgen verfallen und geben Platz und Speicher frei. Auf öffentlichen Servern ist das wichtig.' },
+      { title: 'Burgen pro Spieler begrenzen', text: 'Die Zahl der Burgherzen und die Größe der Burgen lassen sich in den Servereinstellungen begrenzen.' },
+      { title: 'Einstellungen vor dem Start', text: 'PvP oder PvE, Clangröße und Raten legst du am besten vor dem ersten Start fest.' },
+    ],
+    faqs: [
+      { question: 'Läuft ein V Rising Server unter Linux?', answer: 'Der Dedicated Server ist für Windows gebaut. Unter Linux läuft er nur über eine Kompatibilitätsschicht wie Wine. Bei einem gemieteten Gameserver musst du dich darum nicht kümmern.' },
+      { question: 'Wie viele Spieler passen auf einen V Rising Server?', answer: 'Üblich sind bis zu 40 Spieler. Mit mehr Spielern und Burgen steigt vor allem die Last auf der CPU.' },
+    ],
+  },
+  'sons-of-the-forest': {
+    intro: 'Ein Sons of the Forest Server ist für bis zu 8 Spieler ausgelegt und braucht trotzdem viel Arbeitsspeicher.',
+    tips: [
+      { title: 'Spielstand sichern', text: 'Sichere den Spielstand regelmäßig, vor allem vor Updates des Spiels.' },
+      { title: 'Große Basen beachten', text: 'Sehr viele gebaute Strukturen erhöhen Speicherbedarf und Ladezeiten.' },
+      { title: 'Vorhandenen Spielstand nutzen', text: 'Einen Spielstand aus dem normalen Mehrspieler-Modus kannst du auf den Server übertragen und dort weiterspielen.' },
+    ],
+    faqs: [
+      { question: 'Wie viele Spieler passen auf einen Sons of the Forest Server?', answer: 'Bis zu 8 Spieler gleichzeitig.' },
+      { question: 'Läuft ein Sons of the Forest Server unter Linux?', answer: 'Der Dedicated Server ist für Windows gebaut. Unter Linux läuft er nur über eine Kompatibilitätsschicht wie Wine.' },
+    ],
+  },
+  ls25: {
+    intro: 'Ein Server für den Landwirtschafts-Simulator 25 braucht ohne Mods wenig Arbeitsspeicher. Mod-Karten und große Mod-Sammlungen erhöhen den Bedarf deutlich.',
+    tips: [
+      { title: 'Mods bewusst auswählen', text: 'Jede Mod wird beim Start geladen. Große Karten und viele Fahrzeuge verlängern Ladezeiten und belegen Speicher.' },
+      { title: 'Speicherplatz einplanen', text: 'Das Spiel und die Mods belegen viel Platz. Plane genug SSD-Speicher für Spiel, Mods und Spielstände ein.' },
+      { title: 'Lizenz beachten', text: 'Für einen selbst betriebenen Dedicated Server brauchst du eine eigene Spiellizenz. Bei gemieteten Servern ist sie in der Regel enthalten.' },
+    ],
+    faqs: [
+      { question: 'Wie viele Spieler passen auf einen LS25 Server?', answer: 'Auf dem PC bis zu 16 Spieler gleichzeitig.' },
+      { question: 'Wie viel RAM braucht ein LS25 Server mit vielen Mods?', answer: 'Deutlich mehr als ohne. Wähle im Rechner bei Mods „Viele“, wenn ihr eine Mod-Karte und eine große Fahrzeugsammlung nutzt.' },
+    ],
+    links: [{ href: '/blog/ls25-server-mieten', title: 'LS25 Server mieten' }],
+  },
+  'arma-3': {
+    intro: 'Ein Arma 3 Server braucht je nach Mission und Mods sehr unterschiedlich viel Speicher. Life-Server mit Datenbank und große Mod-Sammlungen liegen am oberen Ende.',
+    tips: [
+      { title: 'Headless Client für KI', text: 'Ein Headless Client übernimmt die Berechnung der KI und entlastet den Server bei Missionen mit vielen Einheiten.' },
+      { title: 'Datenbank mitrechnen', text: 'Life-Server speichern Spielerdaten in einer Datenbank. Läuft sie auf demselben Server, kommt ihr Speicher dazu.' },
+      { title: 'Mods abgleichen', text: 'Server und Spieler brauchen dieselben Mods in derselben Version. Eine feste Mod-Liste vermeidet Probleme beim Beitreten.' },
+    ],
+    faqs: [
+      { question: 'Wie viel RAM braucht ein Arma 3 Life Server?', answer: 'Rechne mit vielen Mods und zusätzlich mit der Datenbank. Im Rechner wählst du dafür den Modus vServer, Arma 3 und eine eigene Datenbank.' },
+      { question: 'Warum sinken die Server-FPS bei vielen KI-Einheiten?', answer: 'Die KI wird größtenteils auf einem Kern berechnet. Ein Headless Client und weniger gleichzeitig aktive Einheiten helfen.' },
+    ],
+  },
+  'arma-reforger': {
+    intro: 'Ein Arma Reforger Server braucht für große Gefechte mit vielen Spielern und KI spürbar Arbeitsspeicher und eine schnelle CPU.',
+    tips: [
+      { title: 'Mods aus dem Workshop', text: 'Spieler laden die Mods des Servers beim Beitreten automatisch. Viele große Mods verlängern das Laden und erhöhen den Bedarf.' },
+      { title: 'KI begrenzen', text: 'Die Zahl der KI-Einheiten hat großen Einfluss auf die Leistung. Begrenze sie, wenn der Server bei voller Besetzung langsam wird.' },
+      { title: 'Crossplay einplanen', text: 'Mit aktiviertem Crossplay können auch Konsolenspieler beitreten. Das beeinflusst, welche Mods sinnvoll sind.' },
+    ],
+    faqs: [
+      { question: 'Wie viele Spieler passen auf einen Arma Reforger Server?', answer: 'Bis zu 128 Spieler. Für volle Server brauchst du vor allem eine schnelle CPU.' },
+      { question: 'Braucht Arma Reforger mehr RAM als Arma 3?', answer: 'Ohne Mods liegt der Bedarf in einer ähnlichen Größenordnung. Entscheidend sind Spielerzahl, KI und Mods.' },
+    ],
+  },
+  'space-engineers': {
+    intro: 'Space Engineers simuliert jede Konstruktion physikalisch. Große Schiffe, viele Blöcke und Planeten brauchen viel Speicher und vor allem eine schnelle CPU.',
+    tips: [
+      { title: 'Blocklimits setzen', text: 'Limits für Blöcke und PCU pro Spieler verhindern, dass einzelne Konstruktionen den Server ausbremsen.' },
+      { title: 'Aufräumen lassen', text: 'Die automatische Bereinigung entfernt verlassene Wracks und Trümmer und hält Welt und Speicherbedarf klein.' },
+      { title: 'Simulationsgeschwindigkeit beobachten', text: 'Sinkt die Simulationsgeschwindigkeit unter 1,0, ist der Server überlastet. Meist liegt das an der CPU.' },
+    ],
+    faqs: [
+      { question: 'Warum läuft mein Space Engineers Server langsam?', answer: 'Meist begrenzt die CPU, nicht der Speicher. Große Konstruktionen, viele Kolben und Rotoren sowie Skripte kosten Rechenzeit.' },
+      { question: 'Wie viele Spieler passen auf einen Space Engineers Server?', answer: 'Üblich sind bis zu 16 Spieler. Mehr sind möglich, brauchen aber strenge Limits.' },
+    ],
+  },
+  soulmask: {
+    intro: 'Soulmask gehört zu den speicherhungrigen Survival-Spielen. Schon ein kleiner Server braucht zweistellige Gigabyte.',
+    tips: [
+      { title: 'Stammesmitglieder begrenzen', text: 'Viele rekrutierte Stammesmitglieder, die in den Basen arbeiten, belasten Speicher und CPU.' },
+      { title: 'Geplante Neustarts', text: 'Ein regelmäßiger Neustart zu einer ruhigen Uhrzeit hält den Speicherverbrauch stabil.' },
+      { title: 'Backups einrichten', text: 'Sichere den Spielstand regelmäßig, besonders vor Updates.' },
+    ],
+    faqs: [
+      { question: 'Reichen 8 GB RAM für einen Soulmask Server?', answer: 'Nein, das ist zu knapp. Plane mindestens 12 GB ein, für eine Gruppe mit Puffer 16 GB.' },
+      { question: 'Warum braucht Soulmask so viel RAM?', answer: 'Die große Welt und die vielen simulierten Stammesmitglieder werden dauerhaft im Speicher gehalten.' },
+    ],
+  },
+  unturned: {
+    intro: 'Ein Unturned Server ist sparsam und läuft schon auf kleinen Paketen. Große Workshop-Karten und Plugins erhöhen den Bedarf.',
+    tips: [
+      { title: 'Workshop-Inhalte eintragen', text: 'Karten und Mods aus dem Steam Workshop lädt der Server automatisch, wenn du sie in der Konfiguration einträgst.' },
+      { title: 'Plugins gezielt einsetzen', text: 'Plugin-Frameworks erweitern den Server um Befehle, Shops und Rechte. Jedes Plugin kostet etwas Leistung.' },
+      { title: 'Kartengröße beachten', text: 'Große Karten mit vielen Objekten brauchen mehr Speicher als die kleinen Standardkarten.' },
+    ],
+    faqs: [
+      { question: 'Reichen 2 GB RAM für einen Unturned Server?', answer: 'Für eine kleine Gruppe ohne Mods ja. Mit mehr Spielern, großen Karten oder Plugins solltest du 4 GB einplanen.' },
+      { question: 'Ist ein Unturned Server kostenlos?', answer: 'Das Spiel und die Serverdateien sind kostenlos. Kosten entstehen nur für den Server, auf dem er läuft.' },
+    ],
+  },
+  'vintage-story': {
+    intro: 'Ein Vintage Story Server braucht pro Spieler mehr Speicher als viele andere Spiele, weil jeder Spieler eigene Teile der Welt lädt.',
+    tips: [
+      { title: 'Sichtweite begrenzen', text: 'Eine maximale Sichtweite für Spieler hält die Zahl der geladenen Chunks und damit den Speicherbedarf im Rahmen.' },
+      { title: 'Zusammen bleiben spart Speicher', text: 'Spielen alle in derselben Gegend, wird weniger Welt geladen als bei weit verstreuten Spielern.' },
+      { title: 'Backups einplanen', text: 'Die Welt liegt in einer einzigen Datei, die schnell groß wird. Sichere sie regelmäßig und plane den Speicherplatz dafür ein.' },
+    ],
+    faqs: [
+      { question: 'Läuft ein Vintage Story Server unter Linux?', answer: 'Ja, der Server läuft unter Windows und Linux.' },
+      { question: 'Braucht Vintage Story mehr RAM als Minecraft?', answer: 'Pro Spieler meist ja, weil die Welt detaillierter ist. Für kleine Gruppen bleibt der Bedarf trotzdem überschaubar.' },
+    ],
+  },
+  'dont-starve-together': {
+    intro: "Ein Don't Starve Together Server ist sparsam. Mit Höhlen laufen allerdings zwei Welten gleichzeitig, jede mit eigenem Speicherbedarf.",
+    tips: [
+      { title: 'Höhlen bewusst aktivieren', text: 'Oberwelt und Höhlen laufen als zwei getrennte Prozesse. Ohne Höhlen sinkt der Bedarf deutlich.' },
+      { title: 'Mods auf dem Server eintragen', text: 'Mods müssen für den Server eingetragen und für jede der beiden Welten aktiviert werden.' },
+      { title: 'Welt gelegentlich erneuern', text: 'Sehr alte Welten mit vielen Bauten und Gegenständen werden langsamer. Ein Neustart der Welt schafft Abhilfe.' },
+    ],
+    faqs: [
+      { question: "Reichen 2 GB RAM für einen Don't Starve Together Server?", answer: 'Für eine kleine Gruppe ja. Mit Höhlen, mehr Spielern und Mods solltest du 4 GB einplanen.' },
+      { question: "Wie viele Spieler passen auf einen Don't Starve Together Server?", answer: 'Standard sind 6 Spieler, einstellbar sind mehr. Mit vielen Spielern wird vor allem die CPU zum Engpass.' },
     ],
   },
   teamspeak: {

@@ -100,7 +100,7 @@ Beim gemieteten Gameserver wählst du Spiel und Paket, Installation, Updates und
 
 Ich nutze für Gameserver und vServer [ZAP-Hosting](https://zap-hosting.com/achim). Dort kannst du den RAM bei vielen Paketen später erhöhen, wenn der Bedarf wächst. Das ist praktisch, weil du nicht von Anfang an zu groß planen musst.
 
-<ZapHostingCta href="https://zap-hosting.com/achim" title="Gameserver und vServer bei ZAP-Hosting" description="Pakete mit passendem RAM für dein Spiel oder deine Dienste, auf Wunsch auch als Lifetime-Variante zum einmaligen Preis." buttonText="Pakete ansehen" couponCode="GERMANGAMING" imageSrc="" />
+<ZapHostingCta href="https://zap-hosting.com/achim" title="Gameserver und vServer bei ZAP-Hosting" description="Pakete mit passendem RAM für dein Spiel oder deine Dienste, auf Wunsch auch als Lifetime-Variante." buttonText="Pakete ansehen" couponCode="ZAPX-M26R79" imageSrc="" />
 
 ## Häufige Fragen
 
@@ -110,7 +110,7 @@ Für einzelne, sparsame Dienste wie Uptime Kuma, Vaultwarden oder eine kleine We
 
 ### Wie viel RAM braucht ein Minecraft Server?
 
-Für einen Vanilla- oder Paper-Server mit bis zu zehn Spielern reichen 4 GB. Modpacks brauchen 8 bis 12 GB, große Modpacks mit vielen Spielern auch mehr. Tabellen nach Spielerzahl findest du im RAM-Rechner für [Minecraft](/server-ram-rechner/minecraft) und für [Modpacks](/server-ram-rechner/minecraft-modpack).
+Für einen Vanilla- oder Paper-Server mit bis zu zehn Spielern reichen 4 GB. Modpacks brauchen 8 bis 12 GB, große Modpacks mit vielen Spielern auch mehr. Tabellen nach Spielerzahl findest du im RAM-Rechner für [Minecraft](/server-ram-rechner/minecraft) und für [Modpacks](/server-ram-rechner/minecraft-modpack), dazu eigene Seiten für [All the Mods 10](/server-ram-rechner/all-the-mods-10), [Better MC](/server-ram-rechner/better-mc) und [RLCraft](/server-ram-rechner/rlcraft).
 
 ### Kann ich den RAM später erhöhen?
 

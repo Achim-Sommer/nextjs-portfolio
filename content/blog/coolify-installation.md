@@ -50,9 +50,9 @@ Die Mindestwerte entsprechen den offiziellen Angaben von Coolify. Beachte, dass 
 ## 1. Server Beschaffung und Vorbereitung
 
 ### Server Provider
-Für die Installation von Coolify empfehle ich einen Server von [ZAP-Hosting](https://zap-hosting.com/achim). ZAP-Hosting bietet zuverlässige VServer und Rootserver zu fairen Preisen an und hat einen exzellenten deutschsprachigen Support. Ein besonderes Highlight von ZAP-Hosting ist die Möglichkeit, Server als [Lifetime Option](/blog/zap-hosting-lifetime) zu erwerben. Das bedeutet, du zahlst einmalig und kannst den Server dann unbegrenzt nutzen, ohne monatliche Gebühren.
+Für die Installation von Coolify empfehle ich einen Server von [ZAP-Hosting](https://zap-hosting.com/achim). ZAP-Hosting bietet zuverlässige VServer und Rootserver zu fairen Preisen an und hat einen exzellenten deutschsprachigen Support. Ein besonderes Highlight von ZAP-Hosting ist die Möglichkeit, Server als [Lifetime Option](/blog/zap-hosting-lifetime) zu erwerben. Du bezahlst den Server einmal statt jeden Monat, laufend kostet dann nur noch der ZapX Pass.
 
-> **Spar-Tipp**: Mit der Lifetime-Option von ZAP-Hosting sparst du langfristig Kosten, da keine monatlichen Gebühren anfallen.
+> **Spar-Tipp**: Die Lifetime-Option von ZAP-Hosting kann sich bei langer Laufzeit rechnen. Ab wann, zeigt die Break-even-Rechnung im verlinkten Artikel.
 
 <Tip>
 Für Coolify eignet sich besonders ein VPS (Virtual Private Server) mit der aktuellen LTS-Version von Ubuntu oder der aktuellen stabilen Debian-Version. Diese Systeme bieten:

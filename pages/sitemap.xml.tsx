@@ -1,6 +1,6 @@
 import { GetServerSideProps } from 'next';
 import { getAllPosts, getPostsByTag, getTagPages } from '../lib/blog';
-import { GAMES } from '../src/data/server-ram';
+import { GAMES, gamePath } from '../src/data/server-ram';
 
 const EXTERNAL_DATA_URL = 'https://achimsommer.com';
 
@@ -35,6 +35,16 @@ const staticPages: PageConfig[] = [
   },
   {
     path: '/server-ram-rechner',
+    priority: 0.8,
+    changefreq: 'monthly',
+  },
+  {
+    path: '/server-slot-rechner',
+    priority: 0.8,
+    changefreq: 'monthly',
+  },
+  {
+    path: '/en/server-ram-calculator',
     priority: 0.8,
     changefreq: 'monthly',
   },
@@ -108,7 +118,9 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   // Kombiniere statische Seiten mit Blog-Posts
   const blogPages = getBlogPages();
   // Unterseiten des RAM-Rechners pro Spiel
-  const ramPages: PageConfig[] = GAMES.map((g) => ({ path: `/server-ram-rechner/${g.id}`, priority: 0.7, changefreq: 'monthly' }));
+  const ramPages: PageConfig[] = (['de', 'en'] as const).flatMap((lang) =>
+    GAMES.map((g) => ({ path: gamePath(g.id, lang), priority: 0.7, changefreq: 'monthly' as const })),
+  );
   const allPages = [...staticPages, ...ramPages, ...blogPages];
 
   // Generate the XML sitemap with all pages
