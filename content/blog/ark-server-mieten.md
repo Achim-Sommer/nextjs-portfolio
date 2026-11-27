@@ -11,7 +11,7 @@ Wer einen ARK Server mieten will, muss zuerst eine Frage klären: Welches ARK? A
 
 Dieser Guide deckt beide Spiele ab: worauf du bei der Auswahl achten solltest, wie du den Server mietest und welche Einstellungen danach zählen.
 
-> **Kurz gesagt:** Gameserver bei ZAP-Hosting starten ab 2,76 € im Monat, der Preis hängt von Spiel, Slots und RAM ab. ARK gehört zu den speicherhungrigsten Spielen und liegt deshalb über dem Einstiegspreis. Mit dem Code `ZAPX-M26R79` sparst du 20% auf die Mietlaufzeiten, nicht auf die Lifetime-Option.
+> **Kurz gesagt:** ARK: Survival Evolved gibt es bei ZAP-Hosting ab 9,99 € für 30 Tage, zum Testen ab 1,80 € für 3 Tage. Survival Ascended bietet ZAP-Hosting nicht als Gameserver-Paket an, sondern als vServer ab 22,29 € je 30 Tage (3 Tage zum Testen ab 4,01 €). Der Preis hängt vom Paket ab, nicht von der Spielerzahl. Mit dem Code `ZAPX-M26R79` sparst du 20% auf die Mietlaufzeiten, nicht auf die Lifetime-Option. Stand: 27. November 2026, die aktuellen Preise stehen bei ZAP-Hosting.
 
 ## Warum ein eigener ARK Server?
 
@@ -124,13 +124,13 @@ Nach der Einrichtung startest du den Server im Panel. Der erste Start kann einig
 
 ## Mieten oder Lifetime kaufen?
 
-ARK-Welten laufen oft sehr lange, weil in Zucht und Basen viel Zeit steckt. Bei ZAP-Hosting kannst du einen Server deshalb auch einmalig kaufen statt monatlich mieten. Gameserver gibt es als Lifetime-Variante ab 45 € einmalig. Ein ARK-Paket mit 16 GB und mehr liegt darüber, die Rechnung ist aber dieselbe: Lifetime-Preis geteilt durch Monatspreis ergibt die Monate bis zum Break-even.
+ARK-Welten laufen oft sehr lange, weil in Zucht und Basen viel Zeit steckt. Dafür gibt es bei ZAP-Hosting die Lifetime-Option: Du bezahlst den Server einmal statt jeden Monat. Der Kaufpreis ist das Elffache des Preises für 30 Tage.
 
-Das Diagramm zeigt den Verlauf für das Einstiegspaket. Unter „Eigene Preise“ trägst du die Werte deines ARK-Pakets aus dem Shop ein.
+Wichtig: Ein Lifetime-Server läuft nur mit einem aktiven ZapX Pass. Der kostet ab 4,99 € je 30 Tage, bei einer Laufzeit von 365 Tagen 3,74 € je 30 Tage. Ganz ohne laufende Kosten ist Lifetime also nicht. Der Pass gilt für dein ganzes Konto und deckt in der kleinsten Stufe zwei Lifetime-Server ab.
 
-<BreakEvenChart initial="game" only="game,custom" />
+Ein Beispiel: Das kleinste Paket für Survival Ascended kostet 22,29 € für 30 Tage, als Lifetime-Server also 245,19 €. Danach zahlst du statt der Miete nur noch den Pass und sparst gegenüber der Monatsmiete 17,30 € im Monat. Der Kauf hat sich damit nach rund 14 Monaten bezahlt gemacht, mit dem Jahres-Pass nach rund 13 Monaten. Hast du den Pass ohnehin schon für einen anderen Server, sind es 11 Monate.
 
-Ein Punkt spricht bei ARK für etwas Vorsicht: Wenn die Gruppe später von Evolved zu Ascended wechseln will, brauchst du ein größeres Paket. Kläre vor dem Kauf, was ein Upgrade oder ein Spielwechsel kostet. Mehr dazu im Artikel [Server kaufen statt mieten](/blog/zap-hosting-lifetime).
+Zwei Dinge verschieben die Rechnung: Größere Pakete lohnen sich schneller, weil der Pass gleich viel kostet. Und wer länger mietet, bekommt Rabatt (10 % bei 90 Tagen, 17 % bei 180 Tagen, 25 % bei 365 Tagen), dann dauert es länger. Für die meisten Gruppen ist deshalb richtig: erst mieten, und erst kaufen, wenn klar ist, dass der Server mehrere Jahre läuft. Mehr dazu im Artikel [Server kaufen statt mieten](/blog/zap-hosting-lifetime).
 
 ## Häufige Fragen
 
@@ -140,7 +140,7 @@ Für ARK: Survival Ascended brauchst du bei 10 Spielern ohne Mods 16 GB, mit Mod
 
 ### Was kostet ein ARK Server?
 
-Der Preis hängt von Spiel, Slots und RAM ab. Gameserver bei ZAP-Hosting starten ab 2,76 € im Monat. Weil ARK viel Arbeitsspeicher braucht, liegt ein ARK Server darüber, und Ascended kostet mehr als Evolved. Den genauen Preis siehst du im Shop. Mit dem Code `ZAPX-M26R79` sparst du 20% auf die Miete.
+ARK: Survival Evolved gibt es bei ZAP-Hosting ab 9,99 € für 30 Tage, zum Testen ab 1,80 € für 3 Tage. Survival Ascended bietet ZAP-Hosting nicht als Gameserver-Paket an, sondern als vServer ab 22,29 € je 30 Tage (3 Tage zum Testen ab 4,01 €). Längere Laufzeiten sind günstiger: 10 % Rabatt bei 90 Tagen, 17 % bei 180 Tagen und 25 % bei 365 Tagen. Mit dem Code `ZAPX-M26R79` sparst du 20% auf die Miete. Stand: 27. November 2026.
 
 ### Können Spieler von Evolved und Ascended zusammen spielen?
 

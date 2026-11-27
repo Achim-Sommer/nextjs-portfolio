@@ -11,7 +11,7 @@ Im Landwirtschafts-Simulator 25 kannst du eine Mehrspieler-Partie direkt aus dem
 
 Dieser Guide zeigt, wie du RAM und Slots planst, was bei Mods zu beachten ist und welche Einstellungen nach der Bestellung wichtig sind.
 
-> **Kurz gesagt:** Gameserver bei ZAP-Hosting starten ab 2,76 € im Monat, der Preis hängt von Spiel, Slots und RAM ab. Mit dem Code `ZAPX-M26R79` sparst du 20% auf die Mietlaufzeiten, nicht auf die Lifetime-Option. Preise können sich ändern, die aktuellen Werte stehen bei ZAP-Hosting.
+> **Kurz gesagt:** Den LS25 Server gibt es bei ZAP-Hosting als vServer ab 7,29 € für 30 Tage, zum Testen ab 1,31 € für 3 Tage. Der Preis hängt vom Paket ab, nicht von der Spielerzahl. Mit dem Code `ZAPX-M26R79` sparst du 20% auf die Mietlaufzeiten, nicht auf die Lifetime-Option. Stand: 27. November 2026, die aktuellen Preise stehen bei ZAP-Hosting.
 
 ## Warum ein eigener LS25 Server?
 
@@ -117,13 +117,13 @@ Im Spiel findest du den Server im Mehrspieler-Menü über die Suche nach dem Ser
 
 ## Mieten oder Lifetime kaufen?
 
-Ein Hof ist ein Langzeitprojekt, und viele Gruppen spielen denselben Spielstand über viele Monate. Dafür gibt es bei ZAP-Hosting die Lifetime-Option: Du zahlst einmal und nutzt den Server ohne monatliche Kosten weiter. Gameserver gibt es als Lifetime-Variante ab 45 € einmalig, der Preis für dein Paket hängt von Slots und RAM ab.
+Ein Hof ist ein Langzeitprojekt, und viele Gruppen spielen denselben Spielstand über viele Monate. Dafür gibt es bei ZAP-Hosting die Lifetime-Option: Du bezahlst den Server einmal statt jeden Monat. Der Kaufpreis ist das Elffache des Preises für 30 Tage.
 
-Die Rechnung: Lifetime-Preis geteilt durch Monatspreis ergibt die Monate bis zum Break-even. Das Diagramm zeigt den Verlauf für das Einstiegspaket. Unter „Eigene Preise“ trägst du die Werte deines LS25-Pakets aus dem Shop ein.
+Wichtig: Ein Lifetime-Server läuft nur mit einem aktiven ZapX Pass. Der kostet ab 4,99 € je 30 Tage, bei einer Laufzeit von 365 Tagen 3,74 € je 30 Tage. Ganz ohne laufende Kosten ist Lifetime also nicht. Der Pass gilt für dein ganzes Konto und deckt in der kleinsten Stufe zwei Lifetime-Server ab.
 
-<BreakEvenChart initial="game" only="game,custom" />
+Ein Beispiel: Das kleinste Paket kostet 7,29 € für 30 Tage, als Lifetime-Server also 80,19 €. Danach zahlst du statt der Miete nur noch den Pass und sparst gegenüber der Monatsmiete 2,30 € im Monat. Der Kauf hat sich damit nach rund 35 Monaten bezahlt gemacht, mit dem Jahres-Pass nach rund 23 Monaten. Hast du den Pass ohnehin schon für einen anderen Server, sind es 11 Monate.
 
-Miete zuerst ein paar Wochen und wechsle, wenn die Gruppe dabei bleibt. Bedenke dabei, dass die Reihe regelmäßig Nachfolger bekommt und ein Kauf sich nur lohnt, wenn ihr lange genug bei LS25 bleibt. Checkliste und Risiken findest du im Artikel [Server kaufen statt mieten](/blog/zap-hosting-lifetime).
+Zwei Dinge verschieben die Rechnung: Größere Pakete lohnen sich schneller, weil der Pass gleich viel kostet. Und wer länger mietet, bekommt Rabatt (10 % bei 90 Tagen, 17 % bei 180 Tagen, 25 % bei 365 Tagen), dann dauert es länger. Für die meisten Gruppen ist deshalb richtig: erst mieten, und erst kaufen, wenn klar ist, dass der Server mehrere Jahre läuft. Mehr dazu im Artikel [Server kaufen statt mieten](/blog/zap-hosting-lifetime).
 
 ## Häufige Fragen
 
@@ -133,7 +133,7 @@ Für 8 Spieler ohne oder mit einigen Mods reichen 8 GB, auch 16 Spieler ohne Mod
 
 ### Was kostet ein LS25 Server?
 
-Der Preis hängt von Slots und RAM ab. Gameserver bei ZAP-Hosting starten ab 2,76 € im Monat, den genauen Preis für deine Konfiguration siehst du im Shop. Mit dem Code `ZAPX-M26R79` sparst du 20% auf die Miete.
+Den LS25 Server gibt es bei ZAP-Hosting als vServer ab 7,29 € für 30 Tage, zum Testen ab 1,31 € für 3 Tage. Längere Laufzeiten sind günstiger: 10 % Rabatt bei 90 Tagen, 17 % bei 180 Tagen und 25 % bei 365 Tagen. Mit dem Code `ZAPX-M26R79` sparst du 20% auf die Miete. Stand: 27. November 2026.
 
 ### Wie viele Spieler passen auf einen LS25 Server?
 

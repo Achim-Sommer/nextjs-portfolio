@@ -11,7 +11,7 @@ Ein eigener Minecraft Server ist schnell gemietet. Die eigentliche Arbeit steckt
 
 Dieser Guide führt dich durch die Auswahl, die Bestellung und die Einstellungen, die du direkt danach setzen solltest.
 
-> **Kurz gesagt:** Gameserver bei ZAP-Hosting starten ab 2,76 € im Monat, der Preis hängt von Spiel, Slots und RAM ab. Mit dem Code `ZAPX-M26R79` sparst du 20% auf die Mietlaufzeiten. Für die Lifetime-Option gilt der Code nicht. Preise können sich ändern, die aktuellen Werte stehen bei ZAP-Hosting.
+> **Kurz gesagt:** Einen Minecraft Server gibt es bei ZAP-Hosting ab 4,49 € für 30 Tage, zum Testen ab 0,81 € für 3 Tage. Der Preis hängt vom Paket ab, nicht von der Spielerzahl. Mit dem Code `ZAPX-M26R79` sparst du 20% auf die Mietlaufzeiten, nicht auf die Lifetime-Option. Stand: 27. November 2026, die aktuellen Preise stehen bei ZAP-Hosting.
 
 ## Warum ein eigener Minecraft Server?
 
@@ -126,13 +126,13 @@ Nach der Bestellung wird der Server automatisch eingerichtet. Im Panel findest d
 
 ## Mieten oder Lifetime kaufen?
 
-Minecraft-Server laufen oft über Jahre. Genau dafür gibt es bei ZAP-Hosting die Lifetime-Option: Du zahlst einmal und nutzt den Server danach ohne monatliche Kosten, mit demselben Panel wie beim Mietserver. Gameserver gibt es als Lifetime-Variante ab 45 € einmalig, der Preis deines Pakets hängt wieder von RAM und Slots ab.
+Minecraft-Server laufen oft über Jahre. Dafür gibt es bei ZAP-Hosting die Lifetime-Option: Du bezahlst den Server einmal statt jeden Monat. Der Kaufpreis ist das Elffache des Preises für 30 Tage.
 
-Die Rechnung ist einfach: Lifetime-Preis geteilt durch Monatspreis ergibt die Zahl der Monate bis zum Break-even. Beim Einstiegspaket sind das 45 € ÷ 2,76 € ≈ 16 Monate. Im Diagramm siehst du diesen Verlauf. Unter „Eigene Preise“ trägst du die Werte deines eigenen Pakets aus dem Shop ein.
+Wichtig: Ein Lifetime-Server läuft nur mit einem aktiven ZapX Pass. Der kostet ab 4,99 € je 30 Tage, bei einer Laufzeit von 365 Tagen 3,74 € je 30 Tage. Ganz ohne laufende Kosten ist Lifetime also nicht. Der Pass gilt für dein ganzes Konto und deckt in der kleinsten Stufe zwei Lifetime-Server ab.
 
-<BreakEvenChart initial="game" only="game,custom" />
+Ein Beispiel: Das Paket für Paper mit Plugins kostet 7,49 € für 30 Tage, als Lifetime-Server also 82,39 €. Danach zahlst du statt der Miete nur noch den Pass und sparst gegenüber der Monatsmiete 2,50 € im Monat. Der Kauf hat sich damit nach rund 33 Monaten bezahlt gemacht, mit dem Jahres-Pass nach rund 22 Monaten. Hast du den Pass ohnehin schon für einen anderen Server, sind es 11 Monate.
 
-Meine Empfehlung: erst ein bis zwei Monate mieten und wechseln, wenn klar ist, dass die Gruppe bleibt. Eine Checkliste und die Risiken findest du im Artikel [Server kaufen statt mieten](/blog/zap-hosting-lifetime).
+Zwei Dinge verschieben die Rechnung: Größere Pakete lohnen sich schneller, weil der Pass gleich viel kostet. Und wer länger mietet, bekommt Rabatt (10 % bei 90 Tagen, 17 % bei 180 Tagen, 25 % bei 365 Tagen), dann dauert es länger. Für die meisten Gruppen ist deshalb richtig: erst mieten, und erst kaufen, wenn klar ist, dass der Server mehrere Jahre läuft. Mehr dazu im Artikel [Server kaufen statt mieten](/blog/zap-hosting-lifetime).
 
 ## Häufige Fragen
 
@@ -142,7 +142,7 @@ Für einen Java-Server mit Vanilla oder Paper und 10 Spielern reichen 4 GB, bei 
 
 ### Was kostet ein Minecraft Server?
 
-Das hängt von RAM und Slots ab. Gameserver bei ZAP-Hosting starten ab 2,76 € im Monat, ein Server mit großem Modpack kostet entsprechend mehr. Mit dem Code `ZAPX-M26R79` sparst du 20% auf die Miete. Den genauen Preis für deine Konfiguration siehst du im Shop.
+Einen Minecraft Server gibt es bei ZAP-Hosting ab 4,49 € für 30 Tage, zum Testen ab 0,81 € für 3 Tage. Längere Laufzeiten sind günstiger: 10 % Rabatt bei 90 Tagen, 17 % bei 180 Tagen und 25 % bei 365 Tagen. Mit dem Code `ZAPX-M26R79` sparst du 20% auf die Miete. Stand: 27. November 2026.
 
 ### Java oder Bedrock: Welche Edition soll ich nehmen?
 

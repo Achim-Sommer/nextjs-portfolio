@@ -11,7 +11,7 @@ Ein FiveM Server ist mehr als ein Gameserver. Zu einem Roleplay-Projekt gehören
 
 Dieser Guide zeigt, worauf du beim Mieten achten solltest und wie du nach der Bestellung zu einem lauffähigen Server kommst.
 
-> **Kurz gesagt:** Gameserver bei ZAP-Hosting starten ab 2,76 € im Monat, der Preis hängt von Spiel, Slots und RAM ab. Mit dem Code `ZAPX-M26R79` sparst du 20% auf die Mietlaufzeiten, nicht auf die Lifetime-Option. Preise können sich ändern, die aktuellen Werte stehen bei ZAP-Hosting.
+> **Kurz gesagt:** Einen FiveM Server gibt es bei ZAP-Hosting ab 5,29 € für 30 Tage, zum Testen ab 0,95 € für 3 Tage. Die Pakete richten sich nach dem Arbeitsspeicher: 2 GB für 5,29 €, 4 GB für 8,79 €, 8 GB für 14,99 € und 16 GB für 26,99 € je 30 Tage. Der Preis hängt vom Paket ab, nicht von der Spielerzahl. Mit dem Code `ZAPX-M26R79` sparst du 20% auf die Mietlaufzeiten, nicht auf die Lifetime-Option. Stand: 27. November 2026, die aktuellen Preise stehen bei ZAP-Hosting.
 
 ## Warum ein eigener FiveM Server?
 
@@ -125,13 +125,13 @@ Nach dem ersten Start richtest du den Server über txAdmin ein, die Verwaltungso
 
 ## Mieten oder Lifetime kaufen?
 
-Die meisten FiveM-Projekte sind in den ersten Monaten in Bewegung: Die Spielerzahl schwankt, Skripte kommen dazu, der Bedarf ändert sich. In dieser Phase ist Mieten die bessere Wahl, weil du flexibel bleibst.
+Läuft die Community stabil, bleibt ein FiveM Server oft über Jahre online. Dafür gibt es bei ZAP-Hosting die Lifetime-Option: Du bezahlst den Server einmal statt jeden Monat. Der Kaufpreis ist das Elffache des Preises für 30 Tage.
 
-Läuft die Community stabil, kann sich die Lifetime-Option lohnen. Du zahlst einmal und nutzt den Server ohne monatliche Kosten weiter. Gameserver gibt es bei ZAP-Hosting als Lifetime-Variante ab 45 € einmalig, der Preis für dein Paket hängt von RAM und Slots ab. Im Diagramm siehst du den Verlauf für das Einstiegspaket. Unter „Eigene Preise“ trägst du die Werte deines FiveM-Pakets aus dem Shop ein.
+Wichtig: Ein Lifetime-Server läuft nur mit einem aktiven ZapX Pass. Der kostet ab 4,99 € je 30 Tage, bei einer Laufzeit von 365 Tagen 3,74 € je 30 Tage. Ganz ohne laufende Kosten ist Lifetime also nicht. Der Pass gilt für dein ganzes Konto und deckt in der kleinsten Stufe zwei Lifetime-Server ab.
 
-<BreakEvenChart initial="game" only="game,custom" />
+Ein Beispiel: Das Paket mit 4 GB für einen RP-Server mit ESX oder QBCore kostet 8,79 € für 30 Tage, als Lifetime-Server also 96,69 €. Danach zahlst du statt der Miete nur noch den Pass und sparst gegenüber der Monatsmiete 3,80 € im Monat. Der Kauf hat sich damit nach rund 25 Monaten bezahlt gemacht, mit dem Jahres-Pass nach rund 19 Monaten. Hast du den Pass ohnehin schon für einen anderen Server, sind es 11 Monate.
 
-Was du vor dem Kauf prüfen solltest, steht im Artikel [Server kaufen statt mieten](/blog/zap-hosting-lifetime).
+Zwei Dinge verschieben die Rechnung: Größere Pakete lohnen sich schneller, weil der Pass gleich viel kostet. Und wer länger mietet, bekommt Rabatt (10 % bei 90 Tagen, 17 % bei 180 Tagen, 25 % bei 365 Tagen), dann dauert es länger. Für die meisten Gruppen ist deshalb richtig: erst mieten, und erst kaufen, wenn klar ist, dass der Server mehrere Jahre läuft. Mehr dazu im Artikel [Server kaufen statt mieten](/blog/zap-hosting-lifetime).
 
 ## Häufige Fragen
 
@@ -141,7 +141,7 @@ Für einen Server mit ESX oder QBCore und 32 Spielern sind 8 GB ein guter Start.
 
 ### Was kostet ein FiveM Server?
 
-Der Preis hängt von Slots und RAM ab. Gameserver bei ZAP-Hosting starten ab 2,76 € im Monat, ein FiveM Server mit vielen Slots und viel RAM kostet entsprechend mehr. Mit dem Code `ZAPX-M26R79` sparst du 20% auf die Miete. Die Serversoftware und der Lizenzschlüssel von Cfx.re kosten nichts.
+Einen FiveM Server gibt es bei ZAP-Hosting ab 5,29 € für 30 Tage, zum Testen ab 0,95 € für 3 Tage. Die Pakete richten sich nach dem Arbeitsspeicher: 2 GB für 5,29 €, 4 GB für 8,79 €, 8 GB für 14,99 € und 16 GB für 26,99 € je 30 Tage. Längere Laufzeiten sind günstiger: 10 % Rabatt bei 90 Tagen, 17 % bei 180 Tagen und 25 % bei 365 Tagen. Mit dem Code `ZAPX-M26R79` sparst du 20% auf die Miete. Stand: 27. November 2026.
 
 ### ESX oder QBCore: Was ist besser?
 
