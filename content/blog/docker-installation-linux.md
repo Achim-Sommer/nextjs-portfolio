@@ -19,7 +19,7 @@ featured: false
 
 ### Server-Tipp: Lifetime-Server von ZAP-Hosting
 
-Für Docker-Projekte empfehle ich die [Lifetime-Server von ZAP-Hosting](https://zap-hosting.com/vserverhomepage). Mit einer einmaligen Zahlung erhältst du einen Server ohne monatliche Kosten. Mehr Details findest du in meinem Artikel über [Lifetime-Server: kaufen statt mieten](/blog/zap-hosting-lifetime).
+Für Docker-Projekte empfehle ich die [Lifetime-Server von ZAP-Hosting](https://zap-hosting.com/vserverhomepage). Du bezahlst den Server einmal statt jeden Monat, laufend kostet dann nur noch der ZapX Pass. Mehr Details findest du in meinem Artikel über [Lifetime-Server: kaufen statt mieten](/blog/zap-hosting-lifetime).
 
 ## Was ist Docker?
 

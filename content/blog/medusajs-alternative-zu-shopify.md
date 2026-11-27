@@ -195,7 +195,7 @@ Um die Leistung deiner MedusaJS-Plattform zu maximieren, solltest du folgende Be
 
 Für eine einfache und effektive Deployment-Option kannst du Coolify verwenden, um MedusaJS auf deinem eigenen Server zu deployen. Coolify bietet eine benutzerfreundliche Oberfläche zur Verwaltung deiner Deployments und setzt auf Docker. Wie du die Plattform einrichtest, zeige ich dir in meiner Anleitung [Coolify installieren](/blog/coolify-installation).
 
-Darüber hinaus empfehle ich [ZAP-Hosting](https://zap-hosting.com/achim) für dein Hosting-Bedürfnis. Bei ZAP-Hosting hast du die Möglichkeit, Lifetime-Server zu erwerben, was langfristig erhebliche Kostenersparnisse ermöglicht. Mit einer einmaligen Zahlung kannst du deinen Server dauerhaft nutzen, ohne monatliche Gebühren befürchten zu müssen. Mehr dazu erfährst du in meinem Artikel über [Lifetime-Server: kaufen statt mieten](/blog/zap-hosting-lifetime).
+Darüber hinaus empfehle ich [ZAP-Hosting](https://zap-hosting.com/achim) für dein Hosting-Bedürfnis. Bei ZAP-Hosting hast du die Möglichkeit, Lifetime-Server zu erwerben, was sich bei langer Laufzeit rechnen kann. Du bezahlst den Server einmal statt jeden Monat, laufend kostet dann nur noch der ZapX Pass. Mehr dazu erfährst du in meinem Artikel über [Lifetime-Server: kaufen statt mieten](/blog/zap-hosting-lifetime).
 
 ### Warum ZAP-Hosting?
 

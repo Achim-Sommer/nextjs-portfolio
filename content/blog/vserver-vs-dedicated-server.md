@@ -2,7 +2,7 @@
 title: 'vServer oder Dedicated Server? Der Vergleich'
 description: 'vServer oder Dedicated Server? Unterschiede bei Leistung, Skalierung, Sicherheit und Kosten, plus Entscheidungshilfe für Website, Docker und Datenbank.'
 date: '2024-11-27'
-lastModified: '2026-10-02'
+lastModified: '2026-11-27'
 tags: ['Server-Hosting', 'Linux', 'IT-Administration']
 featured: false
 ---
@@ -39,7 +39,7 @@ Du bekommst:
 
 ## Und was ist ein Rootserver?
 
-Der Begriff sagt vor allem, dass du Root-Rechte hast. Manche Anbieter meinen damit einen Dedicated Server, andere einen virtuellen Server mit fest zugesicherten Ressourcen. Bei ZAP-Hosting ist der Rootserver eine eigene Produktlinie, preislich zwischen vServer und Dedicated Server. Lies im Zweifel die Produktbeschreibung. Entscheidend ist, ob CPU-Kerne fest zugeteilt oder mit anderen geteilt sind.
+Der Begriff sagt vor allem, dass du Root-Rechte hast. Manche Anbieter meinen damit einen Dedicated Server, andere einen virtuellen Server mit fest zugesicherten Ressourcen. Bei ZAP-Hosting ist der Rootserver keine eigene Produktlinie mehr: Die Seite „Root Server mieten“ zeigt dieselben vServer-Pakete, also vServer mit Root-Zugriff ab 7,29 € für 30 Tage. Lies bei anderen Anbietern im Zweifel die Produktbeschreibung. Entscheidend ist, ob CPU-Kerne fest zugeteilt oder mit anderen geteilt sind.
 
 ## Der Vergleich im Überblick
 
@@ -51,11 +51,11 @@ Der Begriff sagt vor allem, dass du Root-Rechte hast. Manche Anbieter meinen dam
 | Skalierung | Upgrade im Panel | neue Hardware, oft mit Umzug |
 | Isolation | durch den Hypervisor | physisch getrennt |
 | Deine Verantwortung | Betriebssystem, Dienste, Sicherheit | zusätzlich Blick auf Festplatten und RAID |
-| Miete bei ZAP-Hosting | ab 7,90 € pro Monat | ab 41,35 € pro Monat |
-| Lifetime bei ZAP-Hosting | ab 64,00 € einmalig | ab 498,32 € einmalig |
+| Miete bei ZAP-Hosting | ab 7,29 € für 30 Tage | ab 92,99 € für 30 Tage |
+| Lifetime bei ZAP-Hosting | ab 80,19 € einmalig, plus ZapX Pass | ab 1.664,30 € einmalig, plus ZapX Pass und Slot |
 | Typischer Einsatz | Websites, Docker, Staging, kleine Datenbanken | große Datenbanken, Virtualisierung, rechenintensive Dienste |
 
-Preise können sich ändern, die aktuellen Preise stehen direkt bei ZAP-Hosting.
+Stand der Preise: 27. November 2026. Preise können sich ändern, die aktuellen Preise stehen direkt bei ZAP-Hosting.
 
 ## Leistung: geteilte oder eigene Ressourcen
 
@@ -81,20 +81,34 @@ Für die Verwaltung im Browser eignet sich auf beiden Servertypen [Cockpit](/blo
 
 ## Kosten: Miete und Lifetime
 
-Bei ZAP-Hosting kannst du beide Servertypen monatlich mieten oder als Lifetime-Paket einmalig kaufen:
+Bei ZAP-Hosting kannst du beide Servertypen mieten oder als Lifetime-Server kaufen:
 
-- **Linux vServer:** ab 7,90 € im Monat oder 64,00 € einmalig, Break-even nach etwa 8 Monaten
-- **Dedicated Server:** ab 41,35 € im Monat oder 498,32 € einmalig, Break-even nach etwa 12 Monaten
+- **vServer:** ab 7,29 € für 30 Tage (Paket ZAP Spark) oder 80,19 € einmalig. Das Paket ZAP Core mit 4 CPU-Kernen und 80 GB NVMe kostet 11,49 € oder 126,39 € einmalig. Die größeren Pakete kosten 16,79 €, 22,29 €, 29,49 €, 37,79 €, 49,79 €, 63,49 € und 134,49 €. Windows kostet keinen Aufpreis.
+- **Dedicated Server:** ab 92,99 € für 30 Tage (Intel Xeon E5 v4), größere Klassen ab 163,99 € und 192,99 €. Lifetime je nach Hardware ab 1.664,30 €.
 
-Der Abstand ist groß: Für die Monatsmiete des günstigsten Dedicated Servers bekommst du mehr als fünf Linux vServer. Ein Dedicated Server lohnt sich also nur, wenn du seine Leistung tatsächlich ausnutzt.
+Bei längeren Mietlaufzeiten gibt es Rabatt: 90 Tage 10%, 180 Tage 17%, 365 Tage 25%.
 
-Wann sich der Kauf statt der Miete rechnet, zeigt das Diagramm. Wähle den Servertyp aus und fahre mit der Maus über die Linien.
+Der Abstand ist groß: Für die Miete des günstigsten Dedicated Servers bekommst du mehr als zwölf vServer im Einstiegspaket. Ein Dedicated Server lohnt sich also nur, wenn du seine Leistung tatsächlich ausnutzt.
 
-<BreakEvenChart initial="vserver" only="vserver,root,dedi" />
+### Was bei Lifetime laufend dazukommt
 
-Ausführliche Break-even-Tabellen, auch für Rootserver und größere Pakete, sowie eine Checkliste für den Kauf findest du im Artikel [Server kaufen statt mieten](/blog/zap-hosting-lifetime).
+Der Lifetime-Preis ist nicht die ganze Rechnung. Laut ZAP-Hosting, Stand November 2026, setzt ein Lifetime-Server einen aktiven ZapX Pass voraus. Der Pass ist ein Abo für das ganze Konto und kostet in der kleinsten Stufe Plus 4,99 € je 30 Tage. Sie deckt zwei Lifetime-Server ab. Endet der Pass, wird der Server gesperrt, der Lifetime-Anspruch bleibt bestehen. Ein Lifetime-Dedicated braucht zusätzlich einen eigenen Slot für 9,90 € je 30 Tage. Prüfe die Bedingungen vor dem Kauf im Shop.
 
-<ZapHostingCta href="https://zap-hosting.com/vserverhomepage" title="vServer bei ZAP-Hosting" description="Linux- und Windows-vServer monatlich mieten oder als Lifetime-Paket einmalig kaufen." couponCode="" buttonText="vServer-Pakete ansehen" />
+Der Break-even ist deshalb: Lifetime-Preis ÷ (Monatsmiete − laufende Lifetime-Kosten).
+
+- **vServer, Einstieg:** 80,19 € ÷ (7,29 € − 4,99 €) ≈ 35 Monate
+- **vServer mit 4 Kernen:** 126,39 € ÷ (11,49 € − 4,99 €) ≈ 19 Monate
+- **Dedicated Server:** 1.664,30 € ÷ (92,99 € − 14,89 €) ≈ 21 Monate. Das ist nur eine grobe Orientierung, weil beides „ab“-Preise sind und nicht zwingend zum selben Modell gehören.
+
+Läuft der Pass ohnehin schon, etwa für einen anderen Lifetime-Server, rechnet sich ein vServer nach 11 Monaten. Der Lifetime-Preis ist dort das Elffache der Miete für 30 Tage.
+
+Wann sich der Kauf statt der Miete rechnet, zeigt das Diagramm. Wähle den Servertyp aus und fahre mit der Maus über die Linien. Die helle Linie ist der Kaufpreis plus Pass, solange der Haken bei „ZapX Pass einrechnen“ gesetzt ist.
+
+<BreakEvenChart initial="vserver" only="vserver,vcore,dedi" />
+
+Ausführliche Break-even-Tabellen, die Stufen des ZapX Pass und eine Checkliste für den Kauf findest du im Artikel [Lifetime Server kaufen](/blog/zap-hosting-lifetime).
+
+<ZapHostingCta href="https://zap-hosting.com/vserverhomepage" title="vServer bei ZAP-Hosting" description="Linux- und Windows-vServer mieten oder als Lifetime-Server kaufen. Aktuelle Preise und Bedingungen stehen beim Anbieter." couponCode="" buttonText="vServer-Pakete ansehen" />
 
 ## Welcher Server für welches Projekt?
 
@@ -115,7 +129,7 @@ Ausführliche Break-even-Tabellen, auch für Rootserver und größere Pakete, so
 2. **Lastprofil prüfen:** Gleichmäßige Dauerlast spricht eher für einen Dedicated Server, geringe oder schwankende Last für einen vServer.
 3. **Admin-Aufwand einplanen:** Wer kümmert sich um Updates, Monitoring und Sicherheit?
 4. **Backups klären:** Snapshots beim Anbieter ersetzen keine Sicherung an einem zweiten Ort. Wie du das planst, steht im Artikel zur [Backup-Strategie](/blog/backup-strategie-mittelstand).
-5. **Laufzeit festlegen:** Soll das Projekt mehrere Jahre laufen, prüfe die Lifetime-Option statt der Miete.
+5. **Laufzeit festlegen:** Soll das Projekt mehrere Jahre laufen, prüfe die Lifetime-Option statt der Miete und rechne den ZapX Pass mit ein.
 
 ## Häufige Fragen
 
