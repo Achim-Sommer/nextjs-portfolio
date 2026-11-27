@@ -5,12 +5,26 @@
  * Laufzeiten brauchen mehr.
  */
 
+import { APPS_EN, GAMES_EN } from './server-ram.en';
+
+/** Sprache der Rechner-Seiten: Deutsch unter /server-ram-rechner, Englisch unter /en/server-ram-calculator */
+export type Lang = 'de' | 'en';
+
+export const RAM_PATH: Record<Lang, string> = { de: '/server-ram-rechner', en: '/en/server-ram-calculator' };
+
+/** Abweichende Adressen der englischen Unterseiten, sonst gilt die ID */
+const EN_SLUGS: Record<string, string> = { ls25: 'farming-simulator-25' };
+export const gameSlug = (id: string, lang: Lang = 'de') => (lang === 'en' ? EN_SLUGS[id] ?? id : id);
+export const gamePath = (id: string, lang: Lang = 'de') => `${RAM_PATH[lang]}/${gameSlug(id, lang)}`;
+export const findGameBySlug = (slug: string, lang: Lang = 'de') => GAMES.find((g) => gameSlug(g.id, lang) === slug);
+
 export const ZAP_GAMESERVER_URL = 'https://zap-hosting.com/achim';
 export const ZAP_VSERVER_URL = 'https://zap-hosting.com/vserverhomepage';
 export const ZAP_COUPON = 'ZAPX-M26R79';
 
 /** Stand der Richtwerte, wird auf den Seiten angezeigt */
 export const RAM_DATA_AS_OF = 'November 2026';
+export const RAM_DATA_AS_OF_EN = 'November 2026';
 
 export type ModLevel = 0 | 1 | 2;
 
@@ -133,6 +147,24 @@ export const MOD_LEVELS: { value: ModLevel; label: string }[] = [
   { value: 1, label: 'Einige' },
   { value: 2, label: 'Viele' },
 ];
+const MOD_LEVELS_EN: typeof MOD_LEVELS = [
+  { value: 0, label: 'None' },
+  { value: 1, label: 'Some' },
+  { value: 2, label: 'Many' },
+];
+export const modLevels = (lang: Lang = 'de') => (lang === 'en' ? MOD_LEVELS_EN : MOD_LEVELS);
+
+/** Spiel mit Texten in der gewünschten Sprache, Zahlen bleiben gleich */
+export function localizeGame(game: GameProfile, lang: Lang = 'de'): GameProfile {
+  return lang === 'en' && GAMES_EN[game.id] ? { ...game, ...GAMES_EN[game.id] } : game;
+}
+
+export function localizeApp(app: AppProfile, lang: Lang = 'de'): AppProfile {
+  return lang === 'en' && APPS_EN[app.id] ? { ...app, ...APPS_EN[app.id] } : app;
+}
+
+/** Stand der Richtwerte in der gewünschten Sprache */
+export const ramDataAsOf = (lang: Lang = 'de') => (lang === 'en' ? RAM_DATA_AS_OF_EN : RAM_DATA_AS_OF);
 
 const roundUp = (steps: number[], value: number) => steps.find((step) => step >= value) ?? Math.ceil(value);
 
@@ -157,11 +189,25 @@ export function recommendGame(game: GameProfile, players: number, mods: ModLevel
   return roundToStep(gameRam(game, players, mods) * HEADROOM);
 }
 
-/** Formatiert GB-Werte deutsch, Werte unter 1 GB in MB */
-export function formatGb(gb: number): string {
+/** Formatiert GB-Werte, Werte unter 1 GB in MB */
+export function formatGb(gb: number, lang: Lang = 'de'): string {
   if (gb < 1) return `${Math.round(gb * 1024)} MB`;
-  return `${gb.toLocaleString('de-DE', { maximumFractionDigits: 1 })} GB`;
+  return `${gb.toLocaleString(lang === 'en' ? 'en-US' : 'de-DE', { maximumFractionDigits: 1 })} GB`;
 }
+
+/**
+ * Umkehrung des Rechners: Wie viele Spieler passen in ein Paket dieser Größe?
+ * 0 = das Paket ist für dieses Spiel zu klein.
+ */
+export function maxPlayersFor(game: GameProfile, ramGb: number, mods: ModLevel = 0): number {
+  for (let players = game.maxPlayers; players >= 1; players--) {
+    if (recommendGame(game, players, mods) <= ramGb) return players;
+  }
+  return 0;
+}
+
+/** Kleinstes Paket, in dem das Spiel überhaupt läuft */
+export const minPackage = (game: GameProfile, mods: ModLevel = 0) => recommendGame(game, 1, mods);
 
 export type Mode = 'game' | 'vserver';
 
@@ -188,14 +234,16 @@ export type RamResult = {
   disk?: number;
 };
 
-export function calculate(input: RamInput): RamResult {
+export function calculate(input: RamInput, lang: Lang = 'de'): RamResult {
+  const en = lang === 'en';
   const parts: RamPart[] = [];
   let cpu = 0;
   let disk = 0;
-  const game = input.gameId ? findGame(input.gameId) : undefined;
+  const found = input.gameId ? findGame(input.gameId) : undefined;
+  const game = found ? localizeGame(found, lang) : undefined;
 
   if (input.mode === 'vserver') {
-    parts.push({ key: 'os', label: 'Betriebssystem', gb: OS_BASE });
+    parts.push({ key: 'os', label: en ? 'Operating system' : 'Betriebssystem', gb: OS_BASE });
     // Die Kern-Empfehlung eines Spiels deckt das Betriebssystem bereits mit ab
     if (!game) cpu += OS_CPU;
     disk += OS_DISK;
@@ -205,8 +253,8 @@ export function calculate(input: RamInput): RamResult {
     const players = Math.min(input.players, game.maxPlayers);
     const playerPart = game.perPlayer * players;
     const total = Math.max(game.min, game.base + playerPart);
-    parts.push({ key: 'game', label: `${game.short}, Grundbedarf`, gb: total - playerPart });
-    if (playerPart > 0) parts.push({ key: 'players', label: `${players} Spieler`, gb: playerPart });
+    parts.push({ key: 'game', label: en ? `${game.short}, base` : `${game.short}, Grundbedarf`, gb: total - playerPart });
+    if (playerPart > 0) parts.push({ key: 'players', label: en ? `${players} players` : `${players} Spieler`, gb: playerPart });
     const mods = modRam(game, input.mods);
     if (mods > 0) parts.push({ key: 'mods', label: game.modLabel, gb: mods });
     cpu += game.cores + (players > game.maxPlayers * 0.5 ? 1 : 0) + (input.mods === 2 ? 1 : 0);
@@ -214,7 +262,8 @@ export function calculate(input: RamInput): RamResult {
   }
 
   if (input.mode === 'vserver') {
-    for (const app of APPS) {
+    for (const raw of APPS) {
+      const app = localizeApp(raw, lang);
       const count = input.apps[app.id] ?? 0;
       if (count <= 0) continue;
       parts.push({ key: app.id, label: count > 1 ? `${app.name} × ${count}` : app.name, gb: app.ram * count });
@@ -280,3 +329,20 @@ export function fromQuery(search: string, fallback: RamInput): RamInput {
     apps: params.has('dienste') ? apps : mode === 'vserver' ? fallback.apps : {},
   };
 }
+
+/* ---------- Formulierungen für erzeugte Texte ---------- */
+
+/** „vielen Plugins“ bzw. „many plugins“, passend hinter „mit“ / „with“. Erwartet ein Spiel in der Zielsprache. */
+export function manyMods(game: GameProfile, lang: Lang = 'de'): string {
+  if (game.id === 'minecraft-modpack') return lang === 'en' ? 'a large modpack' : 'einem großen Modpack';
+  return lang === 'en' ? `many ${game.modLabel}` : `vielen ${game.modLabel.replace('Skripte ', 'Skripten ')}`;
+}
+
+/** „ ohne Plugins“ bzw. „ without plugins“, mit führendem Leerzeichen */
+export function noMods(game: GameProfile, lang: Lang = 'de'): string {
+  if (game.id === 'minecraft-modpack') return lang === 'en' ? ' with a small modpack' : ' mit einem kleinen Modpack';
+  return lang === 'en' ? ` without ${game.modLabel}` : ` ohne ${game.modLabel}`;
+}
+
+/** Englischer unbestimmter Artikel vor dem Kurznamen, z. B. „an ARK server“ */
+export const article = (short: string) => (/^([aeiou]|RL)/i.test(short) ? 'an' : 'a');

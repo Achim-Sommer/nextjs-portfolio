@@ -5,15 +5,19 @@ import { FiCheck, FiLink, FiMinus, FiPlus } from 'react-icons/fi';
 import {
   APPS,
   GAMES,
-  MOD_LEVELS,
+  RAM_PATH,
   ZAP_COUPON,
   ZAP_GAMESERVER_URL,
   ZAP_VSERVER_URL,
   calculate,
   findGame,
-  formatGb,
+  formatGb as formatGbLang,
   fromQuery,
+  localizeApp,
+  localizeGame,
+  modLevels,
   toQuery,
+  type Lang,
   type ModLevel,
   type Mode,
   type RamInput,
@@ -21,6 +25,75 @@ import {
 
 /** Farben der Balkenabschnitte, in der Reihenfolge der Bestandteile */
 const SEGMENT_COLORS = ['#ff6a2b', '#ecebe8', '#c2552a', '#8e8d89', '#f3a77c', '#5f5e5a', '#ffd0b5', '#a9a8a4'];
+
+const TEXT = {
+  de: {
+    title: 'RAM-Rechner',
+    copied: 'Link kopiert',
+    share: 'Ergebnis teilen',
+    copyPrompt: 'Link zum Kopieren:',
+    serverType: 'Art des Servers',
+    gameTab: 'Gameserver',
+    vpsTab: 'vServer',
+    game: 'Spiel',
+    gameOnVps: 'Gameserver auf dem vServer',
+    noGame: 'Kein Gameserver',
+    players: 'Gleichzeitige Spieler',
+    services: 'Welche Dienste laufen mit?',
+    less: (name: string) => `${name} weniger`,
+    more: (name: string) => `${name} mehr`,
+    need: 'Geschätzter Bedarf',
+    recommended: 'Empfehlung',
+    cores: (n: number) => `${n} ${n === 1 ? 'Kern' : 'Kerne'}`,
+    footnote: 'Inklusive 25 % Puffer für Spitzen, Updates und Wachstum. Richtwerte, keine Garantie.',
+    diskNote: ' Beim Speicherplatz kommen deine eigenen Dateien und Backups dazu.',
+    offerGame: (short: string) => `${short} bei ZAP-Hosting`,
+    fallbackGame: 'Gameserver',
+    offerBig: 'Rootserver oder Dedicated Server ansehen',
+    offerVps: 'Passenden vServer ansehen',
+    couponBefore: 'Mit dem Code ',
+    couponAfter: ' sparst du 20 % (je nach Produkt)',
+    breakdown: 'Zusammensetzung',
+    plan: 'Paket',
+    usage: (need: string, total: string) => `Bedarf ${need} von ${total}`,
+    buffer: 'Puffer',
+    bufferLegend: 'Puffer 25 %',
+    free: 'Frei bis zur Paketgröße',
+  },
+  en: {
+    title: 'RAM calculator',
+    copied: 'Link copied',
+    share: 'Share result',
+    copyPrompt: 'Link to copy:',
+    serverType: 'Server type',
+    gameTab: 'Game server',
+    vpsTab: 'VPS',
+    game: 'Game',
+    gameOnVps: 'Game server on the VPS',
+    noGame: 'No game server',
+    players: 'Concurrent players',
+    services: 'Which services run alongside?',
+    less: (name: string) => `Fewer ${name}`,
+    more: (name: string) => `More ${name}`,
+    need: 'Estimated usage',
+    recommended: 'Recommended',
+    cores: (n: number) => `${n} ${n === 1 ? 'core' : 'cores'}`,
+    footnote: 'Includes a 25% buffer for peaks, updates and growth. Guideline values, not a guarantee.',
+    diskNote: ' For storage, add your own files and backups.',
+    offerGame: (short: string) => `${short} at ZAP-Hosting`,
+    fallbackGame: 'Game server',
+    offerBig: 'View root and dedicated servers',
+    offerVps: 'View matching VPS plans',
+    couponBefore: 'Save 20% with code ',
+    couponAfter: ' (depending on product)',
+    breakdown: 'Breakdown',
+    plan: 'Plan',
+    usage: (need: string, total: string) => `Usage ${need} of ${total}`,
+    buffer: 'Buffer',
+    bufferLegend: '25% buffer',
+    free: 'Free up to plan size',
+  },
+} as const;
 
 type Props = {
   /** Vorausgewähltes Spiel (ID aus src/data/server-ram.ts) */
@@ -30,10 +103,14 @@ type Props = {
   syncUrl?: boolean;
   /** Seite, auf die der geteilte Link zeigt */
   sharePath?: string;
+  /** Sprache der Oberfläche */
+  lang?: Lang;
 };
 
 /** Interaktiver Rechner: Gameserver nach Spiel, Spielern und Mods oder vServer mit Diensten und optionalem Gameserver */
-export default function RamRechner({ initialGame = 'minecraft', initialMode = 'game', syncUrl = false, sharePath = '/server-ram-rechner' }: Props) {
+export default function RamRechner({ initialGame = 'minecraft', initialMode = 'game', syncUrl = false, sharePath, lang = 'de' }: Props) {
+  const t = TEXT[lang];
+  const formatGb = (gb: number) => formatGbLang(gb, lang);
   const fallback = useMemo<RamInput>(() => {
     const game = findGame(initialGame) ?? GAMES[0];
     return {
@@ -63,8 +140,9 @@ export default function RamRechner({ initialGame = 'minecraft', initialMode = 'g
     window.history.replaceState(window.history.state, '', url);
   }, [input, syncUrl, fallback]);
 
-  const game = input.gameId ? findGame(input.gameId) : undefined;
-  const result = useMemo(() => calculate(input), [input]);
+  const rawGame = input.gameId ? findGame(input.gameId) : undefined;
+  const game = rawGame ? localizeGame(rawGame, lang) : undefined;
+  const result = useMemo(() => calculate(input, lang), [input, lang]);
   const update = (patch: Partial<RamInput>) => setInput((current) => ({ ...current, ...patch }));
 
   const setMode = (mode: Mode) =>
@@ -84,13 +162,13 @@ export default function RamRechner({ initialGame = 'minecraft', initialMode = 'g
     setInput((current) => ({ ...current, apps: { ...current.apps, [id]: Math.max(0, Math.min(10, count)) } }));
 
   const share = async () => {
-    const url = `${window.location.origin}${sharePath}?${toQuery(input)}`;
+    const url = `${window.location.origin}${sharePath ?? RAM_PATH[lang]}?${toQuery(input)}`;
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);
       window.setTimeout(() => setCopied(false), 2000);
     } catch {
-      window.prompt('Link zum Kopieren:', url);
+      window.prompt(t.copyPrompt, url);
     }
   };
 
@@ -98,10 +176,10 @@ export default function RamRechner({ initialGame = 'minecraft', initialMode = 'g
   const bigServer = result.recommended > 32;
   const offerUrl = isGame ? game?.url ?? ZAP_GAMESERVER_URL : ZAP_VSERVER_URL;
   const offerLabel = isGame
-    ? `${game?.short ?? 'Gameserver'} bei ZAP-Hosting`
+    ? t.offerGame(game?.short ?? t.fallbackGame)
     : bigServer
-      ? 'Rootserver oder Dedicated Server ansehen'
-      : 'Passenden vServer ansehen';
+      ? t.offerBig
+      : t.offerVps;
 
   const tabClass = (active: boolean) =>
     `flex-1 px-4 py-2.5 font-mono text-[11px] uppercase tracking-[0.14em] transition-colors ${
@@ -111,38 +189,38 @@ export default function RamRechner({ initialGame = 'minecraft', initialMode = 'g
   return (
     <div className="not-article my-10 border border-line bg-surface p-5 sm:p-7">
       <div className="mb-5 flex items-center justify-between gap-3">
-        <div className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">RAM-Rechner</div>
+        <div className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">{t.title}</div>
         <button
           type="button"
           onClick={share}
           className="inline-flex items-center gap-1.5 border border-line px-2.5 py-1.5 text-xs text-muted transition-colors hover:border-accent hover:text-fg"
         >
           {copied ? <FiCheck className="h-3.5 w-3.5 text-accent" aria-hidden="true" /> : <FiLink className="h-3.5 w-3.5" aria-hidden="true" />}
-          {copied ? 'Link kopiert' : 'Ergebnis teilen'}
+          {copied ? t.copied : t.share}
         </button>
       </div>
 
-      <div className="mb-6 flex gap-2" role="tablist" aria-label="Art des Servers">
+      <div className="mb-6 flex gap-2" role="tablist" aria-label={t.serverType}>
         <button type="button" role="tab" aria-selected={isGame} className={tabClass(isGame)} onClick={() => setMode('game')}>
-          Gameserver
+          {t.gameTab}
         </button>
         <button type="button" role="tab" aria-selected={!isGame} className={tabClass(!isGame)} onClick={() => setMode('vserver')}>
-          vServer
+          {t.vpsTab}
         </button>
       </div>
 
       <div className="space-y-5">
         <label className="block">
-          <span className="mb-2 block text-sm text-muted">{isGame ? 'Spiel' : 'Gameserver auf dem vServer'}</span>
+          <span className="mb-2 block text-sm text-muted">{isGame ? t.game : t.gameOnVps}</span>
           <select
             value={input.gameId}
             onChange={(e) => selectGame(e.target.value)}
             className="w-full border border-line bg-canvas px-3 py-2.5 text-fg"
           >
-            {!isGame && <option value="">Kein Gameserver</option>}
+            {!isGame && <option value="">{t.noGame}</option>}
             {GAMES.map((g) => (
               <option key={g.id} value={g.id}>
-                {g.name}
+                {localizeGame(g, lang).name}
               </option>
             ))}
           </select>
@@ -152,7 +230,7 @@ export default function RamRechner({ initialGame = 'minecraft', initialMode = 'g
           <>
             <label className="block">
               <span className="mb-2 flex justify-between text-sm text-muted">
-                <span>Gleichzeitige Spieler</span>
+                <span>{t.players}</span>
                 <span className="font-mono text-fg">{Math.min(input.players, game.maxPlayers)}</span>
               </span>
               <input
@@ -169,7 +247,7 @@ export default function RamRechner({ initialGame = 'minecraft', initialMode = 'g
               <div>
                 <span className="mb-2 block text-sm text-muted">{game.modLabel}</span>
                 <div className="grid grid-cols-3 gap-2" role="radiogroup" aria-label={game.modLabel}>
-                  {MOD_LEVELS.map((level) => (
+                  {modLevels(lang).map((level) => (
                     <button
                       key={level.value}
                       type="button"
@@ -193,9 +271,10 @@ export default function RamRechner({ initialGame = 'minecraft', initialMode = 'g
 
         {!isGame && (
           <fieldset>
-            <legend className="mb-3 text-sm text-muted">Welche Dienste laufen mit?</legend>
+            <legend className="mb-3 text-sm text-muted">{t.services}</legend>
             <div className="grid gap-2 sm:grid-cols-2">
-              {APPS.map((app) => {
+              {APPS.map((rawApp) => {
+                const app = localizeApp(rawApp, lang);
                 const count = input.apps[app.id] ?? 0;
                 const active = count > 0;
                 return (
@@ -222,7 +301,7 @@ export default function RamRechner({ initialGame = 'minecraft', initialMode = 'g
                         <span className="flex items-center border border-line">
                           <button
                             type="button"
-                            aria-label={`${app.name} weniger`}
+                            aria-label={t.less(app.name)}
                             onClick={() => setAppCount(app.id, count - 1)}
                             disabled={count === 0}
                             className="px-1.5 py-1 text-muted hover:text-fg disabled:opacity-30"
@@ -234,7 +313,7 @@ export default function RamRechner({ initialGame = 'minecraft', initialMode = 'g
                           </span>
                           <button
                             type="button"
-                            aria-label={`${app.name} mehr`}
+                            aria-label={t.more(app.name)}
                             onClick={() => setAppCount(app.id, count + 1)}
                             disabled={count >= 10}
                             className="px-1.5 py-1 text-muted hover:text-fg disabled:opacity-30"
@@ -254,17 +333,17 @@ export default function RamRechner({ initialGame = 'minecraft', initialMode = 'g
 
       <div className="mt-6 border border-accent/40 bg-canvas p-5" aria-live="polite">
         <div className="text-sm text-muted">
-          Geschätzter Bedarf: <span className="font-mono text-fg">{formatGb(result.need)}</span>
+          {t.need}: <span className="font-mono text-fg">{formatGb(result.need)}</span>
         </div>
         <div className="mt-1 text-3xl font-medium tracking-[-0.03em] text-fg">
-          Empfehlung: <span className="text-accent">{formatGb(result.recommended)} RAM</span>
+          {t.recommended}: <span className="text-accent">{formatGb(result.recommended)} RAM</span>
         </div>
 
         {result.cores !== undefined && result.disk !== undefined && (
           <div className="mt-4 grid grid-cols-3 gap-px border border-line bg-line text-center">
             {[
               { label: 'RAM', value: formatGb(result.recommended) },
-              { label: 'vCPU', value: `${result.cores} ${result.cores === 1 ? 'Kern' : 'Kerne'}` },
+              { label: 'vCPU', value: t.cores(result.cores) },
               { label: 'SSD', value: `${result.disk} GB` },
             ].map((item) => (
               <div key={item.label} className="bg-canvas px-2 py-3">
@@ -275,12 +354,12 @@ export default function RamRechner({ initialGame = 'minecraft', initialMode = 'g
           </div>
         )}
 
-        <Breakdown parts={result.parts} need={result.need} buffer={result.buffer} total={result.recommended} />
+        <Breakdown lang={lang} parts={result.parts} need={result.need} buffer={result.buffer} total={result.recommended} />
 
         <div className="mt-4 text-xs leading-relaxed text-faint">
-          Inklusive 25 % Puffer für Spitzen, Updates und Wachstum. Richtwerte, keine Garantie.
+          {t.footnote}
           {isGame && game ? ` ${game.cpuNote}` : ''}
-          {!isGame && result.disk !== undefined ? ' Beim Speicherplatz kommen deine eigenen Dateien und Backups dazu.' : ''}
+          {!isGame && result.disk !== undefined ? t.diskNote : ''}
         </div>
 
         <div className="mt-4 flex flex-wrap items-center gap-3">
@@ -293,7 +372,9 @@ export default function RamRechner({ initialGame = 'minecraft', initialMode = 'g
             {offerLabel}
           </a>
           <span className="text-sm text-muted">
-            Mit dem Code <span className="font-mono text-fg">{ZAP_COUPON}</span> sparst du 20 % (je nach Produkt)
+            {t.couponBefore}
+            <span className="font-mono text-fg">{ZAP_COUPON}</span>
+            {t.couponAfter}
           </span>
         </div>
       </div>
@@ -303,27 +384,33 @@ export default function RamRechner({ initialGame = 'minecraft', initialMode = 'g
 
 /** Gestapelter Balken: woraus sich die Empfehlung zusammensetzt, bis zur Paketgröße */
 function Breakdown({
+  lang,
   parts,
   need,
   buffer,
   total,
 }: {
+  lang: Lang;
   parts: { key: string; label: string; gb: number }[];
   need: number;
   buffer: number;
   total: number;
 }) {
   if (!parts.length) return null;
+  const t = TEXT[lang];
+  const formatGb = (gb: number) => formatGbLang(gb, lang);
   const pct = (gb: number) => `${(gb / total) * 100}%`;
   const free = Math.max(0, total - need - buffer);
 
   return (
     <div className="mt-5">
       <div className="mb-2 flex justify-between font-mono text-[10px] uppercase tracking-[0.14em] text-faint">
-        <span>Zusammensetzung</span>
-        <span>Paket {formatGb(total)}</span>
+        <span>{t.breakdown}</span>
+        <span>
+          {t.plan} {formatGb(total)}
+        </span>
       </div>
-      <div className="relative flex h-4 w-full overflow-hidden border border-line" role="img" aria-label={`Bedarf ${formatGb(need)} von ${formatGb(total)}`}>
+      <div className="relative flex h-4 w-full overflow-hidden border border-line" role="img" aria-label={t.usage(formatGb(need), formatGb(total))}>
         {parts.map((part, i) => (
           <span
             key={part.key}
@@ -338,9 +425,9 @@ function Breakdown({
             width: pct(buffer),
             background: 'repeating-linear-gradient(135deg, rgba(255,106,43,0.45) 0 4px, transparent 4px 8px)',
           }}
-          title={`Puffer: ${formatGb(buffer)}`}
+          title={`${t.buffer}: ${formatGb(buffer)}`}
         />
-        {free > 0 && <span className="h-full flex-1" title={`Frei bis zur Paketgröße: ${formatGb(free)}`} />}
+        {free > 0 && <span className="h-full flex-1" title={`${t.free}: ${formatGb(free)}`} />}
         {/* Markierung beim geschätzten Bedarf */}
         <span className="absolute inset-y-0 w-px bg-fg/80" style={{ left: pct(need) }} aria-hidden="true" />
       </div>
@@ -362,7 +449,7 @@ function Breakdown({
               style={{ background: 'repeating-linear-gradient(135deg, rgba(255,106,43,0.6) 0 2px, transparent 2px 4px)' }}
               aria-hidden="true"
             />
-            Puffer 25 %
+            {t.bufferLegend}
           </span>
           <span className="font-mono text-fg">{formatGb(buffer)}</span>
         </li>
@@ -370,7 +457,7 @@ function Breakdown({
           <li className="flex items-center justify-between gap-3">
             <span className="flex items-center gap-2">
               <span className="h-2.5 w-2.5 shrink-0 border border-line" aria-hidden="true" />
-              Frei bis zur Paketgröße
+              {t.free}
             </span>
             <span className="font-mono text-fg">{formatGb(free)}</span>
           </li>

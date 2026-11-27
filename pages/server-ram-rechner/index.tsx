@@ -97,6 +97,11 @@ const tips = [
 
 const guides = [
   {
+    href: '/server-slot-rechner',
+    title: 'Slot-Rechner: Wie viele Spieler schafft dein Server?',
+    text: 'Die umgekehrte Rechnung: Spiel und Arbeitsspeicher wählen und sehen, für wie viele Spieler das Paket reicht.',
+  },
+  {
     href: '/blog/wie-viel-ram-braucht-mein-server',
     title: 'Wie viel RAM braucht mein Server?',
     text: 'Der ausführliche Guide: Verbrauch messen, Swap einrichten, typische Beispiele und die Entscheidung zwischen Gameserver und vServer.',
@@ -123,6 +128,11 @@ export default function ServerRamRechner() {
           title: TITLE,
           description: DESCRIPTION,
           canonical: URL,
+          languageAlternates: [
+            { hrefLang: 'de', href: URL },
+            { hrefLang: 'en', href: `${SITE_URL}/en/server-ram-calculator` },
+            { hrefLang: 'x-default', href: `${SITE_URL}/en/server-ram-calculator` },
+          ],
           openGraph: {
             title: TITLE,
             description: DESCRIPTION,
@@ -196,6 +206,9 @@ export default function ServerRamRechner() {
             <a href="#richtwerte" className={buttonClass.secondary}>
               Richtwerte ansehen
             </a>
+            <Link href="/en/server-ram-calculator" hrefLang="en" lang="en" className="px-2 py-3 text-sm text-muted hover:text-fg">
+              English version
+            </Link>
           </div>
         </LandingHero>
 
@@ -313,14 +326,14 @@ export default function ServerRamRechner() {
         <LandingSection>
           <SectionHeading index="07" label="Weiterlesen" title="Passende Guides" />
           <Reveal className="mt-12 sm:mt-16">
-            <ul className="grid gap-px border border-line bg-line md:grid-cols-3">
+            <ul className="grid gap-px border border-line bg-line md:grid-cols-2 lg:grid-cols-4">
               {guides.map((guide) => (
                 <li key={guide.href} className="bg-canvas">
                   <Link href={guide.href} className="group flex h-full flex-col p-6 transition-colors hover:bg-surface sm:p-8">
                     <h3 className="text-lg font-medium tracking-[-0.01em] text-fg">{guide.title}</h3>
                     <p className="mt-2 flex-1 text-[15px] leading-relaxed text-muted">{guide.text}</p>
                     <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-fg group-hover:text-accent">
-                      Zum Guide
+                      {guide.href.startsWith('/blog') ? 'Zum Guide' : 'Zum Rechner'}
                       <FiArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
                     </span>
                   </Link>

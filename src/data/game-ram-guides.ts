@@ -24,6 +24,7 @@ export const GAME_GUIDES: Record<string, GameGuide> = {
       { question: 'Reichen 2 GB RAM für einen Minecraft Server?', answer: 'Für wenige Spieler ohne Plugins ja. Mit mehr Spielern, größerer Sichtweite oder Plugins solltest du 4 GB einplanen.' },
       { question: 'Bringt mehr RAM bei Minecraft immer mehr Leistung?', answer: 'Nein. Zu viel zugewiesener Speicher kann sogar zu längeren Pausen bei der Speicherbereinigung führen. Wichtiger als sehr viel RAM ist eine schnelle CPU.' },
     ],
+    links: [{ href: '/blog/minecraft-server-mieten', title: 'Minecraft Server mieten' }],
   },
   'minecraft-modpack': {
     intro:
@@ -38,6 +39,7 @@ export const GAME_GUIDES: Record<string, GameGuide> = {
       { question: 'Warum startet mein Modpack-Server nicht?', answer: 'Häufige Ursachen sind zu wenig zugewiesener RAM, eine falsche Java-Version oder Client-Mods im Server-Ordner. Das Server-Log nennt meist die genaue Ursache.' },
     ],
     links: [
+      { href: '/blog/minecraft-server-mieten', title: 'Minecraft Server mieten' },
       { href: '/server-ram-rechner/all-the-mods-10', title: 'RAM für All the Mods 10' },
       { href: '/server-ram-rechner/better-mc', title: 'RAM für Better MC' },
       { href: '/server-ram-rechner/rlcraft', title: 'RAM für RLCraft' },
@@ -93,6 +95,7 @@ export const GAME_GUIDES: Record<string, GameGuide> = {
       { question: 'Reicht 1 GB RAM für Minecraft Bedrock?', answer: 'Für eine kleine Gruppe meist ja. Für 10 Spieler empfiehlt der Rechner mit Puffer 2 GB, mit Add-ons 4 GB.' },
       { question: 'Können Java-Spieler auf einem Bedrock-Server spielen?', answer: 'Nicht direkt. Dafür gibt es Brücken wie Geyser, die auf einem Java-Server laufen und Bedrock-Spieler zulassen.' },
     ],
+    links: [{ href: '/blog/minecraft-server-mieten', title: 'Minecraft Server mieten' }],
   },
   hytale: {
     intro:
@@ -177,6 +180,7 @@ export const GAME_GUIDES: Record<string, GameGuide> = {
       { question: 'Wie viel RAM braucht ein Rust Server für 50 Spieler?', answer: 'Der Rechner empfiehlt mit Puffer 16 GB. Mit vielen Plugins und großer Karte sind 24 GB sinnvoll.' },
       { question: 'Warum braucht Rust nach einiger Zeit mehr Speicher?', answer: 'Mit jedem Tag kommen Bauten und Gegenstände hinzu. Deshalb steigt der Verbrauch bis zum nächsten Wipe.' },
     ],
+    links: [{ href: '/blog/rust-server-mieten', title: 'Rust Server mieten' }],
   },
   ark: {
     intro: 'ARK: Survival Ascended gehört zu den speicherhungrigsten Gameservern. Schon ohne Mods sind 12 GB das Minimum.',
@@ -189,6 +193,7 @@ export const GAME_GUIDES: Record<string, GameGuide> = {
       { question: 'Wie viel RAM braucht ein ARK: Survival Ascended Server?', answer: 'Mindestens 12 GB. Für 10 Spieler empfiehlt der Rechner mit Puffer 16 GB, mit vielen Mods eher 24 GB.' },
       { question: 'Brauche ich für einen ARK Cluster mehr RAM?', answer: 'Ja. Jede Karte ist ein eigener Server und braucht ihren eigenen Speicher.' },
     ],
+    links: [{ href: '/blog/ark-server-mieten', title: 'ARK Server mieten' }],
   },
   'conan-exiles': {
     intro: 'Ein Conan Exiles Server kommt für kleine Gruppen mit moderatem Speicher aus. Große Clan-Basen, viele Thralls und Mods treiben den Bedarf nach oben.',
@@ -238,6 +243,7 @@ export const GAME_GUIDES: Record<string, GameGuide> = {
       { question: 'Brauche ich für FiveM einen vServer?', answer: 'Für eigene Frameworks mit Datenbank ist ein vServer praktisch. Wähle dann im Rechner den Modus vServer und ergänze die Datenbank.' },
     ],
     links: [
+      { href: '/blog/fivem-server-mieten', title: 'FiveM Server mieten' },
       { href: '/fivem-template-server', title: 'Kostenloses FiveM Template' },
       { href: '/server-ram-rechner/fivem-esx', title: 'RAM für einen FiveM ESX Server' },
       { href: '/server-ram-rechner/fivem-qbcore', title: 'RAM für einen FiveM QBCore Server' },
@@ -255,6 +261,7 @@ export const GAME_GUIDES: Record<string, GameGuide> = {
       { question: 'Braucht ESX mehr RAM als QBCore?', answer: 'Die Frameworks selbst liegen nah beieinander. Den Unterschied machen Zahl und Qualität der Skripte.' },
     ],
     links: [
+      { href: '/blog/fivem-server-mieten', title: 'FiveM Server mieten' },
       { href: '/fivem-template-server', title: 'Kostenloses FiveM ESX Template' },
       { href: '/server-ram-rechner/fivem-qbcore', title: 'RAM für einen FiveM QBCore Server' },
     ],
@@ -270,7 +277,7 @@ export const GAME_GUIDES: Record<string, GameGuide> = {
       { question: 'Brauche ich für einen QBCore Server eine Datenbank?', answer: 'Ja. QBCore braucht MariaDB oder MySQL. Wähle im Rechner den Modus vServer und ergänze eine eigene Datenbank, wenn sie auf demselben Server läuft.' },
       { question: 'Braucht QBCore mehr RAM als ESX?', answer: 'Die Frameworks selbst liegen nah beieinander. Den Unterschied machen Zahl und Qualität der Skripte.' },
     ],
-    links: [{ href: '/server-ram-rechner/fivem-esx', title: 'RAM für einen FiveM ESX Server' }],
+    links: [{ href: '/blog/fivem-server-mieten', title: 'FiveM Server mieten' }, { href: '/server-ram-rechner/fivem-esx', title: 'RAM für einen FiveM ESX Server' }],
   },
   factorio: {
     intro: 'Factorio braucht wenig Arbeitsspeicher, aber eine schnelle CPU. Bei sehr großen Fabriken steigt auch der Speicherbedarf.',
@@ -319,7 +326,7 @@ export const GAME_GUIDES: Record<string, GameGuide> = {
       { question: 'Braucht ARK: Survival Evolved weniger RAM als Survival Ascended?', answer: 'Ja, deutlich. Survival Ascended nutzt die Unreal Engine 5 und braucht schon ohne Spieler ein Mehrfaches an Speicher.' },
       { question: 'Wie viel RAM braucht ein ARK Cluster?', answer: 'Rechne jede Karte einzeln und addiere die Werte, denn jede Karte läuft als eigener Serverprozess.' },
     ],
-    links: [{ href: '/server-ram-rechner/ark', title: 'RAM für ARK: Survival Ascended' }],
+    links: [{ href: '/blog/ark-server-mieten', title: 'ARK Server mieten' }, { href: '/server-ram-rechner/ark', title: 'RAM für ARK: Survival Ascended' }],
   },
   dayz: {
     intro: 'Ein DayZ Server simuliert Zombies, Tiere, Loot und Fahrzeuge auf der ganzen Karte. Mit Mods wie eigenen Karten und Händlern steigt der Bedarf deutlich.',
@@ -380,6 +387,7 @@ export const GAME_GUIDES: Record<string, GameGuide> = {
       { question: 'Wie viele Spieler passen auf einen LS25 Server?', answer: 'Auf dem PC bis zu 16 Spieler gleichzeitig.' },
       { question: 'Wie viel RAM braucht ein LS25 Server mit vielen Mods?', answer: 'Deutlich mehr als ohne. Wähle im Rechner bei Mods „Viele“, wenn ihr eine Mod-Karte und eine große Fahrzeugsammlung nutzt.' },
     ],
+    links: [{ href: '/blog/ls25-server-mieten', title: 'LS25 Server mieten' }],
   },
   'arma-3': {
     intro: 'Ein Arma 3 Server braucht je nach Mission und Mods sehr unterschiedlich viel Speicher. Life-Server mit Datenbank und große Mod-Sammlungen liegen am oberen Ende.',

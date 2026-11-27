@@ -12,6 +12,7 @@ const pageLinks = [
   { href: '/kontakt', label: 'Kontakt' },
   { href: '/blog', label: 'Blog' },
   { href: '/server-ram-rechner', label: 'RAM-Rechner' },
+  { href: '/server-slot-rechner', label: 'Slot-Rechner' },
   { href: '/impressum', label: 'Impressum' },
   { href: '/datenschutz', label: 'Datenschutz' },
 ];
