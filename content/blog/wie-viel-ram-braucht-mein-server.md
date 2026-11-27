@@ -100,7 +100,7 @@ Beim gemieteten Gameserver wählst du Spiel und Paket, Installation, Updates und
 
 Ich nutze für Gameserver und vServer [ZAP-Hosting](https://zap-hosting.com/achim). Dort kannst du den RAM bei vielen Paketen später erhöhen, wenn der Bedarf wächst. Das ist praktisch, weil du nicht von Anfang an zu groß planen musst.
 
-<ZapHostingCta href="https://zap-hosting.com/achim" title="Gameserver und vServer bei ZAP-Hosting" description="Pakete mit passendem RAM für dein Spiel oder deine Dienste, auf Wunsch auch als Lifetime-Variante zum einmaligen Preis." buttonText="Pakete ansehen" couponCode="GERMANGAMING" imageSrc="" />
+<ZapHostingCta href="https://zap-hosting.com/achim" title="Gameserver und vServer bei ZAP-Hosting" description="Pakete mit passendem RAM für dein Spiel oder deine Dienste, auf Wunsch auch als Lifetime-Variante zum einmaligen Preis." buttonText="Pakete ansehen" couponCode="ZAPX-M26R79" imageSrc="" />
 
 ## Häufige Fragen
 

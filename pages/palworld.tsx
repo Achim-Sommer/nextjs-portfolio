@@ -35,7 +35,7 @@ const faqs = [
   {
     question: 'Was kostet ein Palworld Server?',
     answer:
-      'Ein Palworld Server bei ZAP-Hosting startet ab 7,14 € im Monat. Mit dem Rabattcode GermanGaming sparst du 20% auf den Mietpreis. Alternativ gibt es die Lifetime-Option ab 60 €: einmal zahlen, dauerhaft nutzen, ohne monatliche Kosten.',
+      'Ein Palworld Server bei ZAP-Hosting startet ab 7,14 € im Monat. Mit dem Rabattcode ZAPX-M26R79 sparst du 20% auf den Mietpreis. Alternativ gibt es die Lifetime-Option ab 60 €: einmal zahlen, dauerhaft nutzen, ohne monatliche Kosten.',
   },
   {
     question: 'Palworld Server mieten oder kaufen: Was ist besser?',
@@ -53,9 +53,9 @@ const faqs = [
       'Mindestens 8 GB RAM, empfohlen sind 16 GB, besonders bei vielen Spielern, großen Basen und langen Laufzeiten ohne Neustart. Palworld ist bekannt dafür, mit der Zeit viel Arbeitsspeicher zu belegen. Regelmäßige geplante Neustarts helfen zusätzlich.',
   },
   {
-    question: 'Gilt der Rabattcode GermanGaming auch für Lifetime-Server?',
+    question: 'Gilt der Rabattcode ZAPX-M26R79 auch für Lifetime-Server?',
     answer:
-      'Nein. Der Code GermanGaming (20% Rabatt) gilt nur für Mietserver mit monatlicher Laufzeit. Der Lifetime-Kauf ist ein einmaliger Festpreis ohne Rabattcode.',
+      'Nein. Der Code ZAPX-M26R79 (20% Rabatt) gilt nur für Mietserver mit monatlicher Laufzeit. Der Lifetime-Kauf ist ein einmaliger Festpreis ohne Rabattcode.',
   },
   {
     question: 'Wie schnell ist ein Palworld Server online?',
@@ -128,7 +128,7 @@ const steps = [
   {
     step: '03',
     title: 'Standort & Code',
-    text: 'DE/EU-Standort für niedrigen Ping wählen. Bei Miete den Code GermanGaming im Checkout eintragen.',
+    text: 'DE/EU-Standort für niedrigen Ping wählen. Bei Miete den Code ZAPX-M26R79 im Checkout eintragen.',
   },
   {
     step: '04',
@@ -204,7 +204,7 @@ export default function PalworldServer() {
         {generateNextSeo({
           title: 'Palworld Server mieten oder kaufen | ab 7,14 €/Monat oder 60 € Lifetime',
           description:
-            'Palworld Server mieten ab 7,14 €/Monat oder kaufen statt mieten: Lifetime-Server ab 60 €: einmal zahlen, für immer nutzen. Bis 32 Spieler, DE-Standorte, in Minuten online. 20% Rabatt auf Mietserver mit Code GermanGaming.',
+            'Palworld Server mieten ab 7,14 €/Monat oder kaufen statt mieten: Lifetime-Server ab 60 €: einmal zahlen, für immer nutzen. Bis 32 Spieler, DE-Standorte, in Minuten online. 20% Rabatt auf Mietserver mit Code ZAPX-M26R79.',
           canonical: `${SITE_URL}/palworld`,
           openGraph: {
             title: 'Palworld Server mieten oder kaufen | ab 7,14 €/Monat oder 60 € Lifetime',
@@ -291,7 +291,7 @@ export default function PalworldServer() {
           </div>
 
           <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3">
-            <CouponCode code="GermanGaming">
+            <CouponCode code="ZAPX-M26R79">
               <span>
                 <span className="text-accent">20 %</span> auf Mietserver
               </span>
@@ -349,7 +349,7 @@ export default function PalworldServer() {
                       <li className="flex items-start gap-3 text-muted">
                         <FiCheck className="mt-1 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
                         <span>
-                          <span className="font-mono text-[13px] tracking-[0.06em] text-fg">GermanGaming</span>: 20%
+                          <span className="font-mono text-[13px] tracking-[0.06em] text-fg">ZAPX-M26R79</span>: 20%
                           Rabatt auf den Mietpreis
                         </span>
                       </li>
@@ -530,7 +530,7 @@ export default function PalworldServer() {
                   Palworld Server bei ZAP-Hosting holen
                   <ArrowIcon />
                 </a>
-                <CouponCode code="GermanGaming">
+                <CouponCode code="ZAPX-M26R79">
                   <span>
                     = <span className="text-accent">20 %</span> Rabatt auf Mietserver
                   </span>

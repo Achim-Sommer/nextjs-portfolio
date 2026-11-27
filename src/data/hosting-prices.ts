@@ -15,7 +15,7 @@ export type HostingProduct = {
 
 export const PRICES_AS_OF = 'Oktober 2026';
 
-/** Rabatt mit dem Code GermanGaming (gilt nur für Miete) */
+/** Rabatt mit dem Code ZAPX-M26R79 (gilt nur für Miete) */
 export const RENT_DISCOUNT = 0.2;
 
 export const HOSTING_PRODUCTS: HostingProduct[] = [

@@ -63,7 +63,7 @@ export default function FloatingZapAd() {
                 <FiArrowUpRight className="h-4 w-4" aria-hidden="true" />
               </a>
               <p className="mt-3 text-center font-mono text-[11px] text-muted">
-                Code <span className="text-fg">GERMANGAMING</span> <span className="text-accent">20 %</span>
+                Code <span className="text-fg">ZAPX-M26R79</span> <span className="text-accent">20 %</span>
               </p>
             </div>
           ) : (

@@ -56,7 +56,7 @@ export default function GameRamPage({ id }: { id: string }) {
   const onVServer = calculate({ mode: 'vserver', gameId: game.id, players: game.defaultPlayers, mods: 0, apps: {} });
   const vserverQuery = toQuery({ mode: 'vserver', gameId: game.id, players: game.defaultPlayers, mods: 0, apps: {} });
 
-  const title = `${game.short}: Wie viel RAM brauchst du?`;
+  const title = `${game.short} RAM-Rechner: Wie viel RAM?`;
   const description = `Wie viel RAM braucht ein ${game.short}? Für ${game.defaultPlayers} Spieler ${defaultRec}, mindestens ${formatGb(game.min)}. Tabelle nach Spielerzahl${game.mods ? ` und ${game.modLabel}` : ''}, Rechner, Tipps und FAQ.`;
 
   const faqs = [
@@ -300,7 +300,7 @@ export default function GameRamPage({ id }: { id: string }) {
                   {game.short} ansehen
                   <ArrowIcon />
                 </a>
-                <CouponCode code="GermanGaming">
+                <CouponCode code="ZAPX-M26R79">
                   <span>
                     = <span className="text-accent">20 %</span> Rabatt (je nach Produkt)
                   </span>

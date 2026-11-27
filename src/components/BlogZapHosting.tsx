@@ -70,7 +70,7 @@ export default function BlogZapHosting() {
       </div>
 
       <p className="border-t border-line px-5 py-4 font-mono text-xs text-muted sm:px-7">
-        Code <span className="tracking-[0.1em] text-fg">GERMANGAMING</span> für <span className="text-accent">20 %</span> Rabatt
+        Code <span className="tracking-[0.1em] text-fg">ZAPX-M26R79</span> für <span className="text-accent">20 %</span> Rabatt
       </p>
     </aside>
   );

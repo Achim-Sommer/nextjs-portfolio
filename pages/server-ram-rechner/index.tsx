@@ -365,7 +365,7 @@ export default function ServerRamRechner() {
                   vServer ansehen
                   <ArrowIcon />
                 </a>
-                <CouponCode code="GermanGaming">
+                <CouponCode code="ZAPX-M26R79">
                   <span>
                     = <span className="text-accent">20 %</span> Rabatt (je nach Produkt)
                   </span>

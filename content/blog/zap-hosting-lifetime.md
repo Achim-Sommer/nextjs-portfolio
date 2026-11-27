@@ -45,7 +45,7 @@ Die Tabelle nutzt die Einstiegspreise („ab“-Preise) und zwei größere Beisp
 
 Zwei Hinweise zum Lesen der Tabelle:
 
-- **Mietrabatt:** Bekommst du beim Mieten 20% Rabatt, etwa mit dem Code `GermanGaming`, verschiebt sich der Break-even um ein Viertel nach hinten. Bei den Gameservern gilt der Code nur für Mietlaufzeiten, der Lifetime-Kauf ist ein Festpreis.
+- **Mietrabatt:** Bekommst du beim Mieten 20% Rabatt, etwa mit dem Code `ZAPX-M26R79`, verschiebt sich der Break-even um ein Viertel nach hinten. Bei den Gameservern gilt der Code nur für Mietlaufzeiten, der Lifetime-Kauf ist ein Festpreis.
 - **Gameserver:** Die Werte sind die niedrigsten Einstiegspreise über alle Spiele. Miet- und Lifetime-Preis gehören nicht zwingend zum selben Paket. Rechne für dein Spiel mit den konkreten Preisen nach.
 
 ### Was du langfristig sparst
@@ -170,7 +170,7 @@ Du zahlst einmal und hast danach keine monatlichen Kosten. „Lifetime“ bezieh
 
 Ja. Zusätzliche Ressourcen buchst du gegen eine einmalige Zuzahlung dazu, ein neues Abo entsteht dabei nicht. Die Upgrade-Preise solltest du vorab in deine Rechnung einbeziehen.
 
-### Gilt der Rabattcode GermanGaming auch für Lifetime?
+### Gilt der Rabattcode ZAPX-M26R79 auch für Lifetime?
 
 Bei den Gameservern gilt der Code (20%) nur für Mietlaufzeiten, der Lifetime-Kauf ist ein Festpreis. Mit Rabatt auf die Miete verschiebt sich der Break-even um etwa ein Viertel nach hinten.
 

@@ -9,7 +9,7 @@ featured: false
 
 Wenn du mit Freunden direkt loslegen willst, ist ein gemieteter Hytale Server meist der schnellste Weg: keine eigene Hardware, keine lange Einrichtung, dafür ein Panel, in dem du Start und Stopp, Backups und Einstellungen verwaltest. Dieser Guide zeigt dir, worauf du bei Paket und Standort achten solltest, welche Einstellungen nach der Bestellung wichtig sind und wann sich statt der Miete ein Lifetime-Server lohnt.
 
-Bei ZAP-Hosting sparst du mit dem Code `GermanGaming` 20% auf den Mietpreis. Für die Lifetime-Option gilt der Code nicht.
+Bei ZAP-Hosting sparst du mit dem Code `ZAPX-M26R79` 20% auf den Mietpreis. Für die Lifetime-Option gilt der Code nicht.
 
 ## Mieten, selbst hosten oder kaufen?
 
@@ -62,7 +62,7 @@ Nimm die Region, die für deine Spieler am besten erreichbar ist.
 
 ### Schritt 3: Laufzeit wählen und Rabattcode eintragen
 
-Im Checkout entscheidest du, ob du monatlich mietest oder die Lifetime-Option nimmst (mehr dazu weiter unten). Für die Miete trägst du den Code `GermanGaming` ein und sparst 20%.
+Im Checkout entscheidest du, ob du monatlich mietest oder die Lifetime-Option nimmst (mehr dazu weiter unten). Für die Miete trägst du den Code `ZAPX-M26R79` ein und sparst 20%.
 
 ### Schritt 4: Bestellen und verbinden
 
@@ -132,7 +132,7 @@ Mit dem Rechner kannst du es für dein Paket direkt ausprobieren: Trag den Monat
 | Kostenmodell | monatlich | einmalig |
 | Einstiegskosten | niedrig | höher |
 | Langfristige Kosten | steigen jeden Monat | ab dem Break-even günstiger |
-| Rabattcode `GermanGaming` | 20% auf die Miete | gilt nicht |
+| Rabattcode `ZAPX-M26R79` | 20% auf die Miete | gilt nicht |
 | Flexibilität | sehr hoch | hoch, aber auf Dauer ausgelegt |
 | Passt für | Tests, Einstieg, kurze Projekte | feste Gruppen, Community |
 
@@ -156,7 +156,7 @@ Ja. Bei Mietservern ist ein Upgrade auf mehr RAM, CPU oder Slots in der Regel un
 
 ### Gilt der Rabattcode auch für den Lifetime-Kauf?
 
-Nein. `GermanGaming` gibt 20% auf die Mietlaufzeiten. Die Lifetime-Option ist ein einmaliger Festpreis.
+Nein. `ZAPX-M26R79` gibt 20% auf die Mietlaufzeiten. Die Lifetime-Option ist ein einmaliger Festpreis.
 
 ### Kann ich erst mieten und später kaufen?
 

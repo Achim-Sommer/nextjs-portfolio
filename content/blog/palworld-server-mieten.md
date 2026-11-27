@@ -12,7 +12,7 @@ Seit Version 1.0 ist Palworld aus dem Early Access heraus, und viele Gruppen sta
 
 Dieser Guide zeigt dir beides: wie du einen Palworld Server mietest und einrichtest und ab wann sich die Lifetime-Option rechnet.
 
-> **Kurz gesagt:** Bei ZAP-Hosting kostet ein Palworld Server ab 7,14 € im Monat, mit dem Code `GermanGaming` 20% weniger. Die Lifetime-Option gibt es ab 60 € einmalig, sie ist ab etwa dem 9. Monat günstiger als die Miete. Preise können sich ändern, die aktuellen Preise stehen bei ZAP-Hosting.
+> **Kurz gesagt:** Bei ZAP-Hosting kostet ein Palworld Server ab 7,14 € im Monat, mit dem Code `ZAPX-M26R79` 20% weniger. Die Lifetime-Option gibt es ab 60 € einmalig, sie ist ab etwa dem 9. Monat günstiger als die Miete. Preise können sich ändern, die aktuellen Preise stehen bei ZAP-Hosting.
 
 ## Warum ein eigener Palworld Server?
 
@@ -75,7 +75,7 @@ Wähle die Region, die für deine Spieler am besten ist, für deutsche Gruppen i
 
 ### Schritt 4: Rabattcode eintragen
 
-Trage im Checkout den Code `GermanGaming` ein. Er gibt 20% auf die Mietlaufzeiten, nicht auf die Lifetime-Option.
+Trage im Checkout den Code `ZAPX-M26R79` ein. Er gibt 20% auf die Mietlaufzeiten, nicht auf die Lifetime-Option.
 
 ### Schritt 5: Bestellen und verbinden
 
@@ -153,7 +153,7 @@ Ein dedizierter Server unterstützt bis zu 32 Spieler gleichzeitig, deutlich meh
 
 ### Was kostet ein Palworld Server?
 
-Bei ZAP-Hosting ab 7,14 € im Monat, mit dem Code `GermanGaming` 20% günstiger. Die Lifetime-Option kostet ab 60 € einmalig, dort gilt der Code nicht.
+Bei ZAP-Hosting ab 7,14 € im Monat, mit dem Code `ZAPX-M26R79` 20% günstiger. Die Lifetime-Option kostet ab 60 € einmalig, dort gilt der Code nicht.
 
 ### Läuft der Lifetime-Server auch rund um die Uhr?
 

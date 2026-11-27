@@ -8,7 +8,7 @@ import { Eyebrow, Reveal, Section } from './home/primitives';
 import { eur, findProduct } from '@/data/hosting-prices';
 
 const ZAP_URL = 'https://zap-hosting.com/achim';
-const COUPON = 'GERMANGAMING';
+const COUPON = 'ZAPX-M26R79';
 
 // Preise der Serverprodukte aus der zentralen Preisdatei (src/data/hosting-prices.ts)
 const fromPrices = (id: string, name: string) => {
